@@ -1,27 +1,31 @@
-# AppClient
+# App _2024_
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.8.
+_On this project we had the **frontend** code._
 
-## Development server
+It's a [Angular](https://angular.io/) project that is served by the [app-server](https://github.com/giuliano-marinelli/app-server) via [Express](https://expressjs.com).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+1. Install [Node.js](https://nodejs.org)
+2. Install [Angular CLI](https://angular.io/cli): `npm install -g @angular/cli`
+3. From project root folder install all the dependencies: `npm install`
+4. To be served by [app-server](https://github.com/giuliano-marinelli/app-server), it must be located at sibling folder of this project, as shown:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+app
+└─ app-client
+└─ app-server
+   └─ uploads (this is where server saves users uploaded files)
+```
 
-## Build
+## Run
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Development
 
-## Running unit tests
+Run `npm start`: execute [ng serve](https://angular.io/cli/serve) that makes a virtual server on memory and host Angular page at [localhost:4200](http://localhost:4200). Any change automatically creates a new bundle and restart client. _(**Note:** with this command you will not be able to do queries to [app-server](https://github.com/giuliano-marinelli/app-server) because this won't generate **dist** folder to be served by [app-server](https://github.com/giuliano-marinelli/app-server) and so the projects will not be at same path)_
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm run watch`: execute [ng build](https://angular.io/cli/build) with Watch mode, it generates **dist** folder at the project root folder. You need to execute [app-server](https://github.com/giuliano-marinelli/app-server) too for see Angular page hosted by it at [localhost:3000](http://localhost:3000). Any change automatically creates a new bundle and restart client.
 
-## Running end-to-end tests
+### Production
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run `npm run build`: executes [ng build](https://angular.io/cli/build), it generates **dist** folder at the project root folder. Then it can be served by [app-server](https://github.com/giuliano-marinelli/app-server).
