@@ -1,0 +1,55 @@
+<div class="container mb-3">
+  <div class="my-4 text-center">
+    <fa-icon [icon]="'user'" size="6x"></fa-icon>
+  </div>
+  <div class="m-auto" style="max-width: 340px">
+    <h3 class="fs-3 fw-light text-center">Sign in to App</h3>
+    <div class="alert alert-dark rounded-3">
+      <div #message_container></div>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label class="form-label">Username or email address</label>
+          <input
+            class="form-control"
+            type="text"
+            name="usernameOrEmail"
+            formControlName="usernameOrEmail"
+            autofocus
+            [ngClass]="setValid(usernameOrEmail)"
+          />
+          <div class="invalid-feedback">
+            <div *ngIf="usernameOrEmail.errors && usernameOrEmail.errors['required']">
+              Username or email is required.
+            </div>
+            <div *ngIf="usernameOrEmail.errors && usernameOrEmail.errors['maxlength']">
+              Username or email must be at 4-100 characters long
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label col-6">Password</label>
+          <label class="col-6 text-end"><a routerLink="/password-reset">Forgot password?</a></label>
+          <input
+            class="form-control"
+            type="password"
+            name="password"
+            formControlName="password"
+            [ngClass]="setValid(password)"
+          />
+          <div class="invalid-feedback">
+            <div *ngIf="password.errors && password.errors['required']">Password is required</div>
+            <div *ngIf="password.errors && (password.errors['minlength'] || password.errors['maxlength'])">
+              Password must be at 6-30 characters long
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-success text-white" [disabled]="!loginForm.valid || submitLoading">
+            Sign in <fa-icon *ngIf="submitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="alert alert-secondary rounded-3">New on App? <a routerLink="/register">Create an account</a></div>
+  </div>
+</div>

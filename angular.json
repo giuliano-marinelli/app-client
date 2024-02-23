@@ -23,9 +23,9 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets"],
+            "styles": ["src/styles.scss", "node_modules/izitoast/dist/css/iziToast.min.css"],
+            "scripts": ["node_modules/izitoast/dist/js/iziToast.min.js"]
           },
           "configurations": {
             "production": {
@@ -75,9 +75,9 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
-            "scripts": []
+            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets"],
+            "styles": ["src/styles.scss", "node_modules/izitoast/dist/css/iziToast.min.css"],
+            "scripts": ["node_modules/izitoast/dist/js/iziToast.min.js"]
           }
         }
       }

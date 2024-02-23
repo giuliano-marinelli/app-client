@@ -1,0 +1,30 @@
+//this allow the use of bootstrap and bootstrap dark variables, functions, utilities, mixins and custom variables
+@import '../../../../assets/scss/variables.scss';
+
+.tag-edit {
+  // margin: 0 0.125rem 0.125rem 0;
+  padding: 0.125rem;
+}
+
+.tag-edit,
+.tag-attribute {
+  opacity: 0.8;
+}
+
+.tag-edit:hover,
+.tag-attribute:hover {
+  opacity: 1;
+}
+
+@include media-breakpoint-up(sm) {
+  .tag-edit input,
+  .tag-edit select {
+    max-width: 7rem;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .tag-edit {
+    min-width: 100%;
+  }
+}

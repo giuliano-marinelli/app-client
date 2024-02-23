@@ -1,1 +1,267 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Enable responsive utilities for borders */
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+// @import "bootstrap/scss/utilities";
+
+/*$utilities: map-merge(
+  $utilities,
+  (
+    "border":
+      map-merge(
+        map-get($utilities, "border"),
+        (
+          responsive: true,
+        )
+      ),
+    "border-top":
+      map-merge(
+        map-get($utilities, "border-top"),
+        (
+          responsive: true,
+        )
+      ),
+    "border-end":
+      map-merge(
+        map-get($utilities, "border-end"),
+        (
+          responsive: true,
+        )
+      ),
+    "border-bottom":
+      map-merge(
+        map-get($utilities, "border-bottom"),
+        (
+          responsive: true,
+        )
+      ),
+    "border-start":
+      map-merge(
+        map-get($utilities, "border-start"),
+        (
+          responsive: true,
+        )
+      ),
+  )
+);*/
+
+/* Custom css variables */
+:root {
+  // default image cropper outline color
+  --cropper-outline-color: rgba(0, 0, 0, 0.9);
+  // default image cropper overlay color
+  --cropper-overlay-color: rgba(255, 255, 255, 1);
+}
+
+/* Custom container size */
+$container-max-widths: (
+  sm: 720px,
+  md: 960px,
+  lg: 1140px,
+  xl: 1145px,
+  xxl: 1320px
+);
+
+/* Importing Bootstrap files */
+@import 'bootstrap/scss/bootstrap'; //base bootstrap
+
+/* Importing HeliPopper files (for tooltips and popovers) */
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/themes/material.css';
+@import 'tippy.js/animations/scale.css';
+
+/* For no outline when click button */
+.no-outline {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* For show cursor pointer when hover */
+.pe-pointer {
+  cursor: pointer;
+}
+
+/* For preserve proportions of non-square images
+(anyway all images are going to be square because these were cropped before uploading) */
+.profile-img {
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: top;
+  object-position: top;
+  overflow: hidden;
+}
+
+/* For remove links underline */
+a {
+  text-decoration: none;
+}
+
+/* For put character counter on textarea and min-height for correct view */
+.textarea-min-height {
+  min-height: 5rem !important;
+}
+
+.textarea-count {
+  margin-top: -25px;
+  margin-right: 10px;
+}
+
+/* Big radio/check button */
+.form-check-input-lg {
+  width: 20px;
+  height: 20px;
+}
+
+/* For do rows hover effect on non-table rows */
+.row-hover > .row:not(.not-hover):hover {
+  background-color: $table-hover-bg !important;
+  color: $table-hover-color !important;
+}
+
+/* Used for overlay components, allows block that component and add some loading icon */
+.overlay {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.overlay + * {
+  filter: blur(0.1rem); //this blur the content behind the overlay
+}
+
+/* For disable content that is going to be updated */
+.loading {
+  pointer-events: none;
+  filter: blur(0.1rem);
+}
+
+/* For remove dropdown arrow on dropdown toggle button */
+.no-dropdown-arrow.dropdown-toggle::after {
+  content: none;
+}
+
+/* Similar to input-group but the second button (or link) is inside the first*/
+.input-button {
+  position: relative;
+}
+.input-button > input {
+  padding-right: 3rem;
+}
+
+.input-button.input-button-sm > input {
+  padding-right: 2rem;
+}
+
+.input-button > button,
+.input-button > a {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* For apply form-control default size to non-input elements */
+.form-control-md {
+  min-height: calc(1.5em + 0.75rem + 2px);
+}
+
+/* Form controls of extra small size */
+.form-control-xs {
+  min-height: calc(1.12em + 0.375rem + 1px);
+  padding: 0.1875rem 0.375rem;
+  font-size: 0.65625rem;
+  border-radius: 0.15rem;
+}
+
+.form-select-xs {
+  padding-top: 0.1875rem;
+  padding-bottom: 0.1875rem;
+  padding-left: 0.375rem;
+  font-size: 0.65625rem;
+  border-radius: 0.15rem;
+}
+
+/* Button groups of extra small size */
+.btn-group-xs > .btn {
+  padding: 0.1875rem 0.375rem;
+  font-size: 0.65625rem;
+  // border-radius: 0.15rem;
+}
+
+/* For allow showing break lines (\n) */
+.text-pre-wrap {
+  white-space: pre-wrap;
+}
+
+/* Break text that overflows by characters instead of words */
+.text-break-all {
+  word-break: break-all;
+}
+
+/* Image Thumbnail mixin: for include as content of other classes */
+@mixin img-thumbnail {
+  padding: $thumbnail-padding;
+  background-color: $thumbnail-bg;
+  border: $thumbnail-border-width solid $thumbnail-border-color;
+  @include border-radius($thumbnail-border-radius);
+  @include box-shadow($thumbnail-box-shadow);
+
+  // Keep them at most 100% wide
+  @include img-fluid();
+}
+
+/* Allows remove borders when screen is md or above */
+@include media-breakpoint-up(md) {
+  .border-md-0 {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .text-md-pre-wrap {
+    white-space: pre-wrap;
+  }
+
+  .text-md-break-all {
+    word-break: break-all;
+  }
+
+  .img-thumbnail-md {
+    @include img-thumbnail();
+  }
+}
+
+/* Add a top arrow to a dropdown-menu for looks like a popover */
+.dropdown-menu-arrow:before {
+  right: 15px;
+  top: -16px;
+  border: 8px solid #0000;
+  border-bottom: 8px solid $border-color-translucent;
+}
+
+html[data-bs-theme='dark'] .dropdown-menu-arrow:before {
+  border-bottom: 8px solid $border-color-translucent-dark;
+}
+
+.dropdown-menu-arrow:after {
+  right: 16px;
+  top: -14px;
+  border: 7px solid #0000;
+  border-bottom: 7px solid $body-bg;
+}
+
+html[data-bs-theme='dark'] .dropdown-menu-arrow:after {
+  border-bottom: 7px solid $body-bg-dark;
+}
+
+.dropdown-menu-arrow:before,
+.dropdown-menu-arrow:after {
+  content: '';
+  left: auto;
+  display: inline-block;
+  position: absolute;
+}

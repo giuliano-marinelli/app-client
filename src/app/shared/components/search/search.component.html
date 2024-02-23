@@ -1,0 +1,199 @@
+<div [ngClass]="searchClass">
+  <div class="input-button" [class.input-button-sm]="advancedCollapsed" (keyup)="onKey($event)">
+    <input
+      type="text"
+      class="form-control form-control-sm bg-dark-subtle"
+      [ngClass]="searchInputClass"
+      *ngIf="advancedCollapsed"
+      placeholder="Search"
+      [(ngModel)]="searchSimple"
+      (input)="onSearch(true)"
+    />
+    <div
+      class="form-control form-control-md bg-dark-subtle d-flex flex-row align-items-center pt-1 pb-0 ps-1 pe-5 flex-wrap"
+      [ngClass]="searchTagsClass"
+      *ngIf="!advancedCollapsed"
+    >
+      <span class="ms-1 pb-1 small input-tags-placeholder text-muted" *ngIf="searchAttributes.length <= 0">
+        Search by adding tags
+      </span>
+      <!--search tags-->
+      <div
+        [ngClass]="
+          searchTagEditClass + inputByType(searchAttribute.attribute.type) != 'checkbox'
+            ? 'flex-wrap flex-sm-nowrap'
+            : ''
+        "
+        class="badge d-flex flex-row small align-items-center tag-edit mb-1 ms-0 me-1
+        bg-{{ searchAttribute.attribute.color ? searchAttribute.attribute.color : defaultTagColor }}
+        text-{{ searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor }}"
+        *ngFor="let searchAttribute of searchAttributes"
+      >
+        <!--search tag title (with or without category)-->
+        <div class="mx-2 d-flex flex-column mb-1 mb-sm-0">
+          <span
+            class="badge p-0 text-{{
+              searchAttribute.attribute.categoryColor
+                ? searchAttribute.attribute.categoryColor
+                : defaultTagCategoryColor
+            }}"
+            *ngIf="searchAttribute.attribute.category"
+          >
+            {{ searchAttribute.attribute.category }}
+          </span>
+          <span>
+            {{ searchAttribute.attribute.title ? searchAttribute.attribute.title : searchAttribute.attribute.name }}
+          </span>
+        </div>
+        <!--search tag spaced zone?-->
+        <div
+          [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'd-sm-none order-3 w-100' : ''"
+        ></div>
+        <!--search tag input (text/checkbox/select)-->
+        <div
+          [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''"
+          class="pb-1 pb-sm-0 px-1 px-sm-0"
+        >
+          <input
+            class="form-control form-control-xs"
+            *ngIf="!['select', 'checkbox'].includes(inputByType(searchAttribute.attribute.type))"
+            [type]="inputByType(searchAttribute.attribute.type)"
+            [(ngModel)]="searchAttribute.value"
+            (ngModelChange)="onSearch(true)"
+          />
+          <input
+            class="form-check-input"
+            type="checkbox"
+            *ngIf="inputByType(searchAttribute.attribute.type) == 'checkbox'"
+            [checked]="searchAttribute.value"
+            (change)="searchAttribute.value = !searchAttribute.value"
+            (ngModelChange)="onSearch(true)"
+          />
+          <select
+            class="form-select form-select-xs"
+            *ngIf="inputByType(searchAttribute.attribute.type) == 'select'"
+            [(ngModel)]="searchAttribute.value"
+            (ngModelChange)="onSearch(true)"
+          >
+            <option
+              *ngFor="let option of typeAsArray(searchAttribute.attribute.type); first as isFirst"
+              [ngValue]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <!--search tag buttons-->
+        <div
+          [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''"
+          class="flex-fill text-end"
+        >
+          <button
+            class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
+              searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
+            }}"
+            [tp]="criteria_menu"
+            #criteria_tooltip="tippy"
+            trigger="click"
+            placement="bottom"
+            [tpData]="searchAttribute"
+            [tpInteractive]="true"
+            [tpIsEnabled]="criteriaByType(searchAttribute.attribute.type).length > 1"
+          >
+            <fa-icon [icon]="criteriaIcon(searchAttribute.criteria)"></fa-icon>
+          </button>
+          <ng-template #criteria_menu let-data="searchAttribute">
+            <div class="d-flex flex-column mt-1">
+              <button
+                class="btn btn-sm btn-dark no-outline p-1 mb-1 pe-pointer"
+                *ngFor="let criteria of criteriaByType(searchAttribute.attribute.type)"
+                (click)="changeCriteria(searchAttribute, criteria, criteria_tooltip)"
+              >
+                <fa-icon [icon]="criteriaIcon(criteria)"></fa-icon>
+              </button>
+            </div>
+          </ng-template>
+          <button
+            class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
+              searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
+            }}"
+            (click)="changeSort(searchAttribute)"
+          >
+            <fa-icon [icon]="sortIcon(searchAttribute.sort)"></fa-icon>
+          </button>
+          <button
+            class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
+              searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
+            }}"
+            (click)="removeSearchAttribute(searchAttribute)"
+          >
+            <fa-icon [icon]="'xmark'"></fa-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button
+      class="btn no-outline border-0 text-body"
+      [class.btn-sm]="advancedCollapsed"
+      type="submit"
+      (click)="onSearch(false)"
+    >
+      <fa-icon [icon]="'search'"></fa-icon>
+    </button>
+  </div>
+  <div class="d-flex flex-column" *ngIf="advanced">
+    <div class="d-flex flex-row-reverse align-items-start">
+      <a
+        class="pe-pointer dropdown-toggle text-body no-dropdown-arrow d-flex flex-row"
+        (click)="advancedCollapse.toggle()"
+        [attr.aria-expanded]="!advancedCollapsed"
+      >
+        <b class="me-2">Advanced Search</b>
+        <fa-icon class="small" [icon]="advancedCollapsed ? 'chevron-down' : 'chevron-up'"></fa-icon>
+      </a>
+      <div class="flex-fill">
+        <div class="btn-group btn-group-xs mt-1" role="group" *ngIf="!advancedCollapsed">
+          <input
+            type="radio"
+            class="btn-check"
+            name="optional"
+            id="optional-and"
+            [(ngModel)]="optional"
+            [value]="false"
+          />
+          <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">AND</label>
+          <input
+            type="radio"
+            class="btn-check"
+            name="optional"
+            id="optional-or"
+            [(ngModel)]="optional"
+            [value]="true"
+          />
+          <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">OR</label>
+        </div>
+      </div>
+    </div>
+    <div #advancedCollapse="ngbCollapse" [(ngbCollapse)]="advancedCollapsed">
+      <div
+        class="badge me-1 pe-pointer tag-attribute
+        bg-{{ attribute.color ? attribute.color : defaultTagColor }}
+        text-{{ attribute.titleColor ? attribute.titleColor : defaultTagTitleColor }}"
+        [ngClass]="searchTagClass"
+        *ngFor="let attribute of attributes"
+        (click)="addSearchAttribute(attribute)"
+      >
+        <div class="mx-2 d-flex flex-column" style="min-height: 1.5rem">
+          <span
+            class="badge p-0 text-{{ attribute.categoryColor ? attribute.categoryColor : defaultTagCategoryColor }}"
+          >
+            {{ attribute.category }}&nbsp;
+          </span>
+          <span [style]="!attribute.category ? 'margin-top: -0.25rem' : ''">
+            {{ attribute.title ? attribute.title : attribute.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
