@@ -31,11 +31,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 //services
 import { AuthService } from './services/auth.service';
-import { UsersService } from './services/users.service';
-import { SessionsService } from './services/sessions.service';
 import { MessagesService } from './services/messages.service';
-import { AuthGuardLogin } from './services/auth-guard-login.service';
-import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 //directives
 import { VarDirective } from './shared/directives/var.directive';
 //pipes
@@ -179,12 +175,8 @@ import { RegisterComponent } from './register/register.component';
       deps: [HttpLink]
     },
     //services
-    UsersService,
-    SessionsService,
     MessagesService,
-    AuthService,
-    AuthGuardLogin,
-    AuthGuardAdmin
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

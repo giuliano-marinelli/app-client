@@ -1,11 +1,9 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+import { User } from '../entities/user.entity';
+import { FindUsers } from '../entities/user.entity';
 import { isEmail } from 'class-validator';
 import { map } from 'rxjs';
-
-import { User } from '../models/user.model';
-
-import { UsersService } from '../../services/users.service';
 
 export class ExtraValidators {
   /**
@@ -14,11 +12,11 @@ export class ExtraValidators {
    * @returns An error map with the `username` property
    * if the validation check fails, otherwise `null`.
    */
-  static usernameExists(userService: UsersService, differentTo?: User): AsyncValidatorFn {
+  static usernameExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return userService.findMany({ where: { username: { eq: control.value } } }).pipe(
-        map((res) => {
-          return res?.data?.users?.length > 0 && res.data.users[0].username != differentTo?.username
+      return findUsers.fetch({ where: { username: { eq: control.value } } }).pipe(
+        map(({ data }) => {
+          return data.users?.length > 0 && data.users[0].username != differentTo?.username
             ? { usernameExists: true }
             : null;
         })
@@ -32,13 +30,11 @@ export class ExtraValidators {
    * @returns An error map with the `email` property
    * if the validation check fails, otherwise `null`.
    */
-  static emailExists(userService: UsersService, differentTo?: User): AsyncValidatorFn {
+  static emailExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return userService.findMany({ where: { email: { eq: control.value } } }).pipe(
-        map((res) => {
-          return res?.data?.users?.length > 0 && res.data.users[0].email != differentTo?.email
-            ? { emailExists: true }
-            : null;
+      return findUsers.fetch({ where: { email: { eq: control.value } } }).pipe(
+        map(({ data }) => {
+          return data?.users?.length > 0 && data.users[0].email != differentTo?.email ? { emailExists: true } : null;
         })
       );
     };

@@ -3,8 +3,6 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import { UsersService } from '../../../services/users.service';
-
 @Component({
   selector: '[confirm]',
   templateUrl: './confirm.component.html',
@@ -32,8 +30,7 @@ export class ConfirmComponent {
 
   constructor(
     private modalService: NgbModal,
-    public formBuilder: UntypedFormBuilder,
-    public userService: UsersService
+    public formBuilder: UntypedFormBuilder
   ) {}
 
   setValid(control: UntypedFormControl): object {

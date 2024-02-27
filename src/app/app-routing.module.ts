@@ -3,12 +3,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 //services
-import { AuthGuardLogin } from './services/auth-guard-login.service';
-import { AuthGuardAdmin } from './services/auth-guard-admin.service';
-import { LeaveGuard } from './services/leave-guard.service';
+import { AuthLoginGuard } from './shared/guards/auth-login.guard';
+import { AuthAdminGuard } from './shared/guards/auth-admin.guard';
+import { LeaveGuard } from './shared/guards/leave.guard';
 //components
 import { NotFoundComponent } from './not-found/not-found.component';
-// import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './about/about.component';
 // import { AccountComponent } from './account/account.component';
 // import { ProfileSettingsComponent } from './account/profile-settings/profile-settings.component';
 // import { AccountSettingsComponent } from './account/account-settings/account-settings.component';
@@ -23,7 +23,7 @@ import { RegisterComponent } from './register/register.component';
 // import { EditorComponent } from './editor/editor.component';
 
 const routes: Routes = [
-  // { path: '', component: AboutComponent, data: { title: '' } },
+  { path: '', component: AboutComponent, data: { title: '' } },
   // { path: 'user/:username', component: ProfileComponent },
   { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
   { path: 'register', component: RegisterComponent, data: { title: 'Sign up' }, canDeactivate: [LeaveGuard] },

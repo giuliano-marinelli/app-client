@@ -4,14 +4,13 @@ import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
+import { CreateUser, FindUsers, UpdateUserVerificationCode, User } from '../shared/entities/user.entity';
 import { ExtraValidators } from '../shared/validators/validators';
+import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-
-import { User } from '../shared/models/user.model';
 
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
-import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-register',
@@ -28,12 +27,12 @@ export class RegisterComponent implements OnInit {
   username = new FormControl(
     '',
     [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
-    [ExtraValidators.usernameExists(this.usersService)]
+    [ExtraValidators.usernameExists(this.findUsers)]
   );
   email = new FormControl(
     '',
     [Validators.required, Validators.maxLength(100), ExtraValidators.email],
-    [ExtraValidators.emailExists(this.usersService)]
+    [ExtraValidators.emailExists(this.findUsers)]
   );
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
   confirmPassword = new FormControl('', [
@@ -44,11 +43,14 @@ export class RegisterComponent implements OnInit {
   ]);
 
   constructor(
+    public apollo: Apollo,
     public auth: AuthService,
     public router: Router,
     public formBuilder: FormBuilder,
-    public usersService: UsersService,
-    public messages: MessagesService
+    public messages: MessagesService,
+    public createUser: CreateUser,
+    public updateUserVerificationCode: UpdateUserVerificationCode,
+    public findUsers: FindUsers
   ) {}
 
   @HostListener('window:beforeunload', ['$event'])
@@ -91,17 +93,21 @@ export class RegisterComponent implements OnInit {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password
       };
-      this.usersService
-        .create(createUserInput)
+      this.createUser
+        .mutate({ userCreateInput: createUserInput })
         .subscribe({
-          next: (res) => {
-            this.registerForm.markAsPristine();
-            const loginInput = {
-              usernameOrEmail: this.registerForm.value.username,
-              password: this.registerForm.value.password
-            };
-            this.auth.login(loginInput).then((loggedUser) => this.sendVerificationEmail(res.data.createUser));
-            this.messages.success('You successfully registered.');
+          next: ({ data }) => {
+            if (data?.createUser) {
+              this.registerForm.markAsPristine();
+              const loginInput = {
+                usernameOrEmail: this.registerForm.value.username,
+                password: this.registerForm.value.password
+              };
+              this.auth.login(loginInput).then((loggedUser) => {
+                this.sendVerificationEmail(data.createUser);
+              });
+              this.messages.success('You successfully registered.');
+            }
           },
           error: (error) => {
             this.messages.error(error, {
@@ -126,8 +132,8 @@ export class RegisterComponent implements OnInit {
   }
 
   sendVerificationEmail(user: User): void {
-    this.usersService.updateVerificationCode(user).subscribe({
-      next: (res) => {
+    this.updateUserVerificationCode.mutate({ id: user.id }).subscribe({
+      next: ({ data }) => {
         this.messages.info('A verification email has been sent, please check your inbox and SPAM.', { timeout: 0 });
       },
       error: (error) => {

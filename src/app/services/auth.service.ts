@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApolloQueryResult } from '@apollo/client';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { LOGIN, LoginResult } from '../../graphql/auth.graphql';
-import { USER, UserResult } from '../../graphql/users.graphql';
-import { Apollo } from 'apollo-angular';
+import { FindUser, User } from '../shared/entities/user.entity';
+import { Apollo, Query, gql } from 'apollo-angular';
 import { Observable, Observer } from 'rxjs';
-
-import { User } from '../shared/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +18,9 @@ export class AuthService {
   constructor(
     private apollo: Apollo,
     private router: Router,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private loginQuery: Login,
+    private findUser: FindUser
   ) {
     let checkLoginSubscriber = () => {
       const observers: Observer<User | false>[] = [];
@@ -66,14 +64,9 @@ export class AuthService {
   login(credentials: any): Promise<User> {
     console.log(credentials);
     return new Promise((resolve, reject) => {
-      (
-        this.apollo.query({
-          query: LOGIN,
-          variables: credentials
-        }) as Observable<ApolloQueryResult<LoginResult>>
-      ).subscribe({
-        next: (res) => {
-          localStorage.setItem('token', res.data.login);
+      this.loginQuery.fetch(credentials).subscribe({
+        next: ({ data }) => {
+          localStorage.setItem('token', data.login);
           this.setLoggedUser()
             .then((loggedUser) => {
               this.router.navigate(['/']);
@@ -103,21 +96,14 @@ export class AuthService {
         let decodedUser = new User();
         decodedUser.id = this.jwtHelper.decodeToken(token).id;
 
-        (
-          this.apollo.query({
-            query: USER,
-            variables: {
-              id: decodedUser.id,
-              includeProfile: true
-            }
-          }) as Observable<ApolloQueryResult<UserResult>>
-        )
+        this.findUser({ relations: { profile: true } })
+          .fetch({ id: decodedUser.id })
           .subscribe({
-            next: (res) => {
-              this.loggedUser = res.data.user;
-              resolve(this.loggedUser);
+            next: ({ data }: any) => {
+              this.loggedUser = data.user;
+              resolve(this.loggedUser as User);
             },
-            error: (error) => {
+            error: (error: any) => {
               reject(error);
             }
           })
@@ -140,4 +126,13 @@ export class AuthService {
   isVerified(): boolean {
     return this.loggedUser?.verified || false;
   }
+}
+
+@Injectable({ providedIn: 'root' })
+export class Login extends Query<{ login: string }> {
+  override document = gql`
+    query Login($usernameOrEmail: String!, $password: String!) {
+      login(usernameOrEmail: $usernameOrEmail, password: $password)
+    }
+  `;
 }

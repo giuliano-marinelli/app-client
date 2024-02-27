@@ -1,11 +1,11 @@
-import { Component, Injectable, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CanDeactivateFn } from '@angular/router';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Subject } from 'rxjs';
 
-import { LeaveGuardWarningComponent } from '../shared/components/leave-guard-warning/leave-guard-warning.component';
+import { LeaveGuardWarningComponent } from '../components/leave-guard-warning/leave-guard-warning.component';
 
 export const LeaveGuard: CanDeactivateFn<Component> = (component: Component) => {
   if ((component as any)['hasChanges'] == null || (component as any)['hasChanges']()) {
