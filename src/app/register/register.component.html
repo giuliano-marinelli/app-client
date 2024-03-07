@@ -6,76 +6,61 @@
         <form [formGroup]="registerForm" (ngSubmit)="register()">
           <div class="mb-3">
             <label class="form-label">
-              Email address <fa-icon *ngIf="email.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              Email address
             </label>
-            <input
-              class="form-control"
-              type="email"
-              name="email"
-              formControlName="email"
-              autofocus
-              [ngClass]="setValid(email)"
-            />
-            <div class="invalid-feedback">
-              <div *ngIf="email.errors && email.errors['required']">Email is required.</div>
-              <div *ngIf="email.errors && email.errors['maxlength']">Email must be as maximum 100 characters long</div>
-              <div *ngIf="email.errors && email.errors['email']">Email must be on the format example&#64;email.com</div>
-              <div *ngIf="email.errors && email.errors['emailExists']">
-                Email is already taken, please try another one
+            <div class="input-spinner">
+              <input class="form-control" type="email" name="email" formControlName="email" autofocus autocomplete="off"
+                [ngClass]="setValid(email)" />
+              <fa-icon *ngIf="email.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              <div class="invalid-feedback">
+                <div *ngIf="email.errors && email.errors['required']">Email is required.</div>
+                <div *ngIf="email.errors && email.errors['maxlength']">Email must be as maximum 100 characters long
+                </div>
+                <div *ngIf="email.errors && email.errors['email']">Email must be on the format example&#64;email.com
+                </div>
+                <div *ngIf="email.errors && email.errors['emailExists']">
+                  Email is already taken, please try another one
+                </div>
               </div>
             </div>
           </div>
           <div class="mb-3">
             <label class="form-label">
-              Username <fa-icon *ngIf="username.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              Username
             </label>
-            <input
-              class="form-control"
-              type="text"
-              name="username"
-              formControlName="username"
-              [ngClass]="setValid(username)"
-              autocomplete="off"
-            />
-            <div class="invalid-feedback">
-              <div *ngIf="username.errors && username.errors['required']">Username is required</div>
-              <div *ngIf="username.errors && (username.errors['minlength'] || username.errors['maxlength'])">
-                Username must be at 4-30 characters long
-              </div>
-              <div *ngIf="username.errors && username.errors['pattern']">
-                Username can only have characters, numbers and _ or - symbols
-              </div>
-              <div *ngIf="username.errors && username.errors['usernameExists']">
-                Username is already taken, please try another one
+            <div class="input-spinner">
+              <input class="form-control" type="text" name="username" formControlName="username" autocomplete="off"
+                [ngClass]="setValid(username)" />
+              <fa-icon *ngIf="username.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              <div class="invalid-feedback">
+                <div *ngIf="username.errors && username.errors['required']">Username is required</div>
+                <div *ngIf="username.errors && (username.errors['minlength'] || username.errors['maxlength'])">
+                  Username must be at 4-30 characters long
+                </div>
+                <div *ngIf="username.errors && username.errors['pattern']">
+                  Username can only have characters, numbers and _ or - symbols
+                </div>
+                <div *ngIf="username.errors && username.errors['usernameExists']">
+                  Username is already taken, please try another one
+                </div>
               </div>
             </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input
-              class="form-control"
-              type="password"
-              name="password"
-              formControlName="password"
-              [ngClass]="setValid(password)"
-            />
+            <input class="form-control" type="password" name="password" formControlName="password"
+              autocomplete="new-password" [ngClass]="setValid(password)" />
             <div class="invalid-feedback">
               <div *ngIf="password.errors && password.errors['required']">Password is required</div>
               <div *ngIf="password.errors && (password.errors['minlength'] || password.errors['maxlength'])">
-                Password must be at 8-30 characters long
+                Password must be at 8-100 characters long
               </div>
             </div>
           </div>
           <div class="mb-3">
             <label class="form-label">Repeat Password</label>
-            <input
-              class="form-control"
-              type="password"
-              name="confirmPassword"
-              formControlName="confirmPassword"
-              [ngClass]="setValid(confirmPassword)"
-              autocomplete="off"
-            />
+            <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword"
+              autocomplete="off" [ngClass]="setValid(confirmPassword)" />
             <div class="invalid-feedback">
               <div *ngIf="confirmPassword.errors && confirmPassword.errors['required']">This field is required</div>
               <div *ngIf="confirmPassword.errors && confirmPassword.errors['equalTo']">Passwords must be equals</div>

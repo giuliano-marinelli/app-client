@@ -1,0 +1,44 @@
+//this allow the use of bootstrap and bootstrap dark variables, functions, utilities, mixins and custom variables
+@import '../../assets/scss/variables.scss';
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  padding: 2px !important;
+}
+
+.profile-separator {
+  height: 4rem;
+}
+
+.profile-separator-border {
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: 7.8rem;
+  z-index: -1;
+}
+
+.profile-content {
+  margin-top: 1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  .profile-img {
+    width: 100px;
+    height: 100px;
+    padding: 2px !important;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .profile-img {
+    width: 200px;
+    height: 200px;
+    padding: 0.25rem !important;
+  }
+
+  .profile-content {
+    margin-top: -3rem;
+  }
+}

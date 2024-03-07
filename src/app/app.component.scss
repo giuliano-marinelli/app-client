@@ -5,23 +5,23 @@
   padding: 60px 15px 0;
 }
 
-.navbar-concept {
-  background-color: $body-secondary-bg;
-  // box-shadow: $box-shadow;
+.navbar-custom {
+  background-color: rgba($body-secondary-bg, 0.7);
+  backdrop-filter: blur(5px);
 }
 
-::ng-deep html[data-bs-theme='dark'] .navbar-concept {
-  background-color: $body-secondary-bg-dark;
+::ng-deep html[data-bs-theme='dark'] .navbar-custom {
+  background-color: rgba($body-secondary-bg-dark, 0.8);
+  backdrop-filter: blur(5px);
 }
 
 @include media-breakpoint-down(sm) {
-  .navbar-concept {
-    background-color: $body-bg;
-    // box-shadow: unset;
+  .navbar-custom {
+    background-color: rgba($body-bg, 0.7);
   }
 
-  ::ng-deep html[data-bs-theme='dark'] .navbar-concept {
-    background-color: $body-bg-dark;
+  ::ng-deep html[data-bs-theme='dark'] .navbar-custom {
+    background-color: rgba($body-bg-dark, 0.8);
   }
 }
 

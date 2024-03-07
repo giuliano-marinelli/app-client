@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Login } from '../shared/entities/user.entity';
+import { firstValueFrom } from 'rxjs';
+
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
 
@@ -19,22 +22,21 @@ export class LoginComponent implements OnInit {
   usernameOrEmail = new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(4),
-    Validators.maxLength(100)
+    Validators.maxLength(30)
   ]);
-  password = new UntypedFormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]);
+  password = new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
 
   constructor(
     public auth: AuthService,
     public router: Router,
+    public messages: MessagesService,
     public formBuilder: UntypedFormBuilder,
-    public messages: MessagesService
+    private _login: Login
   ) {}
 
   ngOnInit(): void {
-    this.auth.isLoggedIn.subscribe({
-      next: (loggedUser) => {
-        if (loggedUser) this.router.navigate(['/']);
-      }
+    firstValueFrom(this.auth.logged).then((logged) => {
+      if (logged) this.router.navigate(['/']);
     });
 
     this.loginForm = this.formBuilder.group({
@@ -54,20 +56,55 @@ export class LoginComponent implements OnInit {
     this.loginForm.markAllAsTouched();
     if (this.loginForm.valid) {
       this.submitLoading = true;
-      this.auth
-        .login(this.loginForm.value)
-        .then((loggedUser) => this.messages.success('Welcome, ' + loggedUser.username + '!'))
-        .catch((error) =>
-          this.messages.error(error, {
-            close: false,
-            onlyOne: true,
-            displayMode: 'replace',
-            target: this.messageContainer
-          })
-        )
-        .finally(() => (this.submitLoading = false));
+      this._login.fetch(this.loginForm.value).subscribe({
+        next: ({ data, errors }) => {
+          if (errors) {
+            this.messages.error(errors, {
+              close: false,
+              onlyOne: true,
+              displayMode: 'replace',
+              target: this.messageContainer
+            });
+            this.submitLoading = false;
+          }
+          if (data?.login) {
+            this.auth.setToken(data.login);
+            this.auth
+              .setUser()
+              ?.subscribe({
+                next: ({ data, errors }: any) => {
+                  if (errors) {
+                    this.messages.error(errors, {
+                      close: false,
+                      onlyOne: true,
+                      displayMode: 'replace',
+                      target: this.messageContainer
+                    });
+                  }
+                  if (data?.user) {
+                    this.messages.success(
+                      'Welcome, ' + (data.user?.profile?.name ? data.user?.profile?.name : data.user?.username) + '!'
+                    );
+                    this.router.navigate(['/']);
+                  }
+                }
+              })
+              .add(() => {
+                this.submitLoading = false;
+              });
+          }
+        },
+        error: () => {
+          this.submitLoading = false;
+        }
+      });
     } else {
-      this.messages.error('Some values are invalid, please check.', ['login']);
+      this.messages.error('Some values are invalid, please check.', {
+        close: false,
+        onlyOne: true,
+        displayMode: 'replace',
+        target: this.messageContainer
+      });
     }
   }
 }

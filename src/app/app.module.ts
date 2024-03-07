@@ -9,10 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //graphql modules
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
+import { ApolloDynamic } from 'apollo-dynamic';
 import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
 import { createClient } from 'graphql-ws';
+import extractFiles from 'extract-files/extractFiles.mjs';
+import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 //modules
 import { AppRoutingModule } from './app-routing.module';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -47,6 +52,12 @@ import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
+import { AccountComponent } from './account/account.component';
+import { ProfileSettingsComponent } from './account/profile-settings/profile-settings.component';
+import { AccountSettingsComponent } from './account/account-settings/account-settings.component';
+import { SecuritySettingsComponent } from './account/security-settings/security-settings.component';
+import { DevicesSettingsComponent } from './account/devices-settings/devices-settings.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +75,13 @@ import { RegisterComponent } from './register/register.component';
     AppComponent,
     NotFoundComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileComponent,
+    AccountComponent,
+    ProfileSettingsComponent,
+    AccountSettingsComponent,
+    SecuritySettingsComponent,
+    DevicesSettingsComponent
   ],
   imports: [
     //angular modules
@@ -126,11 +143,16 @@ import { RegisterComponent } from './register/register.component';
     }),
     {
       provide: APOLLO_OPTIONS,
-      useFactory(httpLink: HttpLink) {
+      useFactory(httpLink: HttpLink, messages: MessagesService) {
         //create an http link
         const http = httpLink.create({
           uri: environment.graphqlHTTPUri,
-          headers: new HttpHeaders().set('apollo-require-preflight', 'true') //required for upload files (here we can set the headers for all http requests)
+          //required for upload files
+          extractFiles: (body) => {
+            return extractFiles(body, isExtractableFile) as any;
+          },
+          //here we can set the headers for all http requests
+          headers: new HttpHeaders().set('apollo-require-preflight', 'true') //required for upload files
         });
 
         //create a websocket link (if it's needed for subscriptions)
@@ -140,39 +162,87 @@ import { RegisterComponent } from './register/register.component';
           })
         );
 
-        //create authentication link (it will add the user auth token to the headers on all requests)
-        const authLink = new ApolloLink((operation, forward) => {
+        //add authentication token to the headers
+        const auth = setContext(() => {
           //get the authentication token from local storage if it exists
           const token = localStorage.getItem('token');
 
-          //use the setContext method to set the HTTP headers.
-          operation.setContext({
-            headers: {
-              Authorization: token ? `Bearer ${token}` : ''
-            }
-          });
-
-          //call the next link in the middleware chain.
-          return forward(operation);
+          //add the token to the headers
+          return token
+            ? {
+                headers: {
+                  Authorization: `Bearer ${token}`
+                }
+              }
+            : {};
         });
 
-        //using the ability to split links, you can send data to each link
-        //depending on what kind of operation is being sent
-        const link = split(
-          //split based on operation type
-          ({ query }) => {
-            const definition = getMainDefinition(query);
-            return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
-          },
-          ws,
-          http
-        );
+        //general error handling behavior (for all requests)
+        //specifically for network errors that only shows from here
+        const error = onError(({ graphQLErrors, networkError }) => {
+          if (graphQLErrors) {
+            graphQLErrors.map((error: any) => console.error('[GraphQL error]', error));
+          }
+
+          if (networkError) {
+            console.error('[Network error]', networkError);
+            messages.error('<b>Network error</b>. Please check your internet connection.', {
+              icon: 'fas fa-wifi',
+              container: 'network-error',
+              position: 'bottomCenter',
+              onlyOne: true,
+              displayMode: 'replace'
+            });
+          }
+        });
+
+        //general success handling behavior (for all requests)
+        const success = new ApolloLink((operation, forward) => {
+          return forward(operation).map((data) => {
+            //clear the network error messages
+            messages.clear('network-error');
+            return data;
+          });
+        });
+
+        //split for set the link type (http or ws) based on the operation type
+        //add the auth context to the link
+        //set the general error handling behavior
+        const link = ApolloLink.from([
+          auth,
+          error,
+          success,
+          split(
+            //split based on operation type
+            ({ query }) => {
+              const definition = getMainDefinition(query);
+              return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
+            },
+            ws,
+            http
+          )
+        ]);
+
         return {
-          link: authLink.concat(link),
-          cache: new InMemoryCache()
+          link: link,
+          cache: new InMemoryCache(),
+          defaultOptions: {
+            watchQuery: {
+              fetchPolicy: 'cache-and-network',
+              errorPolicy: 'all'
+            },
+            query: {
+              fetchPolicy: 'network-only',
+              errorPolicy: 'all'
+            },
+            mutate: {
+              fetchPolicy: 'network-only',
+              errorPolicy: 'all'
+            }
+          }
         };
       },
-      deps: [HttpLink]
+      deps: [HttpLink, MessagesService]
     },
     //services
     MessagesService,
@@ -185,5 +255,7 @@ export class AppModule {
     fontawesomeLibrary.addIconPacks(far, fas, fab);
     fontawesomeConfig.defaultPrefix = 'fas';
     fontawesomeConfig.fixedWidth = true;
+
+    ApolloDynamic.cache = true;
   }
 }

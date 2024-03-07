@@ -13,7 +13,8 @@ export class MessagesService {
     iziToast.settings({
       position: 'topCenter',
       maxWidth: '500px',
-      timeout: 5000
+      timeout: 5000,
+      class: 'iziToast-config'
     });
   }
 
@@ -25,27 +26,13 @@ export class MessagesService {
     this.send(message, 'success', options);
   }
 
-  error(message: string | ApolloError | HttpErrorResponse, options: any = {}): void {
-    if (typeof message == 'object') {
-      const apolloError = message as ApolloError;
-      if (apolloError.graphQLErrors?.length)
-        message = apolloError.graphQLErrors
-          .map((msj: any) => {
-            return msj.message;
-          })
-          .join('<hr>');
-      else if (apolloError.networkError) {
-        const httpError = apolloError.networkError as HttpErrorResponse;
-        console.log(httpError);
-
-        message = httpError.error.errors
-          .map((msj: any) => {
-            return msj.message;
-          })
-          .join('<hr>');
-      }
-    } else {
-      message = message;
+  error(message: string | any, options: any = {}): void {
+    if (Array.isArray(message)) {
+      message = message
+        .map((msj: any) => {
+          return msj.message;
+        })
+        .join('<hr>');
     }
     options.timeout = 0;
     this.send(message, 'error', options);
@@ -60,15 +47,18 @@ export class MessagesService {
   }
 
   private send(message: any, type: any, options?: any): void {
-    if (options?.target && !options.target.nativeElement.id) options.target.nativeElement.id = 'message-container';
-    let container = options?.target ? options.target.nativeElement.id : null;
+    if (options?.target && options.target.nativeElement && !options.target.nativeElement.id)
+      options.target.nativeElement.id = 'message-container';
+    if (options?.icon) options.icon = 'iziToast-icon-config ' + options.icon;
+    let container =
+      options?.target && options.target.nativeElement ? options.target.nativeElement.id : options?.target?.id;
 
     if (options?.onlyOne) this.clear(container);
     let toastOptions = {
       message: message,
       ...options,
       drag: options?.close != null ? options.close : true,
-      class: (container || '') + 'message-element',
+      class: (container || options?.container || '') + 'message-element iziToast-config',
       target: options?.target ? '#' + container : ''
     };
 
@@ -91,7 +81,7 @@ export class MessagesService {
     }
   }
 
-  private clear(container: string): void {
+  clear(container: string): void {
     document.querySelectorAll('.' + (container || '') + 'message-element').forEach((toast) => {
       iziToast.hide({}, toast);
     });

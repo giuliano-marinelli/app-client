@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Enable responsive utilities for borders */
-// @import "bootstrap/scss/functions";
-// @import "bootstrap/scss/variables";
-// @import "bootstrap/scss/utilities";
+/* Imported for customize/extend bootstrap variables and utilities before it's computed */
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+// @import 'bootstrap/scss/utilities';
 
+/* Enable responsive utilities for borders */
 /*$utilities: map-merge(
   $utilities,
   (
@@ -46,6 +47,34 @@
   )
 );*/
 
+/* Add custom is-pending state for forms input validation */
+$form-validation-states: map-merge(
+  $form-validation-states,
+  (
+    'pending': (
+      'color': #838383,
+      'icon': '',
+      'tooltip-color': #fff,
+      'tooltip-bg-color': #838383,
+      'focus-box-shadow': 0 0 $input-btn-focus-blur $input-focus-width
+        rgba(131, 131, 131, $input-btn-focus-color-opacity),
+      'border-color': #838383
+    )
+  )
+);
+
+/* This is the spinner style for pending state icon */
+.input-spinner {
+  position: relative;
+}
+.input-spinner > fa-icon {
+  position: absolute;
+  margin-top: 7px;
+  margin-right: 10px;
+  top: 0;
+  right: 0;
+}
+
 /* Custom css variables */
 :root {
   // default image cropper outline color
@@ -65,6 +94,16 @@ $container-max-widths: (
 
 /* Importing Bootstrap files */
 @import 'bootstrap/scss/bootstrap'; //base bootstrap
+
+// @import '../src/assets/scss/validation.scss';
+
+/* Importing FontAwesome classes */
+// @import '@fortawesome/fontawesome-free/css/all.css';
+$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
+@import '@fortawesome/fontawesome-free/scss/fontawesome';
+@import '@fortawesome/fontawesome-free/scss/solid';
+@import '@fortawesome/fontawesome-free/scss/regular';
+@import '@fortawesome/fontawesome-free/scss/brands';
 
 /* Importing HeliPopper files (for tooltips and popovers) */
 @import 'tippy.js/dist/tippy.css';
@@ -198,6 +237,15 @@ a {
 /* Break text that overflows by characters instead of words */
 .text-break-all {
   word-break: break-all;
+}
+
+/* Base style for izitoasts */
+.iziToast-config {
+  word-break: break-word;
+}
+
+.iziToast-icon-config {
+  font-size: 17px !important;
 }
 
 /* Image Thumbnail mixin: for include as content of other classes */

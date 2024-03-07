@@ -15,7 +15,7 @@ export class Session {
   id?: string;
   @SelectionField(() => User)
   user?: User;
-  @SelectionField({ include: 'isAdmin' })
+  @SelectionField()
   token?: string;
   @SelectionField(() => Device)
   device?: Device;
@@ -32,7 +32,7 @@ export class Session {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CloseSession extends DynamicMutation {
+export class CloseSession extends DynamicMutation<{ closeSession: Session }> {
   override document = gql`
     mutation CloseSession($id: UUID!) {
       closeSession(id: $id) {
@@ -54,11 +54,14 @@ export class FindSession extends DynamicQuery<{ session: Session }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class FindSessions extends DynamicQuery<{ sessions: Session[] }> {
+export class FindSessions extends DynamicQuery<{ sessions: { set: Session[]; count: number } }> {
   override document = gql`
     query Sessions($where: [SessionWhereInput!], $order: [SessionOrderInput!], $pagination: PaginationInput) {
       sessions(where: $where, order: $order, pagination: $pagination) {
-        Session
+        set {
+          Session
+        }
+        count
       }
     }
   `;

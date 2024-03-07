@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { gql } from 'apollo-angular';
+import { Mutation, Query, gql } from 'apollo-angular';
 import { SelectionField, SelectionType } from 'apollo-dynamic';
 import { DynamicMutation, DynamicQuery } from 'apollo-dynamic-angular';
 
@@ -38,6 +38,24 @@ export class User {
 }
 
 @Injectable({ providedIn: 'root' })
+export class Login extends Query<{ login: string }> {
+  override document = gql`
+    query Login($usernameOrEmail: String!, $password: String!) {
+      login(usernameOrEmail: $usernameOrEmail, password: $password)
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Logout extends Query<{ logout: boolean }> {
+  override document = gql`
+    query Logout {
+      logout
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
 export class CreateUser extends DynamicMutation<{ createUser: User }> {
   override document = gql`
     mutation CreateUser($userCreateInput: UserCreateInput!) {
@@ -49,10 +67,10 @@ export class CreateUser extends DynamicMutation<{ createUser: User }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UpdateUser extends DynamicMutation {
+export class UpdateUser extends DynamicMutation<{ updateUser: User }> {
   override document = gql`
-    mutation UpdateUser($userUpdateInput: UserUpdateInput!) {
-      updateUser(userUpdateInput: $userUpdateInput) {
+    mutation UpdateUser($userUpdateInput: UserUpdateInput!, $avatarFile: Upload) {
+      updateUser(userUpdateInput: $userUpdateInput, avatarFile: $avatarFile) {
         User
       }
     }
@@ -60,10 +78,10 @@ export class UpdateUser extends DynamicMutation {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UpdateUserPassword extends DynamicMutation {
+export class UpdateUserPassword extends DynamicMutation<{ updateUserPassword: User }> {
   override document = gql`
-    mutation UpdateUserPassword($id: UUID!, $password: String!) {
-      updateUserPassword(id: $id, password: $password) {
+    mutation UpdateUserPassword($id: UUID!, $password: String!, $newPassword: String!) {
+      updateUserPassword(id: $id, password: $password, newPassword: $newPassword) {
         User
       }
     }
@@ -71,7 +89,7 @@ export class UpdateUserPassword extends DynamicMutation {
 }
 
 @Injectable({ providedIn: 'root' })
-export class UpdateUserVerificationCode extends DynamicMutation {
+export class UpdateUserVerificationCode extends DynamicMutation<{ updateUserVerificationCode: User }> {
   override document = gql`
     mutation UpdateUserVerificationCode($id: UUID!) {
       updateUserVerificationCode(id: $id) {
@@ -82,7 +100,7 @@ export class UpdateUserVerificationCode extends DynamicMutation {
 }
 
 @Injectable({ providedIn: 'root' })
-export class VerifyUser extends DynamicMutation {
+export class VerifyUser extends DynamicMutation<{ verifyUser: User }> {
   override document = gql`
     mutation VerifyUser($id: UUID!, $code: String!) {
       verifyUser(id: $id, code: $code) {
@@ -93,10 +111,19 @@ export class VerifyUser extends DynamicMutation {
 }
 
 @Injectable({ providedIn: 'root' })
-export class DeleteUser extends DynamicMutation {
+export class DeleteUser extends Mutation<{ deleteUser: string }> {
   override document = gql`
-    mutation DeleteUser($id: UUID!) {
-      deleteUser(id: $id)
+    mutation DeleteUser($id: UUID!, $password: String!) {
+      deleteUser(id: $id, password: $password)
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class CheckPasswordUser extends Query<{ checkPasswordUser: boolean }> {
+  override document = gql`
+    query CheckPasswordUser($id: UUID!, $password: String!) {
+      checkPasswordUser(id: $id, password: $password)
     }
   `;
 }
@@ -113,11 +140,14 @@ export class FindUser extends DynamicQuery<{ user: User }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class FindUsers extends DynamicQuery<{ users: User[] }> {
+export class FindUsers extends DynamicQuery<{ users: { set: User[]; count: number } }> {
   override document = gql`
     query Users($where: [UserWhereInput!], $order: [UserOrderInput!], $pagination: PaginationInput) {
       users(where: $where, order: $order, pagination: $pagination) {
-        User
+        set {
+          User
+        }
+        count
       }
     }
   `;

@@ -14,9 +14,10 @@ export class ExtraValidators {
    */
   static usernameExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return findUsers.fetch({ where: { username: { eq: control.value } } }).pipe(
+      return findUsers.fetch({ where: { username: { eq: control.value } } }, { fetchPolicy: 'no-cache' }).pipe(
         map(({ data }) => {
-          return data.users?.length > 0 && data.users[0].username != differentTo?.username
+          const users = data?.users;
+          return users?.set?.length > 0 && users.set[0].username != differentTo?.username
             ? { usernameExists: true }
             : null;
         })
@@ -32,9 +33,10 @@ export class ExtraValidators {
    */
   static emailExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return findUsers.fetch({ where: { email: { eq: control.value } } }).pipe(
+      return findUsers.fetch({ where: { email: { eq: control.value } } }, { fetchPolicy: 'no-cache' }).pipe(
         map(({ data }) => {
-          return data?.users?.length > 0 && data.users[0].email != differentTo?.email ? { emailExists: true } : null;
+          const users = data?.users;
+          return users?.set?.length > 0 && users.set[0].email != differentTo?.email ? { emailExists: true } : null;
         })
       );
     };

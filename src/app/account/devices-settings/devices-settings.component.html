@@ -1,0 +1,92 @@
+<div class="container mb-3">
+  <div class="mt-3 mt-sm-0 border-bottom">
+    <h2>
+      Devices
+      <a class="btn p-0 text-muted border-0" (click)="getSessions()" [class.disabled]="sessionsLoading">
+        <fa-icon [icon]="'rotate-right'" size="lg" [spin]="sessionsLoading" [pulse]="sessionsLoading"></fa-icon>
+      </a>
+    </h2>
+  </div>
+  <div #message_container></div>
+  <div class="text-center mt-3" *ngIf="!sessionsLoading && !sessions?.length">
+    <fa-icon class="fa-fade" [icon]="'magnifying-glass'" size="3x"></fa-icon>
+    <p class="mt-2">No devices found</p>
+  </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-0" [class.loading]="sessionsLoading"
+    *ngIf="filter(sessions, { blockedAt: null, closedAt: null })?.length">
+    <div class="col" *ngFor="let session of sessions | filter: { blockedAt: null, closedAt: null }">
+      <ng-container [ngTemplateOutlet]="sessionCard" [ngTemplateOutletContext]="{ session: session }"></ng-container>
+    </div>
+  </div>
+  <div [class.loading]="sessionsLoading"
+    *ngIf="filter(sessions, { $or: { blockedAt: { $not: null }, closedAt: { $not: null } } })?.length">
+    <div class="mt-3 border-bottom">
+      <h4>Closed sessions</h4>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-0">
+      <div class="col"
+        *ngFor="let session of sessions | filter: { $or: { blockedAt: { $not: null }, closedAt: { $not: null } } }">
+        <ng-container [ngTemplateOutlet]="sessionCard" [ngTemplateOutletContext]="{ session: session }"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #sessionCard let-session="session">
+  <div class="card bg-dark-subtle">
+    <div *ngIf="submitLoading.includes(session.id)"
+      class="overlay d-flex align-items-center text-center text-body rounded">
+      <fa-icon class="flex-fill" [icon]="'spinner'" [spin]="true" [pulse]="true" size="2x"></fa-icon>
+    </div>
+    <div class="card-body">
+      <div class="card-text">
+        <div class="d-flex flex-row">
+          <div>
+            <fa-icon [icon]="deviceTypeIcon(session.device?.type)" size="2x"> </fa-icon>
+          </div>
+          <div class="flex-fill text-center">
+            {{
+            session.device?.brand
+            ? session.device?.brand + ' ' + (session.device?.model ? session.device?.model : '')
+            : session.device?.os ? session.device?.os : 'Unknown'
+            }}
+          </div>
+          <div *ngIf="session.token != auth.getToken() && !session.blockedAt && !session.closedAt" ngbDropdown
+            display="dynamic" placement="bottom-end" autoClose="true">
+            <a class="btn p-0">
+              <fa-icon class="no-dropdown-arrow" [icon]="'ellipsis-vertical'" ngbDropdownToggle></fa-icon>
+            </a>
+            <div class="dropdown-menu shadow-sm" ngbDropdownMenu>
+              <a ngbDropdownItem class="small pe-pointer" (click)="closeSession(session)">
+                <fa-icon [icon]="'sign-out'"></fa-icon> Close session
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-1 text-danger text-end" *ngIf="session.blockedAt"><fa-icon [icon]="'lock'"></fa-icon> Blocked
+        </div>
+        <div class="mt-1 text-secondary text-end" *ngIf="session.closedAt && !session.blockedAt">
+          <fa-icon [icon]="'circle-xmark'"></fa-icon> Closed
+        </div>
+        <div class="mt-1 text-success text-end" *ngIf="session.token == auth.getToken()">
+          <fa-icon [icon]="'circle-check'"></fa-icon> Current device
+        </div>
+        <div class="mt-1 d-flex flex-row text-muted" *ngIf="session.device?.ip">
+          <fa-icon class="me-1" [icon]="'globe'"></fa-icon>
+          <div>{{ session.device?.ip }}</div>
+        </div>
+        <div class="mt-1 pt-1 small border-top">
+          <b>First login:</b> {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}
+        </div>
+        <div class="mt-1 small">
+          <b> {{ session.closedAt || session.blockedAt ? 'Last' : 'Recent' }} activity: </b>
+          {{ session.updatedAt | amLocal | amTimeAgo }}
+        </div>
+        <div class="mt-1 pt-1 d-flex flex-row border-top" *ngIf="session.device?.client">
+          <fa-icon class="me-1" [icon]="browserIcon(session.device?.client)"></fa-icon>
+          <div>{{ session.device?.client }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

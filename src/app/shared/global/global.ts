@@ -1,3 +1,5 @@
+import { FormControl } from '@angular/forms';
+
 export class Global {
   static createFormData(object: any): FormData {
     var formData: any = new FormData();
@@ -47,12 +49,20 @@ export class Global {
     return new File([u8arr], filename, { type: mime });
   }
 
+  static setValid(control: FormControl): object {
+    return {
+      'is-invalid': !control.pending && control.dirty && !control.valid,
+      'is-valid': !control.pending && control.dirty && control.valid,
+      'is-pending': control.pending
+    };
+  }
+
   static filter(items: any[], filter: any): any {
-    return items.filter((item) => {
+    return items?.filter((item) => {
       var match = true;
       if (Object.keys(filter)[0] == '$and') {
         Object.keys(filter.$and).forEach((key) => {
-          if (filter.$and[key] != item[key]) match = false;
+          if (!Global.filterEqual(filter.$and[key], item[key])) match = false;
         });
       } else if (Object.keys(filter)[0] == '$or') {
         match = false;
@@ -60,20 +70,28 @@ export class Global {
         if (Array.isArray(filter.$or)) {
           filter.$or.forEach((or: any) => {
             Object.keys(or).forEach((key) => {
-              if (or[key] == item[key]) match = true;
+              if (Global.filterEqual(or[key], item[key])) match = true;
             });
           });
         } else {
           Object.keys(filter.$or).forEach((key) => {
-            if (filter.$or[key] == item[key]) match = true;
+            if (Global.filterEqual(filter.$or[key], item[key])) match = true;
           });
         }
       } else {
         Object.keys(filter).forEach((key) => {
-          if (filter[key] != item[key]) match = false;
+          if (!Global.filterEqual(filter[key], item[key])) match = false;
         });
       }
       return match;
     });
+  }
+
+  static filterEqual(filter: any | { $not: any }, item: any): boolean {
+    if (filter && Object.keys(filter)[0] == '$not') {
+      return !this.filterEqual(filter.$not, item);
+    } else {
+      return filter == item;
+    }
   }
 }

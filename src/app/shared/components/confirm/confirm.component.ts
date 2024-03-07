@@ -1,7 +1,24 @@
-import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+
+import { CheckPasswordUser } from '../../entities/user.entity';
+import { Global } from '../../global/global';
+
+import { AuthService } from '../../../services/auth.service';
+import { MessagesService } from '../../../services/messages.service';
 
 @Component({
   selector: '[confirm]',
@@ -23,22 +40,22 @@ export class ConfirmComponent {
   @ViewChild('content', { static: false }) content?: TemplateRef<any>;
   @ViewChild('content_password', { static: false }) contentPassword?: TemplateRef<any>;
 
+  checkPasswordLoading: boolean = false;
+
   modal?: NgbModalRef;
+
+  setValid: any = Global.setValid;
 
   passwordForm!: UntypedFormGroup;
   password = new UntypedFormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]);
 
   constructor(
+    public auth: AuthService,
+    public messages: MessagesService,
+    public formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
-    public formBuilder: UntypedFormBuilder
+    private _checkPasswordUser: CheckPasswordUser
   ) {}
-
-  setValid(control: UntypedFormControl): object {
-    return {
-      'is-invalid': control.dirty && !control.valid,
-      'is-valid': control.dirty && control.valid
-    };
-  }
 
   @HostListener('mousedown')
   open() {
@@ -52,13 +69,13 @@ export class ConfirmComponent {
     });
   }
 
-  confirmAction(requirePassword?: boolean) {
+  async confirmAction(requirePassword?: boolean) {
     if (requirePassword) {
       this.modal?.close();
       this.openPassword();
-    } else if (!this.requiredPassword || this.checkPassword()) {
+    } else if (!this.requiredPassword || (await this.checkPassword())) {
       this.modal?.close();
-      this.confirm?.emit();
+      this.confirm?.emit(this.passwordForm.value.password);
     }
   }
 
@@ -67,9 +84,41 @@ export class ConfirmComponent {
     this.reject?.emit();
   }
 
-  checkPassword(): boolean {
-    return false;
-    //TODO
+  async checkPassword(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.checkPasswordLoading = true;
+      if (this.auth.user) {
+        this._checkPasswordUser
+          .fetch({ id: this.auth.user.id, password: this.passwordForm.value.password })
+          .subscribe({
+            next: ({ data, errors }) => {
+              const messageContainerPassword = document.getElementById('message_container_password');
+              if (errors)
+                this.messages.error(errors, {
+                  close: false,
+                  onlyOne: true,
+                  displayMode: 'replace',
+                  target: messageContainerPassword
+                });
+              else if (data?.checkPasswordUser) resolve(true);
+              else {
+                this.messages.error("Password don't match.", {
+                  close: false,
+                  onlyOne: true,
+                  displayMode: 'replace',
+                  target: messageContainerPassword
+                });
+                resolve(false);
+              }
+            }
+          })
+          .add(() => {
+            this.checkPasswordLoading = false;
+          });
+      } else {
+        resolve(false);
+      }
+    });
   }
 
   confirmMessageType(): string {
