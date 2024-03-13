@@ -20,10 +20,10 @@
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="name" formControlName="name"
             autocomplete="off" [ngClass]="setValid(name)" />
           <div class="invalid-feedback">
-            <div *ngIf="name.errors && (name.errors['minlength'] || name.errors['maxlength'])">
+            <div *ngIf="name?.errors?.['minlength'] || name?.errors?.['maxlength']">
               Name must be at most 30 characters long
             </div>
-            <div *ngIf="name.errors && name.errors['pattern']">
+            <div *ngIf="name?.errors?.['pattern']">
               Name can only have characters and numbers
             </div>
           </div>
@@ -53,7 +53,7 @@
             formControlName="bio" autocomplete="off" rows="3" [ngClass]="setValid(bio)"></textarea>
           <span class="float-end textarea-count">{{ bio.value?.length + '/200' }}</span>
           <div class="invalid-feedback">
-            <div *ngIf="bio.errors && (bio.errors['minlength'] || bio.errors['maxlength'])">
+            <div *ngIf="bio?.errors?.['minlength'] || bio?.errors?.['maxlength']">
               Bio must be at most 200 characters long
             </div>
           </div>
@@ -65,10 +65,10 @@
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="url" formControlName="url"
             autocomplete="off" [ngClass]="setValid(url)" [inputMask]="urlMask" />
           <div class="invalid-feedback">
-            <div *ngIf="url.errors && (url.errors['minlength'] || url.errors['maxlength'])">
+            <div *ngIf="url?.errors?.['minlength'] || url?.errors?.['maxlength']">
               URL must be at most 200 characters long
             </div>
-            <div *ngIf="url.errors && url.errors['url']">
+            <div *ngIf="url?.errors?.['url']">
               URL must have a valid format
             </div>
           </div>
@@ -80,10 +80,10 @@
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="location"
             formControlName="location" autocomplete="off" [ngClass]="setValid(location)" />
           <div class="invalid-feedback">
-            <div *ngIf="location.errors && (location.errors['minlength'] || location.errors['maxlength'])">
+            <div *ngIf="location?.errors?.['minlength'] || location?.errors?.['maxlength']">
               Location must be at most 30 characters long
             </div>
-            <div *ngIf="location.errors && location.errors['pattern']">
+            <div *ngIf="location?.errors?.['pattern']">
               Location can only have characters, numbers and commas
             </div>
           </div>

@@ -18,7 +18,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
-// import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 // import { AdminComponent } from './admin/admin.component';
 // import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
 
@@ -27,7 +27,16 @@ const routes: Routes = [
   { path: 'user/:username', component: ProfileComponent },
   { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
   { path: 'register', component: RegisterComponent, data: { title: 'Sign up' }, canDeactivate: [LeaveGuard] },
-  // { path: 'password-reset', component: PasswordResetComponent, data: { title: 'Forgot your password?' } },
+  {
+    path: 'password-reset',
+    component: PasswordResetComponent,
+    data: { title: 'Forgot your password?' }
+  },
+  {
+    path: 'password-reset/:code',
+    component: PasswordResetComponent,
+    data: { title: 'Reset your password' }
+  },
   {
     path: 'settings',
     component: AccountComponent,

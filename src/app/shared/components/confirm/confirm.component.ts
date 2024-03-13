@@ -1,12 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -79,7 +72,7 @@ export class ConfirmComponent {
   constructor(
     public auth: AuthService,
     public messages: MessagesService,
-    public formBuilder: UntypedFormBuilder,
+    public formBuilder: FormBuilder,
     private modalService: NgbModal,
     private _checkUserPassword: CheckUserPassword,
     private _checkUserVerificationCode: CheckUserVerificationCode,

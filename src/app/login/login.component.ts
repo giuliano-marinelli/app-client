@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Login } from '../shared/entities/user.entity';
+import { Global } from '../shared/global/global';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
@@ -18,19 +19,17 @@ export class LoginComponent implements OnInit {
 
   submitLoading: boolean = false;
 
-  loginForm!: UntypedFormGroup;
-  usernameOrEmail = new UntypedFormControl('', [
-    Validators.required,
-    Validators.minLength(4),
-    Validators.maxLength(30)
-  ]);
-  password = new UntypedFormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
+  setValid: any = Global.setValid;
+
+  loginForm!: FormGroup;
+  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]);
+  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
 
   constructor(
     public auth: AuthService,
     public router: Router,
     public messages: MessagesService,
-    public formBuilder: UntypedFormBuilder,
+    public formBuilder: FormBuilder,
     private _login: Login
   ) {}
 
@@ -43,13 +42,6 @@ export class LoginComponent implements OnInit {
       usernameOrEmail: this.usernameOrEmail,
       password: this.password
     });
-  }
-
-  setValid(control: UntypedFormControl): object {
-    return {
-      'is-invalid': control.dirty && !control.valid,
-      'is-valid': control.dirty && control.valid
-    };
   }
 
   login(): void {

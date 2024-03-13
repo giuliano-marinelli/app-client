@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -25,7 +24,6 @@ export class ProfileComponent implements OnInit {
     public route: ActivatedRoute,
     public router: Router,
     public titleService: Title,
-    public formBuilder: UntypedFormBuilder,
     public changeDetector: ChangeDetectorRef,
     private _findUsers: FindUsers
   ) {

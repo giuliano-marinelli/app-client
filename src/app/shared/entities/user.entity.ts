@@ -87,6 +87,17 @@ export class UpdateUser extends DynamicMutation<{ updateUser: User }> {
 }
 
 @Injectable({ providedIn: 'root' })
+export class UpdateUserPasswordCode extends DynamicMutation<{ updateUserPasswordCode: User }> {
+  override document = gql`
+    mutation UpdateUserPasswordCode($usernameOrEmail: String!) {
+      updateUserPasswordCode(usernameOrEmail: $usernameOrEmail) {
+        User
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
 export class UpdateUserVerificationCode extends DynamicMutation<{ updateUserVerificationCode: Email }> {
   override document = gql`
     mutation UpdateUserVerificationCode($id: UUID!) {
@@ -113,6 +124,17 @@ export class UpdateUserPrimaryEmail extends DynamicMutation<{ updateUserPrimaryE
   override document = gql`
     mutation UpdateUserPrimaryEmail($id: UUID!, $password: String!, $code: String!, $email: EmailRefInput!) {
       updateUserPrimaryEmail(id: $id, password: $password, code: $code, email: $email) {
+        User
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ResetUserPassword extends DynamicMutation<{ resetUserPassword: User }> {
+  override document = gql`
+    mutation ResetUserPassword($code: String!, $newPassword: String!) {
+      resetUserPassword(code: $code, newPassword: $newPassword) {
         User
       }
     }

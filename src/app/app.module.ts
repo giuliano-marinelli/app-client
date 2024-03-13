@@ -53,6 +53,7 @@ import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AccountComponent } from './account/account.component';
 import { ProfileSettingsComponent } from './account/profile-settings/profile-settings.component';
@@ -78,6 +79,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     NotFoundComponent,
     LoginComponent,
     RegisterComponent,
+    PasswordResetComponent,
     ProfileComponent,
     AccountComponent,
     ProfileSettingsComponent,
