@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
-import { CreateUser, FindUsers, Login, UpdateUserVerificationCode, User } from '../shared/entities/user.entity';
+import { CheckEmailAddressExists, Email, UpdateEmailVerificationCode } from '../shared/entities/email.entity';
+import { CheckUserUsernameExists, CreateUser, Login } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
 import { ExtraValidators } from '../shared/validators/validators';
 import { Apollo } from 'apollo-angular';
@@ -30,12 +31,12 @@ export class RegisterComponent implements OnInit {
   username = new FormControl(
     '',
     [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
-    [ExtraValidators.usernameExists(this._findUsers)]
+    [ExtraValidators.usernameExists(this._usernameExists)]
   );
   email = new FormControl(
     '',
     [Validators.required, Validators.maxLength(100), ExtraValidators.email],
-    [ExtraValidators.emailExists(this._findUsers)]
+    [ExtraValidators.emailExists(this._checkEmailAddressExists, true)]
   );
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
   confirmPassword = new FormControl('', [
@@ -52,9 +53,10 @@ export class RegisterComponent implements OnInit {
     public formBuilder: FormBuilder,
     public messages: MessagesService,
     private _createUser: CreateUser,
-    private _updateUserVerificationCode: UpdateUserVerificationCode,
-    private _findUsers: FindUsers,
-    private _login: Login
+    private _usernameExists: CheckUserUsernameExists,
+    private _checkEmailAddressExists: CheckEmailAddressExists,
+    private _login: Login,
+    private _updateEmailVerificationCode: UpdateEmailVerificationCode
   ) {}
 
   @HostListener('window:beforeunload', ['$event'])
@@ -82,76 +84,80 @@ export class RegisterComponent implements OnInit {
   register(): void {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
-      const userCreateInput = {
-        username: this.registerForm.value.username,
-        email: this.registerForm.value.email,
-        password: this.registerForm.value.password
-      };
       this.submitLoading = true;
-      this._createUser.mutate({ userCreateInput: userCreateInput }).subscribe({
-        next: ({ data, errors }) => {
-          if (errors) {
-            this.messages.error(errors, {
-              close: false,
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
+      this._createUser
+        .mutate({
+          userCreateInput: {
+            username: this.registerForm.value.username,
+            email: this.registerForm.value.email,
+            password: this.registerForm.value.password
+          }
+        })
+        .subscribe({
+          next: ({ data, errors }) => {
+            if (errors) {
+              this.messages.error(errors, {
+                close: false,
+                onlyOne: true,
+                displayMode: 'replace',
+                target: this.messageContainer
+              });
+              this.submitLoading = false;
+            }
+            if (data?.createUser) {
+              this.registerForm.markAsPristine();
+              this._login
+                .fetch({
+                  usernameOrEmail: this.registerForm.value.username,
+                  password: this.registerForm.value.password
+                })
+                .subscribe({
+                  next: ({ data, errors }) => {
+                    if (errors) {
+                      this.messages.error(errors, {
+                        close: false,
+                        onlyOne: true,
+                        displayMode: 'replace',
+                        target: this.messageContainer
+                      });
+                      this.submitLoading = false;
+                    }
+                    if (data?.login) {
+                      this.auth.setToken(data.login);
+                      this.auth
+                        .setUser()
+                        ?.subscribe({
+                          next: ({ data, errors }: any) => {
+                            if (errors) {
+                              this.messages.error(errors, {
+                                close: false,
+                                onlyOne: true,
+                                displayMode: 'replace',
+                                target: this.messageContainer
+                              });
+                            }
+                            if (data?.user) {
+                              this.sendVerificationEmail(data?.user?.primaryEmail);
+                              this.messages.success('You successfully registered.');
+                              this.router.navigate(['/']);
+                            }
+                          }
+                        })
+                        .add(() => {
+                          this.submitLoading = false;
+                        });
+                    }
+                  },
+                  error: () => {
+                    this.submitLoading = false;
+                  }
+                });
+            }
+          },
+          error: () => {
             this.submitLoading = false;
           }
-          if (data?.createUser) {
-            this.registerForm.markAsPristine();
-            const loginInput = {
-              usernameOrEmail: this.registerForm.value.username,
-              password: this.registerForm.value.password
-            };
-            this._login.fetch(loginInput).subscribe({
-              next: ({ data, errors }) => {
-                if (errors) {
-                  this.messages.error(errors, {
-                    close: false,
-                    onlyOne: true,
-                    displayMode: 'replace',
-                    target: this.messageContainer
-                  });
-                  this.submitLoading = false;
-                }
-                if (data?.login) {
-                  this.auth.setToken(data.login);
-                  this.auth
-                    .setUser()
-                    ?.subscribe({
-                      next: ({ data, errors }: any) => {
-                        if (errors) {
-                          this.messages.error(errors, {
-                            close: false,
-                            onlyOne: true,
-                            displayMode: 'replace',
-                            target: this.messageContainer
-                          });
-                        }
-                        if (data?.user) {
-                          this.sendVerificationEmail(data?.user);
-                          this.messages.success('You successfully registered.');
-                          this.router.navigate(['/']);
-                        }
-                      }
-                    })
-                    .add(() => {
-                      this.submitLoading = false;
-                    });
-                }
-              },
-              error: () => {
-                this.submitLoading = false;
-              }
-            });
-          }
-        },
-        error: () => {
-          this.submitLoading = false;
-        }
-      });
+        });
     } else {
       this.messages.error('Some values are invalid, please check.', {
         close: false,
@@ -162,13 +168,13 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  sendVerificationEmail(user: User): void {
-    this._updateUserVerificationCode.mutate({ id: user.id }).subscribe({
+  sendVerificationEmail(email: Email): void {
+    this._updateEmailVerificationCode.mutate({ id: email.id }).subscribe({
       next: ({ data, errors }) => {
         if (errors) this.messages.error(errors);
-        else if (data?.updateUserVerificationCode)
+        else if (data?.updateEmailVerificationCode)
           this.messages.info(
-            'A verification email has been sent, please check your inbox and SPAM in order to verify your account.',
+            `A verification email has been sent to <b>${email.address}</b>, please check your inbox and SPAM in order to verify your account.`,
             { timeout: 0 }
           );
       }

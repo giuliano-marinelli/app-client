@@ -67,12 +67,17 @@ $form-validation-states: map-merge(
 .input-spinner {
   position: relative;
 }
-.input-spinner > fa-icon {
+.input-spinner > .form-control ~ fa-icon {
   position: absolute;
   margin-top: 7px;
   margin-right: 10px;
   top: 0;
   right: 0;
+}
+
+.input-spinner > .form-control-sm ~ fa-icon {
+  margin-top: 3px;
+  margin-right: 5px;
 }
 
 /* Custom css variables */

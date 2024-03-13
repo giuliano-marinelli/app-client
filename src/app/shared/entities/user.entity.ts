@@ -4,11 +4,20 @@ import { Mutation, Query, gql } from 'apollo-angular';
 import { SelectionField, SelectionType } from 'apollo-dynamic';
 import { DynamicMutation, DynamicQuery } from 'apollo-dynamic-angular';
 
+import { Email } from './email.entity';
 import { Profile } from './profile.entity';
 import { Session } from './session.entity';
 
 @SelectionType('User', {
-  default: { relations: { profile: true }, conditions: { isAdmin: false } }
+  default: {
+    relations: {
+      profile: {
+        publicEmail: true
+      },
+      primaryEmail: true
+    },
+    conditions: { isAdmin: false }
+  }
 })
 export class User {
   @SelectionField()
@@ -16,13 +25,11 @@ export class User {
   @SelectionField()
   username?: string;
   @SelectionField()
-  email?: string;
-  @SelectionField()
   role?: string;
+  @SelectionField(() => Email)
+  primaryEmail?: Email;
   @SelectionField(() => Profile)
   profile?: Profile;
-  @SelectionField()
-  verified?: boolean;
   @SelectionField({ include: 'isAdmin' })
   verificationCode?: string;
   @SelectionField({ include: 'isAdmin' })
@@ -33,6 +40,8 @@ export class User {
   updatedAt?: Date;
   @SelectionField()
   deletedAt?: Date;
+  @SelectionField(() => Email)
+  emails?: Email[];
   @SelectionField(() => Session)
   sessions?: Session[];
 }
@@ -78,6 +87,17 @@ export class UpdateUser extends DynamicMutation<{ updateUser: User }> {
 }
 
 @Injectable({ providedIn: 'root' })
+export class UpdateUserVerificationCode extends DynamicMutation<{ updateUserVerificationCode: Email }> {
+  override document = gql`
+    mutation UpdateUserVerificationCode($id: UUID!) {
+      updateUserVerificationCode(id: $id) {
+        User
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
 export class UpdateUserPassword extends DynamicMutation<{ updateUserPassword: User }> {
   override document = gql`
     mutation UpdateUserPassword($id: UUID!, $password: String!, $newPassword: String!) {
@@ -89,21 +109,10 @@ export class UpdateUserPassword extends DynamicMutation<{ updateUserPassword: Us
 }
 
 @Injectable({ providedIn: 'root' })
-export class UpdateUserVerificationCode extends DynamicMutation<{ updateUserVerificationCode: User }> {
+export class UpdateUserPrimaryEmail extends DynamicMutation<{ updateUserPrimaryEmail: User }> {
   override document = gql`
-    mutation UpdateUserVerificationCode($id: UUID!) {
-      updateUserVerificationCode(id: $id) {
-        User
-      }
-    }
-  `;
-}
-
-@Injectable({ providedIn: 'root' })
-export class VerifyUser extends DynamicMutation<{ verifyUser: User }> {
-  override document = gql`
-    mutation VerifyUser($id: UUID!, $code: String!) {
-      verifyUser(id: $id, code: $code) {
+    mutation UpdateUserPrimaryEmail($id: UUID!, $password: String!, $code: String!, $email: EmailRefInput!) {
+      updateUserPrimaryEmail(id: $id, password: $password, code: $code, email: $email) {
         User
       }
     }
@@ -120,10 +129,28 @@ export class DeleteUser extends Mutation<{ deleteUser: string }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CheckPasswordUser extends Query<{ checkPasswordUser: boolean }> {
+export class CheckUserVerificationCode extends Query<{ checkUserVerificationCode: boolean }> {
   override document = gql`
-    query CheckPasswordUser($id: UUID!, $password: String!) {
-      checkPasswordUser(id: $id, password: $password)
+    query CheckUserVerificationCode($id: UUID!, $code: String!) {
+      checkUserVerificationCode(id: $id, code: $code)
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class CheckUserPassword extends Query<{ checkUserPassword: boolean }> {
+  override document = gql`
+    query CheckUserPassword($id: UUID!, $password: String!) {
+      checkUserPassword(id: $id, password: $password)
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class CheckUserUsernameExists extends Query<{ checkUserUsernameExists: boolean }> {
+  override document = gql`
+    query CheckUserUsernameExists($username: String!) {
+      checkUserUsernameExists(username: $username)
     }
   `;
 }

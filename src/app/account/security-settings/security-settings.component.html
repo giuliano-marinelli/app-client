@@ -45,12 +45,10 @@
         <div *ngIf="confirmNewPassword.errors && confirmNewPassword.errors['equalTo']">Passwords must be equals</div>
       </div>
     </div>
-    <div>
-      <button type="button" class="btn btn-success text-white" (click)="updatePassword()"
-        [disabled]="!passwordForm.valid || updateSubmitLoading">
-        Update password <fa-icon *ngIf="updateSubmitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-      </button>
-    </div>
+    <button type="button" class="btn btn-success text-white" (click)="updatePassword()"
+      [disabled]="!passwordForm.valid || updateSubmitLoading">
+      Update password <fa-icon *ngIf="updateSubmitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+    </button>
 
     <div class="mt-4 border-bottom">
       <h4>Two-factor authentication</h4>

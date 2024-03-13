@@ -112,8 +112,8 @@ export class SecuritySettingsComponent implements OnInit {
                 this.passwordForm.reset();
                 this.messages.success('Password successfully changed.', {
                   onlyOne: true,
-                  displayMode: 'replace',
-                  target: this.messageContainerUpdate
+                  displayMode: 'replace'
+                  // target: this.messageContainerUpdate
                 });
               }
             }

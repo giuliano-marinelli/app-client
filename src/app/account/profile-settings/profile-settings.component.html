@@ -18,7 +18,7 @@
             Name
           </label>
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="name" formControlName="name"
-            [ngClass]="setValid(name)" autocomplete="off" />
+            autocomplete="off" [ngClass]="setValid(name)" />
           <div class="invalid-feedback">
             <div *ngIf="name.errors && (name.errors['minlength'] || name.errors['maxlength'])">
               Name must be at most 30 characters long
@@ -33,10 +33,24 @@
         </p>
         <div class="mt-3">
           <label class="form-label">
+            Public email
+          </label>
+          <select class="form-select form-select-sm bg-dark-subtle" name="publicEmail" formControlName="publicEmail"
+            [compareWith]="compareById">
+            <option *ngFor="let email of user.emails | filter: { verified: true }" [ngValue]="email">
+              {{ email.address }} {{ !email.verified ? '(unverified)' : '' }}
+            </option>
+          </select>
+        </div>
+        <p class="text-muted small">
+          You can manage verified email addresses in your <a routerLink="/settings/emails">email settings</a>
+        </p>
+        <div class="mt-3">
+          <label class="form-label">
             Bio
           </label>
           <textarea class="form-control form-control-sm bg-dark-subtle textarea-min-height" type="text" name="bio"
-            formControlName="bio" [ngClass]="setValid(bio)" autocomplete="off" rows="3"></textarea>
+            formControlName="bio" autocomplete="off" rows="3" [ngClass]="setValid(bio)"></textarea>
           <span class="float-end textarea-count">{{ bio.value?.length + '/200' }}</span>
           <div class="invalid-feedback">
             <div *ngIf="bio.errors && (bio.errors['minlength'] || bio.errors['maxlength'])">
@@ -49,7 +63,7 @@
             URL
           </label>
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="url" formControlName="url"
-            [ngClass]="setValid(url)" autocomplete="off" [inputMask]="urlMask" />
+            autocomplete="off" [ngClass]="setValid(url)" [inputMask]="urlMask" />
           <div class="invalid-feedback">
             <div *ngIf="url.errors && (url.errors['minlength'] || url.errors['maxlength'])">
               URL must be at most 200 characters long
@@ -64,7 +78,7 @@
             Location
           </label>
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="location"
-            formControlName="location" [ngClass]="setValid(location)" autocomplete="off" />
+            formControlName="location" autocomplete="off" [ngClass]="setValid(location)" />
           <div class="invalid-feedback">
             <div *ngIf="location.errors && (location.errors['minlength'] || location.errors['maxlength'])">
               Location must be at most 30 characters long

@@ -6,6 +6,7 @@ import { CustomValidators } from '@narik/custom-validators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { createMask } from '@ngneat/input-mask';
 
+import { Email } from '../../shared/entities/email.entity';
 import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -30,6 +31,7 @@ export class ProfileSettingsComponent implements OnInit {
   user?: User;
 
   setValid: any = Global.setValid;
+  compareById: any = Global.compareById;
 
   profileForm!: FormGroup;
   id: any;
@@ -38,6 +40,7 @@ export class ProfileSettingsComponent implements OnInit {
     Validators.maxLength(30),
     Validators.pattern('[a-zA-Z0-9\\s]*')
   ]);
+  publicEmail = new FormControl('', [Validators.required]);
   bio = new FormControl('', [
     Validators.minLength(0),
     Validators.maxLength(200)
@@ -85,6 +88,7 @@ export class ProfileSettingsComponent implements OnInit {
       profile: this.formBuilder.group({
         avatar: this.avatar,
         name: this.name,
+        publicEmail: this.publicEmail,
         bio: this.bio,
         url: this.url,
         location: this.location
@@ -96,10 +100,10 @@ export class ProfileSettingsComponent implements OnInit {
   getUser(): void {
     if (this.auth.user) {
       this.userLoading = true;
-      this._findUser
+      this._findUser({ relations: { emails: true } })
         .fetch({ id: this.auth.user?.id })
         .subscribe({
-          next: ({ data, errors }) => {
+          next: ({ data, errors }: any) => {
             if (errors)
               this.messages.error(errors, {
                 onlyOne: true,
@@ -144,8 +148,8 @@ export class ProfileSettingsComponent implements OnInit {
               this.auth.setUser();
               this.messages.success('Profile settings successfully saved.', {
                 onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
+                displayMode: 'replace'
+                // target: this.messageContainer
               });
             }
           }

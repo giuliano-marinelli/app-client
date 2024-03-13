@@ -82,8 +82,8 @@ export class DevicesSettingsComponent implements OnInit {
             this.getSessions();
             this.messages.success('Session successfully closed.', {
               onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
+              displayMode: 'replace'
+              // target: this.messageContainer
             });
           }
         }

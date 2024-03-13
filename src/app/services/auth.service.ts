@@ -48,7 +48,7 @@ export class AuthService {
     } else {
       const userId = this.jwtHelper.decodeToken(token).id;
 
-      const obs = this._findUser.fetch({ id: userId });
+      const obs = this._findUser({ relations: { emails: true } }).fetch({ id: userId });
 
       obs
         .subscribe({

@@ -35,12 +35,10 @@
         </div>
       </div>
     </div>
-    <div>
-      <button type="button" class="btn btn-success text-white" (click)="updateUsername()"
-        [disabled]="!usernameForm.valid || updateSubmitLoading || deleteSubmitLoading">
-        Update username <fa-icon *ngIf="updateSubmitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-      </button>
-    </div>
+    <button type="button" class="btn btn-success text-white" (click)="updateUsername()"
+      [disabled]="!usernameForm.valid || updateSubmitLoading || deleteSubmitLoading">
+      Update username <fa-icon *ngIf="updateSubmitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+    </button>
 
     <div class="mt-4 border-bottom text-danger">
       <h4>Delete account</h4>

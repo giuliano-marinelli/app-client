@@ -12,6 +12,7 @@ import { AboutComponent } from './about/about.component';
 import { AccountComponent } from './account/account.component';
 import { ProfileSettingsComponent } from './account/profile-settings/profile-settings.component';
 import { AccountSettingsComponent } from './account/account-settings/account-settings.component';
+import { EmailsSettingsComponent } from './account/emails-settings/emails-settings.component';
 import { SecuritySettingsComponent } from './account/security-settings/security-settings.component';
 import { DevicesSettingsComponent } from './account/devices-settings/devices-settings.component';
 import { LoginComponent } from './login/login.component';
@@ -43,6 +44,12 @@ const routes: Routes = [
         path: 'account',
         component: AccountSettingsComponent,
         data: { title: 'Settings > Account' },
+        canDeactivate: [LeaveGuard]
+      },
+      {
+        path: 'emails',
+        component: EmailsSettingsComponent,
+        data: { title: 'Settings > Emails' },
         canDeactivate: [LeaveGuard]
       },
       {

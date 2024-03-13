@@ -94,4 +94,8 @@ export class Global {
       return filter == item;
     }
   }
+
+  static compareById(a: any, b: any): boolean {
+    return a.id === b.id;
+  }
 }

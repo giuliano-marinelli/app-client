@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { DeleteUser, FindUser, FindUsers, UpdateUser, User } from '../../shared/entities/user.entity';
+import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
@@ -32,7 +32,7 @@ export class AccountSettingsComponent implements OnInit {
   username = new FormControl(
     '',
     [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
-    [ExtraValidators.usernameExists(this._findUsers)]
+    [ExtraValidators.usernameExists(this._usernameExists)]
   );
   constructor(
     public auth: AuthService,
@@ -40,7 +40,7 @@ export class AccountSettingsComponent implements OnInit {
     public messages: MessagesService,
     public formBuilder: FormBuilder,
     private _findUser: FindUser,
-    private _findUsers: FindUsers,
+    private _usernameExists: CheckUserUsernameExists,
     private _updateUser: UpdateUser,
     private _deleteUser: DeleteUser
   ) {}
@@ -110,8 +110,8 @@ export class AccountSettingsComponent implements OnInit {
               this.auth.setUser();
               this.messages.success('Username successfully changed.', {
                 onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerUpdate
+                displayMode: 'replace'
+                // target: this.messageContainerUpdate
               });
             }
           }
@@ -129,11 +129,11 @@ export class AccountSettingsComponent implements OnInit {
     }
   }
 
-  deleteUser(password: string): void {
+  deleteUser({ password, verificationCode }: any): void {
     this.deleteSubmitLoading = true;
     if (this.auth.user) {
       this._deleteUser
-        .mutate({ id: this.auth.user.id, password: password })
+        .mutate({ id: this.auth.user.id, password: password, code: verificationCode })
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)

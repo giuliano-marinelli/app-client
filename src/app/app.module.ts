@@ -28,6 +28,7 @@ import { FontAwesomeModule, FaIconLibrary, FaConfig } from '@fortawesome/angular
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { MomentModule } from 'ngx-moment';
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
+import { NgOtpInputModule } from 'ng-otp-input';
 //environment
 import { environment } from '../environments/environment';
 //icons
@@ -56,6 +57,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AccountComponent } from './account/account.component';
 import { ProfileSettingsComponent } from './account/profile-settings/profile-settings.component';
 import { AccountSettingsComponent } from './account/account-settings/account-settings.component';
+import { EmailsSettingsComponent } from './account/emails-settings/emails-settings.component';
 import { SecuritySettingsComponent } from './account/security-settings/security-settings.component';
 import { DevicesSettingsComponent } from './account/devices-settings/devices-settings.component';
 
@@ -80,6 +82,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     AccountComponent,
     ProfileSettingsComponent,
     AccountSettingsComponent,
+    EmailsSettingsComponent,
     SecuritySettingsComponent,
     DevicesSettingsComponent
   ],
@@ -100,6 +103,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     FontAwesomeModule,
     ImageCropperModule,
     NarikCustomValidatorsModule,
+    NgOtpInputModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: (): string | null => localStorage.getItem('token')
@@ -225,7 +229,9 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
 
         return {
           link: link,
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({
+            addTypename: false
+          }),
           defaultOptions: {
             watchQuery: {
               fetchPolicy: 'cache-and-network',

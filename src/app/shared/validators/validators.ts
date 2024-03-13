@@ -1,7 +1,7 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { User } from '../entities/user.entity';
-import { FindUsers } from '../entities/user.entity';
+import { CheckEmailAddressExists } from '../entities/email.entity';
+import { CheckUserUsernameExists } from '../entities/user.entity';
 import { isEmail } from 'class-validator';
 import { map } from 'rxjs';
 
@@ -12,14 +12,11 @@ export class ExtraValidators {
    * @returns An error map with the `username` property
    * if the validation check fails, otherwise `null`.
    */
-  static usernameExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
+  static usernameExists(checkUsernameExists: CheckUserUsernameExists): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return findUsers.fetch({ where: { username: { eq: control.value } } }, { fetchPolicy: 'no-cache' }).pipe(
+      return checkUsernameExists.fetch({ username: control.value }).pipe(
         map(({ data }) => {
-          const users = data?.users;
-          return users?.set?.length > 0 && users.set[0].username != differentTo?.username
-            ? { usernameExists: true }
-            : null;
+          return data?.checkUserUsernameExists ? { usernameExists: true } : null;
         })
       );
     };
@@ -31,12 +28,11 @@ export class ExtraValidators {
    * @returns An error map with the `email` property
    * if the validation check fails, otherwise `null`.
    */
-  static emailExists(findUsers: FindUsers, differentTo?: User): AsyncValidatorFn {
+  static emailExists(checkAddressExists: CheckEmailAddressExists, verified?: boolean): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return findUsers.fetch({ where: { email: { eq: control.value } } }, { fetchPolicy: 'no-cache' }).pipe(
+      return checkAddressExists.fetch({ address: control.value }).pipe(
         map(({ data }) => {
-          const users = data?.users;
-          return users?.set?.length > 0 && users.set[0].email != differentTo?.email ? { emailExists: true } : null;
+          return data?.checkEmailAddressExists ? { emailExists: true } : null;
         })
       );
     };
@@ -51,4 +47,39 @@ export class ExtraValidators {
   static email(control: AbstractControl): ValidationErrors | null {
     return control.value && isEmail(control.value) ? null : { email: true };
   }
+
+  /**
+   * Checks if the value of a form control is equal to a given value.
+   *
+   * @param val - The value to compare against.
+   * @param compare - An optional function that compares the control value and the given value.
+   *                  If provided, this function should return a boolean indicating whether the values are equal.
+   */
+  static equal = (val: any, compare?: (controlValue: any, value: any) => boolean): ValidatorFn => {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const v: any = control.value;
+      let areEquals;
+      if (compare && typeof compare == 'function') areEquals = compare(val, v);
+      else areEquals = val === v;
+
+      return areEquals ? null : { equal: { value: val } };
+    };
+  };
+
+  /**
+   * Checks if the value of a form control is not equal to a given value.
+   *
+   * @param val - The value to compare against.
+   * @param compare - An optional function to customize the comparison logic. It should return true if the values are equal, and false otherwise.
+   */
+  static notEqual = (val: any, compare?: (controlValue: any, value: any) => boolean): ValidatorFn => {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const v: any = control.value;
+      let areNotEquals;
+      if (compare && typeof compare == 'function') areNotEquals = !compare(val, v);
+      else areNotEquals = val !== v;
+
+      return areNotEquals ? null : { notEqual: { value: val } };
+    };
+  };
 }
