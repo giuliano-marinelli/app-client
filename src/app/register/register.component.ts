@@ -38,11 +38,11 @@ export class RegisterComponent implements OnInit {
     [Validators.required, Validators.maxLength(100), ExtraValidators.email],
     [ExtraValidators.emailExists(this._checkEmailAddressExists, true)]
   );
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
+  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.maxLength(30),
+    Validators.maxLength(100),
     CustomValidators.equalTo(this.password)
   ]);
 

@@ -62,7 +62,7 @@ export class ConfirmComponent {
   setValid: any = Global.setValid;
 
   passwordForm!: FormGroup;
-  password = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30)]);
+  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
   passwordStored?: string | null;
 
   verificationCodeForm!: FormGroup;

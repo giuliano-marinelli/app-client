@@ -75,22 +75,8 @@
               <input class="form-control form-control-sm bg-dark-subtle" type="email" formControlName="address"
                 autocomplete="off" placeholder="{{user.primaryEmail?.address}}" [ngClass]="setValid(addEmailAddress)" />
               <fa-icon *ngIf="addEmailAddress?.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-              <div class="invalid-feedback">
-                <div *ngIf="addEmailAddress?.errors?.['required']">
-                  Email is required.</div>
-                <div *ngIf="addEmailAddress?.errors?.['maxlength']">
-                  Email must be as maximum 100 characters long
-                </div>
-                <div *ngIf="addEmailAddress?.errors?.['email']">
-                  Email must be on the format example&#64;email.com
-                </div>
-                <div *ngIf="addEmailAddress?.errors?.['emailExists']">
-                  Email is already taken, please try another one
-                </div>
-                <div *ngIf="addEmailAddress?.errors?.['notIncludedIn']">
-                  Email is already added to your account, please try another one
-                </div>
-              </div>
+              <invalid-feedback [control]="addEmailAddress" name="Email"
+                [messages]="{ notIncludedIn: 'Email is already added to your account, please try another one' }"></invalid-feedback>
             </div>
           </div>
           <div class="col-auto ps-0">

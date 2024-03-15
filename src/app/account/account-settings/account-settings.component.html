@@ -19,20 +19,8 @@
         <input class="form-control bg-dark-subtle" type="text" name="username" formControlName="username"
           [ngClass]="setValid(username)" autocomplete="off">
         <fa-icon *ngIf="username.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-        <div class="invalid-feedback">
-          <div *ngIf="username?.errors?.['required']">
-            Username is required
-          </div>
-          <div *ngIf="username?.errors?.['minlength'] || username?.errors?.['maxlength']">
-            Username must be at 4-30 characters long
-          </div>
-          <div *ngIf="username?.errors?.['pattern']">
-            Username can only have characters, numbers and _ or - symbols
-          </div>
-          <div *ngIf="username?.errors?.['usernameExists']">
-            Username is already taken, please try another one
-          </div>
-        </div>
+        <invalid-feedback [control]="username" name="Username"
+          [messages]="{ pattern: 'Username can only have characters, numbers and _ or - symbols' }"></invalid-feedback>
       </div>
     </div>
     <button type="button" class="btn btn-success text-white" (click)="updateUsername()"

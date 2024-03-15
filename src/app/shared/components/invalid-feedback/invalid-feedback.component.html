@@ -1,0 +1,3 @@
+<div *ngFor="let error of control?.errors | keyvalue">
+  {{ getErrorMessage(error.key) }}
+</div>

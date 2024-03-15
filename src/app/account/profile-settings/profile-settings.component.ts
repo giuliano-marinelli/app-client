@@ -35,29 +35,19 @@ export class ProfileSettingsComponent implements OnInit {
 
   profileForm!: FormGroup;
   id: any;
-  name = new FormControl('', [
-    Validators.minLength(0),
-    Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9\\s]*')
-  ]);
+  name = new FormControl('', [Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
   publicEmail = new FormControl('', [Validators.required]);
   bio = new FormControl('', [
-    Validators.minLength(0),
     Validators.maxLength(200)
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   url = new FormControl('', [
-    Validators.minLength(0),
     Validators.maxLength(200),
     CustomValidators.url
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   urlMask = createMask({ alias: 'url' });
-  location = new FormControl('', [
-    Validators.minLength(0),
-    Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9,\\s]*')
-  ]);
+  location = new FormControl('', [Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
   avatar = new FormControl('', []);
   avatarFile = new FormControl<Blob | null>(null, []);
   avatarChangedEvent!: Event;

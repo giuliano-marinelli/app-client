@@ -25,7 +25,7 @@ export class PasswordResetComponent implements OnInit {
   setValid: any = Global.setValid;
 
   forgotPasswordForm!: FormGroup;
-  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]);
+  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
 
   passwordResetForm!: FormGroup;
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);

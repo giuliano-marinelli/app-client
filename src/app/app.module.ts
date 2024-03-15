@@ -48,6 +48,7 @@ import { TruncatePipe } from './shared/pipes/truncate.pipe';
 import { ConfirmComponent } from './shared/components/confirm/confirm.component';
 import { LeaveGuardWarningComponent } from './shared/components/leave-guard-warning/leave-guard-warning.component';
 import { SearchComponent } from './shared/components/search/search.component';
+import { InvalidFeedbackComponent } from './shared/components/invalid-feedback/invalid-feedback.component';
 //components
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -74,6 +75,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     ConfirmComponent,
     LeaveGuardWarningComponent,
     SearchComponent,
+    InvalidFeedbackComponent,
     //components
     AppComponent,
     NotFoundComponent,

@@ -11,28 +11,14 @@
           <label class="form-label">Username or email address</label>
           <input class="form-control" type="text" name="usernameOrEmail" formControlName="usernameOrEmail" autofocus
             [ngClass]="setValid(usernameOrEmail)" />
-          <div class="invalid-feedback">
-            <div *ngIf="usernameOrEmail?.errors?.['required']">
-              Username or email is required.
-            </div>
-            <div *ngIf="usernameOrEmail?.errors?.['minlength'] || usernameOrEmail?.errors?.['maxlength']">
-              Username or email must be at 4-100 characters long
-            </div>
-          </div>
+          <invalid-feedback [control]="usernameOrEmail" name="Username or email"></invalid-feedback>
         </div>
         <div class="mb-3">
           <label class="form-label col-6">Password</label>
           <label class="col-6 text-end"><a routerLink="/password-reset">Forgot password?</a></label>
           <input class="form-control" type="password" name="password" formControlName="password"
             [ngClass]="setValid(password)" />
-          <div class="invalid-feedback">
-            <div *ngIf="password?.errors?.['required']">
-              Password is required
-            </div>
-            <div *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxlength']">
-              Password must be at 8-100 characters long
-            </div>
-          </div>
+          <invalid-feedback [control]="password" name="Password"></invalid-feedback>
         </div>
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-success text-white" [disabled]="!loginForm.valid || submitLoading">

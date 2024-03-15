@@ -28,12 +28,7 @@
           <div class="mt-3">
             <input class="form-control bg-dark-subtle" type="password" name="password" formControlName="password"
               [ngClass]="setValid(password)" />
-            <div class="invalid-feedback">
-              <div *ngIf="password?.errors?.['required']">Password is required</div>
-              <div *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxlength']">
-                Password must be at 8-100 characters long
-              </div>
-            </div>
+            <invalid-feedback [control]="password" name="Password"></invalid-feedback>
           </div>
         </form>
       </div>
@@ -101,18 +96,12 @@
         <form [formGroup]="verificationCodeForm">
           <div class="mt-3">
             <ng-otp-input class="text-center" name="verificationCode" [formCtrl]="verificationCode"
-              [config]="{ length:6, letterCase: 'Upper', inputClass: 'bg-body-secondary text-body-tertiary no-outline' }"></ng-otp-input>
-            <div class="invalid-feedback">
-              <div *ngIf="verificationCode?.errors?.['required']">Verification code is required
-              </div>
-              <div *ngIf="verificationCode?.errors?.['minlength'] || verificationCode?.errors?.['maxlength']">
-                Verification code must be 6 characters long
-              </div>
-            </div>
+              [config]="{ length: 6, letterCase: 'Upper', inputClass: 'bg-body-secondary text-body-tertiary no-outline' }"></ng-otp-input>
+            <invalid-feedback [control]="verificationCode" name="Verification code"></invalid-feedback>
           </div>
         </form>
         <p class="mt-3 mb-0">
-          <a class="link-info" (click)="!checkVerificationCodeAdviceLoading && sendVerificationCode()">
+          <a class="link-info pe-pointer" (click)="!checkVerificationCodeAdviceLoading && sendVerificationCode()">
             Didn't receive your code or is expired? Send it again. <fa-icon *ngIf="checkVerificationCodeAdviceLoading"
               [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
           </a>

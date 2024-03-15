@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
   setValid: any = Global.setValid;
 
   loginForm!: FormGroup;
-  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(30)]);
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
+  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
+  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
 
   constructor(
     public auth: AuthService,
