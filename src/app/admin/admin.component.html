@@ -1,0 +1,48 @@
+<div class="container ps-0 ps-sm-3" *ngVar="{ collapsed: true, logoHover: false } as navbarSettings">
+  <div class="row mt-3 ps-3 ps-sm-0">
+    <div *ngIf="auth.loading">
+      <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true" size="3x"></fa-icon>
+    </div>
+    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between"
+      *ngIf="!auth.loading && auth.user?.role == 'ADMIN'">
+      <div class="d-flex flex-row align-items-center">
+        <h3 class="mb-1 flex-fill">
+          <fa-icon [icon]="'screwdriver-wrench'"></fa-icon> Admin
+        </h3>
+        <button class="btn d-sm-none no-outline border-0 text-body navbar-collapse-btn"
+          (click)="navbarSettings.collapsed = !navbarSettings.collapsed">
+          <fa-icon [icon]="'ellipsis-v'"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-sm-3">
+    <div class="col-sm-4 col-md-3 navbar ps-4 ps-sm-2 pe-2 pe-sm-0 align-items-baseline">
+      <nav class="navbar-collapse collapse d-sm-block" [ngbCollapse]="navbarSettings.collapsed">
+        <ul class="navbar-nav">
+          <li class="nav-item d-flex rounded">
+            <a class="pe-pointer flex-fill p-2 text-body text-sm rounded" routerLink="/admin/users"
+              routerLinkActive="active" (click)="navbarSettings.collapsed = true">
+              <fa-icon [icon]="'user-group'"></fa-icon> Users
+            </a>
+          </li>
+          <li class="nav-item d-flex rounded">
+            <a class="pe-pointer flex-fill p-2 text-body text-sm rounded" routerLink="/admin/news"
+              routerLinkActive="active" (click)="navbarSettings.collapsed = true">
+              <fa-icon [icon]="'newspaper'"></fa-icon> News
+            </a>
+          </li>
+          <li class="nav-item d-flex rounded">
+            <a class="pe-pointer flex-fill p-2 text-body text-sm rounded" routerLink="/admin/changelog"
+              routerLinkActive="active" (click)="navbarSettings.collapsed = true">
+              <fa-icon [icon]="'book'"></fa-icon> Changelog
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="content col-sm-8 col-md-9 ps-4 ps-sm-0">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -19,8 +19,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-// import { AdminComponent } from './admin/admin.component';
-// import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
+import { AdminComponent } from './admin/admin.component';
+import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
 
 const routes: Routes = [
   { path: '', component: AboutComponent, data: { title: '' } },
@@ -71,16 +71,16 @@ const routes: Routes = [
       { path: '**', redirectTo: 'profile' }
     ]
   },
-  // {
-  //   path: 'admin',
-  //   component: AdminComponent,
-  //   data: { title: 'Admin' },
-  //   canActivate: [AuthGuardAdmin],
-  //   children: [
-  //     { path: 'users', component: UsersAdminComponent, data: { title: 'Admin > Users' }, canDeactivate: [LeaveGuard] },
-  //     { path: '**', redirectTo: 'users' }
-  //   ]
-  // },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    data: { title: 'Admin' },
+    canActivate: [AuthAdminGuard],
+    children: [
+      { path: 'users', component: UsersAdminComponent, data: { title: 'Admin > Users' }, canDeactivate: [LeaveGuard] },
+      { path: '**', redirectTo: 'users' }
+    ]
+  },
   // { path: 'graphql' },
   { path: 'notfound', component: NotFoundComponent, data: { title: 'Page not found' } },
   { path: '**', redirectTo: '/notfound' }

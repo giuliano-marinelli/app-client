@@ -13,8 +13,12 @@
             class="mb-0 mb-md-3 me-3 me-md-0 img-thumbnail rounded-circle profile-img align-self-md-center border-secondary flex-shrink-0"
             [src]="user.profile?.avatar" #avatar_img onerror="this.src='assets/images/default-user.png'" />
           <div class="d-flex flex-column">
-            <h2 *ngIf="user?.profile?.name">{{ user.profile?.name }}</h2>
-            <h3 [class.text-muted]="user.profile?.name">{{ user.username }}</h3>
+            <h2 *ngIf="user?.profile?.name">{{ user.profile?.name }}
+              <verified-mark [verified]="user.primaryEmail?.verified" />
+            </h2>
+            <h3 [class.text-muted]="user.profile?.name">{{ user.username }}
+              <verified-mark *ngIf="!user?.profile?.name" [verified]="user.primaryEmail?.verified" />
+            </h3>
           </div>
         </div>
         <div class="text-md-pre-wrap text-break-all mt-3" *ngIf="user?.profile?.bio">{{ user.profile?.bio }}</div>

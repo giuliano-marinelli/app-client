@@ -47,7 +47,7 @@ export class ProfileSettingsComponent implements OnInit {
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   urlMask = createMask({ alias: 'url' });
-  location = new FormControl('', [Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
+  location = new FormControl('', [Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
   avatar = new FormControl('', []);
   avatarFile = new FormControl<Blob | null>(null, []);
   avatarChangedEvent!: Event;

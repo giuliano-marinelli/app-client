@@ -29,6 +29,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { MomentModule } from 'ngx-moment';
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { AngularResizeEventModule } from 'angular-resize-event';
 //environment
 import { environment } from '../environments/environment';
 //icons
@@ -49,6 +51,7 @@ import { ConfirmComponent } from './shared/components/confirm/confirm.component'
 import { LeaveGuardWarningComponent } from './shared/components/leave-guard-warning/leave-guard-warning.component';
 import { SearchComponent } from './shared/components/search/search.component';
 import { InvalidFeedbackComponent } from './shared/components/invalid-feedback/invalid-feedback.component';
+import { VerifiedMarkComponent } from './shared/components/verified-mark/verified-mark.component';
 //components
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -62,6 +65,8 @@ import { AccountSettingsComponent } from './account/account-settings/account-set
 import { EmailsSettingsComponent } from './account/emails-settings/emails-settings.component';
 import { SecuritySettingsComponent } from './account/security-settings/security-settings.component';
 import { DevicesSettingsComponent } from './account/devices-settings/devices-settings.component';
+import { AdminComponent } from './admin/admin.component';
+import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +81,7 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     LeaveGuardWarningComponent,
     SearchComponent,
     InvalidFeedbackComponent,
+    VerifiedMarkComponent,
     //components
     AppComponent,
     NotFoundComponent,
@@ -88,7 +94,9 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     AccountSettingsComponent,
     EmailsSettingsComponent,
     SecuritySettingsComponent,
-    DevicesSettingsComponent
+    DevicesSettingsComponent,
+    AdminComponent,
+    UsersAdminComponent
   ],
   imports: [
     //angular modules
@@ -108,6 +116,8 @@ import { DevicesSettingsComponent } from './account/devices-settings/devices-set
     ImageCropperModule,
     NarikCustomValidatorsModule,
     NgOtpInputModule,
+    NgxMasonryModule,
+    AngularResizeEventModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: (): string | null => localStorage.getItem('token')

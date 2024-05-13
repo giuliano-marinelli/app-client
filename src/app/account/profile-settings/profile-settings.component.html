@@ -31,7 +31,8 @@
           </label>
           <select class="form-select form-select-sm bg-dark-subtle" name="publicEmail" formControlName="publicEmail"
             [compareWith]="compareById">
-            <option *ngFor="let email of user.emails | filter: { verified: true }" [ngValue]="email">
+            <option *ngFor="let email of user.emails | filter: { $or: { verified: true, id: user.primaryEmail?.id } }"
+              [ngValue]="email">
               {{ email.address }} {{ !email.verified ? '(unverified)' : '' }}
             </option>
           </select>
@@ -45,7 +46,7 @@
           </label>
           <textarea class="form-control form-control-sm bg-dark-subtle textarea-min-height" type="text" name="bio"
             formControlName="bio" autocomplete="off" rows="3" [ngClass]="setValid(bio)"></textarea>
-          <span class="float-end textarea-count">{{ bio.value?.length + '/200' }}</span>
+          <span class="float-end textarea-count">{{ (bio.value?.length || 0) + '/200' }}</span>
           <invalid-feedback [control]="bio" name="Bio"></invalid-feedback>
         </div>
         <div class="mt-3">
@@ -62,7 +63,7 @@
           </label>
           <input class="form-control form-control-sm bg-dark-subtle" type="text" name="location"
             formControlName="location" autocomplete="off" [ngClass]="setValid(location)" />
-          <invalid-feedback [control]="name" name="Name"
+          <invalid-feedback [control]="location" name="Location"
             [messages]="{ pattern: 'Location can only have characters, numbers and commas' }"></invalid-feedback>
         </div>
         <p class="text-muted small">

@@ -53,14 +53,15 @@ export type TextColor =
   | 'black'
   | 'white'
   | 'muted';
-export type Sort = 'asc' | 'desc' | null;
-export type Criteria = '$gt' | '$gte' | '$lt' | '$lte' | '$eq' | '$ne' | '$like';
+export type Sort = 'ASC' | 'DESC' | null;
+export type Criteria = 'gt' | 'gte' | 'lt' | 'lte' | 'eq' | 'ne' | 'ilike';
 
 export interface Attribute {
   name: string;
   type: string | string[];
   title?: string;
   category?: string;
+  simple?: boolean;
   color?: Color;
   titleColor?: TextColor;
   categoryColor?: TextColor;
@@ -87,6 +88,7 @@ export class SearchComponent implements OnInit {
   @Input() startAdvanced: boolean = false;
   @Input() continuousSearching: boolean = false;
   @Input() continuousSearchingOnlySimple: boolean = false;
+  @Input() useLikeWildcard: boolean = true;
   //style configurations
   @Input() searchClass: string = '';
   @Input() searchInputClass: string = '';
@@ -116,7 +118,7 @@ export class SearchComponent implements OnInit {
       id: uuidv4(),
       attribute: attribute,
       value: Array.isArray(attribute.type) ? attribute.type[0] : attribute.type == 'boolean' ? true : '',
-      criteria: attribute.type == 'string' ? '$like' : '$eq',
+      criteria: attribute.type == 'string' ? 'ilike' : 'eq',
       sort: null
     });
   }
@@ -126,8 +128,8 @@ export class SearchComponent implements OnInit {
   }
 
   changeSort(searchAttribute: SearchAttribute): void {
-    if (!searchAttribute.sort) searchAttribute.sort = 'asc';
-    else if (searchAttribute.sort === 'asc') searchAttribute.sort = 'desc';
+    if (!searchAttribute.sort) searchAttribute.sort = 'ASC';
+    else if (searchAttribute.sort === 'ASC') searchAttribute.sort = 'DESC';
     else searchAttribute.sort = null;
   }
 
@@ -137,15 +139,15 @@ export class SearchComponent implements OnInit {
   }
 
   criteriaByType(type: string | string[]): Criteria[] {
-    if (Array.isArray(type)) return ['$eq', '$ne'];
+    if (Array.isArray(type)) return ['eq', 'ne'];
     switch (type) {
       case 'number':
       case 'Date':
-        return ['$eq', '$ne', '$gt', '$gte', '$lt', '$lte'];
+        return ['eq', 'ne', 'gt', 'gte', 'lt', 'lte'];
       case 'string':
-        return ['$eq', '$ne', '$like'];
+        return ['eq', 'ne', 'ilike'];
       default:
-        return ['$eq'];
+        return ['eq'];
     }
   }
 
@@ -170,9 +172,9 @@ export class SearchComponent implements OnInit {
 
   sortIcon(sort: Sort): IconProp {
     switch (sort) {
-      case 'asc':
+      case 'ASC':
         return 'sort-up';
-      case 'desc':
+      case 'DESC':
         return 'sort-down';
       default:
         return 'sort';
@@ -181,44 +183,102 @@ export class SearchComponent implements OnInit {
 
   criteriaIcon(criteria: Criteria): IconProp {
     switch (criteria) {
-      case '$gt':
+      case 'gt':
         return 'greater-than';
-      case '$gte':
+      case 'gte':
         return 'greater-than-equal';
-      case '$lt':
+      case 'lt':
         return 'less-than';
-      case '$lte':
+      case 'lte':
         return 'less-than-equal';
-      case '$eq':
+      case 'eq':
         return 'equals';
-      case '$ne':
+      case 'ne':
         return 'not-equal';
-      case '$like':
+      case 'ilike':
         return 'star-of-life';
       default:
         return 'question';
     }
   }
 
+  // receive a path like: 'profile.bio' and a value, and return a object:
+  // { profile: { bio: value } }
+  attrPathToWhereInput(attrPath: string, value: any): any {
+    let whereInput: any = {};
+    let attr: any = whereInput;
+    if (!attrPath.includes('.')) return { [attrPath]: value };
+    attrPath.split('.').forEach((subAttribute, index, array) => {
+      if (index == array.length - 1) attr[subAttribute] = value;
+      else {
+        attr[subAttribute] = {};
+        attr = attr[subAttribute];
+      }
+    });
+    return whereInput;
+  }
+
+  // receive a path like: 'profile.bio' and a value, and add to a existing where input:
+  // { profile: { bio: { and: { eq: 'someValue' } } }
+  // => { profile: { bio: { and: [ { eq: 'someValue' }, { eq: 'anotherValue' } ] } }
+  attrPathToExistingWhereInput(attrPath: string, value: any, whereInput: any): void {
+    if (!attrPath.includes('.')) {
+      if (!whereInput[attrPath]) whereInput[attrPath] = { and: [] };
+      whereInput[attrPath]['and'].push(value);
+    } else {
+      attrPath.split('.').forEach((subAttribute, index, array) => {
+        if (index == array.length - 1) {
+          if (!whereInput[subAttribute]) whereInput[subAttribute] = { and: [] };
+          whereInput[subAttribute]['and'].push(value);
+        } else {
+          if (!whereInput[subAttribute]) whereInput[subAttribute] = {};
+          whereInput = whereInput[subAttribute];
+        }
+      });
+    }
+  }
+
   onSearch(isContinuous: boolean): void {
     if (this.advancedCollapsed) {
       if (!isContinuous || this.continuousSearching || this.continuousSearchingOnlySimple) {
-        this.searchChange.emit({ $search: this.searchSimple });
+        let whereInput: any = [];
+        this.attributes.forEach((attribute) => {
+          if (attribute.simple) {
+            whereInput.push(
+              this.attrPathToWhereInput(attribute.name, {
+                ilike: this.useLikeWildcard ? '%' + this.searchSimple + '%' : this.searchSimple
+              })
+            );
+          }
+        });
+        this.searchChange.emit({ where: whereInput });
       }
     } else {
       if (!isContinuous || this.continuousSearching) {
-        let resultSearch: any = { $sort: [], $optional: this.optional };
+        let resultSearch: any = { order: [], where: this.optional ? [] : {} };
         this.searchAttributes.forEach((searchAttribute) => {
-          if (!resultSearch[searchAttribute.attribute.name]) resultSearch[searchAttribute.attribute.name] = [];
-          resultSearch[searchAttribute.attribute.name].push({
-            term:
-              searchAttribute.attribute.type == 'Date'
-                ? moment(searchAttribute.value as string).toDate()
-                : searchAttribute.value,
-            criteria: searchAttribute.criteria
-          });
-          if (searchAttribute.sort) resultSearch.$sort.push([searchAttribute.attribute.name, searchAttribute.sort]);
+          let whereValue =
+            searchAttribute.attribute.type == 'Date'
+              ? moment(searchAttribute.value as string).toDate()
+              : searchAttribute.value;
+          whereValue =
+            searchAttribute.criteria == 'ilike' && this.useLikeWildcard ? '%' + whereValue + '%' : whereValue;
+          if (this.optional) {
+            resultSearch.where.push(
+              this.attrPathToWhereInput(searchAttribute.attribute.name, {
+                [searchAttribute.criteria]: whereValue
+              })
+            );
+          } else {
+            this.attrPathToExistingWhereInput(
+              searchAttribute.attribute.name,
+              { [searchAttribute.criteria]: whereValue },
+              resultSearch.where
+            );
+          }
+          if (searchAttribute.sort) resultSearch.order.push({ [searchAttribute.attribute.name]: searchAttribute.sort });
         });
+        if (!this.searchAttributes?.length) resultSearch = null;
         this.searchChange.emit(resultSearch);
       }
     }

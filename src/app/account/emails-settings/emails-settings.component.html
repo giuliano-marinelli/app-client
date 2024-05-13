@@ -41,7 +41,9 @@
           </li>
           <li class="mb-2" *ngIf="!email.verified">
             <span class="text-warning">Unverified</span>
-            <a class="link-info ms-2" (click)="sendVerificationEmail(email)">Resend verification email</a><br>
+            <a class="link-info ms-2 pe-pointer" (click)="sendVerificationEmail(email)">
+              Resend verification email
+            </a><br>
             <span class="small">
               Unverified email addresses cannot be used to reset your password, as a login method, for receive
               notifications or set as primary email <span *ngIf="user.primaryEmail?.id === email.id">

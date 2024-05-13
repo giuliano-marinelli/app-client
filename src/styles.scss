@@ -115,6 +115,13 @@ $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
 @import 'tippy.js/themes/material.css';
 @import 'tippy.js/animations/scale.css';
 
+/* Adds animations to the masonry layout component items */
+.masonry-item {
+  transition:
+    top 0.4s ease-out,
+    left 0.4s ease-out;
+}
+
 /* For no outline when click button */
 .no-outline {
   outline: none !important;

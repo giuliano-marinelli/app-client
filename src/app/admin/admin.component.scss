@@ -1,0 +1,28 @@
+//this allow the use of bootstrap and bootstrap dark variables, functions, utilities, mixins and custom variables
+@import '../../assets/scss/variables.scss';
+
+.profile-img {
+  width: 60px;
+  height: 60px;
+  padding: 2px !important;
+}
+
+.nav-item:hover,
+.navbar-collapse-btn:hover {
+  background-color: rgba(121, 82, 179, 0.1);
+}
+
+.nav-item a.active {
+  background-color: rgba(121, 82, 179, 0.2);
+}
+
+.nav-item a.active::after {
+  position: absolute;
+  margin-top: -4px;
+  left: 0px;
+  width: 4px;
+  height: 30px;
+  content: '';
+  background: $primary;
+  border-radius: 6px;
+}
