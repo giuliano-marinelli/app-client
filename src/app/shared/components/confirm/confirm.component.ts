@@ -10,9 +10,10 @@ import { AuthService } from '../../../services/auth.service';
 import { MessagesService } from '../../../services/messages.service';
 
 @Component({
-  selector: '[confirm]',
-  templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss']
+    selector: '[confirm]',
+    templateUrl: './confirm.component.html',
+    styleUrls: ['./confirm.component.scss'],
+    standalone: false
 })
 export class ConfirmComponent {
   @Input() confirmMessage: string = 'Are you sure you want to do this?';

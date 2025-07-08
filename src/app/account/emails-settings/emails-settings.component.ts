@@ -20,9 +20,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-emails-settings',
-  templateUrl: './emails-settings.component.html',
-  styleUrls: ['./emails-settings.component.scss']
+    selector: 'app-emails-settings',
+    templateUrl: './emails-settings.component.html',
+    styleUrls: ['./emails-settings.component.scss'],
+    standalone: false
 })
 export class EmailsSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

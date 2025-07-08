@@ -11,9 +11,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-account-settings',
-  templateUrl: './account-settings.component.html',
-  styleUrls: ['./account-settings.component.scss']
+    selector: 'app-account-settings',
+    templateUrl: './account-settings.component.html',
+    styleUrls: ['./account-settings.component.scss'],
+    standalone: false
 })
 export class AccountSettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;

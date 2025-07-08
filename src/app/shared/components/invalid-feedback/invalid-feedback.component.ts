@@ -2,9 +2,10 @@ import { Component, HostBinding, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'invalid-feedback',
-  templateUrl: './invalid-feedback.component.html',
-  styleUrls: ['./invalid-feedback.component.scss']
+    selector: 'invalid-feedback',
+    templateUrl: './invalid-feedback.component.html',
+    styleUrls: ['./invalid-feedback.component.scss'],
+    standalone: false
 })
 export class InvalidFeedbackComponent {
   @Input() control?: FormControl | AbstractControl | null;

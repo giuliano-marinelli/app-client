@@ -3,7 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Many, orderBy } from 'lodash';
 
 @Pipe({
-  name: 'sort'
+    name: 'sort',
+    standalone: false
 })
 export class SortPipe implements PipeTransform {
   transform(

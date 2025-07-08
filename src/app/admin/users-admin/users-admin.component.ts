@@ -13,9 +13,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-users-admin',
-  templateUrl: './users-admin.component.html',
-  styleUrls: ['./users-admin.component.scss']
+    selector: 'app-users-admin',
+    templateUrl: './users-admin.component.html',
+    styleUrls: ['./users-admin.component.scss'],
+    standalone: false
 })
 export class UsersAdminComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

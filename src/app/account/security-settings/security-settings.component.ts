@@ -12,9 +12,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-security-settings',
-  templateUrl: './security-settings.component.html',
-  styleUrls: ['./security-settings.component.scss']
+    selector: 'app-security-settings',
+    templateUrl: './security-settings.component.html',
+    styleUrls: ['./security-settings.component.scss'],
+    standalone: false
 })
 export class SecuritySettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
