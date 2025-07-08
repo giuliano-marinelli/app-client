@@ -1,9 +1,13 @@
 <ng-template #content let-modal>
   <div class="modal-content">
     <div class="modal-body">
-      <p class="mb-0" *ngIf="confirmMessageType() == 'text'">{{ confirmMessage }}</p>
-      <ng-container *ngIf="confirmMessageType() == 'template'" [ngTemplateOutlet]="confirmTemplate"
+      @if (confirmMessageType() == 'text') {
+        <p class="mb-0">{{ confirmMessage }}</p>
+      }
+      @if (confirmMessageType() == 'template') {
+        <ng-container [ngTemplateOutlet]="confirmTemplate"
         [ngTemplateOutletContext]="confirmData"></ng-container>
+      }
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default btn-sm text-body" (click)="rejectAction()" ngbAutofocus>
@@ -20,9 +24,13 @@
   <div class="modal-content">
     <div class="modal-body">
       <div class="form-group">
-        <p class="mb-0" *ngIf="requiredPasswordMessageType() == 'text'">{{ requiredPasswordMessage }}</p>
-        <ng-container *ngIf="requiredPasswordMessageType() == 'template'" [ngTemplateOutlet]="requiredPasswordTemplate"
+        @if (requiredPasswordMessageType() == 'text') {
+          <p class="mb-0">{{ requiredPasswordMessage }}</p>
+        }
+        @if (requiredPasswordMessageType() == 'template') {
+          <ng-container [ngTemplateOutlet]="requiredPasswordTemplate"
           [ngTemplateOutletContext]="requiredPasswordData"></ng-container>
+        }
         <div id="message_container_password"></div>
         <form [formGroup]="passwordForm">
           <div class="mt-3">
@@ -40,39 +48,47 @@
       </button>
       <button type="button" class="btn btn-{{ confirmColor }} btn-sm" (click)="confirmActionPassword()"
         [disabled]="!passwordForm.valid || checkPasswordLoading">
-        {{ confirmActionButtonPassword }} <fa-icon *ngIf="checkPasswordLoading" [icon]="'spinner'" [spin]="true"
-          [pulse]="true"></fa-icon>
-      </button>
-    </div>
+        {{ confirmActionButtonPassword }} @if (checkPasswordLoading) {
+        <fa-icon [icon]="'spinner'" [spin]="true"
+        [pulse]="true"></fa-icon>
+      }
+    </button>
   </div>
+</div>
 </ng-template>
 
 <ng-template #content_verification_code_advice_default_message>
   <p>We need to verify your identity before you can proceed. We will send a verification code to your primary email
     (<b>{{ auth.user?.primaryEmail?.address }}</b>).</p>
-  <p class="mb-0 text-muted">Did you lost access to your primary email? Contact your email provider to recover your
+    <p class="mb-0 text-muted">Did you lost access to your primary email? Contact your email provider to recover your
     email account.</p>
-</ng-template>
+  </ng-template>
 
-<ng-template #content_verification_code_advice let-modal>
-  <div class="modal-content">
-    <div class="modal-body">
-      <div id="message_container_verification_code_advice"></div>
-      <p class="mb-0" *ngIf="requiredVerificationCodeAdviceMessageType() == 'text'">
-        {{ requiredVerificationCodeAdviceMessage }}
-      </p>
-      <ng-container *ngIf="requiredVerificationCodeAdviceMessageType() == 'template'"
-        [ngTemplateOutlet]="requiredVerificationCodeAdviceTemplate || content_verification_code_advice_default_message"
-        [ngTemplateOutletContext]="requiredVerificationCodeAdviceData"></ng-container>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default btn-sm text-body" (click)="rejectAction()" ngbAutofocus>
-        {{ rejectActionButton }}
-      </button>
-      <button type="button" class="btn btn-{{ confirmColor }} btn-sm" (click)="confirmActionVerificationCodeAdvice()"
-        [disabled]="checkVerificationCodeAdviceLoading">
-        {{ confirmActionButtonVerificationCodeAdvice }} <fa-icon *ngIf="checkVerificationCodeAdviceLoading"
+  <ng-template #content_verification_code_advice let-modal>
+    <div class="modal-content">
+      <div class="modal-body">
+        <div id="message_container_verification_code_advice"></div>
+        @if (requiredVerificationCodeAdviceMessageType() == 'text') {
+          <p class="mb-0">
+            {{ requiredVerificationCodeAdviceMessage }}
+          </p>
+        }
+        @if (requiredVerificationCodeAdviceMessageType() == 'template') {
+          <ng-container
+            [ngTemplateOutlet]="requiredVerificationCodeAdviceTemplate || content_verification_code_advice_default_message"
+          [ngTemplateOutletContext]="requiredVerificationCodeAdviceData"></ng-container>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm text-body" (click)="rejectAction()" ngbAutofocus>
+          {{ rejectActionButton }}
+        </button>
+        <button type="button" class="btn btn-{{ confirmColor }} btn-sm" (click)="confirmActionVerificationCodeAdvice()"
+          [disabled]="checkVerificationCodeAdviceLoading">
+          {{ confirmActionButtonVerificationCodeAdvice }} @if (checkVerificationCodeAdviceLoading) {
+          <fa-icon
           [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+        }
       </button>
     </div>
   </div>
@@ -86,40 +102,48 @@
   <div class="modal-content">
     <div class="modal-body">
       <div class="form-group">
-        <p class="mb-0" *ngIf="requiredVerificationCodeMessageType() == 'text'">
-          {{ requiredVerificationCodeMessage }}
-        </p>
-        <ng-container *ngIf="requiredVerificationCodeMessageType() == 'template'"
-          [ngTemplateOutlet]="requiredVerificationCodeTemplate || content_verification_code_default_message"
+        @if (requiredVerificationCodeMessageType() == 'text') {
+          <p class="mb-0">
+            {{ requiredVerificationCodeMessage }}
+          </p>
+        }
+        @if (requiredVerificationCodeMessageType() == 'template') {
+          <ng-container
+            [ngTemplateOutlet]="requiredVerificationCodeTemplate || content_verification_code_default_message"
           [ngTemplateOutletContext]="requiredVerificationCodeData"></ng-container>
+        }
         <div id="message_container_verification_code"></div>
         <form [formGroup]="verificationCodeForm">
           <div class="mt-3">
             <ng-otp-input class="text-center" name="verificationCode" [formCtrl]="verificationCode"
-              [config]="{ length: 6, letterCase: 'Upper', inputClass: 'bg-body-secondary text-body-tertiary no-outline' }"></ng-otp-input>
+            [config]="{ length: 6, letterCase: 'Upper', inputClass: 'bg-body-secondary text-body-tertiary no-outline' }"></ng-otp-input>
             <invalid-feedback [control]="verificationCode" name="Verification code"></invalid-feedback>
           </div>
         </form>
         <p class="mt-3 mb-0">
           <a class="link-info pe-pointer" (click)="!checkVerificationCodeAdviceLoading && sendVerificationCode()">
-            Didn't receive your code or is expired? Send it again. <fa-icon *ngIf="checkVerificationCodeAdviceLoading"
-              [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-          </a>
-        </p>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default btn-sm text-body border-0" (click)="rejectAction()"
-        [disabled]="checkVerificationCodeLoading" ngbAutofocus>
-        {{ rejectActionButton }}
-      </button>
-      <button type="button" class="btn btn-{{ confirmColor }} btn-sm" (click)="confirmActionVerificationCode()"
-        [disabled]="!verificationCodeForm.valid || checkVerificationCodeLoading">
-        {{ confirmActionButtonVerificationCode }} <fa-icon *ngIf="checkVerificationCodeLoading" [icon]="'spinner'"
-          [spin]="true" [pulse]="true"></fa-icon>
-      </button>
+            Didn't receive your code or is expired? Send it again. @if (checkVerificationCodeAdviceLoading) {
+            <fa-icon
+            [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+          }
+        </a>
+      </p>
     </div>
   </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm text-body border-0" (click)="rejectAction()"
+      [disabled]="checkVerificationCodeLoading" ngbAutofocus>
+      {{ rejectActionButton }}
+    </button>
+    <button type="button" class="btn btn-{{ confirmColor }} btn-sm" (click)="confirmActionVerificationCode()"
+      [disabled]="!verificationCodeForm.valid || checkVerificationCodeLoading">
+      {{ confirmActionButtonVerificationCode }} @if (checkVerificationCodeLoading) {
+      <fa-icon [icon]="'spinner'"
+      [spin]="true" [pulse]="true"></fa-icon>
+    }
+  </button>
+</div>
+</div>
 </ng-template>
 
 <ng-content></ng-content>

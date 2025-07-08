@@ -1,20 +1,24 @@
 <div class="container ps-0 ps-sm-3" *ngVar="{ collapsed: true, logoHover: false } as navbarSettings">
   <div class="row mt-3 ps-3 ps-sm-0">
-    <div *ngIf="auth.loading">
-      <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true" size="3x"></fa-icon>
-    </div>
-    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between"
-      *ngIf="!auth.loading && auth.user?.role == 'ADMIN'">
-      <div class="d-flex flex-row align-items-center">
-        <h3 class="mb-1 flex-fill">
-          <fa-icon [icon]="'screwdriver-wrench'"></fa-icon> Admin
-        </h3>
-        <button class="btn d-sm-none no-outline border-0 text-body navbar-collapse-btn"
-          (click)="navbarSettings.collapsed = !navbarSettings.collapsed">
-          <fa-icon [icon]="'ellipsis-v'"></fa-icon>
-        </button>
+    @if (auth.loading) {
+      <div>
+        <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true" size="3x"></fa-icon>
       </div>
-    </div>
+    }
+    @if (!auth.loading && auth.user?.role == 'ADMIN') {
+      <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between"
+        >
+        <div class="d-flex flex-row align-items-center">
+          <h3 class="mb-1 flex-fill">
+            <fa-icon [icon]="'screwdriver-wrench'"></fa-icon> Admin
+          </h3>
+          <button class="btn d-sm-none no-outline border-0 text-body navbar-collapse-btn"
+            (click)="navbarSettings.collapsed = !navbarSettings.collapsed">
+            <fa-icon [icon]="'ellipsis-v'"></fa-icon>
+          </button>
+        </div>
+      </div>
+    }
   </div>
   <div class="row mt-sm-3">
     <div class="col-sm-4 col-md-3 navbar ps-4 ps-sm-2 pe-2 pe-sm-0 align-items-baseline">

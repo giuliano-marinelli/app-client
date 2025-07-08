@@ -11,7 +11,9 @@
             <div class="input-spinner">
               <input class="form-control" type="email" name="email" formControlName="email" autofocus autocomplete="off"
                 [ngClass]="setValid(email)" />
-              <fa-icon *ngIf="email.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              @if (email.pending) {
+                <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              }
               <invalid-feedback [control]="email" name="Email"></invalid-feedback>
             </div>
           </div>
@@ -22,9 +24,11 @@
             <div class="input-spinner">
               <input class="form-control" type="text" name="username" formControlName="username" autocomplete="off"
                 [ngClass]="setValid(username)" />
-              <fa-icon *ngIf="username.pending" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              @if (username.pending) {
+                <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+              }
               <invalid-feedback [control]="username" name="Username"
-                [messages]="{ pattern: 'Username can only have characters, numbers and _ or - symbols' }"></invalid-feedback>
+              [messages]="{ pattern: 'Username can only have characters, numbers and _ or - symbols' }"></invalid-feedback>
             </div>
           </div>
           <div class="mb-3">
@@ -38,26 +42,28 @@
             <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword"
               autocomplete="off" [ngClass]="setValid(confirmPassword)" />
             <invalid-feedback [control]="confirmPassword" name="Password"
-              [messages]="{ equalTo: 'Passwords must be equals' }"></invalid-feedback>
+            [messages]="{ equalTo: 'Passwords must be equals' }"></invalid-feedback>
           </div>
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary text-white" [disabled]="!registerForm.valid || submitLoading">
-              Register <fa-icon *ngIf="submitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="col-12 col-md-6">
-        <div class="my-4 text-center">
-          <fa-icon [icon]="'user-plus'" size="6x"></fa-icon>
+              Register @if (submitLoading) {
+              <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+            }
+          </button>
         </div>
-        <h3 class="fs-3 fw-light text-center">Start your latest big project with App!</h3>
-      </div>
+      </form>
     </div>
-    <div class="row">
-      <div class="alert alert-secondary rounded-3 text-center col">
-        Did you already have an account? <a routerLink="/login">Login here</a>
+    <div class="col-12 col-md-6">
+      <div class="my-4 text-center">
+        <fa-icon [icon]="'user-plus'" size="6x"></fa-icon>
       </div>
+      <h3 class="fs-3 fw-light text-center">Start your latest big project with App!</h3>
     </div>
   </div>
+  <div class="row">
+    <div class="alert alert-secondary rounded-3 text-center col">
+      Did you already have an account? <a routerLink="/login">Login here</a>
+    </div>
+  </div>
+</div>
 </div>

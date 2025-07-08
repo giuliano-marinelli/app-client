@@ -1,4 +1,6 @@
-<fa-layers *ngIf="verified || markNotVerified" class="text-{{ verified ? color : 'danger' }}">
-  <fa-icon [icon]="'certificate'"></fa-icon>
-  <fa-icon [icon]="!verified ? 'xmark' : 'check'" [inverse]="true" transform="shrink-6"></fa-icon>
-</fa-layers>
+@if (verified || markNotVerified) {
+  <fa-layers class="text-{{ verified ? color : 'danger' }}">
+    <fa-icon [icon]="'certificate'"></fa-icon>
+    <fa-icon [icon]="!verified ? 'xmark' : 'check'" [inverse]="true" transform="shrink-6"></fa-icon>
+  </fa-layers>
+}

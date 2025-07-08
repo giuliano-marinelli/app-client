@@ -22,11 +22,13 @@
         </div>
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-success text-white" [disabled]="!loginForm.valid || submitLoading">
-            Sign in <fa-icon *ngIf="submitLoading" [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
-          </button>
-        </div>
-      </form>
-    </div>
-    <div class="alert alert-secondary rounded-3">New on App? <a routerLink="/register">Create an account</a></div>
+            Sign in @if (submitLoading) {
+            <fa-icon [icon]="'spinner'" [spin]="true" [pulse]="true"></fa-icon>
+          }
+        </button>
+      </div>
+    </form>
   </div>
+  <div class="alert alert-secondary rounded-3">New on App? <a routerLink="/register">Create an account</a></div>
+</div>
 </div>

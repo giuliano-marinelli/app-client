@@ -1,3 +1,5 @@
-<div *ngFor="let error of control?.errors | keyvalue">
-  {{ getErrorMessage(error.key) }}
-</div>
+@for (error of control?.errors | keyvalue; track error) {
+  <div>
+    {{ getErrorMessage(error.key) }}
+  </div>
+}
