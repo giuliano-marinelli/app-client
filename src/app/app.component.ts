@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from '../environments/environment';
 import { filter, map } from 'rxjs';
@@ -11,11 +14,13 @@ import { AuthService } from './services/auth.service';
 import { DarkmodeService } from './services/darkmode.service';
 import { MessagesService } from './services/messages.service';
 
+import { VarDirective } from './shared/directives/var.directive';
+
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  imports: [RouterOutlet, RouterLink, FontAwesomeModule, NgbModule, VarDirective]
 })
 export class AppComponent {
   title = 'app-client';

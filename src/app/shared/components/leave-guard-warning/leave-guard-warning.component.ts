@@ -7,8 +7,7 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'leave-guard-warning',
     templateUrl: './leave-guard-warning.component.html',
-    styleUrls: ['./leave-guard-warning.component.scss'],
-    standalone: false
+    styleUrls: ['./leave-guard-warning.component.scss']
 })
 export class LeaveGuardWarningComponent {
   subject?: Subject<boolean>;

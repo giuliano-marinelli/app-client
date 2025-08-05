@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 import { Login } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
@@ -8,12 +8,15 @@ import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink]
 })
 export class LoginComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

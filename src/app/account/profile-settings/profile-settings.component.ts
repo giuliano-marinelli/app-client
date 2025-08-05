@@ -1,26 +1,45 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
-import { CustomValidators } from '@narik/custom-validators';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { createMask } from '@ngneat/input-mask';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+// import { CustomValidators } from '@narik/custom-validators';
+import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
-import { Email } from '../../shared/entities/email.entity';
 import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { ImageCroppedEvent, base64ToFile } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperModule, base64ToFile } from 'ngx-image-cropper';
 import { Observable } from 'rxjs';
+
+import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
+import { FilterPipe } from '../../shared/pipes/filter.pipe';
+
 @Component({
-    selector: 'app-profile-settings',
-    templateUrl: './profile-settings.component.html',
-    styleUrls: ['./profile-settings.component.scss'],
-    standalone: false
+  selector: 'app-profile-settings',
+  templateUrl: './profile-settings.component.html',
+  styleUrls: ['./profile-settings.component.scss'],
+  imports: [
+    FaIconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    InvalidFeedbackComponent,
+    RouterLink,
+    InputMaskModule,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    ImageCropperModule,
+    FilterPipe
+  ]
 })
 export class ProfileSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -43,8 +62,8 @@ export class ProfileSettingsComponent implements OnInit {
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   url = new FormControl('', [
-    Validators.maxLength(200),
-    CustomValidators.url
+    Validators.maxLength(200)
+    // CustomValidators.url
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   urlMask = createMask({ alias: 'url' });
@@ -96,11 +115,7 @@ export class ProfileSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors)
-              this.messages.error(errors, {
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
-              });
+              this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.profileForm.patchValue(data?.user);

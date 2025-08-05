@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-    name: 'truncate',
-    standalone: false
-})
+@Pipe({ name: 'truncate' })
 export class TruncatePipe implements PipeTransform {
   transform(value: string, args: any[]): string {
     const limit = args.length > 0 ? parseInt(args[0], 10) : 20;

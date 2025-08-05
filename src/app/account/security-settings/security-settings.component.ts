@@ -1,21 +1,23 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CustomValidators } from '@narik/custom-validators';
-
+// import { CustomValidators } from '@narik/custom-validators';
 import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 
 @Component({
     selector: 'app-security-settings',
     templateUrl: './security-settings.component.html',
     styleUrls: ['./security-settings.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class SecuritySettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
@@ -35,8 +37,8 @@ export class SecuritySettingsComponent implements OnInit {
   confirmNewPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.maxLength(30),
-    CustomValidators.equalTo(this.newPassword)
+    Validators.maxLength(30)
+    // CustomValidators.equalTo(this.newPassword)
   ]);
   constructor(
     public auth: AuthService,

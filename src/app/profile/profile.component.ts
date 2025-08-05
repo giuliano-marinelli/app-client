@@ -1,16 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { FindUsers, User } from '../shared/entities/user.entity';
 
 import { AuthService } from '../services/auth.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { VerifiedMarkComponent } from '../shared/components/verified-mark/verified-mark.component';
 
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
     styleUrls: ['./profile.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, VerifiedMarkComponent, RouterLink]
 })
 export class ProfileComponent implements OnInit {
   userLoading: boolean = true;

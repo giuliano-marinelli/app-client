@@ -1,7 +1,6 @@
 // sort-imports-ignore
 //angular
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 //services
 import { AuthLoginGuard } from './shared/guards/auth-login.guard';
 import { AuthAdminGuard } from './shared/guards/auth-admin.guard';
@@ -22,7 +21,7 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { AdminComponent } from './admin/admin.component';
 import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', component: AboutComponent, data: { title: '' } },
   { path: 'user/:username', component: ProfileComponent },
   { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
@@ -85,11 +84,3 @@ const routes: Routes = [
   { path: 'notfound', component: NotFoundComponent, data: { title: 'Page not found' } },
   { path: '**', redirectTo: '/notfound' }
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { useHash: false, anchorScrolling: 'enabled', scrollPositionRestoration: 'top' })
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
@@ -9,12 +9,16 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
+import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 
 @Component({
     selector: 'app-account-settings',
     templateUrl: './account-settings.component.html',
     styleUrls: ['./account-settings.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
 })
 export class AccountSettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;

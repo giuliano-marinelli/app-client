@@ -4,8 +4,7 @@ import { Global } from '../global/global';
 
 @Pipe({
     name: 'filter',
-    pure: false,
-    standalone: false
+    pure: false
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[] | undefined, filter: any): any {

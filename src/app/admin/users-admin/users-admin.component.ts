@@ -6,17 +6,26 @@ import { IconName } from '@fortawesome/fontawesome-svg-core';
 import { CloseSession, Session } from '../../shared/entities/session.entity';
 import { FindUsers, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
-import { NgxMasonryComponent } from 'ngx-masonry';
+import { NgxMasonryComponent, NgxMasonryModule } from 'ngx-masonry';
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { SearchComponent } from '../../shared/components/search/search.component';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
+import { NgbPagination, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
+import { VarDirective } from '../../shared/directives/var.directive';
+import { VerifiedMarkComponent } from '../../shared/components/verified-mark/verified-mark.component';
+import { MomentModule } from 'ngx-moment';
+import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
     selector: 'app-users-admin',
     templateUrl: './users-admin.component.html',
     styleUrls: ['./users-admin.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, SearchComponent, NgxMasonryModule, NgTemplateOutlet, NgbPagination, NgClass, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, ConfirmComponent, VarDirective, VerifiedMarkComponent, NgbCollapse, MomentModule, FilterPipe]
 })
 export class UsersAdminComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

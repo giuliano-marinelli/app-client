@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,12 +8,16 @@ import { Global } from '../../global/global';
 
 import { AuthService } from '../../../services/auth.service';
 import { MessagesService } from '../../../services/messages.service';
+import { NgTemplateOutlet, NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../invalid-feedback/invalid-feedback.component';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgOtpInputComponent } from 'ng-otp-input';
 
 @Component({
     selector: '[confirm]',
     templateUrl: './confirm.component.html',
     styleUrls: ['./confirm.component.scss'],
-    standalone: false
+    imports: [NgTemplateOutlet, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, FaIconComponent, NgOtpInputComponent]
 })
 export class ConfirmComponent {
   @Input() confirmMessage: string = 'Are you sure you want to do this?';

@@ -1,9 +1,8 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CustomValidators } from '@narik/custom-validators';
-
+// import { CustomValidators } from '@narik/custom-validators';
 import {
   CheckEmailAddressExists,
   CreateEmail,
@@ -18,12 +17,16 @@ import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
+import { NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 
 @Component({
     selector: 'app-emails-settings',
     templateUrl: './emails-settings.component.html',
     styleUrls: ['./emails-settings.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class EmailsSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -40,8 +43,8 @@ export class EmailsSettingsComponent implements OnInit {
     return [
       Validators.required,
       Validators.maxLength(100),
-      ExtraValidators.email,
-      CustomValidators.notIncludedIn(this.user?.emails?.map((email) => email.address) as any[])
+      ExtraValidators.email
+      // CustomValidators.notIncludedIn(this.user?.emails?.map((email) => email.address) as any[])
     ];
   }
 
@@ -93,9 +96,7 @@ export class EmailsSettingsComponent implements OnInit {
       ])
     });
 
-    this.primaryEmailForm = this.formBuilder.group({
-      address: new FormControl('', this.primaryEmailValidator)
-    });
+    this.primaryEmailForm = this.formBuilder.group({ address: new FormControl('', this.primaryEmailValidator) });
 
     this.getUser();
   }
@@ -108,11 +109,7 @@ export class EmailsSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors)
-              this.messages.error(errors, {
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
-              });
+              this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.addEmailAddress?.setValidators(this.addEmailValidator);
@@ -136,12 +133,7 @@ export class EmailsSettingsComponent implements OnInit {
     if (this.addEmailForm.valid) {
       this.addEmailSubmitLoading = true;
       this._createEmail
-        .mutate({
-          emailCreateInput: {
-            address: this.addEmailAddress?.value,
-            user: { id: this.user?.id }
-          }
-        })
+        .mutate({ emailCreateInput: { address: this.addEmailAddress?.value, user: { id: this.user?.id } } })
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
@@ -174,11 +166,7 @@ export class EmailsSettingsComponent implements OnInit {
     console.log('removeEmail', password, verificationCode, email);
     this.removeEmailSubmitLoading = email.id;
     this._deleteEmail
-      .mutate({
-        id: email.id,
-        password,
-        code: verificationCode
-      })
+      .mutate({ id: email.id, password, code: verificationCode })
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {

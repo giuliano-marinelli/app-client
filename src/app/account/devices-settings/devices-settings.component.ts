@@ -8,12 +8,17 @@ import { Global } from '../../shared/global/global';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgTemplateOutlet } from '@angular/common';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+import { MomentModule } from 'ngx-moment';
+import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
     selector: 'app-devices-settings',
     templateUrl: './devices-settings.component.html',
     styleUrls: ['./devices-settings.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, NgTemplateOutlet, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, MomentModule, FilterPipe]
 })
 export class DevicesSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

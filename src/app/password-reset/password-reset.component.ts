@@ -1,22 +1,23 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable } from '@apollo/client';
-import { CustomValidators } from '@narik/custom-validators';
-
+// import { CustomValidators } from '@narik/custom-validators';
 import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
 import { firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
+import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
 @Component({
     selector: 'app-password-reset',
     templateUrl: './password-reset.component.html',
     styleUrls: ['./password-reset.component.scss'],
-    standalone: false
+    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class PasswordResetComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -33,8 +34,8 @@ export class PasswordResetComponent implements OnInit {
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.maxLength(100),
-    CustomValidators.equalTo(this.password)
+    Validators.maxLength(100)
+    // CustomValidators.equalTo(this.password)
   ]);
 
   //router params
@@ -59,14 +60,9 @@ export class PasswordResetComponent implements OnInit {
       if (logged) this.router.navigate(['/']);
     });
 
-    this.forgotPasswordForm = this.formBuilder.group({
-      usernameOrEmail: this.usernameOrEmail
-    });
+    this.forgotPasswordForm = this.formBuilder.group({ usernameOrEmail: this.usernameOrEmail });
 
-    this.passwordResetForm = this.formBuilder.group({
-      password: this.password,
-      confirmPassword: this.confirmPassword
-    });
+    this.passwordResetForm = this.formBuilder.group({ password: this.password, confirmPassword: this.confirmPassword });
   }
 
   sendPasswordResetEmail(): void {
