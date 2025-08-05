@@ -3,8 +3,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Global } from '../global/global';
 
 @Pipe({
-    name: 'filter',
-    pure: false
+  name: 'filter',
+  pure: false
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[] | undefined, filter: any): any {

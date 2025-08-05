@@ -1,14 +1,14 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { TippyDirective } from '@ngneat/helipopper';
 
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import { NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
 export type Color =
   | 'primary'
@@ -80,10 +80,10 @@ export interface SearchAttribute {
 }
 
 @Component({
-    selector: 'search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
-    imports: [NgClass, FormsModule, TippyDirective, FaIconComponent, NgbCollapse]
+  selector: 'search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
+  imports: [NgClass, FormsModule, TippyDirective, FaIconComponent, NgbCollapse]
 })
 export class SearchComponent implements OnInit {
   //search input attributes

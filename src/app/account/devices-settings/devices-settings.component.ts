@@ -1,24 +1,34 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconName, IconProp } from '@fortawesome/fontawesome-svg-core';
+import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
 import { CloseSession, FindSessions, Session } from '../../shared/entities/session.entity';
 import { Global } from '../../shared/global/global';
+import { MomentModule } from 'ngx-moment';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgTemplateOutlet } from '@angular/common';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
-import { MomentModule } from 'ngx-moment';
+
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-    selector: 'app-devices-settings',
-    templateUrl: './devices-settings.component.html',
-    styleUrls: ['./devices-settings.component.scss'],
-    imports: [FaIconComponent, NgTemplateOutlet, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownItem, MomentModule, FilterPipe]
+  selector: 'app-devices-settings',
+  templateUrl: './devices-settings.component.html',
+  styleUrls: ['./devices-settings.component.scss'],
+  imports: [
+    FaIconComponent,
+    NgTemplateOutlet,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
+    MomentModule,
+    FilterPipe
+  ]
 })
 export class DevicesSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

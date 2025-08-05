@@ -1,12 +1,12 @@
+import { KeyValuePipe } from '@angular/common';
 import { Component, HostBinding, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { KeyValuePipe } from '@angular/common';
 
 @Component({
-    selector: 'invalid-feedback',
-    templateUrl: './invalid-feedback.component.html',
-    styleUrls: ['./invalid-feedback.component.scss'],
-    imports: [KeyValuePipe]
+  selector: 'invalid-feedback',
+  templateUrl: './invalid-feedback.component.html',
+  styleUrls: ['./invalid-feedback.component.scss'],
+  imports: [KeyValuePipe]
 })
 export class InvalidFeedbackComponent {
   @Input() control?: FormControl | AbstractControl | null;

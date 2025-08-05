@@ -1,74 +1,80 @@
 /// <reference types="@angular/localize" />
-
 // sort-imports-ignore
 //angular
+import { HttpHeaders, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom, inject } from '@angular/core';
-import { provideHttpClient, withInterceptorsFromDi, HttpHeaders } from '@angular/common/http';
-import { bootstrapApplication, HammerModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import '@angular/localize/init';
-//routes
-import { routes } from './app/app.routes';
-//environment
-import { environment } from './environments/environment';
+import { HammerModule, bootstrapApplication } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
+
+import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { getMainDefinition } from '@apollo/client/utilities';
+// modules
+import { JwtModule } from '@auth0/angular-jwt';
+import { FaConfig, FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+// icons
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TippyDirective, provideTippyConfig } from '@ngneat/helipopper';
+import { InputMaskModule } from '@ngneat/input-mask';
+
 //graphql
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { ApolloDynamic } from 'apollo-dynamic';
-import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { setContext } from '@apollo/client/link/context';
-import { onError } from '@apollo/client/link/error';
-import { createClient } from 'graphql-ws';
 import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
-// modules
-import { JwtModule } from '@auth0/angular-jwt';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FontAwesomeModule, FaConfig, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { TippyDirective, provideTippyConfig } from '@ngneat/helipopper';
-import { InputMaskModule } from '@ngneat/input-mask';
-import { MomentModule } from 'ngx-moment';
+import { createClient } from 'graphql-ws';
 import { NgOtpInputModule } from 'ng-otp-input';
-import { NgxMasonryModule } from 'ngx-masonry';
 import { ImageCropperModule } from 'ngx-image-cropper';
-// icons
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { MomentModule } from 'ngx-moment';
+
+//routes
+import { routes } from './app/app.routes';
+//environment
+import { environment } from './environments/environment';
+
+import { AccountSettingsComponent } from './app/account/account-settings/account-settings.component';
+import { AccountComponent } from './app/account/account.component';
+import { DevicesSettingsComponent } from './app/account/devices-settings/devices-settings.component';
+import { EmailsSettingsComponent } from './app/account/emails-settings/emails-settings.component';
+import { ProfileSettingsComponent } from './app/account/profile-settings/profile-settings.component';
+import { SecuritySettingsComponent } from './app/account/security-settings/security-settings.component';
+import { AdminComponent } from './app/admin/admin.component';
+import { UsersAdminComponent } from './app/admin/users-admin/users-admin.component';
+// components
+import { AppComponent } from './app/app.component';
+import { LoginComponent } from './app/login/login.component';
+import { NotFoundComponent } from './app/not-found/not-found.component';
+import { PasswordResetComponent } from './app/password-reset/password-reset.component';
+import { ProfileComponent } from './app/profile/profile.component';
+import { RegisterComponent } from './app/register/register.component';
+// shared components
+import { ConfirmComponent } from './app/shared/components/confirm/confirm.component';
+import { InvalidFeedbackComponent } from './app/shared/components/invalid-feedback/invalid-feedback.component';
+import { LeaveGuardWarningComponent } from './app/shared/components/leave-guard-warning/leave-guard-warning.component';
+import { SearchComponent } from './app/shared/components/search/search.component';
+import { VerifiedMarkComponent } from './app/shared/components/verified-mark/verified-mark.component';
+
 // services
 import { AuthService } from './app/services/auth.service';
 import { MessagesService } from './app/services/messages.service';
+
 // directives
 import { VarDirective } from './app/shared/directives/var.directive';
+
 // pipes
 import { FilterPipe } from './app/shared/pipes/filter.pipe';
 import { SortPipe } from './app/shared/pipes/sort.pipe';
 import { TruncatePipe } from './app/shared/pipes/truncate.pipe';
-// shared components
-import { ConfirmComponent } from './app/shared/components/confirm/confirm.component';
-import { SearchComponent } from './app/shared/components/search/search.component';
-import { InvalidFeedbackComponent } from './app/shared/components/invalid-feedback/invalid-feedback.component';
-import { LeaveGuardWarningComponent } from './app/shared/components/leave-guard-warning/leave-guard-warning.component';
-import { VerifiedMarkComponent } from './app/shared/components/verified-mark/verified-mark.component';
-// components
-import { AppComponent } from './app/app.component';
-import { NotFoundComponent } from './app/not-found/not-found.component';
-import { LoginComponent } from './app/login/login.component';
-import { RegisterComponent } from './app/register/register.component';
-import { PasswordResetComponent } from './app/password-reset/password-reset.component';
-import { ProfileComponent } from './app/profile/profile.component';
-import { AccountComponent } from './app/account/account.component';
-import { ProfileSettingsComponent } from './app/account/profile-settings/profile-settings.component';
-import { AccountSettingsComponent } from './app/account/account-settings/account-settings.component';
-import { DevicesSettingsComponent } from './app/account/devices-settings/devices-settings.component';
-import { EmailsSettingsComponent } from './app/account/emails-settings/emails-settings.component';
-import { SecuritySettingsComponent } from './app/account/security-settings/security-settings.component';
-import { AdminComponent } from './app/admin/admin.component';
-import { UsersAdminComponent } from './app/admin/users-admin/users-admin.component';
 
 if (environment.production) {
   enableProdMode();

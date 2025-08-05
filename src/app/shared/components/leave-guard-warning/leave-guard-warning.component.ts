@@ -5,9 +5,9 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 
 @Component({
-    selector: 'leave-guard-warning',
-    templateUrl: './leave-guard-warning.component.html',
-    styleUrls: ['./leave-guard-warning.component.scss']
+  selector: 'leave-guard-warning',
+  templateUrl: './leave-guard-warning.component.html',
+  styleUrls: ['./leave-guard-warning.component.scss']
 })
 export class LeaveGuardWarningComponent {
   subject?: Subject<boolean>;

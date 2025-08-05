@@ -1,22 +1,24 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { Login } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
 import { firstValueFrom } from 'rxjs';
 
-import { AuthService } from '../services/auth.service';
-import { MessagesService } from '../services/messages.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgClass } from '@angular/common';
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
+import { AuthService } from '../services/auth.service';
+import { MessagesService } from '../services/messages.service';
+
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink]
 })
 export class LoginComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

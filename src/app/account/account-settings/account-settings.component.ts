@@ -1,24 +1,26 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
 
+import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
+import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
+
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgClass } from '@angular/common';
-import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
-import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 
 @Component({
-    selector: 'app-account-settings',
-    templateUrl: './account-settings.component.html',
-    styleUrls: ['./account-settings.component.scss'],
-    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
+  selector: 'app-account-settings',
+  templateUrl: './account-settings.component.html',
+  styleUrls: ['./account-settings.component.scss'],
+  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
 })
 export class AccountSettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;

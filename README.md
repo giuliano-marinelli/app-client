@@ -8,8 +8,7 @@ It's a [Angular](https://angular.io/) project that is served by the [app-server]
 
 1. Install [Node.js](https://nodejs.org)
 2. Install [Angular CLI](https://angular.io/cli): `npm install -g @angular/cli`
-3. From project root folder install all the dependencies: `npm install`.
-   **Note: because of `@narik/custom-validators` package, is necessary to use `--legacy-peer-deps` flag when installing. This will be required until the package is updated.**
+3. From project root folder install all the dependencies: `npm install`
 4. To be served by [app-server](https://github.com/giuliano-marinelli/app-server), it must be located at sibling folder of this project, as shown:
 
 ```
