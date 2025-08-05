@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { Router, RouterLink } from '@angular/router';
 
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-// import { CustomValidators } from '@narik/custom-validators';
+import { CustomValidators } from '@narik/custom-validators';
 import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
@@ -62,8 +62,8 @@ export class ProfileSettingsComponent implements OnInit {
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   url = new FormControl('', [
-    Validators.maxLength(200)
-    // CustomValidators.url
+    Validators.maxLength(200),
+    CustomValidators.url
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   urlMask = createMask({ alias: 'url' });

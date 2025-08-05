@@ -1,8 +1,11 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-// import { CustomValidators } from '@narik/custom-validators';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CustomValidators } from '@narik/custom-validators';
+
 import { CheckEmailAddressExists, Email, UpdateEmailVerificationCode } from '../shared/entities/email.entity';
 import { CheckUserUsernameExists, CreateUser, Login } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
@@ -10,15 +13,15 @@ import { ExtraValidators } from '../shared/validators/validators';
 import { Apollo } from 'apollo-angular';
 import { Observable, firstValueFrom } from 'rxjs';
 
-import { AuthService } from '../services/auth.service';
-import { MessagesService } from '../services/messages.service';
-import { NgClass } from '@angular/common';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
+import { AuthService } from '../services/auth.service';
+import { MessagesService } from '../services/messages.service';
+
 @Component({
-    selector: 'app-register', templateUrl: './register.component.html',
-    imports: [FormsModule, ReactiveFormsModule, NgClass, FaIconComponent, InvalidFeedbackComponent, RouterLink]
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  imports: [FormsModule, ReactiveFormsModule, NgClass, FaIconComponent, InvalidFeedbackComponent, RouterLink]
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -44,8 +47,8 @@ export class RegisterComponent implements OnInit {
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.maxLength(100)
-    // CustomValidators.equalTo(this.password)
+    Validators.maxLength(100),
+    CustomValidators.equalTo(this.password)
   ]);
 
   constructor(

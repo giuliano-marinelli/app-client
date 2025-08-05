@@ -1,23 +1,25 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-// import { CustomValidators } from '@narik/custom-validators';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CustomValidators } from '@narik/custom-validators';
+
 import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
 import { Global } from '../shared/global/global';
 import { firstValueFrom } from 'rxjs';
 
-import { AuthService } from '../services/auth.service';
-import { MessagesService } from '../services/messages.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgClass } from '@angular/common';
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
+import { AuthService } from '../services/auth.service';
+import { MessagesService } from '../services/messages.service';
+
 @Component({
-    selector: 'app-password-reset',
-    templateUrl: './password-reset.component.html',
-    styleUrls: ['./password-reset.component.scss'],
-    imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  selector: 'app-password-reset',
+  templateUrl: './password-reset.component.html',
+  styleUrls: ['./password-reset.component.scss'],
+  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class PasswordResetComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -34,8 +36,8 @@ export class PasswordResetComponent implements OnInit {
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
-    Validators.maxLength(100)
-    // CustomValidators.equalTo(this.password)
+    Validators.maxLength(100),
+    CustomValidators.equalTo(this.password)
   ]);
 
   //router params

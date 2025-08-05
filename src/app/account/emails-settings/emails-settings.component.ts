@@ -1,8 +1,11 @@
+import { NgClass } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-// import { CustomValidators } from '@narik/custom-validators';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CustomValidators } from '@narik/custom-validators';
+
 import {
   CheckEmailAddressExists,
   CreateEmail,
@@ -15,18 +18,17 @@ import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
 
-import { AuthService } from '../../services/auth.service';
-import { MessagesService } from '../../services/messages.service';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
-import { NgClass } from '@angular/common';
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 
+import { AuthService } from '../../services/auth.service';
+import { MessagesService } from '../../services/messages.service';
+
 @Component({
-    selector: 'app-emails-settings',
-    templateUrl: './emails-settings.component.html',
-    styleUrls: ['./emails-settings.component.scss'],
-    imports: [FaIconComponent, ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  selector: 'app-emails-settings',
+  templateUrl: './emails-settings.component.html',
+  styleUrls: ['./emails-settings.component.scss'],
+  imports: [FaIconComponent, ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class EmailsSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -43,8 +45,8 @@ export class EmailsSettingsComponent implements OnInit {
     return [
       Validators.required,
       Validators.maxLength(100),
-      ExtraValidators.email
-      // CustomValidators.notIncludedIn(this.user?.emails?.map((email) => email.address) as any[])
+      ExtraValidators.email,
+      CustomValidators.notIncludedIn(this.user?.emails?.map((email) => email.address) as any[])
     ];
   }
 
