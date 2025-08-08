@@ -15,12 +15,12 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'account-settings',
-  templateUrl: './account-settings.component.html',
-  styleUrls: ['./account-settings.component.scss'],
+  selector: 'settings-account',
+  templateUrl: './settings-account.component.html',
+  styleUrls: ['./settings-account.component.scss'],
   imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
 })
-export class AccountSettingsComponent implements OnInit {
+export class SettingsAccountComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
   @ViewChild('message_container_delete') messageContainerDelete!: ElementRef;
 

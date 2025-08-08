@@ -15,12 +15,12 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'security-settings',
-  templateUrl: './security-settings.component.html',
-  styleUrls: ['./security-settings.component.scss'],
+  selector: 'settings-security',
+  templateUrl: './settings-security.component.html',
+  styleUrls: ['./settings-security.component.scss'],
   imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
-export class SecuritySettingsComponent implements OnInit {
+export class SettingsSecurityComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
   @ViewChild('message_container_two_factor') messageContainerDelete!: ElementRef;
 

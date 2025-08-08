@@ -6,12 +6,12 @@ import { AuthService } from '../services/auth.service';
 import { VarDirective } from '../shared/directives/var.directive';
 
 @Component({
-  selector: 'account',
-  templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  selector: 'settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
   imports: [VarDirective, RouterLink, RouterLinkActive, RouterOutlet]
 })
-export class AccountComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public router: Router

@@ -21,9 +21,9 @@ import { VarDirective } from '../../shared/directives/var.directive';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'users-admin',
-  templateUrl: './users-admin.component.html',
-  styleUrls: ['./users-admin.component.scss'],
+  selector: 'admin-users',
+  templateUrl: './admin-users.component.html',
+  styleUrls: ['./admin-users.component.scss'],
   imports: [
     SearchComponent,
     NgxMasonryModule,
@@ -36,7 +36,7 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
     FilterPipe
   ]
 })
-export class UsersAdminComponent implements OnInit {
+export class AdminUsersComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
 
   filter: any = Global.filter;

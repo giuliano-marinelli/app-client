@@ -12,12 +12,12 @@ import { MessagesService } from '../../services/messages.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'devices-settings',
-  templateUrl: './devices-settings.component.html',
-  styleUrls: ['./devices-settings.component.scss'],
+  selector: 'settings-devices',
+  templateUrl: './settings-devices.component.html',
+  styleUrls: ['./settings-devices.component.scss'],
   imports: [NgTemplateOutlet, MomentModule, FilterPipe]
 })
-export class DevicesSettingsComponent implements OnInit {
+export class SettingsDevicesComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
   filter: any = Global.filter;
 

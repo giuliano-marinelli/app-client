@@ -18,12 +18,12 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'emails-settings',
-  templateUrl: './emails-settings.component.html',
-  styleUrls: ['./emails-settings.component.scss'],
+  selector: 'settings-emails',
+  templateUrl: './settings-emails.component.html',
+  styleUrls: ['./settings-emails.component.scss'],
   imports: [ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
-export class EmailsSettingsComponent implements OnInit {
+export class SettingsEmailsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
   @ViewChild('message_container_add_email') messageContainerAddEmail!: ElementRef;
   @ViewChild('message_container_primary_email') messageContainerPrimaryEmail!: ElementRef;

@@ -56,19 +56,20 @@ import { VerifiedMarkComponent } from './app/shared/components/verified-mark/ver
 
 // components
 import { AppComponent } from './app/app.component';
-import { LoginComponent } from './app/login/login.component';
 import { NotFoundComponent } from './app/not-found/not-found.component';
+import { AboutComponent } from './app/about/about.component';
+import { LoginComponent } from './app/login/login.component';
+import { RegisterComponent } from './app/register/register.component';
 import { PasswordResetComponent } from './app/password-reset/password-reset.component';
 import { ProfileComponent } from './app/profile/profile.component';
-import { RegisterComponent } from './app/register/register.component';
-import { AccountComponent } from './app/account/account.component';
-import { AccountSettingsComponent } from './app/account/account-settings/account-settings.component';
-import { DevicesSettingsComponent } from './app/account/devices-settings/devices-settings.component';
-import { EmailsSettingsComponent } from './app/account/emails-settings/emails-settings.component';
-import { ProfileSettingsComponent } from './app/account/profile-settings/profile-settings.component';
-import { SecuritySettingsComponent } from './app/account/security-settings/security-settings.component';
+import { SettingsComponent } from './app/settings/settings.component';
+import { SettingsAccountComponent } from './app/settings/account/settings-account.component';
+import { SettingsDevicesComponent } from './app/settings/devices/settings-devices.component';
+import { SettingsEmailsComponent } from './app/settings/emails/settings-emails.component';
+import { SettingsProfileComponent } from './app/settings/profile/settings-profile.component';
+import { SettingsSecurityComponent } from './app/settings/security/settings-security.component';
 import { AdminComponent } from './app/admin/admin.component';
-import { UsersAdminComponent } from './app/admin/users-admin/users-admin.component';
+import { AdminUsersComponent } from './app/admin/users/admin-users.component';
 
 if (environment.production) {
   enableProdMode();
@@ -188,18 +189,19 @@ bootstrapApplication(AppComponent, {
     VerifiedMarkComponent,
     //components
     NotFoundComponent,
+    AboutComponent,
     LoginComponent,
     RegisterComponent,
     PasswordResetComponent,
     ProfileComponent,
-    AccountComponent,
-    ProfileSettingsComponent,
-    AccountSettingsComponent,
-    EmailsSettingsComponent,
-    SecuritySettingsComponent,
-    DevicesSettingsComponent,
+    SettingsComponent,
+    SettingsProfileComponent,
+    SettingsAccountComponent,
+    SettingsEmailsComponent,
+    SettingsSecurityComponent,
+    SettingsDevicesComponent,
     AdminComponent,
-    UsersAdminComponent
+    AdminUsersComponent
   ]
 });
 

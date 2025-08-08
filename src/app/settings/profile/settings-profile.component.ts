@@ -20,12 +20,12 @@ import { MessagesService } from '../../services/messages.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'profile-settings',
-  templateUrl: './profile-settings.component.html',
-  styleUrls: ['./profile-settings.component.scss'],
+  selector: 'settings-profile',
+  templateUrl: './settings-profile.component.html',
+  styleUrls: ['./settings-profile.component.scss'],
   imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink, InputMaskModule, ImageCropperModule, FilterPipe]
 })
-export class ProfileSettingsComponent implements OnInit {
+export class SettingsProfileComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
   @ViewChild('avatar_img') avatarImage!: ElementRef;
 
