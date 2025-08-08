@@ -66,13 +66,9 @@
                 </div>
               </div>
               <mat-divider></mat-divider>
-              <a mat-menu-item routerLink="/{{ auth.user.username }}">
+              <a mat-menu-item routerLink="/user/{{ auth.user.username }}">
                 <mat-icon>person</mat-icon>
                 <span>Profile</span>
-              </a>
-              <a mat-menu-item routerLink="/settings">
-                <mat-icon>settings</mat-icon>
-                <span>Settings</span>
               </a>
               <a mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
@@ -109,10 +105,10 @@
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
             </button>
             <mat-divider></mat-divider>
-            <button mat-menu-item disabled>
+            <a mat-menu-item routerLink="/settings" [disabled]="auth.loading || !auth.user">
               <mat-icon>settings</mat-icon>
               <span>Settings</span>
-            </button>
+            </a>
             <mat-divider></mat-divider>
             <button mat-menu-item disabled>
               <mat-icon>feedback</mat-icon>

@@ -5,12 +5,17 @@
   "author": "Giuliano Marinelli",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.html\" \"src/**/*.scss\"",
-    "test": "ng test",
     "start": "ng serve",
-    "build": "ng build --configuration production",
     "build:dev": "ng build --configuration development",
-    "watch": "ng build --watch --configuration development"
+    "build:watch": "ng build --watch --configuration development",
+    "build:prod": "ng build --configuration production",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.html\" \"src/**/*.scss\"",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
+    "test": "ng test --no-watch",
+    "test:watch": "ng test --watch",
+    "test:cov": "ng test --no-watch --code-coverage",
+    "test:e2e": "ng e2e"
   },
   "dependencies": {
     "@angular/animations": "^20.1.4",
@@ -65,8 +70,12 @@
     "@types/lodash": "^4.14.202",
     "@types/node": "^20.11.19",
     "@types/uuid": "^9.0.8",
+    "angular-eslint": "20.1.1",
     "chokidar-cli": "^3.0.0",
     "concurrently": "^9.2.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -74,6 +83,8 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.6.2",
-    "typescript": "~5.8.3"
+    "prettier-eslint": "^16.4.2",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "8.34.1"
   }
 }
