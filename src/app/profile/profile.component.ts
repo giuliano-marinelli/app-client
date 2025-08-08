@@ -1,8 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { FindUsers, User } from '../shared/entities/user.entity';
 
@@ -11,10 +10,10 @@ import { VerifiedMarkComponent } from '../shared/components/verified-mark/verifi
 import { AuthService } from '../services/auth.service';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [FaIconComponent, VerifiedMarkComponent, RouterLink]
+  imports: [VerifiedMarkComponent, RouterLink, MatIcon]
 })
 export class ProfileComponent implements OnInit {
   userLoading: boolean = true;
@@ -55,9 +54,7 @@ export class ProfileComponent implements OnInit {
           if (data?.users?.set) {
             this.user = data.users.set[0] ?? null;
             if (this.user) {
-              this.titleService.setTitle(
-                this.user.username + (this.user.profile?.name ? ' (' + this.user.profile?.name + ')' : '')
-              );
+              this.titleService.setTitle(this.user.username + (this.user.profile?.name ? ' (' + this.user.profile?.name + ')' : ''));
             } else {
               this.router.navigate(['not-found']);
             }

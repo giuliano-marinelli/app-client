@@ -1,7 +1,15 @@
 module.exports = {
-  printWidth: 120,
+  printWidth: 150,
   singleQuote: true,
   trailingComma: 'none',
+  overrides: [
+    {
+      files: '*.html',
+      options: {
+        parser: 'angular'
+      }
+    }
+  ],
   plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
   importOrder: [
     '^@angular/(.*)$',

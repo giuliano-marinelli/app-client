@@ -6,6 +6,7 @@
 @use '@angular/material' as mat;
 
 html {
+  color-scheme: light dark;
   @include mat.theme(
     (
       color: (
@@ -19,11 +20,6 @@ html {
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
@@ -33,340 +29,63 @@ body {
 
   // Reset the user agent margin.
   margin: 0;
-}
-/* You can add global styles to this file, and also import other style files */
 
-/* Imported for customize/extend bootstrap variables and utilities before it's computed */
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-// @import 'bootstrap/scss/utilities';
-
-/* Enable responsive utilities for borders */
-/*$utilities: map-merge(
-  $utilities,
-  (
-    "border":
-      map-merge(
-        map-get($utilities, "border"),
-        (
-          responsive: true,
-        )
-      ),
-    "border-top":
-      map-merge(
-        map-get($utilities, "border-top"),
-        (
-          responsive: true,
-        )
-      ),
-    "border-end":
-      map-merge(
-        map-get($utilities, "border-end"),
-        (
-          responsive: true,
-        )
-      ),
-    "border-bottom":
-      map-merge(
-        map-get($utilities, "border-bottom"),
-        (
-          responsive: true,
-        )
-      ),
-    "border-start":
-      map-merge(
-        map-get($utilities, "border-start"),
-        (
-          responsive: true,
-        )
-      ),
-  )
-);*/
-
-/* Add custom is-pending state for forms input validation */
-$form-validation-states: map-merge(
-  $form-validation-states,
-  (
-    'pending': (
-      'color': #838383,
-      'icon': '',
-      'tooltip-color': #fff,
-      'tooltip-bg-color': #838383,
-      'focus-box-shadow': 0 0 $input-btn-focus-blur $input-focus-width
-        rgba(131, 131, 131, $input-btn-focus-color-opacity),
-      'border-color': #838383
-    )
-  )
-);
-
-/* This is the spinner style for pending state icon */
-.input-spinner {
-  position: relative;
-}
-.input-spinner > .form-control ~ fa-icon {
-  position: absolute;
-  margin-top: 7px;
-  margin-right: 10px;
-  top: 0;
-  right: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
 }
 
-.input-spinner > .form-control-sm ~ fa-icon {
-  margin-top: 3px;
-  margin-right: 5px;
+// Utilities
+.mat-muted {
+  color: var(--mat-sys-outline);
 }
 
-/* Custom css variables */
-:root {
-  // default image cropper outline color
-  --cropper-outline-color: rgba(0, 0, 0, 0.9);
-  // default image cropper overlay color
-  --cropper-overlay-color: rgba(255, 255, 255, 1);
+.mat-spacer {
+  flex-grow: 1;
 }
 
-/* Custom container size */
-$container-max-widths: (
-  sm: 720px,
-  md: 960px,
-  lg: 1140px,
-  xl: 1145px,
-  xxl: 1320px
-);
-
-/* Importing Bootstrap files */
-@import 'bootstrap/scss/bootstrap'; //base bootstrap
-
-// @import '../src/assets/scss/validation.scss';
-
-/* Importing FontAwesome classes */
-// @import '@fortawesome/fontawesome-free/css/all.css';
-$fa-font-path: '@fortawesome/fontawesome-free/webfonts';
-@import '@fortawesome/fontawesome-free/scss/fontawesome';
-@import '@fortawesome/fontawesome-free/scss/solid';
-@import '@fortawesome/fontawesome-free/scss/regular';
-@import '@fortawesome/fontawesome-free/scss/brands';
-
-/* Importing HeliPopper files (for tooltips and popovers) */
-@import 'tippy.js/dist/tippy.css';
-@import 'tippy.js/themes/material.css';
-@import 'tippy.js/animations/scale.css';
-
-/* Adds animations to the masonry layout component items */
-.masonry-item {
-  transition:
-    top 0.4s ease-out,
-    left 0.4s ease-out;
+.mat-nowrap {
+  white-space: nowrap;
 }
 
-/* For no outline when click button */
-.no-outline {
-  outline: none !important;
-  box-shadow: none !important;
+// Styles for the multi-page menu component
+.mat-multi-page-menu {
+  width: 300px;
 }
 
-/* For show cursor pointer when hover */
-.pe-pointer {
-  cursor: pointer;
+.mat-multi-page-menu-submenu {
+  order: 2;
+  margin-left: 12px;
+  margin-right: 0px !important;
 }
 
-/* For preserve proportions of non-square images
-(anyway all images are going to be square because these were cropped before uploading) */
-.profile-img {
-  -o-object-fit: cover;
-  object-fit: cover;
-  -o-object-position: top;
-  object-position: top;
-  overflow: hidden;
+.mat-menu-item-info {
+  padding: 0px 12px;
+  text-align: center;
 }
 
-/* For remove links underline */
+.mat-menu-item-noicon {
+  margin-left: 36px;
+}
+
+// Reset default link styles
 a {
   text-decoration: none;
+  color: inherit;
+  font: inherit;
 }
 
-/* For put character counter on textarea and min-height for correct view */
-.textarea-min-height {
-  min-height: 5rem !important;
+// Scrollbar styling
+::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
 }
 
-.textarea-count {
-  margin-top: -25px;
-  margin-right: 10px;
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+  border-radius: 2px;
 }
 
-/* Big radio/check button */
-.form-check-input-lg {
-  width: 20px;
-  height: 20px;
-}
-
-/* For do rows hover effect on non-table rows */
-.row-hover > .row:not(.not-hover):hover {
-  background-color: $table-hover-bg !important;
-  color: $table-hover-color !important;
-}
-
-/* Used for overlay components, allows block that component and add some loading icon */
-.overlay {
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.overlay + * {
-  filter: blur(0.1rem); //this blur the content behind the overlay
-}
-
-/* For disable content that is going to be updated */
-.loading {
-  pointer-events: none;
-  filter: blur(0.1rem);
-}
-
-/* For remove dropdown arrow on dropdown toggle button */
-.no-dropdown-arrow.dropdown-toggle::after {
-  content: none;
-}
-
-/* Similar to input-group but the second button (or link) is inside the first*/
-.input-button {
-  position: relative;
-}
-.input-button > input {
-  padding-right: 3rem;
-}
-
-.input-button.input-button-sm > input {
-  padding-right: 2rem;
-}
-
-.input-button > button,
-.input-button > a {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-/* For apply form-control default size to non-input elements */
-.form-control-md {
-  min-height: calc(1.5em + 0.75rem + 2px);
-}
-
-/* Form controls of extra small size */
-.form-control-xs {
-  min-height: calc(1.12em + 0.375rem + 1px);
-  padding: 0.1875rem 0.375rem;
-  font-size: 0.65625rem;
-  border-radius: 0.15rem;
-}
-
-.form-select-xs {
-  padding-top: 0.1875rem;
-  padding-bottom: 0.1875rem;
-  padding-left: 0.375rem;
-  font-size: 0.65625rem;
-  border-radius: 0.15rem;
-}
-
-/* Button groups of extra small size */
-.btn-group-xs > .btn {
-  padding: 0.1875rem 0.375rem;
-  font-size: 0.65625rem;
-  // border-radius: 0.15rem;
-}
-
-/* For allow showing break lines (\n) */
-.text-pre-wrap {
-  white-space: pre-wrap;
-}
-
-/* Break text that overflows by characters instead of words */
-.text-break-all {
-  word-break: break-all;
-}
-
-/* Base style for izitoasts */
-.iziToast-config {
-  word-break: break-word;
-}
-
-.iziToast-icon-config {
-  font-size: 17px !important;
-}
-
-/* Image Thumbnail mixin: for include as content of other classes */
-@mixin img-thumbnail {
-  padding: $thumbnail-padding;
-  background-color: $thumbnail-bg;
-  border: $thumbnail-border-width solid $thumbnail-border-color;
-  @include border-radius($thumbnail-border-radius);
-  @include box-shadow($thumbnail-box-shadow);
-
-  // Keep them at most 100% wide
-  @include img-fluid();
-}
-
-/* Allows remove borders when screen is md or above */
-@include media-breakpoint-up(md) {
-  .border-md-0 {
-    border: none !important;
-    border-top: none !important;
-    border-bottom: none !important;
-    border-left: none !important;
-    border-right: none !important;
-  }
-
-  .text-md-pre-wrap {
-    white-space: pre-wrap;
-  }
-
-  .text-md-break-all {
-    word-break: break-all;
-  }
-
-  .img-thumbnail-md {
-    @include img-thumbnail();
-  }
-}
-
-/* Add a top arrow to a dropdown-menu for looks like a popover */
-.dropdown-menu-arrow:before {
-  right: 15px;
-  top: -16px;
-  border: 8px solid #0000;
-  border-bottom: 8px solid $border-color-translucent;
-}
-
-html[data-bs-theme='dark'] .dropdown-menu-arrow:before {
-  border-bottom: 8px solid $border-color-translucent-dark;
-}
-
-.dropdown-menu-arrow:after {
-  right: 16px;
-  top: -14px;
-  border: 7px solid #0000;
-  border-bottom: 7px solid $body-bg;
-}
-
-html[data-bs-theme='dark'] .dropdown-menu-arrow:after {
-  border-bottom: 7px solid $body-bg-dark;
-}
-
-.dropdown-menu-arrow:before,
-.dropdown-menu-arrow:after {
-  content: '';
-  left: auto;
-  display: inline-block;
-  position: absolute;
-}
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+::-webkit-scrollbar-thumb {
+  background: var(--mat-sys-on-surface);
+  border-radius: 2px;
 }

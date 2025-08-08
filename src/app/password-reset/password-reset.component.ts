@@ -1,13 +1,17 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
-import { Global } from '../shared/global/global';
 import { firstValueFrom } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
@@ -15,23 +19,32 @@ import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
 
+import { VarDirective } from '../shared/directives/var.directive';
+
 @Component({
-  selector: 'app-password-reset',
+  selector: 'password-reset',
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss'],
-  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  imports: [
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    VarDirective
+  ]
 })
 export class PasswordResetComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
-
-  submitLoading: boolean = false;
-
-  setValid: any = Global.setValid;
-
+  // forgot password form
   forgotPasswordForm!: FormGroup;
   usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
 
-  passwordResetForm!: FormGroup;
+  // restore password form
+  resetPasswordForm!: FormGroup;
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
   confirmPassword = new FormControl('', [
     Validators.required,
@@ -40,20 +53,28 @@ export class PasswordResetComponent implements OnInit {
     CustomValidators.equalTo(this.password)
   ]);
 
-  //router params
+  submitLoading: boolean = false;
+
+  // router param
   code!: string;
+
+  $isSmallScreen: boolean = false;
 
   constructor(
     public auth: AuthService,
-    public route: ActivatedRoute,
-    public router: Router,
-    public messages: MessagesService,
     public formBuilder: FormBuilder,
+    public router: Router,
+    public route: ActivatedRoute,
+    public messages: MessagesService,
+    private _breakpointObserver: BreakpointObserver,
     private _updateUserPasswordCode: UpdateUserPasswordCode,
     private _resetUserPassword: ResetUserPassword
   ) {
     this.route.params.subscribe((params) => {
       this.code = params['code'];
+    });
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
     });
   }
 
@@ -64,7 +85,7 @@ export class PasswordResetComponent implements OnInit {
 
     this.forgotPasswordForm = this.formBuilder.group({ usernameOrEmail: this.usernameOrEmail });
 
-    this.passwordResetForm = this.formBuilder.group({ password: this.password, confirmPassword: this.confirmPassword });
+    this.resetPasswordForm = this.formBuilder.group({ password: this.password, confirmPassword: this.confirmPassword });
   }
 
   sendPasswordResetEmail(): void {
@@ -75,19 +96,13 @@ export class PasswordResetComponent implements OnInit {
         .mutate({ usernameOrEmail: this.usernameOrEmail.value })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
+            if (errors) {
+              this.messages.error(errors, 'Send password reset email failed. Please try again.');
+            } else if (data?.updateUserPasswordCode) {
+              this.messages.info('A password reset email has been sent to your primary email, please check your inbox and SPAM folder.', {
+                duration: 10000
               });
-            else if (data?.updateUserPasswordCode) {
-              this.messages.clear(this.messageContainer.nativeElement.id);
-              this.messages.info(
-                `A password reset email has been sent to your primary email, please check your inbox and SPAM folder.`,
-                { timeout: 0 }
-              );
+              this.router.navigate(['/login']);
             }
           }
         })
@@ -98,25 +113,17 @@ export class PasswordResetComponent implements OnInit {
   }
 
   resetPassword(): void {
-    this.passwordResetForm.markAllAsTouched();
-    if (this.passwordResetForm.valid) {
+    this.resetPasswordForm.markAllAsTouched();
+    if (this.resetPasswordForm.valid) {
       this.submitLoading = true;
       this._resetUserPassword
         .mutate({ code: this.code, newPassword: this.password.value })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
-              });
-            else if (data?.resetUserPassword) {
-              this.messages.clear(this.messageContainer.nativeElement.id);
-              this.messages.info(`Your password has been reset, please sign in with your new password.`, {
-                timeout: 0
-              });
+            if (errors) {
+              this.messages.error(errors, 'Password reset failed. Please try again.');
+            } else if (data?.resetUserPassword) {
+              this.messages.info('Your password has been reset successfully. You can now log in with your new password.', { duration: 10000 });
               this.router.navigate(['/login']);
             }
           }

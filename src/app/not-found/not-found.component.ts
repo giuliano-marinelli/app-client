@@ -1,21 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-not-found',
+  selector: 'not-found',
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss'],
-  imports: [FaIconComponent]
+  imports: [MatCardModule, MatIconModule]
 })
-export class NotFoundComponent implements OnInit {
-  constructor() {}
+export class NotFoundComponent {
+  $isSmallScreen: boolean = false;
 
-  ngOnInit(): void {
-    document.body.classList.add('not-found-background');
-  }
-
-  ngOnDestroy(): void {
-    document.body.classList.remove('not-found-background');
+  constructor(private _breakpointObserver: BreakpointObserver) {
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
   }
 }

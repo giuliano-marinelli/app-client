@@ -1,10 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIcon } from '@angular/material/icon';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { TippyDirective } from '@ngneat/helipopper';
 
 import moment from 'moment';
@@ -83,7 +82,7 @@ export interface SearchAttribute {
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [NgClass, FormsModule, TippyDirective, FaIconComponent, NgbCollapse]
+  imports: [NgClass, FormsModule, TippyDirective, MatIcon, MatExpansionModule]
 })
 export class SearchComponent implements OnInit {
   //search input attributes
@@ -175,7 +174,7 @@ export class SearchComponent implements OnInit {
     return Array.isArray(type) ? type : [type];
   }
 
-  sortIcon(sort: Sort): IconProp {
+  sortIcon(sort: Sort): string {
     switch (sort) {
       case 'ASC':
         return 'sort-up';
@@ -186,7 +185,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  criteriaIcon(criteria: Criteria): IconProp {
+  criteriaIcon(criteria: Criteria): string {
     switch (criteria) {
       case 'gt':
         return 'greater-than';
@@ -262,12 +261,8 @@ export class SearchComponent implements OnInit {
       if (!isContinuous || this.continuousSearching) {
         let resultSearch: any = { order: [], where: this.optional ? [] : {} };
         this.searchAttributes.forEach((searchAttribute) => {
-          let whereValue =
-            searchAttribute.attribute.type == 'Date'
-              ? moment(searchAttribute.value as string).toDate()
-              : searchAttribute.value;
-          whereValue =
-            searchAttribute.criteria == 'ilike' && this.useLikeWildcard ? '%' + whereValue + '%' : whereValue;
+          let whereValue = searchAttribute.attribute.type == 'Date' ? moment(searchAttribute.value as string).toDate() : searchAttribute.value;
+          whereValue = searchAttribute.criteria == 'ilike' && this.useLikeWildcard ? '%' + whereValue + '%' : whereValue;
           if (this.optional) {
             resultSearch.where.push(
               this.attrPathToWhereInput(searchAttribute.attribute.name, {
@@ -275,11 +270,7 @@ export class SearchComponent implements OnInit {
               })
             );
           } else {
-            this.attrPathToExistingWhereInput(
-              searchAttribute.attribute.name,
-              { [searchAttribute.criteria]: whereValue },
-              resultSearch.where
-            );
+            this.attrPathToExistingWhereInput(searchAttribute.attribute.name, { [searchAttribute.criteria]: whereValue }, resultSearch.where);
           }
           if (searchAttribute.sort) resultSearch.order.push({ [searchAttribute.attribute.name]: searchAttribute.sort });
         });

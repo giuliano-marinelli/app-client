@@ -3,9 +3,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CustomValidators } from '@narik/custom-validators';
-import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
 import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
@@ -22,24 +20,10 @@ import { MessagesService } from '../../services/messages.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'app-profile-settings',
+  selector: 'profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss'],
-  imports: [
-    FaIconComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    NgClass,
-    InvalidFeedbackComponent,
-    RouterLink,
-    InputMaskModule,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownItem,
-    ImageCropperModule,
-    FilterPipe
-  ]
+  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink, InputMaskModule, ImageCropperModule, FilterPipe]
 })
 export class ProfileSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -77,7 +61,7 @@ export class ProfileSettingsComponent implements OnInit {
     public router: Router,
     public formBuilder: FormBuilder,
     public messages: MessagesService,
-    private modalService: NgbModal,
+    // private modalService: NgbModal,
     private compressor: NgxImageCompressService,
     private _findUser: FindUser,
     private _updateUser: UpdateUser
@@ -114,8 +98,9 @@ export class ProfileSettingsComponent implements OnInit {
         .fetch({ id: this.auth.user?.id })
         .subscribe({
           next: ({ data, errors }: any) => {
-            if (errors)
-              this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
+            if (errors) {
+            }
+            // this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.profileForm.patchValue(data?.user);
@@ -135,47 +120,44 @@ export class ProfileSettingsComponent implements OnInit {
     if (this.profileForm.valid) {
       this.submitLoading = true;
       this._updateUser
-        .mutate(
-          { userUpdateInput: this.profileForm.value, avatarFile: this.avatarFile.value },
-          { context: { useMultipart: true } }
-        )
+        .mutate({ userUpdateInput: this.profileForm.value, avatarFile: this.avatarFile.value }, { context: { useMultipart: true } })
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
-              });
-            if (data?.updateUser) {
-              this.profileForm.markAsPristine();
-              this.getUser();
-              this.auth.setUser();
-              this.messages.success('Profile settings successfully saved.', {
-                onlyOne: true,
-                displayMode: 'replace'
-                // target: this.messageContainer
-              });
-            }
+              if (data?.updateUser) {
+                // this.messages.error(errors, {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: this.messageContainer
+                // });
+                this.profileForm.markAsPristine();
+                this.getUser();
+                this.auth.setUser();
+                // this.messages.success('Profile settings successfully saved.', {
+                //   onlyOne: true,
+                //   displayMode: 'replace'
+                //   // target: this.messageContainer
+                // });
+              }
           }
         })
         .add(() => {
           this.submitLoading = false;
         });
     } else {
-      this.messages.error('Some values are invalid, please check.', {
-        close: false,
-        onlyOne: true,
-        displayMode: 'replace',
-        target: this.messageContainer
-      });
+      // this.messages.error('Some values are invalid, please check.', {
+      //   close: false,
+      //   onlyOne: true,
+      //   displayMode: 'replace',
+      //   target: this.messageContainer
+      // });
     }
   }
 
   onChangeAvatar(event: any, cropModal: any): void {
     if (event.target.files[0]) {
-      this.modalService.open(cropModal, { centered: true });
+      // this.modalService.open(cropModal, { centered: true });
       this.avatarChangedEvent = event;
     }
   }

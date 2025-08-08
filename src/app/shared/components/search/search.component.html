@@ -21,11 +21,7 @@
         <!--search tags-->
         @for (searchAttribute of searchAttributes; track searchAttribute) {
           <div
-            [ngClass]="
-              searchTagEditClass + inputByType(searchAttribute.attribute.type) != 'checkbox'
-                ? 'flex-wrap flex-sm-nowrap'
-                : ''
-            "
+            [ngClass]="searchTagEditClass + inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'flex-wrap flex-sm-nowrap' : ''"
             class="badge d-flex flex-row small align-items-center tag-edit mb-1 ms-0 me-1
         bg-{{ searchAttribute.attribute.color ? searchAttribute.attribute.color : defaultTagColor }}
         text-{{ searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor }}"
@@ -35,9 +31,7 @@
               @if (searchAttribute.attribute.category) {
                 <span
                   class="badge p-0 text-{{
-                    searchAttribute.attribute.categoryColor
-                      ? searchAttribute.attribute.categoryColor
-                      : defaultTagCategoryColor
+                    searchAttribute.attribute.categoryColor ? searchAttribute.attribute.categoryColor : defaultTagCategoryColor
                   }}"
                 >
                   {{ searchAttribute.attribute.category }}
@@ -48,14 +42,10 @@
               </span>
             </div>
             <!--search tag spaced zone?-->
-            <div
-              [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'd-sm-none order-3 w-100' : ''"
-            ></div>
+            <div [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'd-sm-none order-3 w-100' : ''"></div>
             <!--search tag input (text/checkbox/select)-->
             <div
-              [ngClass]="
-                inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''
-              "
+              [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''"
               class="pb-1 pb-sm-0 px-1 px-sm-0"
             >
               @if (!['select', 'checkbox'].includes(inputByType(searchAttribute.attribute.type))) {
@@ -76,11 +66,7 @@
                 />
               }
               @if (inputByType(searchAttribute.attribute.type) == 'select') {
-                <select
-                  class="form-select form-select-xs"
-                  [(ngModel)]="searchAttribute.value"
-                  (ngModelChange)="onSearch(true)"
-                >
+                <select class="form-select form-select-xs" [(ngModel)]="searchAttribute.value" (ngModelChange)="onSearch(true)">
                   @for (option of typeAsArray(searchAttribute.attribute.type); track option; let isFirst = $first) {
                     <option [ngValue]="option">
                       {{ option }}
@@ -90,10 +76,7 @@
               }
             </div>
             <!--search tag buttons-->
-            <div
-              [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''"
-              class="flex-fill text-end"
-            >
+            <div [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''" class="flex-fill text-end">
               <button
                 class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
                   searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
@@ -106,7 +89,7 @@
                 [tpInteractive]="true"
                 [tpIsEnabled]="criteriaByType(searchAttribute.attribute.type).length > 1"
               >
-                <fa-icon [icon]="criteriaIcon(searchAttribute.criteria)"></fa-icon>
+                <mat-icon>{{ criteriaIcon(searchAttribute.criteria) }}</mat-icon>
               </button>
               <ng-template #criteria_menu let-data="searchAttribute">
                 <div class="d-flex flex-column mt-1">
@@ -115,7 +98,7 @@
                       class="btn btn-sm btn-dark no-outline p-1 mb-1 pe-pointer"
                       (click)="changeCriteria(searchAttribute, criteria, criteria_tooltip)"
                     >
-                      <fa-icon [icon]="criteriaIcon(criteria)"></fa-icon>
+                      <mat-icon>{{ criteriaIcon(criteria) }}</mat-icon>
                     </button>
                   }
                 </div>
@@ -126,7 +109,7 @@
                 }}"
                 (click)="changeSort(searchAttribute)"
               >
-                <fa-icon [icon]="sortIcon(searchAttribute.sort)"></fa-icon>
+                <mat-icon>{{ sortIcon(searchAttribute.sort) }}</mat-icon>
               </button>
               <button
                 class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
@@ -134,20 +117,15 @@
                 }}"
                 (click)="removeSearchAttribute(searchAttribute)"
               >
-                <fa-icon [icon]="'xmark'"></fa-icon>
+                <mat-icon>clear</mat-icon>
               </button>
             </div>
           </div>
         }
       </div>
     }
-    <button
-      class="btn no-outline border-0 text-body"
-      [class.btn-sm]="advancedCollapsed"
-      type="submit"
-      (click)="onSearch(false)"
-    >
-      <fa-icon [icon]="'search'"></fa-icon>
+    <button class="btn no-outline border-0 text-body" [class.btn-sm]="advancedCollapsed" type="submit" (click)="onSearch(false)">
+      <mat-icon>search</mat-icon>
     </button>
   </div>
   @if (advanced) {
@@ -159,34 +137,21 @@
           [attr.aria-expanded]="!advancedCollapsed"
         >
           <b class="me-2">Advanced Search</b>
-          <fa-icon class="small" [icon]="advancedCollapsed ? 'chevron-down' : 'chevron-up'"></fa-icon>
+          <mat-icon class="small">{{ advancedCollapsed ? 'expand-more' : 'expand-less' }}</mat-icon>
         </a>
         <div class="flex-fill">
           @if (!advancedCollapsed) {
             <div class="btn-group btn-group-xs mt-1" role="group">
-              <input
-                type="radio"
-                class="btn-check"
-                name="optional"
-                id="optional-and"
-                [(ngModel)]="optional"
-                [value]="false"
-              />
+              <input type="radio" class="btn-check" name="optional" id="optional-and" [(ngModel)]="optional" [value]="false" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">AND</label>
-              <input
-                type="radio"
-                class="btn-check"
-                name="optional"
-                id="optional-or"
-                [(ngModel)]="optional"
-                [value]="true"
-              />
+              <input type="radio" class="btn-check" name="optional" id="optional-or" [(ngModel)]="optional" [value]="true" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">OR</label>
             </div>
           }
         </div>
       </div>
-      <div #advancedCollapse="ngbCollapse" [(ngbCollapse)]="advancedCollapsed">
+      <!-- <div #advancedCollapse="ngbCollapse" [(ngbCollapse)]="advancedCollapsed"> -->
+      <mat-expansion-panel #advancedCollapse="matExpansionPanel">
         @for (attribute of attributes; track attribute) {
           <div
             class="badge me-1 pe-pointer tag-attribute
@@ -196,9 +161,7 @@
             (click)="addSearchAttribute(attribute)"
           >
             <div class="mx-2 d-flex flex-column" style="min-height: 1.5rem">
-              <span
-                class="badge p-0 text-{{ attribute.categoryColor ? attribute.categoryColor : defaultTagCategoryColor }}"
-              >
+              <span class="badge p-0 text-{{ attribute.categoryColor ? attribute.categoryColor : defaultTagCategoryColor }}">
                 {{ attribute.category }}&nbsp;
               </span>
               <span [style]="!attribute.category ? 'margin-top: -0.25rem' : ''">
@@ -207,7 +170,7 @@
             </div>
           </div>
         }
-      </div>
+      </mat-expansion-panel>
     </div>
   }
 </div>

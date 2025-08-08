@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  graphqlHTTPUri: 'http://localhost:3000/graphql',
-  graphqlWSUri: 'ws://localhost:3000/graphql'
+  host: '192.168.1.40',
+  appPort: 5000,
+  graphql: 'graphql'
 };
 
 /*

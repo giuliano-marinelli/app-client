@@ -1,16 +1,19 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterLink } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { CheckEmailAddressExists, Email, UpdateEmailVerificationCode } from '../shared/entities/email.entity';
 import { CheckUserUsernameExists, CreateUser, Login } from '../shared/entities/user.entity';
-import { Global } from '../shared/global/global';
 import { ExtraValidators } from '../shared/validators/validators';
-import { Apollo } from 'apollo-angular';
 import { Observable, firstValueFrom } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
@@ -18,30 +21,38 @@ import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
 
+import { VarDirective } from '../shared/directives/var.directive';
+
 @Component({
-  selector: 'app-register',
+  selector: 'register',
   templateUrl: './register.component.html',
-  imports: [FormsModule, ReactiveFormsModule, NgClass, FaIconComponent, InvalidFeedbackComponent, RouterLink]
+  styleUrls: ['./register.component.scss'],
+  imports: [
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    RouterLink,
+    VarDirective
+  ]
 })
 export class RegisterComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
-
-  submitLoading: boolean = false;
-  emailCheckingLoading: boolean = false;
-  usernameCheckingLoading: boolean = false;
-
-  setValid: any = Global.setValid;
-
+  // register form
   registerForm!: FormGroup;
-  username = new FormControl(
-    '',
-    [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
-    [ExtraValidators.usernameExists(this._usernameExists)]
-  );
   email = new FormControl(
     '',
     [Validators.required, Validators.maxLength(100), ExtraValidators.email],
     [ExtraValidators.emailExists(this._checkEmailAddressExists, true)]
+  );
+  username = new FormControl(
+    '',
+    [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
+    [ExtraValidators.usernameExists(this._checkUsernameExists)]
   );
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
   confirmPassword = new FormControl('', [
@@ -51,18 +62,28 @@ export class RegisterComponent implements OnInit {
     CustomValidators.equalTo(this.password)
   ]);
 
+  submitLoading: boolean = false;
+  emailCheckingLoading: boolean = false;
+  usernameCheckingLoading: boolean = false;
+
+  $isSmallScreen: boolean = false;
+
   constructor(
-    public apollo: Apollo,
     public auth: AuthService,
-    public router: Router,
     public formBuilder: FormBuilder,
+    public router: Router,
     public messages: MessagesService,
+    private _breakpointObserver: BreakpointObserver,
     private _createUser: CreateUser,
-    private _usernameExists: CheckUserUsernameExists,
+    private _checkUsernameExists: CheckUserUsernameExists,
     private _checkEmailAddressExists: CheckEmailAddressExists,
-    private _login: Login,
-    private _updateEmailVerificationCode: UpdateEmailVerificationCode
-  ) {}
+    private _updateEmailVerificationCode: UpdateEmailVerificationCode,
+    private _login: Login
+  ) {
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+  }
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {
@@ -101,12 +122,7 @@ export class RegisterComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainer
-              });
+              this.messages.error(errors, 'Registration failed. Please check your inputs.');
               this.submitLoading = false;
             }
             if (data?.createUser) {
@@ -119,12 +135,7 @@ export class RegisterComponent implements OnInit {
                 .subscribe({
                   next: ({ data, errors }) => {
                     if (errors) {
-                      this.messages.error(errors, {
-                        close: false,
-                        onlyOne: true,
-                        displayMode: 'replace',
-                        target: this.messageContainer
-                      });
+                      this.messages.error(errors, 'Login failed. Please try again later.');
                       this.submitLoading = false;
                     }
                     if (data?.login) {
@@ -134,16 +145,10 @@ export class RegisterComponent implements OnInit {
                         ?.subscribe({
                           next: ({ data, errors }: any) => {
                             if (errors) {
-                              this.messages.error(errors, {
-                                close: false,
-                                onlyOne: true,
-                                displayMode: 'replace',
-                                target: this.messageContainer
-                              });
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);
-                              this.messages.success('You successfully registered.');
+                              this.messages.info('You successfully registered. A verification email has been sent to your email address.');
                               this.router.navigate(['/']);
                             }
                           }
@@ -164,12 +169,7 @@ export class RegisterComponent implements OnInit {
           }
         });
     } else {
-      this.messages.error('Some values are invalid, please check.', {
-        close: false,
-        onlyOne: true,
-        displayMode: 'replace',
-        target: this.messageContainer
-      });
+      this.messages.error('Some values are invalid, please check.');
     }
   }
 
@@ -179,8 +179,8 @@ export class RegisterComponent implements OnInit {
         if (errors) this.messages.error(errors);
         else if (data?.updateEmailVerificationCode)
           this.messages.info(
-            `A verification email has been sent to <b>${email.address}</b>, please check your inbox and SPAM in order to verify your account.`,
-            { timeout: 0 }
+            `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`,
+            { duration: 10000 }
           );
       }
     });

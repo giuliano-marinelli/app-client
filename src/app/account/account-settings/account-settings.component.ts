@@ -3,8 +3,6 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-
 import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
@@ -17,10 +15,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-account-settings',
+  selector: 'account-settings',
   templateUrl: './account-settings.component.html',
   styleUrls: ['./account-settings.component.scss'],
-  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
+  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
 })
 export class AccountSettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
@@ -77,15 +75,15 @@ export class AccountSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)
-              this.messages.error(errors, {
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerUpdate
-              });
-            if (data?.user) {
-              this.user = data?.user;
-              this.usernameForm.patchValue(data?.user);
-            }
+              if (data?.user) {
+                // this.messages.error(errors, {
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: this.messageContainerUpdate
+                // });
+                this.user = data?.user;
+                this.usernameForm.patchValue(data?.user);
+              }
           }
         })
         .add(() => {
@@ -105,34 +103,34 @@ export class AccountSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerUpdate
-              });
-            if (data?.updateUser) {
-              this.usernameForm.markAsPristine();
-              this.getUser();
-              this.auth.setUser();
-              this.messages.success('Username successfully changed.', {
-                onlyOne: true,
-                displayMode: 'replace'
-                // target: this.messageContainerUpdate
-              });
-            }
+              if (data?.updateUser) {
+                // this.messages.error(errors, {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: this.messageContainerUpdate
+                // });
+                this.usernameForm.markAsPristine();
+                this.getUser();
+                this.auth.setUser();
+                // this.messages.success('Username successfully changed.', {
+                //   onlyOne: true,
+                //   displayMode: 'replace'
+                //   // target: this.messageContainerUpdate
+                // });
+              }
           }
         })
         .add(() => {
           this.updateSubmitLoading = false;
         });
     } else {
-      this.messages.error('Some values are invalid, please check.', {
-        close: false,
-        onlyOne: true,
-        displayMode: 'replace',
-        target: this.messageContainerUpdate
-      });
+      // this.messages.error('Some values are invalid, please check.', {
+      //   close: false,
+      //   onlyOne: true,
+      //   displayMode: 'replace',
+      //   target: this.messageContainerUpdate
+      // });
     }
   }
 
@@ -144,17 +142,17 @@ export class AccountSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerDelete
-              });
-            if (data?.deleteUser) {
-              this.auth.eraseToken();
-              this.auth.setUser();
-              this.messages.warning('Your account was successfully deleted. We will miss you!', { timeout: 0 });
-            }
+              if (data?.deleteUser) {
+                // this.messages.error(errors, {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: this.messageContainerDelete
+                // });
+                this.auth.eraseToken();
+                this.auth.setUser();
+                // this.messages.warning('Your account was successfully deleted. We will miss you!', { timeout: 0 });
+              }
           }
         })
         .add(() => {

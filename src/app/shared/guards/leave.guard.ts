@@ -1,19 +1,26 @@
 import { Component, inject } from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { CanDeactivateFn } from '@angular/router';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Subject } from 'rxjs';
 
 import { LeaveGuardWarningComponent } from '../components/leave-guard-warning/leave-guard-warning.component';
 
 export const LeaveGuard: CanDeactivateFn<Component> = (component: Component) => {
-  const ngbModal = inject(NgbModal);
+  const dialog = inject(MatDialog);
   if ((component as any)['hasChanges'] == null || (component as any)['hasChanges']()) {
     const subject = new Subject<boolean>();
 
-    const modal = ngbModal.open(LeaveGuardWarningComponent);
-    modal.componentInstance.subject = subject;
+    const dialogRef = dialog.open(LeaveGuardWarningComponent);
+    dialogRef.componentInstance.subject = subject;
 
     return subject.asObservable();
     // return window.confirm('Do you want to leave the website?\nChanges may not be saved.');

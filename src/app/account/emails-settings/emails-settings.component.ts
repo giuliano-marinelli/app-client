@@ -3,16 +3,9 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CustomValidators } from '@narik/custom-validators';
 
-import {
-  CheckEmailAddressExists,
-  CreateEmail,
-  DeleteEmail,
-  Email,
-  UpdateEmailVerificationCode
-} from '../../shared/entities/email.entity';
+import { CheckEmailAddressExists, CreateEmail, DeleteEmail, Email, UpdateEmailVerificationCode } from '../../shared/entities/email.entity';
 import { FindUser, UpdateUserPrimaryEmail, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
@@ -25,10 +18,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-emails-settings',
+  selector: 'emails-settings',
   templateUrl: './emails-settings.component.html',
   styleUrls: ['./emails-settings.component.scss'],
-  imports: [FaIconComponent, ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  imports: [ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class EmailsSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -93,9 +86,7 @@ export class EmailsSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.addEmailForm = this.formBuilder.group({
-      address: new FormControl('', this.addEmailValidator, [
-        ExtraValidators.emailExists(this._checkEmailAddressExists, true)
-      ])
+      address: new FormControl('', this.addEmailValidator, [ExtraValidators.emailExists(this._checkEmailAddressExists, true)])
     });
 
     this.primaryEmailForm = this.formBuilder.group({ address: new FormControl('', this.primaryEmailValidator) });
@@ -110,8 +101,9 @@ export class EmailsSettingsComponent implements OnInit {
         .fetch({ id: this.auth.user.id })
         .subscribe({
           next: ({ data, errors }: any) => {
-            if (errors)
-              this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
+            if (errors) {
+            }
+            // this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.addEmailAddress?.setValidators(this.addEmailValidator);
@@ -139,22 +131,22 @@ export class EmailsSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerAddEmail
-              });
+              // this.messages.error(errors, {
+              //   close: false,
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainerAddEmail
+              // });
             }
             if (data?.createEmail) {
               this.addEmailForm.reset();
               this.getUser();
               this.auth.setUser();
-              this.messages.success(`Email ${data.createEmail.address} successfully added.`, {
-                onlyOne: true,
-                displayMode: 'replace'
-                // target: this.messageContainer
-              });
+              // this.messages.success(`Email ${data.createEmail.address} successfully added.`, {
+              //   onlyOne: true,
+              //   displayMode: 'replace'
+              //   // target: this.messageContainer
+              // });
             }
           }
         })
@@ -172,21 +164,21 @@ export class EmailsSettingsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this.messages.error(errors, {
-              close: false,
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
+            // this.messages.error(errors, {
+            //   close: false,
+            //   onlyOne: true,
+            //   displayMode: 'replace',
+            //   target: this.messageContainer
+            // });
           }
           if (data?.deleteEmail) {
             this.getUser();
             this.auth.setUser();
-            this.messages.success(`Email ${email.address} successfully removed.`, {
-              onlyOne: true,
-              displayMode: 'replace'
-              // target: this.messageContainer
-            });
+            // this.messages.success(`Email ${email.address} successfully removed.`, {
+            //   onlyOne: true,
+            //   displayMode: 'replace'
+            //   // target: this.messageContainer
+            // });
           }
         }
       })
@@ -209,21 +201,21 @@ export class EmailsSettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, {
-                close: false,
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerPrimaryEmail
-              });
+              // this.messages.error(errors, {
+              //   close: false,
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainerPrimaryEmail
+              // });
             }
             if (data?.updateUserPrimaryEmail) {
               this.getUser();
               this.auth.setUser();
-              this.messages.success('Primary email successfully changed.', {
-                onlyOne: true,
-                displayMode: 'replace'
-                // target: this.messageContainer
-              });
+              // this.messages.success('Primary email successfully changed.', {
+              //   onlyOne: true,
+              //   displayMode: 'replace'
+              //   // target: this.messageContainer
+              // });
             }
           }
         })

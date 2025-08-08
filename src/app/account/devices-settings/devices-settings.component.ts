@@ -2,10 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { IconName, IconProp } from '@fortawesome/fontawesome-svg-core';
-import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
-
 import { CloseSession, FindSessions, Session } from '../../shared/entities/session.entity';
 import { Global } from '../../shared/global/global';
 import { MomentModule } from 'ngx-moment';
@@ -16,19 +12,10 @@ import { MessagesService } from '../../services/messages.service';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'app-devices-settings',
+  selector: 'devices-settings',
   templateUrl: './devices-settings.component.html',
   styleUrls: ['./devices-settings.component.scss'],
-  imports: [
-    FaIconComponent,
-    NgTemplateOutlet,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownItem,
-    MomentModule,
-    FilterPipe
-  ]
+  imports: [NgTemplateOutlet, MomentModule, FilterPipe]
 })
 export class DevicesSettingsComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -64,16 +51,16 @@ export class DevicesSettingsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: any) => {
           if (errors)
-            this.messages.error(errors, {
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
-          if (data?.sessions) {
-            const sessions = data?.sessions;
-            this.sessions = sessions?.set;
-            this.sessionsCount = sessions?.count;
-          }
+            if (data?.sessions) {
+              // this.messages.error(errors, {
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainer
+              // });
+              const sessions = data?.sessions;
+              this.sessions = sessions?.set;
+              this.sessionsCount = sessions?.count;
+            }
         }
       })
       .add(() => {
@@ -88,20 +75,20 @@ export class DevicesSettingsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors)
-            this.messages.error(errors, {
-              close: false,
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
-          if (data?.closeSession) {
-            this.getSessions();
-            this.messages.success('Session successfully closed.', {
-              onlyOne: true,
-              displayMode: 'replace'
-              // target: this.messageContainer
-            });
-          }
+            if (data?.closeSession) {
+              // this.messages.error(errors, {
+              //   close: false,
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainer
+              // });
+              this.getSessions();
+              // this.messages.success('Session successfully closed.', {
+              //   onlyOne: true,
+              //   displayMode: 'replace'
+              //   // target: this.messageContainer
+              // });
+            }
         }
       })
       .add(() => {
@@ -109,7 +96,7 @@ export class DevicesSettingsComponent implements OnInit {
       });
   }
 
-  deviceTypeIcon(deviceType: string = ''): IconProp {
+  deviceTypeIcon(deviceType: string = ''): string[] {
     if (!deviceType || deviceType == '') return ['far', 'circle-question'];
     else if (deviceType.includes('desktop')) return ['fas', 'desktop'];
     else if (deviceType.includes('laptop')) return ['fas', 'laptop'];
@@ -119,7 +106,7 @@ export class DevicesSettingsComponent implements OnInit {
     else return ['far', 'circle-question'];
   }
 
-  browserIcon(client: string = ''): IconProp {
+  browserIcon(client: string = ''): string[] {
     if (client.includes('Chrome')) return ['fab', 'chrome'];
     else if (client.includes('Firefox')) return ['fab', 'firefox'];
     else if (client.includes('Safari')) return ['fab', 'safari'];

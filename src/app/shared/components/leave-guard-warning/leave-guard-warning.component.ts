@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { Subject } from 'rxjs';
 
 @Component({
@@ -12,13 +10,10 @@ import { Subject } from 'rxjs';
 export class LeaveGuardWarningComponent {
   subject?: Subject<boolean>;
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private modalService: NgbModal
-  ) {}
+  constructor() {}
 
   proceed(value: boolean) {
-    this.modalService.dismissAll();
+    // this.modalService.dismissAll();
     if (this.subject) {
       this.subject.next(value);
       this.subject.complete();

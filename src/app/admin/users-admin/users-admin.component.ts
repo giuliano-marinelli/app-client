@@ -2,17 +2,6 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { IconName } from '@fortawesome/fontawesome-svg-core';
-import {
-  NgbCollapse,
-  NgbDropdown,
-  NgbDropdownItem,
-  NgbDropdownMenu,
-  NgbDropdownToggle,
-  NgbPagination
-} from '@ng-bootstrap/ng-bootstrap';
-
 import { CloseSession, Session } from '../../shared/entities/session.entity';
 import { FindUsers, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
@@ -32,24 +21,17 @@ import { VarDirective } from '../../shared/directives/var.directive';
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
-  selector: 'app-users-admin',
+  selector: 'users-admin',
   templateUrl: './users-admin.component.html',
   styleUrls: ['./users-admin.component.scss'],
   imports: [
-    FaIconComponent,
     SearchComponent,
     NgxMasonryModule,
     NgTemplateOutlet,
-    NgbPagination,
     NgClass,
-    NgbDropdown,
-    NgbDropdownToggle,
-    NgbDropdownMenu,
-    NgbDropdownItem,
     ConfirmComponent,
     VarDirective,
     VerifiedMarkComponent,
-    NgbCollapse,
     MomentModule,
     FilterPipe
   ]
@@ -102,16 +84,16 @@ export class UsersAdminComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: any) => {
           if (errors)
-            this.messages.error(errors, {
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
-          if (data?.users) {
-            const users = data?.users;
-            this.users = users?.set;
-            this.usersCount = users?.count;
-          }
+            if (data?.users) {
+              // this.messages.error(errors, {
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainer
+              // });
+              const users = data?.users;
+              this.users = users?.set;
+              this.usersCount = users?.count;
+            }
         }
       })
       .add(() => {
@@ -141,20 +123,20 @@ export class UsersAdminComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors)
-            this.messages.error(errors, {
-              close: false,
-              onlyOne: true,
-              displayMode: 'replace',
-              target: this.messageContainer
-            });
-          if (data?.closeSession) {
-            this.getUsers();
-            this.messages.success('Session successfully closed.', {
-              onlyOne: true,
-              displayMode: 'replace'
-              // target: this.messageContainer
-            });
-          }
+            if (data?.closeSession) {
+              // this.messages.error(errors, {
+              //   close: false,
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: this.messageContainer
+              // });
+              this.getUsers();
+              // this.messages.success('Session successfully closed.', {
+              //   onlyOne: true,
+              //   displayMode: 'replace'
+              //   // target: this.messageContainer
+              // });
+            }
         }
       })
       .add(() => {
@@ -162,7 +144,7 @@ export class UsersAdminComponent implements OnInit {
       });
   }
 
-  browserIcon(client: string = ''): IconName {
+  browserIcon(client: string = ''): string {
     if (client.includes('Chrome')) return 'chrome';
     else if (client.includes('Firefox')) return 'firefox';
     else if (client.includes('Safari')) return 'safari';

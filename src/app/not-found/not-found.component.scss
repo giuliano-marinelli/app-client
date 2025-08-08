@@ -1,24 +1,32 @@
-//this allow the use of bootstrap and bootstrap dark variables, functions, utilities, mixins and custom variables
-@import '../../assets/scss/variables.scss';
-
-// ::ng-deep .not-found-background {
-//   background: radial-gradient(circle, rgb(159 122 138) 0%, rgb(69 83 102) 60%);
-// }
-
-::ng-deep .not-found-background {
-  background-color: $body-secondary-bg;
+.card {
+  border: none !important;
 }
 
-::ng-deep html[data-bs-theme='dark'] .not-found-background {
-  background-color: $body-secondary-bg-dark;
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-@include media-breakpoint-down(sm) {
-  ::ng-deep .not-found-background {
-    background-color: $body-bg;
-  }
+.title {
+  margin: 0px !important;
+  font-size: 60px;
+}
 
-  ::ng-deep html[data-bs-theme='dark'] .not-found-background {
-    background-color: $body-bg-dark;
-  }
+.subtitle {
+  margin: 0px !important;
+  font-weight: 200;
+}
+
+.action-icon {
+  font-size: 100px;
+  height: 100px;
+  width: 100px;
+}
+
+.action-icon.full {
+  font-size: 150px;
+  height: 150px;
+  width: 150px;
 }

@@ -1,7 +1,7 @@
 <div class="container mb-3">
   @if (userLoading) {
     <div class="row mt-3 text-center">
-      <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse" size="3x"></fa-icon>
+      <!-- <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse" size="3x"></fa-icon> -->
     </div>
   }
   @if (!userLoading && user) {
@@ -43,13 +43,13 @@
           </div>
           @if (user.profile?.location) {
             <div class="mt-3 d-flex flex-row">
-              <fa-icon class="me-2" [icon]="'location-dot'"></fa-icon>
+              <!-- <fa-icon class="me-2" [icon]="'location-dot'"></fa-icon> -->
               <div class="text-break">{{ user.profile?.location }}</div>
             </div>
           }
           @if (user.profile?.publicEmail?.address) {
             <div class="mt-3 d-flex flex-row">
-              <fa-icon class="me-2" [icon]="'envelope'"></fa-icon>
+              <!-- <fa-icon class="me-2" [icon]="'envelope'"></fa-icon> -->
               <div class="text-break">
                 <a href="mailto:{{ user.profile?.publicEmail?.address }}">{{ user.profile?.publicEmail?.address }}</a>
               </div>
@@ -57,7 +57,7 @@
           }
           @if (user.profile?.url) {
             <div class="mt-3 d-flex flex-row">
-              <fa-icon class="me-2" [icon]="'link'"></fa-icon>
+              <!-- <fa-icon class="me-2" [icon]="'link'"></fa-icon> -->
               <div class="text-break">
                 <a href="{{ user.profile?.url }}" target="_blank">{{ user.profile?.url }}</a>
               </div>

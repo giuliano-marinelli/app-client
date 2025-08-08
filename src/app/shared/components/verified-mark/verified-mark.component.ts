@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-
-import { FaIconComponent, FaLayersComponent } from '@fortawesome/angular-fontawesome';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'verified-mark',
   templateUrl: './verified-mark.component.html',
   styleUrl: './verified-mark.component.scss',
-  imports: [FaLayersComponent, FaIconComponent]
+  imports: [MatIconModule]
 })
 export class VerifiedMarkComponent {
   @Input() verified?: boolean = true;

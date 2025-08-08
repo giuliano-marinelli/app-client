@@ -1,173 +1,168 @@
-<header
-  *ngVar="{ collapsed: true, logoHover: false } as navbarSettings"
-  (window:resize)="navbarSettings.collapsed = true"
-  (window:mousewheel)="navbarSettings.collapsed = true"
->
-  <a
-    class="close-navbar-toggler collapsed"
-    [class.collapsed]="navbarSettings.collapsed"
-    (click)="navbarSettings.collapsed = true"
-  ></a>
-  <nav class="navbar navbar-expand-md fixed-top p-0 align-items-stretch navbar-custom">
-    <div
-      class="container-fluid container-xl p-0 align-items-stretch container-transition"
-      [class.container-full]="fullNavbar"
-    >
-      <button
-        class="navbar-toggler no-outline border-0 py-2"
-        [class.collapsed]="navbarSettings.collapsed"
-        type="button"
-        (click)="navbarSettings.collapsed = !navbarSettings.collapsed"
-      >
-        <span class="icon-bar top-bar"></span>
-        <span class="icon-bar middle-bar"></span>
-        <span class="icon-bar bottom-bar"></span>
-      </button>
-      <a class="navbar-brand p-2 m-0" routerLink="/">
-        <fa-icon class="logo-icon" [icon]="'dice-d6'" size="2x"></fa-icon>
-      </a>
-      <!-- <div class="bg-black flex-shrink-0 logo pe-pointer" routerLink="/" (mouseover)="navbarSettings.logoHover = true"
-      (mouseleave)="navbarSettings.logoHover = false" (click)="navbarSettings.collapsed = true">
-      <a class="navbar-brand">
-        <fa-icon class="d-inline-block align-text-top mx-3 {{ navbarSettings.logoHover ? 'fa-bounce' : '' }}"
-        [icon]="'dice-d6'"></fa-icon>
-        App
-      </a>
-    </div> -->
-      <div class="order-md-1 flex-md-grow-0 py-2">
-        <ul class="navbar-nav flex-row-reverse">
-          <li class="nav-item me-4 me-md-2">
-            <a class="nav-link pe-pointer" placement="bottom" (click)="darkmodeService.toggleTheme()">
-              <fa-icon [icon]="darkmodeService.isDarkMode() ? 'moon' : 'sun'"></fa-icon>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="collapse navbar-collapse p-2 pb-0 pb-md-2" [ngbCollapse]="navbarSettings.collapsed">
-        <ul class="navbar-nav me-auto">
-          @if (isDevelopment) {
-            <li class="nav-item border-top border-md-0">
-              <a class="nav-link" href="/graphql" (click)="navbarSettings.collapsed = true">
-                <fa-icon [icon]="'globe'"></fa-icon> APOLLO
-              </a>
-            </li>
-          }
-          @if (!auth.loading && auth.user?.role == 'ADMIN') {
-            <li class="nav-item border-top border-md-0">
-              <a
-                class="nav-link"
-                routerLink="/admin"
-                routerLinkActive="active"
-                (click)="navbarSettings.collapsed = true"
-              >
-                <fa-icon [icon]="'screwdriver-wrench'"></fa-icon> Admin
-              </a>
-            </li>
-          }
-        </ul>
-        <ul class="navbar-nav ms-md-auto">
-          @if (!auth.loading && auth.user) {
-            <li class="nav-item border-top border-md-0 d-block d-md-none">
-              <a
-                class="nav-link pe-pointer"
-                routerLink="/settings"
-                routerLinkActive="active"
-                (click)="navbarSettings.collapsed = true"
-              >
-                <fa-icon [icon]="'gears'"></fa-icon> Settings
-              </a>
-            </li>
-          }
-          @if (auth.loading) {
-            <li class="nav-item border-top border-md-0 text-body">
-              <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse"></fa-icon>
-            </li>
-          }
-          @if (!auth.loading && auth.user) {
-            <li class="nav-item border-top border-md-0">
-              <a
-                class="nav-link d-block d-md-none"
-                routerLink="/user/{{ auth.user.username }}"
-                routerLinkActive="active"
-                (click)="navbarSettings.collapsed = true"
-              >
-                <img
-                  class="img-thumbnail bg-secondary rounded-circle profile-img"
-                  [src]="auth.user.profile?.avatar"
-                  onerror="this.src='assets/images/default-user.png'"
-                />&nbsp;<b>{{ auth.user.username }}</b>
-              </a>
-              <div ngbDropdown display="dynamic" placement="bottom-end" autoClose="true">
-                <a class="nav-link d-none d-md-block pe-pointer p-0" ngbDropdownToggle>
-                  <img
-                    class="img-thumbnail bg-secondary rounded-circle profile-img"
-                    [src]="auth.user.profile?.avatar"
-                    onerror="this.src='assets/images/default-user.png'"
-                  />
-                </a>
-                <div class="dropdown-menu dropdown-menu-arrow shadow-sm" ngbDropdownMenu>
-                  <a class="d-block p-3 pt-0 pb-0 small text-body" routerLink="/user/{{ auth.user.username }}">
-                    Signed in as <b>{{ auth.user.username }}</b>
-                  </a>
-                  <div class="dropdown-divider m-1"></div>
-                  <a ngbDropdownItem class="small" routerLink="/user/{{ auth.user.username }}">
-                    <fa-icon [icon]="'user'"></fa-icon> Your profile
-                  </a>
-                  <div class="dropdown-divider m-1"></div>
-                  <a ngbDropdownItem class="small" routerLink="/settings">
-                    <fa-icon [icon]="'gears'"></fa-icon> Settings
-                  </a>
-                  <div class="dropdown-divider m-1"></div>
-                  <a ngbDropdownItem class="small pe-pointer" (click)="logout()">
-                    <fa-icon [icon]="'sign-out'"></fa-icon> Sign out
-                  </a>
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidenav -->
+  <mat-sidenav #drawer class="sidenav" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
+    <!-- Sidenav Toolbar -->
+    <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    <!-- Sidenav Navigation -->
+    <ng-container *ngTemplateOutlet="navigation"></ng-container>
+  </mat-sidenav>
+
+  <!-- Content -->
+  <mat-sidenav-content>
+    <!-- Main Toolbar -->
+    <ng-container *ngTemplateOutlet="toolbar; context: { fixed: true }"></ng-container>
+    <!-- Main Navigation -->
+    <div class="nav" [class.full]="$isFullNav && $isLargeScreen" [class.hidden]="$isSmallScreen">
+      <ng-container *ngTemplateOutlet="navigation; context: { fixed: true }"></ng-container>
+    </div>
+    <!-- Main Content -->
+    <div class="content" [class.full]="$isFullNav && $isLargeScreen" [class.expanded]="$isSmallScreen">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #toolbar let-fixed="fixed">
+  <mat-toolbar class="toolbar" [class.fixed]="fixed">
+    <button matIconButton (click)="$isLargeScreen ? toggleFullNav() : drawer.toggle()" onclick="this.blur()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a class="logo" routerLink="/">
+      <mat-icon>logo_dev</mat-icon>
+      <span>App</span>
+    </a>
+    @if (fixed) {
+      <span class="mat-spacer"></span>
+      @if (!auth.loading && auth.user) {
+        <!-- User Logged In -->
+        <button matIconButton [matMenuTriggerFor]="menu" class="profile-button" (click)="menuPages.resetPages()">
+          <img [src]="auth.user.profile?.avatar" class="profile-img" onerror="this.src='assets/images/default-user.png'" />
+        </button>
+      } @else if (!auth.loading) {
+        <!-- Not Logged User -->
+        <!-- Config Menu -->
+        <div *var="{ section: 'main' } as configMenuOptions">
+          <button matIconButton [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+        <!-- Sign In -->
+        <a matButton="outlined" routerLink="/login">
+          <mat-icon>account_circle</mat-icon>
+          Sign in
+        </a>
+      } @else {
+        <mat-spinner [diameter]="36"></mat-spinner>
+      }
+      <mat-menu #menu="matMenu" class="mat-multi-page-menu menu">
+        <mat-multi-page-menu #menuPages="matMultiPageMenu">
+          <menu-page>
+            @if (!auth.loading && auth.user) {
+              <div class="mat-menu-item-info menu-profile">
+                <img [src]="auth.user.profile?.avatar" class="menu-profile-img" onerror="this.src='assets/images/default-user.png'" />
+                <div class="menu-profile-info">
+                  <b class="menu-profile-name">{{ auth.user.profile?.name }}</b>
+                  {{ '@' + auth.user.username }} asdasd
                 </div>
               </div>
-            </li>
-          }
-          @if (!auth.loading && auth.user) {
-            <li class="nav-item border-top border-md-0 d-block d-md-none">
-              <a class="nav-link pe-pointer" (click)="navbarSettings.collapsed = true; logout()">
-                <fa-icon [icon]="'sign-out'"></fa-icon> Sign out
+              <mat-divider></mat-divider>
+              <a mat-menu-item routerLink="/{{ auth.user.username }}">
+                <mat-icon>person</mat-icon>
+                <span>Profile</span>
               </a>
-            </li>
-          }
-          @if (!auth.loading && !auth.user) {
-            <li class="nav-item border-top border-md-0">
-              <a
-                class="nav-link"
-                routerLink="/login"
-                routerLinkActive="active"
-                (click)="navbarSettings.collapsed = true"
-              >
-                <fa-icon [icon]="'sign-in'"></fa-icon> Sign in
+              <a mat-menu-item routerLink="/settings">
+                <mat-icon>settings</mat-icon>
+                <span>Settings</span>
               </a>
-            </li>
-          }
-          @if (!auth.loading && !auth.user) {
-            <li class="nav-item border-top border-md-0">
-              <a
-                class="nav-link"
-                routerLink="/register"
-                routerLinkActive="active"
-                (click)="navbarSettings.collapsed = true"
-              >
-                <fa-icon [icon]="'user-plus'"></fa-icon> Sign up
+              <a mat-menu-item (click)="logout()">
+                <mat-icon>logout</mat-icon>
+                <span>Sign out</span>
               </a>
-            </li>
-          }
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+              <mat-divider></mat-divider>
+            }
+            <button mat-menu-item [matMenuPageLink]="'appearance'">
+              <mat-icon>dark_mode</mat-icon>
+              <span
+                >Appearance:
+                @switch (themeService.theme) {
+                  @case ('light dark') {
+                    Device theme
+                  }
+                  @case ('light') {
+                    Light theme
+                  }
+                  @case ('dark') {
+                    Dark theme
+                  }
+                }
+              </span>
+              <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
+            </button>
+            <button mat-menu-item disabled>
+              <mat-icon>translate</mat-icon>
+              <span>Language: English</span>
+              <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
+            </button>
+            <button mat-menu-item disabled>
+              <mat-icon>language</mat-icon>
+              <span>Location: Argentina</span>
+              <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item disabled>
+              <mat-icon>settings</mat-icon>
+              <span>Settings</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item disabled>
+              <mat-icon>feedback</mat-icon>
+              <span>Send feedback</span>
+            </button>
+          </menu-page>
+          <menu-page pageId="appearance" title="Appearance">
+            <p class="mat-muted mat-menu-item-info">Setting applies to this browser only</p>
+            <button mat-menu-item (click)="themeService.set('light dark')">
+              @if (themeService.theme === 'light dark') {
+                <mat-icon>check</mat-icon>
+              }
+              <span [class.mat-menu-item-noicon]="themeService.theme !== 'light dark'">Use device theme</span>
+            </button>
+            <button mat-menu-item (click)="themeService.set('light')">
+              @if (themeService.theme === 'light') {
+                <mat-icon>check</mat-icon>
+              }
+              <span [class.mat-menu-item-noicon]="themeService.theme !== 'light'">Light theme</span>
+            </button>
+            <button mat-menu-item (click)="themeService.set('dark')">
+              @if (themeService.theme === 'dark') {
+                <mat-icon>check</mat-icon>
+              }
+              <span [class.mat-menu-item-noicon]="themeService.theme !== 'dark'">Dark theme</span>
+            </button>
+          </menu-page>
+        </mat-multi-page-menu>
+      </mat-menu>
+    }
+  </mat-toolbar>
+</ng-template>
 
-<main class="flex-shrink-0">
-  <router-outlet></router-outlet>
-</main>
-
-<footer class="footer mt-auto py-3">
-  <div class="container text-end pe-4 container-transition" [class.container-full]="fullNavbar">
-    <span class="text-muted"> <fa-icon [icon]="'dice-d6'"></fa-icon> App © {{ currentYear }} </span>
-  </div>
-</footer>
+<ng-template #navigation let-fixed="fixed">
+  <mat-nav-list class="nav-list">
+    @for (link of navLinks; track link.route) {
+      <a
+        mat-list-item
+        [routerLink]="link.route"
+        routerLinkActive
+        #route="routerLinkActive"
+        [activated]="route.isActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-list-item"
+        [class.small]="fixed && (!$isLargeScreen || !$isFullNav)"
+        (click)="drawer.close()"
+      >
+        <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
+        <span matListItemTitle>{{ link.label }}</span>
+      </a>
+    }
+  </mat-nav-list>
+</ng-template>

@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+
+import { environment } from '../../environments/environment';
 
 import { AuthService } from '../services/auth.service';
 import { MessagesService } from '../services/messages.service';
 
 @Component({
-  selector: 'app-about',
+  selector: 'about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
-  standalone: false
+  imports: [MatButtonModule],
+  styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
   JSON = JSON;
+
+  graphqlUrl: string = `http://${environment.host}:${environment.appPort}/${environment.graphql}`;
 
   constructor(
     public messages: MessagesService,

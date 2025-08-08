@@ -3,7 +3,6 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
@@ -16,10 +15,10 @@ import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({
-  selector: 'app-security-settings',
+  selector: 'security-settings',
   templateUrl: './security-settings.component.html',
   styleUrls: ['./security-settings.component.scss'],
-  imports: [FaIconComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
 })
 export class SecuritySettingsComponent implements OnInit {
   @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
@@ -78,15 +77,15 @@ export class SecuritySettingsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors)
-              this.messages.error(errors, {
-                onlyOne: true,
-                displayMode: 'replace',
-                target: this.messageContainerUpdate
-              });
-            if (data?.user) {
-              this.user = data?.user;
-              this.passwordForm.patchValue(data?.user);
-            }
+              if (data?.user) {
+                // this.messages.error(errors, {
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: this.messageContainerUpdate
+                // });
+                this.user = data?.user;
+                this.passwordForm.patchValue(data?.user);
+              }
           }
         })
         .add(() => {
@@ -107,32 +106,32 @@ export class SecuritySettingsComponent implements OnInit {
           .subscribe({
             next: ({ data, errors }) => {
               if (errors)
-                this.messages.error(errors, {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: this.messageContainerUpdate
-                });
-              if (data?.updateUserPassword) {
-                this.passwordForm.reset();
-                this.messages.success('Password successfully changed.', {
-                  onlyOne: true,
-                  displayMode: 'replace'
-                  // target: this.messageContainerUpdate
-                });
-              }
+                if (data?.updateUserPassword) {
+                  // this.messages.error(errors, {
+                  //   close: false,
+                  //   onlyOne: true,
+                  //   displayMode: 'replace',
+                  //   target: this.messageContainerUpdate
+                  // });
+                  this.passwordForm.reset();
+                  // this.messages.success('Password successfully changed.', {
+                  //   onlyOne: true,
+                  //   displayMode: 'replace'
+                  //   // target: this.messageContainerUpdate
+                  // });
+                }
             }
           })
           .add(() => {
             this.updateSubmitLoading = false;
           });
       } else {
-        this.messages.error('Some values are invalid, please check.', {
-          close: false,
-          onlyOne: true,
-          displayMode: 'replace',
-          target: this.messageContainerUpdate
-        });
+        // this.messages.error('Some values are invalid, please check.', {
+        //   close: false,
+        //   onlyOne: true,
+        //   displayMode: 'replace',
+        //   target: this.messageContainerUpdate
+        // });
       }
     } else {
       this.router.navigate(['/']);

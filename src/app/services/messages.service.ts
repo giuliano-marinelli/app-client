@@ -1,7 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
-import { ApolloError } from '@apollo/client';
+import { Injectable, inject } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
 
 declare var iziToast: any;
 
@@ -9,24 +7,16 @@ declare var iziToast: any;
   providedIn: 'root'
 })
 export class MessagesService {
-  constructor() {
-    iziToast.settings({
-      position: 'topCenter',
-      maxWidth: '500px',
-      timeout: 5000,
-      class: 'iziToast-config'
-    });
+  private _snackBar = inject(MatSnackBar);
+  private _snackBarRef: MatSnackBarRef<any> | null = null;
+
+  constructor() {}
+
+  info(message: string, config?: MatSnackBarConfig): void {
+    this._snackBarRef = this._snackBar.open(message, 'Close', config || { duration: 3000 });
   }
 
-  show(message: string, options?: any): void {
-    this.send(message, 'show', options);
-  }
-
-  success(message: string, options?: any): void {
-    this.send(message, 'success', options);
-  }
-
-  error(message: string | any, options: any = {}): void {
+  error(message: string | any, altMessage?: string, config?: MatSnackBarConfig): void {
     if (Array.isArray(message)) {
       message = message
         .map((msj: any) => {
@@ -34,56 +24,11 @@ export class MessagesService {
         })
         .join('<hr>');
     }
-    options.timeout = 0;
-    this.send(message, 'error', options);
+
+    this._snackBarRef = this._snackBar.open(message || altMessage, 'Close', config || { duration: 3000 });
   }
 
-  warning(message: string, options?: any): void {
-    this.send(message, 'warning', options);
-  }
-
-  info(message: string, options?: any): void {
-    this.send(message, 'info', options);
-  }
-
-  private send(message: any, type: any, options?: any): void {
-    if (options?.target && options.target.nativeElement && !options.target.nativeElement.id)
-      options.target.nativeElement.id = 'message-container';
-    if (options?.icon) options.icon = 'iziToast-icon-config ' + options.icon;
-    let container =
-      options?.target && options.target.nativeElement ? options.target.nativeElement.id : options?.target?.id;
-
-    if (options?.onlyOne) this.clear(container);
-    let toastOptions = {
-      message: message,
-      ...options,
-      drag: options?.close != null ? options.close : true,
-      class: (container || options?.container || '') + 'message-element iziToast-config',
-      target: options?.target ? '#' + container : ''
-    };
-
-    switch (type) {
-      case 'success':
-        iziToast.success(toastOptions);
-        break;
-      case 'error':
-        iziToast.error(toastOptions);
-        break;
-      case 'warning':
-        iziToast.warning(toastOptions);
-        break;
-      case 'info':
-        iziToast.info(toastOptions);
-        break;
-      default:
-        iziToast.show(toastOptions);
-        break;
-    }
-  }
-
-  clear(container: string): void {
-    document.querySelectorAll('.' + (container || '') + 'message-element').forEach((toast) => {
-      iziToast.hide({}, toast);
-    });
+  clear(): void {
+    this._snackBarRef?.dismiss();
   }
 }

@@ -2,9 +2,6 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
 import { CheckUserPassword, CheckUserVerificationCode, UpdateUserVerificationCode } from '../../entities/user.entity';
 import { Global } from '../../global/global';
 import { NgOtpInputComponent } from 'ng-otp-input';
@@ -18,15 +15,7 @@ import { MessagesService } from '../../../services/messages.service';
   selector: '[confirm]',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
-  imports: [
-    NgTemplateOutlet,
-    FormsModule,
-    ReactiveFormsModule,
-    NgClass,
-    InvalidFeedbackComponent,
-    FaIconComponent,
-    NgOtpInputComponent
-  ]
+  imports: [NgTemplateOutlet, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, NgOtpInputComponent]
 })
 export class ConfirmComponent {
   @Input() confirmMessage: string = 'Are you sure you want to do this?';
@@ -42,8 +31,7 @@ export class ConfirmComponent {
   @Input() confirmActionButtonPassword: string = 'Proceed';
   @Input() onlyPassword: boolean = false;
   @Input() requiredVerificationCode: boolean = false;
-  @Input() requiredVerificationCodeMessage: string =
-    `Please enter the verification code sended to your primary email to confirm.`;
+  @Input() requiredVerificationCodeMessage: string = `Please enter the verification code sended to your primary email to confirm.`;
   @Input() requiredVerificationCodeTemplate: TemplateRef<any> | null = null;
   @Input() requiredVerificationCodeData?: any;
   @Input() requiredVerificationCodeUseDefaultTemplate: boolean = true;
@@ -71,7 +59,7 @@ export class ConfirmComponent {
   checkVerificationCodeLoading: boolean = false;
   checkVerificationCodeAdviceLoading: boolean = false;
 
-  modal?: NgbModalRef;
+  // modal?: NgbModalRef;
 
   setValid: any = Global.setValid;
 
@@ -87,7 +75,6 @@ export class ConfirmComponent {
     public auth: AuthService,
     public messages: MessagesService,
     public formBuilder: FormBuilder,
-    private modalService: NgbModal,
     private _checkUserPassword: CheckUserPassword,
     private _checkUserVerificationCode: CheckUserVerificationCode,
     private _updateUserVerificationCode: UpdateUserVerificationCode
@@ -97,22 +84,22 @@ export class ConfirmComponent {
   open() {
     if (this.onlyPassword) this.openPassword();
     else if (this.onlyVerificationCode) this.openVerificationCodeAdvice();
-    else this.modal = this.modalService.open(this.content);
+    // else this.modal = this.modalService.open(this.content);
   }
 
   openPassword() {
-    this.modal = this.modalService.open(this.contentPassword);
+    // this.modal = this.modalService.open(this.contentPassword);
     this.passwordForm = this.formBuilder.group({
       password: this.password
     });
   }
 
   openVerificationCodeAdvice() {
-    this.modal = this.modalService.open(this.contentVerificationCodeAdvice);
+    // this.modal = this.modalService.open(this.contentVerificationCodeAdvice);
   }
 
   openVerificationCode() {
-    this.modal = this.modalService.open(this.contentVerificationCode);
+    // this.modal = this.modalService.open(this.contentVerificationCode);
     this.verificationCodeForm = this.formBuilder.group({
       verificationCode: this.verificationCode
     });
@@ -120,13 +107,13 @@ export class ConfirmComponent {
 
   confirmAction() {
     if (this.requiredPassword) {
-      this.modal?.close();
+      // this.modal?.close();
       this.openPassword();
     } else if (this.requiredVerificationCode) {
-      this.modal?.close();
+      // this.modal?.close();
       this.openVerificationCodeAdvice();
     } else {
-      this.modal?.close();
+      // this.modal?.close();
       this.confirm?.emit();
     }
   }
@@ -136,10 +123,10 @@ export class ConfirmComponent {
       this.passwordStored = this.password?.value;
       this.passwordForm.reset();
       if (this.requiredVerificationCode) {
-        this.modal?.close();
+        // this.modal?.close();
         this.openVerificationCodeAdvice();
       } else {
-        this.modal?.close();
+        // this.modal?.close();
         this.confirm?.emit({ password: this.passwordStored });
       }
     }
@@ -147,7 +134,7 @@ export class ConfirmComponent {
 
   async confirmActionVerificationCodeAdvice() {
     if (await this.sendVerificationCode()) {
-      this.modal?.close();
+      // this.modal?.close();
       this.openVerificationCode();
     }
   }
@@ -156,7 +143,7 @@ export class ConfirmComponent {
     if (await this.checkVerificationCode()) {
       this.verificationCodeStored = this.verificationCode?.value;
       this.verificationCodeForm.reset();
-      this.modal?.close();
+      // this.modal?.close();
       this.confirm?.emit({
         verificationCode: this.verificationCodeStored,
         ...(this.passwordStored ? { password: this.passwordStored } : {})
@@ -165,7 +152,7 @@ export class ConfirmComponent {
   }
 
   rejectAction() {
-    this.modal?.close();
+    // this.modal?.close();
     this.reject?.emit();
   }
 
@@ -178,21 +165,22 @@ export class ConfirmComponent {
           .subscribe({
             next: ({ data, errors }) => {
               const messageContainerPassword = document.getElementById('message_container_password');
-              if (errors)
-                this.messages.error(errors, {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerPassword
-                });
+              if (errors) {
+              }
+              // this.messages.error(errors, {
+              //   close: false,
+              //   onlyOne: true,
+              //   displayMode: 'replace',
+              //   target: messageContainerPassword
+              // });
               else if (data?.checkUserPassword) resolve(true);
               else {
-                this.messages.error("Password don't match.", {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerPassword
-                });
+                // this.messages.error("Password don't match.", {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: messageContainerPassword
+                // });
                 resolve(false);
               }
             }
@@ -216,21 +204,21 @@ export class ConfirmComponent {
             next: ({ data, errors }) => {
               const messageContainerVerificationCode = document.getElementById('message_container_verification_code');
               if (errors) {
-                this.messages.error(errors, {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerVerificationCode
-                });
+                // this.messages.error(errors, {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: messageContainerVerificationCode
+                // });
                 resolve(false);
               } else if (data?.checkUserVerificationCode) resolve(true);
               else {
-                this.messages.error("Verification code don't match.", {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerVerificationCode
-                });
+                // this.messages.error("Verification code don't match.", {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: messageContainerVerificationCode
+                // });
                 resolve(false);
               }
             }
@@ -252,23 +240,21 @@ export class ConfirmComponent {
           .mutate({ id: this.auth.user.id })
           .subscribe({
             next: ({ data, errors }) => {
-              const messageContainerVerificationCodeAdvice = document.getElementById(
-                'message_container_verification_code_advice'
-              );
+              const messageContainerVerificationCodeAdvice = document.getElementById('message_container_verification_code_advice');
               if (errors) {
-                this.messages.error(errors, {
-                  close: false,
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerVerificationCodeAdvice
-                });
+                // this.messages.error(errors, {
+                //   close: false,
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: messageContainerVerificationCodeAdvice
+                // });
                 resolve(false);
               } else {
-                this.messages.success('Verification code sended to your primary email.', {
-                  onlyOne: true,
-                  displayMode: 'replace',
-                  target: messageContainerVerificationCodeAdvice
-                });
+                // this.messages.success('Verification code sended to your primary email.', {
+                //   onlyOne: true,
+                //   displayMode: 'replace',
+                //   target: messageContainerVerificationCodeAdvice
+                // });
                 resolve(true);
               }
             }

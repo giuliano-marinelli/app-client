@@ -1,5 +1,10 @@
 @for (error of control?.errors | keyvalue; track error) {
-  <div>
-    {{ getErrorMessage(error.key) }}
-  </div>
+  <span>- {{ getErrorMessage(error.key) }}</span>
+  <br />
+}
+@if (isFormArray()) {
+  @for (error of getArrayChildErrors(); track error) {
+    <span>- {{ getErrorMessage(error.error, error.index) }}</span>
+    <br />
+  }
 }
