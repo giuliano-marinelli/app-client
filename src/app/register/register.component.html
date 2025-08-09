@@ -86,8 +86,8 @@
     </mat-card-content>
     <mat-card-actions class="actions">
       <a matButton class="login-button" routerLink="/login">Did you already have an account?</a>
-      <span class="mat-spacer"></span>
-      <button class="mat-nowrap" matButton="tonal" [disabled]="!registerForm.valid || submitLoading">
+      <span class="grow"></span>
+      <button class="whitespace-nowrap" matButton="tonal" [disabled]="!registerForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

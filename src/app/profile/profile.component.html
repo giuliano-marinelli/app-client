@@ -37,7 +37,7 @@
     }
 
     <ng-template #bio>
-      <div class="bio mat-pe-pointer" (click)="dialog.open(info)">
+      <div class="bio cursor-pointer" (click)="dialog.open(info)">
         <span class="mat-muted">{{ profile.user()?.profile?.bio }}</span>
         <span class="more"> ...more</span>
       </div>
@@ -52,7 +52,7 @@
     <ng-template #info>
       <h2 mat-dialog-title class="more-title">
         {{ profile.user()?.profile?.name }}
-        <span class="mat-spacer"></span>
+        <span class="grow"></span>
         <button matIconButton [mat-dialog-close]="true" autofocus="false">
           <mat-icon>close</mat-icon>
         </button>

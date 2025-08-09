@@ -32,7 +32,7 @@
       <span>App</span>
     </a>
     @if (fixed) {
-      <span class="mat-spacer"></span>
+      <span class="grow"></span>
       @if (!auth.loading && auth.user) {
         <!-- User Logged In -->
         <button matIconButton [matMenuTriggerFor]="menu" class="profile-button" (click)="menuPages.resetPages()">

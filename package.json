@@ -34,6 +34,7 @@
     "@ngneat/input-mask": "^6.1.0",
     "@ngneat/overview": "^6.1.2",
     "@popperjs/core": "^2.11.8",
+    "@tailwindcss/postcss": "^4.1.11",
     "apollo-angular": "^11.0.0",
     "apollo-dynamic": "^1.0.4",
     "apollo-dynamic-angular": "^1.0.4",
@@ -52,7 +53,9 @@
     "ngx-image-cropper": "^9.1.5",
     "ngx-masonry": "^14.0.1",
     "ngx-moment": "^6.0.2",
+    "postcss": "^8.5.6",
     "rxjs": "^7.8.2",
+    "tailwindcss": "^4.1.11",
     "tslib": "^2.8.1",
     "uuid": "^11.1.0",
     "zone.js": "~0.15.1"

@@ -1,4 +1,4 @@
-<mat-card class="card" [appearance]="$isSmallScreen ? 'outlined' : 'raised'" [class.full]="$isSmallScreen">
+<mat-card class="max-sm:p-0 max-sm:border-0! p-[24px] pb-[20px] m-auto mt-[16px] max-w-[750px]" [appearance]="$isSmallScreen ? 'outlined' : 'raised'">
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-card-content class="content">
       <div class="content-header" [class.full]="$isSmallScreen">
@@ -39,8 +39,8 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="actions">
-      <a matButton class="mat-nowrap" routerLink="/register">Sign up</a>
-      <button class="mat-nowrap" matButton="tonal" [disabled]="!loginForm.valid || submitLoading">
+      <a matButton class="whitespace-nowrap" routerLink="/register">Sign up</a>
+      <button class="whitespace-nowrap" matButton="tonal" [disabled]="!loginForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

@@ -1,14 +1,3 @@
-.card {
-  padding: 24px 24px 20px 24px;
-  margin: 16px auto auto auto;
-  max-width: 750px;
-}
-
-.card.full {
-  padding: 0px;
-  border: none !important;
-}
-
 .content {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
