@@ -77,7 +77,7 @@
             </div>
             <!--search tag buttons-->
             <div [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''" class="flex-fill text-end">
-              <button
+              <!-- <button
                 class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
                   searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
                 }}"
@@ -90,17 +90,17 @@
                 [tpIsEnabled]="criteriaByType(searchAttribute.attribute.type).length > 1"
               >
                 <mat-icon>{{ criteriaIcon(searchAttribute.criteria) }}</mat-icon>
-              </button>
+              </button> -->
               <ng-template #criteria_menu let-data="searchAttribute">
                 <div class="d-flex flex-column mt-1">
-                  @for (criteria of criteriaByType(searchAttribute.attribute.type); track criteria) {
+                  <!-- @for (criteria of criteriaByType(searchAttribute.attribute.type); track criteria) {
                     <button
                       class="btn btn-sm btn-dark no-outline p-1 mb-1 pe-pointer"
                       (click)="changeCriteria(searchAttribute, criteria, criteria_tooltip)"
                     >
                       <mat-icon>{{ criteriaIcon(criteria) }}</mat-icon>
                     </button>
-                  }
+                  } -->
                 </div>
               </ng-template>
               <button

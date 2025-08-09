@@ -1,10 +1,13 @@
 // sort-imports-ignore
 //angular
 import { Routes } from '@angular/router';
-//services
+
+//guards
 import { AuthLoginGuard } from './shared/guards/auth-login.guard';
 import { AuthAdminGuard } from './shared/guards/auth-admin.guard';
 import { LeaveGuard } from './shared/guards/leave.guard';
+import { UserExistsGuard } from './shared/guards/user-exists.guard';
+
 //components
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AboutComponent } from './about/about.component';
@@ -21,9 +24,10 @@ import { SettingsSecurityComponent } from './settings/security/settings-security
 import { AdminComponent } from './admin/admin.component';
 import { AdminUsersComponent } from './admin/users/admin-users.component';
 
+const loading: string = '⟳';
+
 export const routes: Routes = [
-  { path: '', component: AboutComponent, data: { title: '' } },
-  { path: 'user/:username', component: ProfileComponent },
+  { path: '', component: AboutComponent, data: { title: 'Welcome' } },
   { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
   { path: 'register', component: RegisterComponent, data: { title: 'Sign up' }, canDeactivate: [LeaveGuard] },
   {
@@ -45,25 +49,24 @@ export const routes: Routes = [
       {
         path: 'profile',
         component: SettingsProfileComponent,
-        data: { title: 'Settings > Profile' },
+        data: { title: 'Profile' },
         canDeactivate: [LeaveGuard]
       },
       {
         path: 'account',
         component: SettingsAccountComponent,
-        data: { title: 'Settings > Account' },
-        canDeactivate: [LeaveGuard]
+        data: { title: 'Account' }
       },
       {
         path: 'emails',
         component: SettingsEmailsComponent,
-        data: { title: 'Settings > Emails' },
+        data: { title: 'Emails' },
         canDeactivate: [LeaveGuard]
       },
       {
         path: 'security',
         component: SettingsSecurityComponent,
-        data: { title: 'Settings > Passwords' },
+        data: { title: 'Passwords' },
         canDeactivate: [LeaveGuard]
       },
       { path: 'devices', component: SettingsDevicesComponent, data: { title: 'Settings > Devices' } },
@@ -76,11 +79,26 @@ export const routes: Routes = [
     data: { title: 'Admin' },
     canActivate: [AuthAdminGuard],
     children: [
-      { path: 'users', component: AdminUsersComponent, data: { title: 'Admin > Users' }, canDeactivate: [LeaveGuard] },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
+        data: { title: ' Users' },
+        canDeactivate: [LeaveGuard]
+      },
       { path: '**', redirectTo: 'users' }
     ]
   },
-  // { path: 'graphql' },
+  {
+    path: ':username',
+    component: ProfileComponent,
+    canMatch: [UserExistsGuard],
+    data: {
+      title: (params: { [key: string]: string }) => {
+        if (!params['username']) return loading;
+        return (params['profilename'] ? params['profilename'] + ' · ' : '') + '@' + params['username'];
+      }
+    }
+  },
   { path: 'notfound', component: NotFoundComponent, data: { title: 'Page not found' } },
   { path: '**', redirectTo: '/notfound' }
 ];

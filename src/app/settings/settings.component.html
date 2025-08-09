@@ -14,7 +14,7 @@
             onerror="this.src='assets/images/default-user.png'"
           />
           <div class="d-flex flex-column">
-            <a class="text-body" routerLink="/user/{{ auth.user.username }}">
+            <a class="text-body" routerLink="/{{ auth.user.username }}">
               <h3 class="mb-1">
                 {{ auth.user.profile?.name ? auth.user.profile?.name : auth.user.username }}
               </h3>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="d-flex flex-row align-items-center justify-content-between">
-          <a class="btn btn-secondary btn-sm mt-2" routerLink="/user/{{ auth.user.username }}">
+          <a class="btn btn-secondary btn-sm mt-2" routerLink="/{{ auth.user.username }}">
             Go to your personal profile
           </a>
           <button

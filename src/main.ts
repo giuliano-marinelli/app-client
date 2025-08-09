@@ -23,10 +23,8 @@ import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 // modules
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgOtpInputModule } from 'ng-otp-input';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { MomentModule } from 'ngx-moment';
-import { TippyDirective, provideTippyConfig } from '@ngneat/helipopper';
 import { InputMaskModule } from '@ngneat/input-mask';
 
 //routes
@@ -38,6 +36,8 @@ import { environment } from './environments/environment';
 // services
 import { AuthService } from './app/services/auth.service';
 import { MessagesService } from './app/services/messages.service';
+import { TitleService } from './app/services/title.service';
+import { ProfileService } from './app/services/profile.service';
 
 // directives
 import { VarDirective } from './app/shared/directives/var.directive';
@@ -138,24 +138,11 @@ bootstrapApplication(AppComponent, {
         }
       };
     }),
-    //tippy
-    provideTippyConfig({
-      defaultVariation: 'tooltip',
-      variations: {
-        tooltip: {
-          theme: 'material',
-          arrow: true,
-          maxWidth: 200,
-          animation: 'scale',
-          trigger: 'mouseenter',
-          offset: [0, 5]
-        },
-        popper: { theme: 'material', arrow: true, maxWidth: 200, animation: 'scale', trigger: 'click', offset: [0, 5] }
-      }
-    }),
     //services
     MessagesService,
     AuthService,
+    TitleService,
+    ProfileService,
     importProvidersFrom(
       //angular modules
       BrowserAnimationsModule,
@@ -165,7 +152,6 @@ bootstrapApplication(AppComponent, {
       //modules
       NgOtpInputModule,
       NgxMasonryModule,
-      ImageCropperModule,
       JwtModule.forRoot({
         config: {
           tokenGetter: (): string | null => localStorage.getItem('token')
@@ -175,7 +161,6 @@ bootstrapApplication(AppComponent, {
       MomentModule.forRoot({ relativeTimeThresholdOptions: { m: 59 } })
     ),
     //directives
-    TippyDirective,
     VarDirective,
     //pipes
     FilterPipe,

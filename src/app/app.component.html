@@ -62,11 +62,11 @@
                 <img [src]="auth.user.profile?.avatar" class="menu-profile-img" onerror="this.src='assets/images/default-user.png'" />
                 <div class="menu-profile-info">
                   <b class="menu-profile-name">{{ auth.user.profile?.name }}</b>
-                  {{ '@' + auth.user.username }} asdasd
+                  {{ '@' + auth.user.username }}
                 </div>
               </div>
               <mat-divider></mat-divider>
-              <a mat-menu-item routerLink="/user/{{ auth.user.username }}">
+              <a mat-menu-item routerLink="/{{ auth.user.username }}">
                 <mat-icon>person</mat-icon>
                 <span>Profile</span>
               </a>

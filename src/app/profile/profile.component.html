@@ -1,10 +1,10 @@
 <div class="container mb-3">
-  @if (userLoading) {
+  @if (profile.loading()) {
     <div class="row mt-3 text-center">
       <!-- <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse" size="3x"></fa-icon> -->
     </div>
   }
-  @if (!userLoading && user) {
+  @if (!profile.loading() && profile.user()) {
     <div class="d-flex flex-column">
       <div class="profile-separator d-none d-md-block">
         <div class="border-bottom border-secondary profile-separator-border"></div>
@@ -14,52 +14,52 @@
           <div class="d-flex flex-row flex-md-column align-items-center align-items-md-baseline">
             <img
               class="mb-0 mb-md-3 me-3 me-md-0 img-thumbnail rounded-circle profile-img align-self-md-center border-secondary flex-shrink-0"
-              [src]="user.profile?.avatar"
+              [src]="profile.user()?.profile?.avatar"
               #avatar_img
               onerror="this.src='assets/images/default-user.png'"
             />
             <div class="d-flex flex-column">
-              @if (user.profile?.name) {
+              @if (profile.user()?.profile?.name) {
                 <h2>
-                  {{ user.profile?.name }}
-                  <verified-mark [verified]="user.primaryEmail?.verified" />
+                  {{ profile.user()?.profile?.name }}
+                  <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
                 </h2>
               }
-              <h3 [class.text-muted]="user.profile?.name">
-                {{ user.username }}
-                @if (!user.profile?.name) {
-                  <verified-mark [verified]="user.primaryEmail?.verified" />
+              <h3 [class.text-muted]="profile.user()?.profile?.name">
+                {{ profile.user()?.username }}
+                @if (!profile.user()?.profile?.name) {
+                  <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
                 }
               </h3>
             </div>
           </div>
-          @if (user.profile?.bio) {
-            <div class="text-md-pre-wrap text-break-all mt-3">{{ user.profile?.bio }}</div>
+          @if (profile.user()?.profile?.bio) {
+            <div class="text-md-pre-wrap text-break-all mt-3">{{ profile.user()?.profile?.bio }}</div>
           }
           <div class="mt-3">
-            @if (user.id == auth.user?.id) {
+            @if (profile.user()?.id == auth.user?.id) {
               <a class="btn btn-secondary btn-sm w-100" routerLink="/settings/profile"> Edit your profile </a>
             }
           </div>
-          @if (user.profile?.location) {
+          @if (profile.user()?.profile?.location) {
             <div class="mt-3 d-flex flex-row">
               <!-- <fa-icon class="me-2" [icon]="'location-dot'"></fa-icon> -->
-              <div class="text-break">{{ user.profile?.location }}</div>
+              <div class="text-break">{{ profile.user()?.profile?.location }}</div>
             </div>
           }
-          @if (user.profile?.publicEmail?.address) {
+          @if (profile.user()?.profile?.publicEmail?.address) {
             <div class="mt-3 d-flex flex-row">
               <!-- <fa-icon class="me-2" [icon]="'envelope'"></fa-icon> -->
               <div class="text-break">
-                <a href="mailto:{{ user.profile?.publicEmail?.address }}">{{ user.profile?.publicEmail?.address }}</a>
+                <a href="mailto:{{ profile.user()?.profile?.publicEmail?.address }}">{{ profile.user()?.profile?.publicEmail?.address }}</a>
               </div>
             </div>
           }
-          @if (user.profile?.url) {
+          @if (profile.user()?.profile?.url) {
             <div class="mt-3 d-flex flex-row">
               <!-- <fa-icon class="me-2" [icon]="'link'"></fa-icon> -->
               <div class="text-break">
-                <a href="{{ user.profile?.url }}" target="_blank">{{ user.profile?.url }}</a>
+                <a href="{{ profile.user()?.profile?.url }}" target="_blank">{{ profile.user()?.profile?.url }}</a>
               </div>
             </div>
           }

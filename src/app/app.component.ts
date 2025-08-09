@@ -8,17 +8,16 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { environment } from '../environments/environment';
-import { filter, map } from 'rxjs';
 
 import { Logout } from './shared/entities/user.entity';
 
 import { AuthService } from './services/auth.service';
 import { MessagesService } from './services/messages.service';
 import { ThemeService } from './services/theme.service';
+import { TitleService } from './services/title.service';
 
 import { VarDirective } from './shared/directives/var.directive';
 
@@ -47,6 +46,8 @@ import { MatMultiPageMenuModule } from './shared/components/material/multi-page-
 export class AppComponent {
   @ViewChild('drawer') drawer: any;
 
+  title = 'App';
+
   isDevelopment: boolean = !environment.production;
 
   $isFullNav: boolean = false;
@@ -64,7 +65,7 @@ export class AppComponent {
     public auth: AuthService,
     public router: Router,
     public messages: MessagesService,
-    public titleService: Title,
+    public titleService: TitleService,
     public themeService: ThemeService,
     private _breakpointObserver: BreakpointObserver,
     private _logout: Logout
@@ -86,28 +87,8 @@ export class AppComponent {
     this.themeService.init();
 
     // For change page title
-    this.router.events
-      .pipe(
-        filter((event) => event instanceof NavigationEnd),
-        map(() => {
-          let route: ActivatedRoute = this.router.routerState.root;
-          let routeTitle = '';
-          while (route!.firstChild) {
-            route = route.firstChild;
-          }
-          if (route.snapshot.data['title'] != undefined) {
-            routeTitle = route!.snapshot.data['title'];
-          }
-          return routeTitle;
-        })
-      )
-      .subscribe((title: string) => {
-        if (title) {
-          this.titleService.setTitle(`${title} · App`);
-        } else {
-          this.titleService.setTitle(`App`);
-        }
-      });
+    this.titleService.appTitle = this.title;
+    this.titleService.initTitle();
   }
 
   toggleFullNav() {

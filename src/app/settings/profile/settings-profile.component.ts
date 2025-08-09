@@ -9,7 +9,7 @@ import { InputMaskModule, createMask } from '@ngneat/input-mask';
 import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { ImageCroppedEvent, ImageCropperModule, base64ToFile } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-image-cropper';
 import { Observable } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
@@ -23,7 +23,7 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   selector: 'settings-profile',
   templateUrl: './settings-profile.component.html',
   styleUrls: ['./settings-profile.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink, InputMaskModule, ImageCropperModule, FilterPipe]
+  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink, InputMaskModule, ImageCropperComponent, FilterPipe]
 })
 export class SettingsProfileComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;

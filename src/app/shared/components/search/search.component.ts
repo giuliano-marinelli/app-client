@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIcon } from '@angular/material/icon';
 
-import { TippyDirective } from '@ngneat/helipopper';
-
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -82,7 +80,7 @@ export interface SearchAttribute {
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [NgClass, FormsModule, TippyDirective, MatIcon, MatExpansionModule]
+  imports: [NgClass, FormsModule, MatIcon, MatExpansionModule]
 })
 export class SearchComponent implements OnInit {
   //search input attributes
@@ -137,9 +135,9 @@ export class SearchComponent implements OnInit {
     else searchAttribute.sort = null;
   }
 
-  changeCriteria(searchAttribute: SearchAttribute, criteria: Criteria, tippy?: TippyDirective): void {
+  changeCriteria(searchAttribute: SearchAttribute, criteria: Criteria, tippy?: any): void {
     searchAttribute.criteria = criteria;
-    tippy?.hide();
+    // tippy?.hide();
   }
 
   criteriaByType(type: string | string[]): Criteria[] {

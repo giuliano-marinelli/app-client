@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 

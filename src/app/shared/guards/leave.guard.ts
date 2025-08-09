@@ -1,13 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { CanDeactivateFn } from '@angular/router';
 
 import { Subject } from 'rxjs';

@@ -5,7 +5,7 @@
         <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse" size="3x"></fa-icon>
       </div>
     }
-    @if (!auth.loading && auth.user?.role == 'ADMIN') {
+    @if (!auth.loading && auth.user?.role == 'admin') {
       <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between">
         <div class="d-flex flex-row align-items-center">
           <h3 class="mb-1 flex-fill"><fa-icon [icon]="'screwdriver-wrench'"></fa-icon> Admin</h3>
