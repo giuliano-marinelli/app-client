@@ -1,78 +1,103 @@
-<div class="container mb-3">
-  @if (profile.loading()) {
-    <div class="row mt-3 text-center">
-      <!-- <fa-icon [icon]="'spinner'" class="fa-spin fa-pulse" size="3x"></fa-icon> -->
-    </div>
-  }
-  @if (!profile.loading() && profile.user()) {
-    <div class="d-flex flex-column">
-      <div class="profile-separator d-none d-md-block">
-        <div class="border-bottom border-secondary profile-separator-border"></div>
-      </div>
-      <div class="row profile-content">
-        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3">
-          <div class="d-flex flex-row flex-md-column align-items-center align-items-md-baseline">
-            <img
-              class="mb-0 mb-md-3 me-3 me-md-0 img-thumbnail rounded-circle profile-img align-self-md-center border-secondary flex-shrink-0"
-              [src]="profile.user()?.profile?.avatar"
-              #avatar_img
-              onerror="this.src='assets/images/default-user.png'"
-            />
-            <div class="d-flex flex-column">
-              @if (profile.user()?.profile?.name) {
-                <h2>
-                  {{ profile.user()?.profile?.name }}
-                  <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
-                </h2>
-              }
-              <h3 [class.text-muted]="profile.user()?.profile?.name">
-                {{ profile.user()?.username }}
-                @if (!profile.user()?.profile?.name) {
-                  <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
-                }
-              </h3>
-            </div>
-          </div>
-          @if (profile.user()?.profile?.bio) {
-            <div class="text-md-pre-wrap text-break-all mt-3">{{ profile.user()?.profile?.bio }}</div>
-          }
-          <div class="mt-3">
-            @if (profile.user()?.id == auth.user?.id) {
-              <a class="btn btn-secondary btn-sm w-100" routerLink="/settings/profile"> Edit your profile </a>
-            }
-          </div>
+@if (profile.loading()) {
+  <mat-spinner diameter="60"></mat-spinner>
+}
+@if (!profile.loading() && profile.user()) {
+  <div class="header-container" [class.large]="$isLargeScreen">
+    <div class="header">
+      <img
+        class="avatar"
+        [src]="profile.user()?.profile?.avatar"
+        onerror="this.src='assets/images/default-user.png'"
+        [class.small]="$isSmallScreen"
+        [class.large]="$isLargeScreen"
+      />
+      <div class="info">
+        <h1 class="name" [class.small]="$isSmallScreen">
+          {{ profile.user()?.profile?.name }}
+          <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
+        </h1>
+        <h3 class="username" [class.small]="$isSmallScreen">
+          {{ '@' + profile.user()?.username }}
           @if (profile.user()?.profile?.location) {
-            <div class="mt-3 d-flex flex-row">
-              <!-- <fa-icon class="me-2" [icon]="'location-dot'"></fa-icon> -->
-              <div class="text-break">{{ profile.user()?.profile?.location }}</div>
-            </div>
+            <span class="location mat-muted"> · {{ profile.user()?.profile?.location }}</span>
           }
-          @if (profile.user()?.profile?.publicEmail?.address) {
-            <div class="mt-3 d-flex flex-row">
-              <!-- <fa-icon class="me-2" [icon]="'envelope'"></fa-icon> -->
-              <div class="text-break">
-                <a href="mailto:{{ profile.user()?.profile?.publicEmail?.address }}">{{ profile.user()?.profile?.publicEmail?.address }}</a>
-              </div>
-            </div>
-          }
-          @if (profile.user()?.profile?.url) {
-            <div class="mt-3 d-flex flex-row">
-              <!-- <fa-icon class="me-2" [icon]="'link'"></fa-icon> -->
-              <div class="text-break">
-                <a href="{{ profile.user()?.profile?.url }}" target="_blank">{{ profile.user()?.profile?.url }}</a>
-              </div>
-            </div>
-          }
-        </div>
-        <div class="col-sm-12 col-md-8 col-lg-8 col-xl-9">
-          <div class="mt-3 mt-sm-0">
-            <h2>Options Links</h2>
-          </div>
-          <div class="mt-3">
-            <h2>Options Content</h2>
-          </div>
-        </div>
+        </h3>
+        @if (!$isSmallScreen) {
+          <ng-container *ngTemplateOutlet="bio"></ng-container>
+          <ng-container *ngTemplateOutlet="actions"></ng-container>
+        }
       </div>
     </div>
-  }
-</div>
+
+    @if ($isSmallScreen) {
+      <div class="header-info">
+        <ng-container *ngTemplateOutlet="bio"></ng-container>
+        <ng-container *ngTemplateOutlet="actions"></ng-container>
+      </div>
+    }
+
+    <ng-template #bio>
+      <div class="bio mat-pe-pointer" (click)="dialog.open(info)">
+        <span class="mat-muted">{{ profile.user()?.profile?.bio }}</span>
+        <span class="more"> ...more</span>
+      </div>
+    </ng-template>
+
+    <ng-template #actions>
+      <div class="actions" [class.full]="$isSmallScreen">
+        <a matButton="tonal" class="action" routerLink="/settings/profile">Edit Profile</a>
+      </div>
+    </ng-template>
+
+    <ng-template #info>
+      <h2 mat-dialog-title class="more-title">
+        {{ profile.user()?.profile?.name }}
+        <span class="mat-spacer"></span>
+        <button matIconButton [mat-dialog-close]="true" autofocus="false">
+          <mat-icon>close</mat-icon>
+        </button>
+      </h2>
+      <mat-dialog-content>
+        @if (profile.user()?.profile?.bio) {
+          <h2>Description</h2>
+          <p>{{ profile.user()?.profile?.bio }}</p>
+        }
+        <h2>More info</h2>
+        @if (profile.user()?.profile?.publicEmail?.address) {
+          <p class="more-item">
+            <mat-icon>email</mat-icon>
+            <a href="mailto:{{ profile.user()?.profile?.publicEmail?.address }}">{{ profile.user()?.profile?.publicEmail?.address }}</a>
+          </p>
+        }
+        @if (profile.user()?.profile?.url) {
+          <p class="more-item">
+            <mat-icon>language</mat-icon>
+            <a href="{{ profile.user()?.profile?.url }}" target="_blank">{{ profile.user()?.profile?.url }}</a>
+          </p>
+        }
+        @if (profile.user()?.profile?.location) {
+          <p class="more-item">
+            <mat-icon>location_on</mat-icon>
+            {{ profile.user()?.profile?.location }}
+          </p>
+        }
+        <p class="more-item"><mat-icon>info_outline</mat-icon> Joined at {{ profile.user()?.createdAt | amLocal | amDateFormat: 'LL' }}</p>
+      </mat-dialog-content>
+    </ng-template>
+
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">menu_book</mat-icon>
+          Home
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tab-icon">web_stories</mat-icon>
+          Posts
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+}

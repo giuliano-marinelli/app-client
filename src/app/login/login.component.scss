@@ -1,12 +1,12 @@
 .card {
   padding: 24px 24px 20px 24px;
-  margin-top: 16px;
+  margin: 16px auto auto auto;
+  max-width: 750px;
 }
 
 .card.full {
-  width: 99vw;
+  padding: 0px;
   border: none !important;
-  margin-top: 0px;
 }
 
 .content {

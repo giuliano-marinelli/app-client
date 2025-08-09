@@ -12,6 +12,7 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Email or username</mat-label>
           <input matInput formControlName="usernameOrEmail" />
+          <mat-icon matSuffix>email</mat-icon>
           <mat-error>
             <invalid-feedback name="Email or username" [control]="usernameOrEmail"></invalid-feedback>
           </mat-error>

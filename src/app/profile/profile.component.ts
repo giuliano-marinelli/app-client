@@ -1,9 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit, effect } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { Title } from '@angular/platform-browser';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, OnInit, TemplateRef, ViewChild, effect, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { FindUsers, User } from '../shared/entities/user.entity';
+import { MomentModule } from 'ngx-moment';
 
 import { VerifiedMarkComponent } from '../shared/components/verified-mark/verified-mark.component';
 
@@ -15,20 +20,43 @@ import { TitleService } from '../services/title.service';
   selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [VerifiedMarkComponent, RouterLink, MatIcon]
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTabsModule,
+    MomentModule,
+    NgTemplateOutlet,
+    RouterLink,
+    VerifiedMarkComponent
+  ]
 })
 export class ProfileComponent implements OnInit {
+  @ViewChild('info') info!: TemplateRef<any>;
+
   //router params
   username!: string;
 
+  $isSmallScreen: boolean = false;
+  $isLargeScreen: boolean = false;
+
   constructor(
     public auth: AuthService,
-    public route: ActivatedRoute,
     public router: Router,
+    public route: ActivatedRoute,
     public titleService: TitleService,
-    public changeDetector: ChangeDetectorRef,
-    public profile: ProfileService
+    public profile: ProfileService,
+    public dialog: MatDialog,
+    private _breakpointObserver: BreakpointObserver
   ) {
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+    this._breakpointObserver.observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]).subscribe((result) => {
+      this.$isLargeScreen = result.matches;
+    });
+
     effect(() => {
       const user = this.profile.user();
       if (user) {

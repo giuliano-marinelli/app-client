@@ -47,9 +47,14 @@ body {
   white-space: nowrap;
 }
 
+.mat-pe-pointer {
+  cursor: pointer;
+}
+
 // Styles for the multi-page menu component
 .mat-multi-page-menu {
   width: 300px;
+  border-radius: 12px !important;
 }
 
 .mat-multi-page-menu-submenu {
@@ -67,11 +72,22 @@ body {
   margin-left: 36px;
 }
 
+// Style for mat-dialog
+.mat-mdc-dialog-surface {
+  border-radius: 12px !important;
+}
+
 // Reset default link styles
 a {
   text-decoration: none;
   color: inherit;
   font: inherit;
+}
+
+// Fixes mat-button positioning when it's inside a mat-form-field
+button[matsuffix] {
+  margin-right: 5px;
+  margin-left: 3px;
 }
 
 // Scrollbar styling

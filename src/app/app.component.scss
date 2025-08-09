@@ -44,10 +44,9 @@
 }
 
 .content {
-  display: flex;
+  display: block;
   padding: 0px 8px;
   margin-left: 82px;
-  justify-content: center;
 }
 
 .content.full {
@@ -93,10 +92,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-}
-
-::ng-deep .menu {
-  border-radius: 12px !important;
 }
 
 .menu-profile {

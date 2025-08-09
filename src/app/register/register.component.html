@@ -12,9 +12,15 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" autocomplete="off" />
-          @if (email.pending) {
-            <mat-icon matSuffix><mat-spinner diameter="20"></mat-spinner></mat-icon>
-          }
+
+          <mat-icon matSuffix>
+            @if (email.pending) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              email
+            }
+          </mat-icon>
+
           <mat-error>
             <invalid-feedback name="Email" [control]="email"></invalid-feedback>
           </mat-error>
@@ -23,9 +29,15 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" autocomplete="off" />
-          @if (username.pending) {
-            <mat-icon matSuffix><mat-spinner diameter="20"></mat-spinner></mat-icon>
-          }
+
+          <mat-icon matSuffix>
+            @if (username.pending) {
+              <mat-spinner diameter="20"></mat-spinner>
+            } @else {
+              person
+            }
+          </mat-icon>
+
           <mat-error>
             <invalid-feedback
               name="Username"

@@ -1,44 +1,99 @@
-// //this allow the use of bootstrap and bootstrap dark variables, functions, utilities, mixins and custom variables
-// @import '../../assets/scss/variables.scss';
+.tab-icon {
+  margin-right: 10px;
+}
 
-// .profile-img {
-//   width: 80px;
-//   height: 80px;
-//   padding: 2px !important;
-// }
+.header-container.large {
+  padding-left: 10%;
+  padding-right: 10%;
+}
 
-// .profile-separator {
-//   height: 4rem;
-// }
+.header {
+  margin: 16px 0px;
 
-// .profile-separator-border {
-//   position: absolute;
-//   right: 0px;
-//   left: 0px;
-//   top: 7.8rem;
-//   z-index: -1;
-// }
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
 
-// .profile-content {
-//   margin-top: 1rem;
-// }
+.info {
+  display: flex;
+  flex-direction: column;
+}
 
-// @include media-breakpoint-up(sm) {
-//   .profile-img {
-//     width: 100px;
-//     height: 100px;
-//     padding: 2px !important;
-//   }
-// }
+.name {
+  margin: 0px;
+  font-size: 36px;
+}
 
-// @include media-breakpoint-up(md) {
-//   .profile-img {
-//     width: 200px;
-//     height: 200px;
-//     padding: 0.25rem !important;
-//   }
+.name.small {
+  font-size: 24px;
+}
 
-//   .profile-content {
-//     margin-top: -3rem;
-//   }
-// }
+.username {
+  margin: 0px;
+  font-size: 14px;
+}
+
+.username.small {
+  font-size: 12px;
+}
+
+.location {
+  font-weight: 300;
+}
+
+.bio {
+  font-weight: 300;
+  margin: 12px 0px 0px 0px;
+}
+
+.more {
+  font-weight: 700;
+}
+
+.more-title {
+  display: flex;
+  margin: 18px 0px 6px 0px;
+  align-items: center;
+}
+
+.more-item {
+  margin: 20px 0px;
+  overflow-wrap: anywhere;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.more-item mat-icon {
+  flex-shrink: 0;
+}
+
+.actions {
+  margin: 12px 0px 0px 0px;
+}
+
+.actions.full {
+  display: flex;
+}
+
+.action {
+  flex-grow: 1;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.avatar.small {
+  width: 72px;
+  height: 72px;
+}
+
+.avatar.large {
+  width: 160px;
+  height: 160px;
+}
