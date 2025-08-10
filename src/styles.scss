@@ -1,5 +1,22 @@
-@use 'assets/scss/material.scss';
+@use '@angular/material' as mat;
 
-@use 'assets/scss/tailwind.scss';
+/* Not used by now. It's for custom theme coloring */
+@use './assets/scss/themes/basic_theme-colors.scss';
 
-@use 'assets/scss/custom.scss';
+/* Material theme initialization */
+html {
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette
+      ),
+      typography: Roboto,
+      density: 0
+    )
+  );
+
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+}

@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+
+/* Theme definition with breakpoints adjusted for Material */
+@theme {
+  --breakpoint-xs: 0px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 960px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1920px;
+}
+
+/* Material + Tailwind fixes */
+.mdc-notched-outline__notch {
+  @apply border-none;
+}
+
+.mat-mdc-icon-button {
+  @apply leading-[normal];
+}
+
+/* Material mat-button fix: bad positioning when it's inside a mat-form-field */
+button[matsuffix] {
+  @apply mr-[5px] ml-[3px];
+}
+
+/* Base styles */
+@layer base {
+  /* Reset the user agent margin */
+  body {
+    @apply m-[0];
+  }
+
+  /* Typography sizes */
+  h1 {
+    @apply text-3xl;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  h4 {
+    @apply text-lg;
+  }
+
+  /* Reset default link styles */
+  a {
+    @apply no-underline text-inherit font-[inherit];
+  }
+
+  /* Scrollbar custom style */
+  ::-webkit-scrollbar {
+    @apply w-[2px] h-[2px];
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent rounded-[2px];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[var(--mat-sys-outline)] rounded-[2px];
+  }
+
+  /* mat-dialog custom style */
+  .mat-mdc-dialog-surface {
+    @apply rounded-[12px]!;
+  }
+}
+
+/* Utilities */
+/* For muted text */
+@utility muted {
+  color: var(--mat-sys-outline);
+}
+
+/* For icon sizes */
+@utility icon-size-* {
+  font-size: --value([*]) !important;
+  width: --value([*]) !important;
+  height: --value([*]) !important;
+}
+
+/* Components */
+@layer components {
+  /* mat-multi-page-menu component */
+  .mat-multi-page-menu {
+    @apply w-[300px] rounded-[12px]!;
+  }
+
+  .mat-multi-page-menu-submenu {
+    @apply ml-[12px] mr-[0px]! order-2;
+  }
+
+  .mat-menu-item-info {
+    @apply py-[6px]! px-[12px]! text-center;
+  }
+
+  .mat-menu-item-noicon {
+    @apply ml-[36px];
+  }
+
+  /* dialog-with-close component */
+  .dialog-with-close {
+    @apply flex! items-center m-[0px]! mt-[18px]!;
+  }
+
+  .dialog-with-close > :last-child {
+    @apply ml-auto!;
+  }
+
+  /* dialog-icon-item component */
+  .dialog-icon-item {
+    @apply flex items-center gap-[16px] my-[20px] wrap-anywhere;
+  }
+
+  .dialog-icon-item > mat-icon {
+    @apply shrink-0;
+  }
+
+  /* nav-item component */
+  .nav-item {
+    @apply rounded-[10px]!;
+  }
+
+  .nav-item-sm {
+    @apply flex-col py-[12px]! px-[0px]! h-[68px]!;
+  }
+
+  .nav-item-sm span {
+    @apply text-[10px]!;
+  }
+
+  /* General Operation component */
+  .operation-card {
+    @apply p-[24px] pb-[20px] m-auto mt-[16px] max-w-[750px] max-sm:p-0 max-sm:border-0!;
+  }
+
+  .operation-content {
+    @apply grid! grid-cols-[repeat(5,1fr)] gap-[16px] p-[0px]!;
+  }
+
+  .operation-content-left {
+    @apply col-span-3 max-w-[450px] flex flex-col max-sm:col-span-5 max-sm:w-full;
+  }
+
+  .operation-content-right {
+    @apply col-span-2 w-[300px] flex flex-col gap-[16px] max-sm:col-span-5 max-sm:w-full;
+  }
+
+  .operation-content-right > :last-child {
+    @apply mb-[10px]!;
+  }
+
+  .operation-content-right > mat-form-field:last-child {
+    @apply mb-[18px]!;
+  }
+
+  .operation-actions {
+    @apply justify-end gap-[6px] p-[0px]!;
+  }
+
+  .operation-icon {
+    @apply icon-size-[100px] max-sm:icon-size-[75px];
+  }
+}

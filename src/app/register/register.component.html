@@ -1,14 +1,12 @@
-<mat-card class="card" [appearance]="$isSmallScreen ? 'outlined' : 'raised'" [class.full]="$isSmallScreen">
+<mat-card class="operation-card" [appearance]="$isSmallScreen ? 'outlined' : 'raised'">
   <form [formGroup]="registerForm" (ngSubmit)="register()">
-    <mat-card-content class="content">
-      <div class="content-header" [class.full]="$isSmallScreen">
-        <div class="avatar">
-          <mat-icon class="action-icon" [class.full]="!$isSmallScreen">person_add</mat-icon>
-        </div>
-        <h1>Create an account</h1>
-        <p class="mat-muted">Please provide your information to continue.</p>
+    <mat-card-content class="operation-content">
+      <div class="operation-content-left">
+        <mat-icon class="operation-icon"> person_add </mat-icon>
+        <h1 class="mt-[16px]">Create an account</h1>
+        <p class="muted mt-[16px]">Please provide your information to continue.</p>
       </div>
-      <div class="content-fields" [class.full]="$isSmallScreen">
+      <div class="operation-content-right">
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" autocomplete="off" />
@@ -84,10 +82,9 @@
         </mat-form-field>
       </div>
     </mat-card-content>
-    <mat-card-actions class="actions">
-      <a matButton class="login-button" routerLink="/login">Did you already have an account?</a>
-      <span class="grow"></span>
-      <button class="whitespace-nowrap" matButton="tonal" [disabled]="!registerForm.valid || submitLoading">
+    <mat-card-actions class="operation-actions">
+      <a matButton class="justify-self-start" routerLink="/login">Did you already have an account?</a>
+      <button class="whitespace-nowrap ml-auto" matButton="tonal" [disabled]="!registerForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

@@ -39,7 +39,6 @@ export class ProfileComponent implements OnInit {
   username!: string;
 
   $isSmallScreen: boolean = false;
-  $isLargeScreen: boolean = false;
 
   constructor(
     public auth: AuthService,
@@ -52,9 +51,6 @@ export class ProfileComponent implements OnInit {
   ) {
     this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
       this.$isSmallScreen = result.matches;
-    });
-    this._breakpointObserver.observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge]).subscribe((result) => {
-      this.$isLargeScreen = result.matches;
     });
 
     effect(() => {

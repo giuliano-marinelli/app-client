@@ -1,6 +1,6 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="h-[100vh]">
   <!-- Sidenav -->
-  <mat-sidenav #drawer class="sidenav" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
+  <mat-sidenav #drawer class="w-[240px]! rounded-none!" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
     <!-- Sidenav Toolbar -->
     <ng-container *ngTemplateOutlet="toolbar"></ng-container>
     <!-- Sidenav Navigation -->
@@ -12,22 +12,22 @@
     <!-- Main Toolbar -->
     <ng-container *ngTemplateOutlet="toolbar; context: { fixed: true }"></ng-container>
     <!-- Main Navigation -->
-    <div class="nav" [class.full]="$isFullNav && $isLargeScreen" [class.hidden]="$isSmallScreen">
+    <div class="fixed h-[calc(100vh-64px)] w-[82px] max-md:hidden!" [class.lg:w-[240px]]="$isFullNav">
       <ng-container *ngTemplateOutlet="navigation; context: { fixed: true }"></ng-container>
     </div>
     <!-- Main Content -->
-    <div class="content" [class.full]="$isFullNav && $isLargeScreen" [class.expanded]="$isSmallScreen">
+    <div class="block py-[0px] px-[8px] ml-[82px] max-md:px-[24px] max-md:ml-[0px]" [class.lg:ml-[240px]]="$isFullNav">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
 <ng-template #toolbar let-fixed="fixed">
-  <mat-toolbar class="toolbar" [class.fixed]="fixed">
+  <mat-toolbar class="gap-[6px] {{ fixed ? 'sticky top-[0px] z-1000' : '' }}">
     <button matIconButton (click)="$isLargeScreen ? toggleFullNav() : drawer.toggle()" onclick="this.blur()">
       <mat-icon>menu</mat-icon>
     </button>
-    <a class="logo" routerLink="/">
+    <a class="flex gap-[4px] items-center ml-[8px] font-medium" routerLink="/">
       <mat-icon>logo_dev</mat-icon>
       <span>App</span>
     </a>
@@ -35,8 +35,13 @@
       <span class="grow"></span>
       @if (!auth.loading && auth.user) {
         <!-- User Logged In -->
-        <button matIconButton [matMenuTriggerFor]="menu" class="profile-button" (click)="menuPages.resetPages()">
-          <img [src]="auth.user.profile?.avatar" class="profile-img" onerror="this.src='assets/images/default-user.png'" />
+        <button
+          matIconButton
+          class="w-[36px]! h-[36px]! p-[0px]! rounded-full! overflow-hidden!"
+          [matMenuTriggerFor]="menu"
+          (click)="menuPages.resetPages()"
+        >
+          <img [src]="auth.user.profile?.avatar" class="block w-full! h-full! object-cover" onerror="this.src='assets/images/default-user.png'" />
         </button>
       } @else if (!auth.loading) {
         <!-- Not Logged User -->
@@ -58,10 +63,14 @@
         <mat-multi-page-menu #menuPages="matMultiPageMenu">
           <menu-page>
             @if (!auth.loading && auth.user) {
-              <div class="mat-menu-item-info menu-profile">
-                <img [src]="auth.user.profile?.avatar" class="menu-profile-img" onerror="this.src='assets/images/default-user.png'" />
-                <div class="menu-profile-info">
-                  <b class="menu-profile-name">{{ auth.user.profile?.name }}</b>
+              <div class="mat-menu-item-info flex! flex-row items-start gap-[12px] py-[4px] px-[12px]">
+                <img
+                  [src]="auth.user.profile?.avatar"
+                  class="block w-[44px] h-[44px] rounded-full"
+                  onerror="this.src='assets/images/default-user.png'"
+                />
+                <div class="flex flex-col justify-center items-start">
+                  <b class="text-xl font-medium h-[24px]">{{ auth.user.profile?.name }}</b>
                   {{ '@' + auth.user.username }}
                 </div>
               </div>
@@ -116,7 +125,7 @@
             </button>
           </menu-page>
           <menu-page pageId="appearance" title="Appearance">
-            <p class="mat-muted mat-menu-item-info">Setting applies to this browser only</p>
+            <p class="muted mat-menu-item-info">Setting applies to this browser only</p>
             <button mat-menu-item (click)="themeService.set('light dark')">
               @if (themeService.theme === 'light dark') {
                 <mat-icon>check</mat-icon>
@@ -143,7 +152,7 @@
 </ng-template>
 
 <ng-template #navigation let-fixed="fixed">
-  <mat-nav-list class="nav-list">
+  <mat-nav-list class="flex! flex-col! gap-[6px]! p-[12px]!">
     @for (link of navLinks; track link.route) {
       <a
         mat-list-item
@@ -152,8 +161,8 @@
         #route="routerLinkActive"
         [activated]="route.isActive"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="nav-list-item"
-        [class.small]="fixed && (!$isLargeScreen || !$isFullNav)"
+        class="nav-item"
+        [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
         (click)="drawer.close()"
       >
         <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>

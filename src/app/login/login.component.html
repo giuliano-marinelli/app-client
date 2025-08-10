@@ -1,14 +1,12 @@
-<mat-card class="max-sm:p-0 max-sm:border-0! p-[24px] pb-[20px] m-auto mt-[16px] max-w-[750px]" [appearance]="$isSmallScreen ? 'outlined' : 'raised'">
+<mat-card class="operation-card" [appearance]="$isSmallScreen ? 'outlined' : 'raised'">
   <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <mat-card-content class="content">
-      <div class="content-header" [class.full]="$isSmallScreen">
-        <div class="avatar">
-          <mat-icon class="action-icon">fingerprint</mat-icon>
-        </div>
-        <h1>Sign in to App</h1>
-        <p class="mat-muted">Please enter your credentials to continue.</p>
+    <mat-card-content class="operation-content">
+      <div class="operation-content-left">
+        <mat-icon class="icon-size-[75px]">fingerprint</mat-icon>
+        <h1 class="mt-[16px]">Sign in to App</h1>
+        <p class="muted mt-[16px]">Please enter your credentials to continue.</p>
       </div>
-      <div class="content-fields" [class.full]="$isSmallScreen">
+      <div class="operation-content-right">
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Email or username</mat-label>
           <input matInput formControlName="usernameOrEmail" />
@@ -35,10 +33,11 @@
             <invalid-feedback name="Password" [control]="password"></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <a matButton class="forgot-button" routerLink="/password-reset">Forgot password?</a>
+
+        <a matButton class="self-end" routerLink="/password-reset">Forgot password?</a>
       </div>
     </mat-card-content>
-    <mat-card-actions class="actions">
+    <mat-card-actions class="operation-actions">
       <a matButton class="whitespace-nowrap" routerLink="/register">Sign up</a>
       <button class="whitespace-nowrap" matButton="tonal" [disabled]="!loginForm.valid || submitLoading">
         @if (submitLoading) {
