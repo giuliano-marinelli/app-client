@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HammerModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 //graphql
 import { provideApollo } from 'apollo-angular';
@@ -110,7 +111,7 @@ bootstrapApplication(AppComponent, {
       });
       const success = new ApolloLink((operation, forward) => {
         return forward(operation).map((data) => {
-          messages.clear();
+          // messages.clear();
           return data;
         });
       });
@@ -138,6 +139,8 @@ bootstrapApplication(AppComponent, {
         }
       };
     }),
+    //angular material
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     //services
     MessagesService,
     AuthService,

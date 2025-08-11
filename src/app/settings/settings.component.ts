@@ -1,4 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -25,6 +26,7 @@ import { AuthService } from '../services/auth.service';
     MatProgressSpinnerModule,
     MatTabsModule,
     MatSidenavModule,
+    NgTemplateOutlet,
     RouterLink,
     RouterLinkActive,
     RouterOutlet
@@ -46,7 +48,8 @@ export class SettingsComponent implements OnInit {
   sections = [
     { label: 'Profile', icon: 'person', route: './profile' },
     { label: 'Account', icon: 'settings', route: './account' },
-    { label: 'Notifications', icon: 'notifications', route: './notifications' },
+    { label: 'Notifications', icon: 'notifications', route: './notifications', disabled: true },
+    { label: 'Access', divider: true },
     { label: 'Emails', icon: 'email', route: './emails' },
     { label: 'Passwords', icon: 'key', route: './security' },
     { label: 'Devices', icon: 'devices', route: './devices' }

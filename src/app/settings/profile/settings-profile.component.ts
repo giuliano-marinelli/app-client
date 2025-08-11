@@ -1,6 +1,12 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
@@ -8,11 +14,10 @@ import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
 import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-image-cropper';
 import { Observable } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
+import { PictureInputComponent } from '../../shared/components/picture-input/picture-input.component';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
@@ -23,12 +28,25 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   selector: 'settings-profile',
   templateUrl: './settings-profile.component.html',
   styleUrls: ['./settings-profile.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, RouterLink, InputMaskModule, ImageCropperComponent, FilterPipe]
+  imports: [
+    FormsModule,
+    FilterPipe,
+    InputMaskModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    PictureInputComponent,
+    ReactiveFormsModule,
+    RouterLink,
+    MatDivider
+  ]
 })
 export class SettingsProfileComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
-  @ViewChild('avatar_img') avatarImage!: ElementRef;
-
   userLoading: boolean = true;
   submitLoading: boolean = false;
 
@@ -39,7 +57,7 @@ export class SettingsProfileComponent implements OnInit {
 
   profileForm!: FormGroup;
   id: any;
-  name = new FormControl('', [Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
+  name = new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
   publicEmail = new FormControl('', [Validators.required]);
   bio = new FormControl('', [
     Validators.maxLength(200)
@@ -54,15 +72,12 @@ export class SettingsProfileComponent implements OnInit {
   location = new FormControl('', [Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
   avatar = new FormControl('', []);
   avatarFile = new FormControl<Blob | null>(null, []);
-  avatarChangedEvent!: Event;
 
   constructor(
     public auth: AuthService,
     public router: Router,
     public formBuilder: FormBuilder,
     public messages: MessagesService,
-    // private modalService: NgbModal,
-    private compressor: NgxImageCompressService,
     private _findUser: FindUser,
     private _updateUser: UpdateUser
   ) {}
@@ -99,8 +114,8 @@ export class SettingsProfileComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
+              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
-            // this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.profileForm.patchValue(data?.user);
@@ -123,51 +138,22 @@ export class SettingsProfileComponent implements OnInit {
         .mutate({ userUpdateInput: this.profileForm.value, avatarFile: this.avatarFile.value }, { context: { useMultipart: true } })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              if (data?.updateUser) {
-                // this.messages.error(errors, {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: this.messageContainer
-                // });
-                this.profileForm.markAsPristine();
-                this.getUser();
-                this.auth.setUser();
-                // this.messages.success('Profile settings successfully saved.', {
-                //   onlyOne: true,
-                //   displayMode: 'replace'
-                //   // target: this.messageContainer
-                // });
-              }
+            if (errors) {
+              this.messages.error(errors, 'Could not update user data. Please try again later.');
+            }
+            if (data?.updateUser) {
+              this.profileForm.markAsPristine();
+              this.getUser();
+              this.auth.setUser();
+              this.messages.info('Profile settings successfully saved.');
+            }
           }
         })
         .add(() => {
           this.submitLoading = false;
         });
     } else {
-      // this.messages.error('Some values are invalid, please check.', {
-      //   close: false,
-      //   onlyOne: true,
-      //   displayMode: 'replace',
-      //   target: this.messageContainer
-      // });
-    }
-  }
-
-  onChangeAvatar(event: any, cropModal: any): void {
-    if (event.target.files[0]) {
-      // this.modalService.open(cropModal, { centered: true });
-      this.avatarChangedEvent = event;
-    }
-  }
-
-  async onCroppedAvatar(event: ImageCroppedEvent): Promise<void> {
-    if (event.base64) {
-      const compressedImage = await this.compressor.compressFile(event.base64, 0, 50, 50, 500, 500); // 50% ration, 50% quality, 500x500px max size
-      this.avatarFile.setValue(base64ToFile(compressedImage));
-      this.avatarFile.markAsDirty();
-      this.avatarImage.nativeElement.src = event.base64;
+      this.messages.error('Some values are invalid, please check.');
     }
   }
 }

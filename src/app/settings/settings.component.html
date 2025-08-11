@@ -1,62 +1,83 @@
 @if (auth.loading) {
-  <mat-spinner diameter="60"></mat-spinner>
+  <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 }
 @if (!auth.loading && auth.user) {
-  <div class="md:px-[24px]">
+  <div class="md:pr-[16px] lg:px-[10%]">
     <div class="my-[16px] mx-[0px] flex flex-row flex-wrap gap-[16px]">
       <img class="w-[60px] h-[60px] rounded-full" [src]="auth.user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
       <div>
         <h1 class="text-4xl max-sm:text-2xl">
           {{ auth.user.profile?.name ? auth.user.profile?.name : auth.user.username }}
         </h1>
-        <h3 class="text-sm max-sm:text-xs muted">Your personal account</h3>
+        <h3 class="text-sm max-sm:text-xs text-muted">Your personal account</h3>
       </div>
       <a matButton="tonal" class="ml-auto max-sm max-sm:grow max-sm:min-w-[200px]" routerLink="/{{ auth.user.username }}">
         Go to your personal profile
       </a>
     </div>
-
+  </div>
+}
+<div class="md:pr-[16px] lg:px-[10%]">
+  <div class="flex flex-row max-sm:flex-col gap-[16px] sm:mt-[24px]">
     @if ($isSmallScreen) {
-      <mat-accordion>
-        <mat-expansion-panel class="shadow-none!">
-          <mat-expansion-panel-header>
+      <mat-accordion class="w-full">
+        <mat-expansion-panel #expansionPanel class="shadow-none!">
+          <mat-expansion-panel-header class="bg-transparent!">
             <mat-panel-title class="text-center">
               <mat-icon class="mr-[10px]">settings</mat-icon>
               Settings
             </mat-panel-title>
           </mat-expansion-panel-header>
           <ng-template matExpansionPanelContent>
-            <mat-nav-list class="flex! flex-col! gap-[6px]! p-[0px]!">
-              @for (section of sections; track section.route) {
-                <a
-                  mat-list-item
-                  [routerLink]="section.route"
-                  routerLinkActive
-                  #route="routerLinkActive"
-                  [activated]="route.isActive"
-                  class="nav-item"
-                >
-                  <mat-icon matListItemIcon>{{ section.icon }}</mat-icon>
-                  <span matListItemTitle>{{ section.label }}</span>
-                </a>
-              }
-            </mat-nav-list>
+            <ng-container
+              [ngTemplateOutlet]="navigation"
+              [ngTemplateOutletContext]="{ containerClass: 'flex! flex-col! gap-[6px]! p-[0px]!', expansionPanel: expansionPanel }"
+            ></ng-container>
           </ng-template>
         </mat-expansion-panel>
       </mat-accordion>
     } @else {
-      <nav mat-tab-nav-bar class="headed-tabs" mat-stretch-tabs="false" mat-align-tabs="start">
-        @for (section of sections; track section.route) {
-          <a mat-tab-link [routerLink]="section.route" routerLinkActive #route="routerLinkActive" [active]="route.isActive">
-            <mat-icon class="mr-[10px]"> {{ section.icon }}</mat-icon>
-            {{ section.label }}
-          </a>
-        }
-      </nav>
+      <!-- <nav mat-tab-nav-bar class="headed-tabs" mat-stretch-tabs="false" mat-align-tabs="start">
+          @for (section of sections; track section.route) {
+            <a mat-tab-link [routerLink]="section.route" routerLinkActive #route="routerLinkActive" [active]="route.isActive">
+              <mat-icon class="mr-[10px]"> {{ section.icon }}</mat-icon>
+              {{ section.label }}
+            </a>
+          }
+        </nav> -->
+      <ng-container
+        [ngTemplateOutlet]="navigation"
+        [ngTemplateOutletContext]="{ containerClass: 'w-[230px] flex! flex-col! gap-[6px]! p-[0px]! shrink-0' }"
+      ></ng-container>
     }
+
+    <div class="grow">
+      <router-outlet></router-outlet>
+    </div>
   </div>
+</div>
 
-  <mat-divider class="max-sm:hidden!"></mat-divider>
-
-  <router-outlet></router-outlet>
-}
+<ng-template #navigation let-containerClass="containerClass" let-expansionPanel="expansionPanel">
+  <mat-nav-list [class]="containerClass">
+    @for (section of sections; track section.route) {
+      @if (section.divider) {
+        <mat-divider></mat-divider>
+        <span class="text-muted ml-[32px] font-medium">{{ section.label }}</span>
+      } @else {
+        <a
+          class="nav-item cursor-pointer!"
+          mat-list-item
+          [routerLink]="section.route"
+          routerLinkActive
+          #route="routerLinkActive"
+          [activated]="route.isActive"
+          [disabled]="section.disabled || false"
+          (click)="expansionPanel?.close()"
+        >
+          <mat-icon matListItemIcon>{{ section.icon }}</mat-icon>
+          <span matListItemTitle>{{ section.label }}</span>
+        </a>
+      }
+    }
+  </mat-nav-list>
+</ng-template>

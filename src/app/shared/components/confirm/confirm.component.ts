@@ -1,9 +1,14 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { CheckUserPassword, CheckUserVerificationCode, UpdateUserVerificationCode } from '../../entities/user.entity';
-import { Global } from '../../global/global';
 import { NgOtpInputComponent } from 'ng-otp-input';
 
 import { InvalidFeedbackComponent } from '../invalid-feedback/invalid-feedback.component';
@@ -11,18 +16,33 @@ import { InvalidFeedbackComponent } from '../invalid-feedback/invalid-feedback.c
 import { AuthService } from '../../../services/auth.service';
 import { MessagesService } from '../../../services/messages.service';
 
+import { VarDirective } from '../../directives/var.directive';
+
 @Component({
-  selector: '[confirm]',
+  selector: 'confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
-  imports: [NgTemplateOutlet, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, NgOtpInputComponent]
+  imports: [
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    NgOtpInputComponent,
+    NgTemplateOutlet,
+    ReactiveFormsModule,
+    VarDirective
+  ]
 })
 export class ConfirmComponent {
   @Input() confirmMessage: string = 'Are you sure you want to do this?';
   @Input() confirmTemplate: TemplateRef<any> | null = null;
   @Input() confirmData?: any;
   @Input() confirmActionButton: string = 'Proceed';
-  @Input() confirmColor: string = 'danger';
+  @Input() confirmColor: string = 'error';
   @Input() rejectActionButton: string = 'Cancel';
   @Input() requiredPassword: boolean = false;
   @Input() requiredPasswordMessage: string = 'Please enter your password to confirm.';
@@ -42,7 +62,7 @@ export class ConfirmComponent {
   @Input() requiredVerificationCodeAdviceData?: any;
   @Input() requiredVerificationCodeAdviceUseDefaultTemplate: boolean = true;
   @Input() confirmActionButtonVerificationCode: string = 'Proceed';
-  @Input() confirmActionButtonVerificationCodeAdvice: string = 'Send verification code';
+  @Input() confirmActionButtonVerificationCodeAdvice: string = 'Send code';
   @Input() onlyVerificationCode: boolean = false;
 
   @Output() confirm = new EventEmitter();
@@ -52,16 +72,13 @@ export class ConfirmComponent {
   @ViewChild('content_password', { static: false }) contentPassword?: TemplateRef<any>;
   @ViewChild('content_verification_code', { static: false }) contentVerificationCode?: TemplateRef<any>;
   @ViewChild('content_verification_code_advice', { static: false }) contentVerificationCodeAdvice?: TemplateRef<any>;
-  @ViewChild('content_verification_code_advice_default_message', { static: false })
-  contentVerificationCodeAdviceDefaultMessage?: TemplateRef<any>;
+  @ViewChild('content_verification_code_advice_default_message', { static: false }) contentVerificationCodeAdviceDefaultMessage?: TemplateRef<any>;
 
   checkPasswordLoading: boolean = false;
   checkVerificationCodeLoading: boolean = false;
   checkVerificationCodeAdviceLoading: boolean = false;
 
-  // modal?: NgbModalRef;
-
-  setValid: any = Global.setValid;
+  dialogRef?: MatDialogRef<any> | null;
 
   passwordForm!: FormGroup;
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
@@ -73,8 +90,9 @@ export class ConfirmComponent {
 
   constructor(
     public auth: AuthService,
-    public messages: MessagesService,
     public formBuilder: FormBuilder,
+    public messages: MessagesService,
+    public dialog: MatDialog,
     private _checkUserPassword: CheckUserPassword,
     private _checkUserVerificationCode: CheckUserVerificationCode,
     private _updateUserVerificationCode: UpdateUserVerificationCode
@@ -84,22 +102,22 @@ export class ConfirmComponent {
   open() {
     if (this.onlyPassword) this.openPassword();
     else if (this.onlyVerificationCode) this.openVerificationCodeAdvice();
-    // else this.modal = this.modalService.open(this.content);
+    else this.dialogRef = this.dialog.open(this.content!);
   }
 
   openPassword() {
-    // this.modal = this.modalService.open(this.contentPassword);
+    this.dialogRef = this.dialog.open(this.contentPassword!, { disableClose: true });
     this.passwordForm = this.formBuilder.group({
       password: this.password
     });
   }
 
   openVerificationCodeAdvice() {
-    // this.modal = this.modalService.open(this.contentVerificationCodeAdvice);
+    this.dialogRef = this.dialog.open(this.contentVerificationCodeAdvice!, { disableClose: true });
   }
 
   openVerificationCode() {
-    // this.modal = this.modalService.open(this.contentVerificationCode, { backdrop: 'static' });
+    this.dialogRef = this.dialog.open(this.contentVerificationCode!, { disableClose: true });
     this.verificationCodeForm = this.formBuilder.group({
       verificationCode: this.verificationCode
     });
@@ -107,13 +125,13 @@ export class ConfirmComponent {
 
   confirmAction() {
     if (this.requiredPassword) {
-      // this.modal?.close();
+      this.dialogRef?.close();
       this.openPassword();
     } else if (this.requiredVerificationCode) {
-      // this.modal?.close();
+      this.dialogRef?.close();
       this.openVerificationCodeAdvice();
     } else {
-      // this.modal?.close();
+      this.dialogRef?.close();
       this.confirm?.emit();
     }
   }
@@ -123,10 +141,10 @@ export class ConfirmComponent {
       this.passwordStored = this.password?.value;
       this.passwordForm.reset();
       if (this.requiredVerificationCode) {
-        // this.modal?.close();
+        this.dialogRef?.close();
         this.openVerificationCodeAdvice();
       } else {
-        // this.modal?.close();
+        this.dialogRef?.close();
         this.confirm?.emit({ password: this.passwordStored });
       }
     }
@@ -134,7 +152,7 @@ export class ConfirmComponent {
 
   async confirmActionVerificationCodeAdvice() {
     if (await this.sendVerificationCode()) {
-      // this.modal?.close();
+      this.dialogRef?.close();
       this.openVerificationCode();
     }
   }
@@ -143,7 +161,7 @@ export class ConfirmComponent {
     if (await this.checkVerificationCode()) {
       this.verificationCodeStored = this.verificationCode?.value;
       this.verificationCodeForm.reset();
-      // this.modal?.close();
+      this.dialogRef?.close();
       this.confirm?.emit({
         verificationCode: this.verificationCodeStored,
         ...(this.passwordStored ? { password: this.passwordStored } : {})
@@ -152,7 +170,7 @@ export class ConfirmComponent {
   }
 
   rejectAction() {
-    // this.modal?.close();
+    this.dialogRef?.close();
     this.reject?.emit();
   }
 
@@ -165,22 +183,10 @@ export class ConfirmComponent {
           .subscribe({
             next: ({ data, errors }) => {
               const messageContainerPassword = document.getElementById('message_container_password');
-              if (errors) {
-              }
-              // this.messages.error(errors, {
-              //   close: false,
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: messageContainerPassword
-              // });
+              if (errors) this.messages.error(errors, 'Could not check password. Please try again later.');
               else if (data?.checkUserPassword) resolve(true);
               else {
-                // this.messages.error("Password don't match.", {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: messageContainerPassword
-                // });
+                this.messages.error('Password does not match.');
                 resolve(false);
               }
             }
@@ -204,21 +210,11 @@ export class ConfirmComponent {
             next: ({ data, errors }) => {
               const messageContainerVerificationCode = document.getElementById('message_container_verification_code');
               if (errors) {
-                // this.messages.error(errors, {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: messageContainerVerificationCode
-                // });
+                this.messages.error(errors, 'Could not check verification code. Please try again later.');
                 resolve(false);
               } else if (data?.checkUserVerificationCode) resolve(true);
               else {
-                // this.messages.error("Verification code don't match.", {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: messageContainerVerificationCode
-                // });
+                this.messages.error('Verification code does not match.');
                 resolve(false);
               }
             }
@@ -242,19 +238,10 @@ export class ConfirmComponent {
             next: ({ data, errors }) => {
               const messageContainerVerificationCodeAdvice = document.getElementById('message_container_verification_code_advice');
               if (errors) {
-                // this.messages.error(errors, {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: messageContainerVerificationCodeAdvice
-                // });
+                this.messages.error(errors, 'Could not send verification code. Please try again later.');
                 resolve(false);
               } else {
-                // this.messages.success('Verification code sended to your primary email.', {
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: messageContainerVerificationCodeAdvice
-                // });
+                this.messages.info('Verification code sent to your primary email.');
                 resolve(true);
               }
             }

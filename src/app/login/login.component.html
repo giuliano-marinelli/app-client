@@ -4,7 +4,7 @@
       <div class="operation-content-left">
         <mat-icon class="icon-size-[75px]">fingerprint</mat-icon>
         <h1 class="mt-[16px]">Sign in to App</h1>
-        <p class="muted mt-[16px]">Please enter your credentials to continue.</p>
+        <p class="text-muted mt-[16px]">Please enter your credentials to continue.</p>
       </div>
       <div class="operation-content-right">
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
@@ -19,14 +19,7 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" *var="{ active: true } as hidden">
           <mat-label>Password</mat-label>
           <input matInput [type]="hidden.active ? 'password' : 'text'" formControlName="password" />
-          <button
-            type="button"
-            matIconButton
-            matSuffix
-            (click)="hidden.active = !hidden.active; $event.stopPropagation()"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidden.active"
-          >
+          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>

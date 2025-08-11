@@ -1,10 +1,14 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
 import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
-import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
 
@@ -18,19 +22,25 @@ import { MessagesService } from '../../services/messages.service';
   selector: 'settings-account',
   templateUrl: './settings-account.component.html',
   styleUrls: ['./settings-account.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent, ConfirmComponent]
+  imports: [
+    ConfirmComponent,
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule
+  ]
 })
 export class SettingsAccountComponent implements OnInit {
-  @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
-  @ViewChild('message_container_delete') messageContainerDelete!: ElementRef;
-
   userLoading: boolean = true;
   updateSubmitLoading: boolean = false;
   deleteSubmitLoading: boolean = false;
 
   user?: User;
-
-  setValid: any = Global.setValid;
 
   usernameForm!: FormGroup;
   id: any;
@@ -39,11 +49,12 @@ export class SettingsAccountComponent implements OnInit {
     [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
     [ExtraValidators.usernameExists(this._usernameExists)]
   );
+
   constructor(
     public auth: AuthService,
     public router: Router,
-    public messages: MessagesService,
     public formBuilder: FormBuilder,
+    public messages: MessagesService,
     private _findUser: FindUser,
     private _usernameExists: CheckUserUsernameExists,
     private _updateUser: UpdateUser,
@@ -70,20 +81,18 @@ export class SettingsAccountComponent implements OnInit {
   getUser(): void {
     if (this.auth.user) {
       this.userLoading = true;
-      this._findUser
-        .fetch({ id: this.auth.user.id })
+      this._findUser({ relations: { emails: true } })
+        .fetch({ id: this.auth.user?.id })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors)
-              if (data?.user) {
-                // this.messages.error(errors, {
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: this.messageContainerUpdate
-                // });
-                this.user = data?.user;
-                this.usernameForm.patchValue(data?.user);
-              }
+          next: ({ data, errors }: any) => {
+            if (errors) {
+              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+            }
+            if (data?.user) {
+              this.user = data?.user;
+              this.usernameForm.patchValue(data?.user);
+              this.usernameForm.markAsPristine();
+            }
           }
         })
         .add(() => {
@@ -102,35 +111,22 @@ export class SettingsAccountComponent implements OnInit {
         .mutate({ userUpdateInput: this.usernameForm.value })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              if (data?.updateUser) {
-                // this.messages.error(errors, {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: this.messageContainerUpdate
-                // });
-                this.usernameForm.markAsPristine();
-                this.getUser();
-                this.auth.setUser();
-                // this.messages.success('Username successfully changed.', {
-                //   onlyOne: true,
-                //   displayMode: 'replace'
-                //   // target: this.messageContainerUpdate
-                // });
-              }
+            if (errors) {
+              this.messages.error(errors, 'Could not update user data. Please try again later.');
+            }
+            if (data?.updateUser) {
+              this.getUser();
+              this.auth.setUser();
+              this.usernameForm.markAsPristine();
+              this.messages.info('Username successfully changed.');
+            }
           }
         })
         .add(() => {
           this.updateSubmitLoading = false;
         });
     } else {
-      // this.messages.error('Some values are invalid, please check.', {
-      //   close: false,
-      //   onlyOne: true,
-      //   displayMode: 'replace',
-      //   target: this.messageContainerUpdate
-      // });
+      this.messages.error('Some values are invalid, please check.');
     }
   }
 
@@ -141,18 +137,14 @@ export class SettingsAccountComponent implements OnInit {
         .mutate({ id: this.auth.user.id, password: password, code: verificationCode })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              if (data?.deleteUser) {
-                // this.messages.error(errors, {
-                //   close: false,
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: this.messageContainerDelete
-                // });
-                this.auth.eraseToken();
-                this.auth.setUser();
-                // this.messages.warning('Your account was successfully deleted. We will miss you!', { timeout: 0 });
-              }
+            if (errors) {
+              this.messages.error(errors, 'Could not delete user data. Please try again later.');
+            }
+            if (data?.deleteUser) {
+              this.auth.eraseToken();
+              this.auth.setUser();
+              this.messages.info('Your account was successfully deleted. We will miss you!');
+            }
           }
         })
         .add(() => {

@@ -48,9 +48,9 @@ button[matsuffix] {
   }
 
   /* Reset default link styles */
-  a {
+  /* a {
     @apply no-underline text-inherit font-[inherit];
-  }
+  } */
 
   /* Scrollbar custom style */
   ::-webkit-scrollbar {
@@ -69,12 +69,34 @@ button[matsuffix] {
   .mat-mdc-dialog-surface {
     @apply rounded-[12px]!;
   }
+
+  /* mat-menu custom style */
+  .mat-mdc-menu-panel {
+    @apply rounded-[12px]!;
+  }
+
+  /* OTP centered */
+  .n-o-c {
+    justify-content: center;
+  }
 }
 
 /* Utilities */
 /* For muted text */
-@utility muted {
+@utility text-muted {
   color: var(--mat-sys-outline);
+}
+
+@utility text-secondary {
+  color: var(--mat-sys-secondary);
+}
+
+@utility text-tertiary {
+  color: var(--mat-sys-tertiary);
+}
+
+@utility text-error {
+  color: var(--mat-sys-error);
 }
 
 /* For icon sizes */
@@ -82,6 +104,18 @@ button[matsuffix] {
   font-size: --value([*]) !important;
   width: --value([*]) !important;
   height: --value([*]) !important;
+}
+
+/* For image thumbnails */
+@utility img-thumbnail {
+  border: 1px solid var(--mat-sys-outline);
+  padding: 0.25rem;
+}
+
+/* For loading blur effects on content */
+@utility loading {
+  pointer-events: none;
+  filter: blur(0.1rem);
 }
 
 /* Components */
@@ -102,7 +136,7 @@ button[matsuffix] {
 
   /* Main content components */
   .main-content {
-    @apply block py-[0px] ml-[82px] max-md:px-[24px] max-md:ml-[0px];
+    @apply block py-[0px] ml-[82px] mb-[64px] max-md:px-[24px] max-md:ml-[0px];
   }
 
   .main-content-full {
@@ -111,7 +145,7 @@ button[matsuffix] {
 
   /* mat-multi-page-menu component */
   .mat-multi-page-menu {
-    @apply w-[300px] rounded-[12px]!;
+    @apply w-[300px];
   }
 
   .mat-multi-page-menu-submenu {
@@ -128,7 +162,7 @@ button[matsuffix] {
 
   /* dialog-with-close component */
   .dialog-with-close {
-    @apply flex! items-center m-[0px]! mt-[18px]!;
+    @apply flex! items-center m-[0px]! mt-[8px]!;
   }
 
   .dialog-with-close > :last-child {

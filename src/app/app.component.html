@@ -2,18 +2,18 @@
   <!-- Sidenav -->
   <mat-sidenav #drawer class="w-[240px]! rounded-none!" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
     <!-- Sidenav Toolbar -->
-    <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+    <ng-container [ngTemplateOutlet]="toolbar"></ng-container>
     <!-- Sidenav Navigation -->
-    <ng-container *ngTemplateOutlet="navigation"></ng-container>
+    <ng-container [ngTemplateOutlet]="navigation"></ng-container>
   </mat-sidenav>
 
   <!-- Content -->
   <mat-sidenav-content>
     <!-- Main Toolbar -->
-    <ng-container *ngTemplateOutlet="toolbar; context: { fixed: true }"></ng-container>
+    <ng-container [ngTemplateOutlet]="toolbar" [ngTemplateOutletContext]="{ fixed: true }"></ng-container>
     <!-- Main Navigation -->
     <div class="main-nav" [class.main-nav-full]="$isFullNav">
-      <ng-container *ngTemplateOutlet="navigation; context: { fixed: true }"></ng-container>
+      <ng-container [ngTemplateOutlet]="navigation" [ngTemplateOutletContext]="{ fixed: true }"></ng-container>
     </div>
     <!-- Main Content -->
     <div class="main-content" [class.main-content-full]="$isFullNav">
@@ -125,7 +125,7 @@
             </button>
           </menu-page>
           <menu-page pageId="appearance" title="Appearance">
-            <p class="muted mat-menu-item-info">Setting applies to this browser only</p>
+            <p class="text-muted mat-menu-item-info">Setting applies to this browser only</p>
             <button mat-menu-item (click)="themeService.set('light dark')">
               @if (themeService.theme === 'light dark') {
                 <mat-icon>check</mat-icon>
@@ -155,13 +155,13 @@
   <mat-nav-list class="flex! flex-col! gap-[6px]! p-[12px]!">
     @for (link of navLinks; track link.route) {
       <a
+        class="nav-item"
         mat-list-item
         [routerLink]="link.route"
         routerLinkActive
         #route="routerLinkActive"
         [activated]="route.isActive"
         [routerLinkActiveOptions]="{ exact: link.exact || false }"
-        class="nav-item"
         [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
         (click)="drawer.close()"
       >

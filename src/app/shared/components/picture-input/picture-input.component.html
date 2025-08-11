@@ -1,0 +1,46 @@
+<img
+  class="w-[200px] h-[200px] object-cover cursor-pointer img-thumbnail"
+  [class.rounded-full]="rounded"
+  [class.rounded-[16px]]="!rounded"
+  [src]="control.value"
+  #picture_view
+  (error)="pictureView.nativeElement.src = defaultImage"
+  [ngClass]="viewClass"
+  [matMenuTriggerFor]="menu"
+/>
+<input [hidden]="true" type="file" accept="image/*" [formTarget]="fileControl" (change)="onChangePicture($event, crop_picture)" #pictureInputFile />
+<mat-menu #menu="matMenu" xPosition="after">
+  <a mat-menu-item (click)="pictureInputFile.click()">
+    <mat-icon>{{ uploadIcon }}</mat-icon> {{ uploadLabel }}
+  </a>
+  <a mat-menu-item (click)="control.setValue(''); fileControl.setValue(null)">
+    <mat-icon>{{ removeIcon }}</mat-icon> {{ removeLabel }}
+  </a>
+</mat-menu>
+
+<ng-template #crop_picture>
+  <h2 mat-dialog-title class="dialog-with-close">
+    {{ cropLabel }}
+    <button matIconButton [mat-dialog-close]="true" autofocus="false">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h2>
+  <mat-dialog-content>
+    <image-cropper
+      #image_cropper
+      output="base64"
+      [imageChangedEvent]="pictureChange"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="1 / 1"
+      format="png"
+      (imageCropped)="onCroppedPicture($event)"
+      [roundCropper]="rounded"
+      [autoCrop]="false"
+    ></image-cropper>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button matButton="tonal" class="w-full" [mat-dialog-close]="true" (click)="image_cropper.crop()">
+      {{ saveLabel }}
+    </button>
+  </mat-dialog-actions>
+</ng-template>

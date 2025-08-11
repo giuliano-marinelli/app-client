@@ -17,26 +17,26 @@
         <h3 class="text-sm max-sm:text-xs">
           {{ '@' + profile.user()?.username }}
           @if (profile.user()?.profile?.location) {
-            <span class="font-light muted"> · {{ profile.user()?.profile?.location }}</span>
+            <span class="font-light text-muted"> · {{ profile.user()?.profile?.location }}</span>
           }
         </h3>
         @if (!$isSmallScreen) {
-          <ng-container *ngTemplateOutlet="bio"></ng-container>
-          <ng-container *ngTemplateOutlet="actions"></ng-container>
+          <ng-container [ngTemplateOutlet]="bio"></ng-container>
+          <ng-container [ngTemplateOutlet]="actions"></ng-container>
         }
       </div>
     </div>
 
     @if ($isSmallScreen) {
-      <div class="mb-[16px]">
-        <ng-container *ngTemplateOutlet="bio"></ng-container>
-        <ng-container *ngTemplateOutlet="actions"></ng-container>
+      <div class="mb-[16px] sm:hidden">
+        <ng-container [ngTemplateOutlet]="bio"></ng-container>
+        <ng-container [ngTemplateOutlet]="actions"></ng-container>
       </div>
     }
 
     <ng-template #bio>
       <div class="font-light mt-[12px] cursor-pointer" (click)="dialog.open(info)">
-        <span class="muted">{{ profile.user()?.profile?.bio }}</span>
+        <span class="text-muted">{{ profile.user()?.profile?.bio }}</span>
         <span class="font-bold"> ...more</span>
       </div>
     </ng-template>

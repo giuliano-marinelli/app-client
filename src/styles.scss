@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 /* Not used by now. It's for custom theme coloring */
-@use './assets/scss/themes/basic_theme-colors.scss';
+@use './assets/css/themes/basic.theme.css';
 
 /* Material theme initialization */
 html {
@@ -19,4 +19,100 @@ html {
 
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   line-height: 1.5;
+}
+
+.secondary {
+  @include mat.button-overrides(
+    (
+      //text
+      text-label-text-color: var(--mat-sys-secondary),
+      text-state-layer-color: var(--mat-sys-secondary),
+      //outlined button
+      outlined-label-text-color: var(--mat-sys-secondary),
+      outlined-state-layer-color: var(--mat-sys-secondary),
+      outlined-outline-color: var(--mat-sys-secondary),
+      //filled button
+      filled-label-text-color: var(--mat-sys-on-secondary),
+      filled-container-color: var(--mat-sys-secondary),
+      //tonal button
+      tonal-label-text-color: var(--mat-sys-on-secondary-container),
+      tonal-container-color: light-dark(var(--mat-sys-secondary-fixed-dim), var(--mat-sys-on-secondary-fixed)),
+      tonal-state-layer-color: light-dark(var(--mat-sys-secondary), var(--mat-sys-on-secondary)),
+      //protected / elevated button
+      protected-label-text-color: var(--mat-sys-secondary),
+      protected-state-layer-color: var(--mat-sys-secondary)
+    )
+  );
+}
+
+[matIconButton].secondary {
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-secondary)
+    )
+  );
+}
+
+.tertiary {
+  @include mat.button-overrides(
+    (
+      //text
+      text-label-text-color: var(--mat-sys-tertiary),
+      text-state-layer-color: var(--mat-sys-tertiary),
+      //outlined button
+      outlined-label-text-color: var(--mat-sys-tertiary),
+      outlined-state-layer-color: var(--mat-sys-tertiary),
+      outlined-outline-color: var(--mat-sys-tertiary),
+      //filled button
+      filled-label-text-color: var(--mat-sys-on-tertiary),
+      filled-container-color: var(--mat-sys-tertiary),
+      //tonal button
+      tonal-label-text-color: var(--mat-sys-on-tertiary-container),
+      tonal-container-color: light-dark(var(--mat-sys-tertiary-fixed-dim), var(--mat-sys-on-tertiary-fixed-variant)),
+      tonal-state-layer-color: light-dark(var(--mat-sys-tertiary), var(--mat-sys-tertiary)),
+      //protected / elevated button
+      protected-label-text-color: var(--mat-sys-tertiary),
+      protected-state-layer-color: var(--mat-sys-tertiary)
+    )
+  );
+}
+
+[matIconButton].tertiary {
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-tertiary)
+    )
+  );
+}
+
+.error {
+  @include mat.button-overrides(
+    (
+      //text
+      text-label-text-color: var(--mat-sys-error),
+      text-state-layer-color: var(--mat-sys-error),
+      //outlined button
+      outlined-label-text-color: var(--mat-sys-error),
+      outlined-state-layer-color: var(--mat-sys-error),
+      outlined-outline-color: var(--mat-sys-error),
+      //filled button
+      filled-label-text-color: var(--mat-sys-on-error),
+      filled-container-color: var(--mat-sys-error),
+      //tonal button
+      tonal-label-text-color: light-dark(var(--mat-sys-on-error-container), var(--mat-sys-on-error-container)),
+      tonal-container-color: light-dark(var(--mat-sys-error-container), var(--mat-sys-error-container)),
+      tonal-state-layer-color: light-dark(var(--mat-sys-error), var(--mat-sys-error)),
+      //protected / elevated button
+      protected-label-text-color: var(--mat-sys-error),
+      protected-state-layer-color: var(--mat-sys-error)
+    )
+  );
+
+  [matIconButton].error {
+    @include mat.icon-overrides(
+      (
+        color: var(--mat-sys-error)
+      )
+    );
+  }
 }

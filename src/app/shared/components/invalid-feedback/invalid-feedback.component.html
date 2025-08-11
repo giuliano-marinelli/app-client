@@ -1,9 +1,9 @@
-@for (error of control?.errors | keyvalue; track error) {
+@for (error of control?.errors | keyvalue; track error.key) {
   <span>- {{ getErrorMessage(error.key) }}</span>
   <br />
 }
 @if (isFormArray()) {
-  @for (error of getArrayChildErrors(); track error) {
+  @for (error of getArrayChildErrors(); track error.index) {
     <span>- {{ getErrorMessage(error.error, error.index) }}</span>
     <br />
   }

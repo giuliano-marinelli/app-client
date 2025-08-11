@@ -4,7 +4,7 @@
       <div class="operation-content-left">
         <mat-icon class="operation-icon"> person_add </mat-icon>
         <h1 class="mt-[16px]">Create an account</h1>
-        <p class="muted mt-[16px]">Please provide your information to continue.</p>
+        <p class="text-muted mt-[16px]">Please provide your information to continue.</p>
       </div>
       <div class="operation-content-right">
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
@@ -48,14 +48,7 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" *var="{ active: true } as hidden">
           <mat-label>Password</mat-label>
           <input matInput [type]="hidden.active ? 'password' : 'text'" formControlName="password" autocomplete="new-password" />
-          <button
-            type="button"
-            matIconButton
-            matSuffix
-            (click)="hidden.active = !hidden.active; $event.stopPropagation()"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidden.active"
-          >
+          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>
@@ -66,14 +59,7 @@
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" *var="{ active: true } as hidden">
           <mat-label>Repeat Password</mat-label>
           <input matInput [type]="hidden.active ? 'password' : 'text'" formControlName="confirmPassword" autocomplete="off" />
-          <button
-            type="button"
-            matIconButton
-            matSuffix
-            (click)="hidden.active = !hidden.active; $event.stopPropagation()"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidden.active"
-          >
+          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>

@@ -1,12 +1,16 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
 import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
-import { Global } from '../../shared/global/global';
 import { Observable } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
@@ -14,22 +18,30 @@ import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedba
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
+import { VarDirective } from '../../shared/directives/var.directive';
+
 @Component({
   selector: 'settings-security',
   templateUrl: './settings-security.component.html',
   styleUrls: ['./settings-security.component.scss'],
-  imports: [FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  imports: [
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    ReactiveFormsModule,
+    VarDirective
+  ]
 })
 export class SettingsSecurityComponent implements OnInit {
-  @ViewChild('message_container_update') messageContainerUpdate!: ElementRef;
-  @ViewChild('message_container_two_factor') messageContainerDelete!: ElementRef;
-
   userLoading: boolean = true;
   updateSubmitLoading: boolean = false;
 
   user?: User;
-
-  setValid: any = Global.setValid;
 
   passwordForm!: FormGroup;
   id: any;
@@ -44,8 +56,8 @@ export class SettingsSecurityComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public router: Router,
-    public messages: MessagesService,
     public formBuilder: FormBuilder,
+    public messages: MessagesService,
     private _findUser: FindUser,
     private _updateUserPassword: UpdateUserPassword
   ) {}
@@ -76,16 +88,14 @@ export class SettingsSecurityComponent implements OnInit {
         .fetch({ id: this.auth.user.id })
         .subscribe({
           next: ({ data, errors }) => {
-            if (errors)
-              if (data?.user) {
-                // this.messages.error(errors, {
-                //   onlyOne: true,
-                //   displayMode: 'replace',
-                //   target: this.messageContainerUpdate
-                // });
-                this.user = data?.user;
-                this.passwordForm.patchValue(data?.user);
-              }
+            if (errors) {
+              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+            }
+            if (data?.user) {
+              this.user = data?.user;
+              this.passwordForm.patchValue(data?.user);
+              this.passwordForm.reset();
+            }
           }
         })
         .add(() => {
@@ -105,33 +115,20 @@ export class SettingsSecurityComponent implements OnInit {
           .mutate({ id: this.auth.user.id, password: this.oldPassword.value, newPassword: this.newPassword.value })
           .subscribe({
             next: ({ data, errors }) => {
-              if (errors)
-                if (data?.updateUserPassword) {
-                  // this.messages.error(errors, {
-                  //   close: false,
-                  //   onlyOne: true,
-                  //   displayMode: 'replace',
-                  //   target: this.messageContainerUpdate
-                  // });
-                  this.passwordForm.reset();
-                  // this.messages.success('Password successfully changed.', {
-                  //   onlyOne: true,
-                  //   displayMode: 'replace'
-                  //   // target: this.messageContainerUpdate
-                  // });
-                }
+              if (errors) {
+                this.messages.error(errors, 'Could not update password. Please try again later.');
+              }
+              if (data?.updateUserPassword) {
+                this.passwordForm.reset();
+                this.messages.info('Password successfully changed.');
+              }
             }
           })
           .add(() => {
             this.updateSubmitLoading = false;
           });
       } else {
-        // this.messages.error('Some values are invalid, please check.', {
-        //   close: false,
-        //   onlyOne: true,
-        //   displayMode: 'replace',
-        //   target: this.messageContainerUpdate
-        // });
+        this.messages.error('Some values are invalid, please check.');
       }
     } else {
       this.router.navigate(['/']);
