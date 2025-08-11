@@ -1,8 +1,8 @@
 @if (profile.loading()) {
-  <mat-spinner diameter="60"></mat-spinner>
+  <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 }
 @if (!profile.loading() && profile.user()) {
-  <div class="md:pl-[10%] md:pr-[10%]">
+  <div class="md:px-[10%]">
     <div class="my-[16px] mx-[0px] flex flex-row gap-[16px]">
       <img
         class="w-[120px] h-[120px] rounded-full max-sm:w-[72px] max-sm:h-[72px] md:w-[160px] md:h-[160px]"
@@ -82,11 +82,11 @@
       </mat-dialog-content>
     </ng-template>
 
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab-group class="headed-tabs" mat-stretch-tabs="false" mat-align-tabs="start">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon class="mr-[10px]">menu_book</mat-icon>
-          Home
+          Overview
         </ng-template>
       </mat-tab>
       <mat-tab>
@@ -97,4 +97,6 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+
+  <mat-divider></mat-divider>
 }

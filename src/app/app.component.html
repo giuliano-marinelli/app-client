@@ -12,11 +12,11 @@
     <!-- Main Toolbar -->
     <ng-container *ngTemplateOutlet="toolbar; context: { fixed: true }"></ng-container>
     <!-- Main Navigation -->
-    <div class="fixed h-[calc(100vh-64px)] w-[82px] max-md:hidden!" [class.lg:w-[240px]]="$isFullNav">
+    <div class="main-nav" [class.main-nav-full]="$isFullNav">
       <ng-container *ngTemplateOutlet="navigation; context: { fixed: true }"></ng-container>
     </div>
     <!-- Main Content -->
-    <div class="block py-[0px] px-[8px] ml-[82px] max-md:px-[24px] max-md:ml-[0px]" [class.lg:ml-[240px]]="$isFullNav">
+    <div class="main-content" [class.main-content-full]="$isFullNav">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
@@ -160,7 +160,7 @@
         routerLinkActive
         #route="routerLinkActive"
         [activated]="route.isActive"
-        [routerLinkActiveOptions]="{ exact: true }"
+        [routerLinkActiveOptions]="{ exact: link.exact || false }"
         class="nav-item"
         [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
         (click)="drawer.close()"

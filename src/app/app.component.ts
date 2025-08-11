@@ -55,10 +55,10 @@ export class AppComponent {
   $isSmallScreen: boolean = false;
 
   navLinks = [
-    { label: 'Home', icon: 'home', route: '/' },
+    { label: 'Home', icon: 'home', route: '/', exact: true },
     { label: 'Dashboard', icon: 'dashboard', route: '/asd1' },
     { label: 'Reports', icon: 'bar_chart', route: '/asd2' },
-    { label: 'Settings', icon: 'settings', route: '/asd3' }
+    { label: 'Settings', icon: 'settings', route: '/settings' }
   ];
 
   constructor(

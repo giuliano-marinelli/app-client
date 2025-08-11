@@ -3,6 +3,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit, TemplateRef, ViewChild, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -23,6 +24,7 @@ import { TitleService } from '../services/title.service';
   imports: [
     MatButtonModule,
     MatDialogModule,
+    MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatTabsModule,
