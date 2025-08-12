@@ -1,18 +1,18 @@
 @if (userLoading && !user) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!user) {
-  <mat-icon>search_off</mat-icon> No account found
+  <div class="justify-self-center flex flex-col items-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h1>
     Emails
-    <mat-spinner class="inline-block! ml-[8px]" diameter="24" [hidden]="!userLoading" [class.disabled]="userLoading"></mat-spinner>
+    <mat-spinner class="inline-block! ml-2" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h1>
-  <mat-divider class="m-[8px_0px]!"></mat-divider>
-  <div [class.loading]="userLoading">
-    <ul class="border-muted border-1 rounded-[8px]">
-      @for (email of user.emails; let last = $last; track email) {
-        <li class="p-[16px] border-muted" [class.border-b-1]="!last">
-          <div class="flex w-full items-center h-[50px]">
+  <mat-divider class="mt-2!"></mat-divider>
+  <div [class.loading]="userLoading" class="mt-3">
+    <ul class="border-muted border-1 rounded-lg">
+      @for (email of user.emails; let last = $last; track email.id) {
+        <li class="p-4 border-muted" [class.border-b-1]="!last">
+          <div class="flex w-full items-center h-10">
             <p class="font-medium wrap-anywhere">
               {{ email.address }}&nbsp;
               @if (user.primaryEmail?.id === email.id) {
@@ -45,13 +45,11 @@
             }
           </div>
           @if (user.primaryEmail?.id === email.id && email.verified) {
-            <p class="text-muted text-sm mt-[16px]">
-              This email will be used for account-related notifications and can also be used for password resets.
-            </p>
+            <p class="text-muted text-sm mt-3">This email will be used for account-related notifications and can also be used for password resets.</p>
           }
-          <ul class="text-muted text-sm list-[circle] ml-[16px]">
+          <ul class="text-muted text-sm list-[circle] ml-4">
             @if (email.verified) {
-              <li class="mt-[16px]">
+              <li class="mt-3">
                 <span class="text-info">Verified</span><br />
                 <span class="small">
                   This email may be used as login method and for receive notifications. If it's configured as primary email, it can be used for reset
@@ -60,9 +58,9 @@
               </li>
             }
             @if (!email.verified) {
-              <li class="mt-[16px]">
+              <li class="mt-3">
                 <span class="text-warning">Unverified</span>
-                <a class="text-info ms-[16px] cursor-pointer" (click)="sendVerificationEmail(email)"> Resend verification email </a><br />
+                <a class="text-info ms-4 cursor-pointer" (click)="sendVerificationEmail(email)"> Resend verification email </a><br />
                 <span class="text-sm">
                   Unverified email addresses cannot be used to reset your password, as a login method, for receive notifications or set as primary
                   email
@@ -74,13 +72,13 @@
               </li>
             }
             @if (email.verified) {
-              <li class="mt-[16px]">
+              <li class="mt-3">
                 <span>Visible in emails</span><br />
                 <span class="text-sm"> This email can be visible in profile emails. </span>
               </li>
             }
             @if (!email.verified && user.primaryEmail?.id !== email.id) {
-              <li class="mt-[16px]">
+              <li class="mt-3">
                 <span>Not visible in emails</span><br />
                 <span class="text-sm"> This email cannot be visible in profile emails. </span>
               </li>
@@ -89,11 +87,11 @@
         </li>
       }
     </ul>
-    <h2 class="mt-[24px]">Add email address</h2>
-    <mat-divider class="m-[8px_0px]!"></mat-divider>
+    <h2 class="mt-6">Add email address</h2>
+    <mat-divider class="mt-2!"></mat-divider>
     <form [formGroup]="addEmailForm">
-      <div class="md:max-w-[400px]">
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+      <div class="md:max-w-100">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <input matInput formControlName="address" autocomplete="off" placeholder="{{ user.primaryEmail?.address }}" />
           <mat-icon matPrefix>email</mat-icon>
           <mat-icon matSuffix>
@@ -109,7 +107,7 @@
             ></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <button class="whitespace-nowrap mt-[16px]" matButton="tonal" [disabled]="!addEmailForm.valid || addEmailSubmitLoading" (click)="addEmail()">
+        <button class="whitespace-nowrap mt-3" matButton="tonal" [disabled]="!addEmailForm.valid || addEmailSubmitLoading" (click)="addEmail()">
           @if (addEmailSubmitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
           }
@@ -117,23 +115,23 @@
         </button>
       </div>
     </form>
-    <h2 class="mt-[24px]">Primary email address</h2>
-    <mat-divider class="m-[8px_0px]!"></mat-divider>
-    <p class="mt-[16px]">
+    <h2 class="mt-6">Primary email address</h2>
+    <mat-divider class="mt-2!"></mat-divider>
+    <p class="mt-3">
       <b>{{ user.primaryEmail?.address }}</b> will be used for account-related notifications and for password resets.
     </p>
     <form [formGroup]="primaryEmailForm">
-      <div class="md:max-w-[400px]">
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+      <div class="md:max-w-100">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-icon matPrefix>email</mat-icon>
           <mat-select formControlName="address" [compareWith]="compareById">
-            @for (email of user.emails; track email) {
+            @for (email of user.emails; track email.id) {
               <mat-option [value]="email" [disabled]="!email.verified"> {{ email.address }} {{ !email.verified ? '(unverified)' : '' }} </mat-option>
             }
           </mat-select>
         </mat-form-field>
         <button
-          class="whitespace-nowrap mt-[16px]"
+          class="whitespace-nowrap mt-3"
           matButton="tonal"
           [disabled]="!primaryEmailForm.valid || primaryEmailSubmitLoading"
           (click)="confirmChangePrimaryEmail.open()"

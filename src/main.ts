@@ -54,6 +54,8 @@ import { InvalidFeedbackComponent } from './app/shared/components/invalid-feedba
 import { LeaveGuardWarningComponent } from './app/shared/components/leave-guard-warning/leave-guard-warning.component';
 import { SearchComponent } from './app/shared/components/search/search.component';
 import { VerifiedMarkComponent } from './app/shared/components/verified-mark/verified-mark.component';
+import { SessionCardComponent } from './app/shared/components/session/card/session-card.component';
+import { SessionMiniComponent } from './app/shared/components/session/mini/session-mini.component';
 
 // components
 import { AppComponent } from './app/app.component';
@@ -139,7 +141,7 @@ bootstrapApplication(AppComponent, {
         }
       };
     }),
-    //angular material
+    //angular material (error matcher configuration)
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     //services
     MessagesService,
@@ -175,6 +177,8 @@ bootstrapApplication(AppComponent, {
     SearchComponent,
     InvalidFeedbackComponent,
     VerifiedMarkComponent,
+    SessionCardComponent,
+    SessionMiniComponent,
     //components
     NotFoundComponent,
     AboutComponent,

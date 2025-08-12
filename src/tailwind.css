@@ -58,21 +58,21 @@ button[matsuffix] {
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-transparent rounded-[2px];
+    @apply bg-transparent rounded-xs;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-[var(--mat-sys-outline)] rounded-[2px];
+    @apply bg-[var(--mat-sys-outline)] rounded-xs;
   }
 
   /* mat-dialog custom style */
   .mat-mdc-dialog-surface {
-    @apply rounded-[12px]!;
+    @apply rounded-xl!;
   }
 
   /* mat-menu custom style */
   .mat-mdc-menu-panel {
-    @apply rounded-[12px]!;
+    @apply rounded-xl!;
   }
 
   /* OTP centered */
@@ -117,6 +117,9 @@ button[matsuffix] {
 
 /* For icon sizes */
 @utility icon-size-* {
+  font-size: --spacing(--value(integer)) !important;
+  width: --spacing(--value(integer)) !important;
+  height: --spacing(--value(integer)) !important;
   font-size: --value([*]) !important;
   width: --value([*]) !important;
   height: --value([*]) !important;
@@ -134,51 +137,62 @@ button[matsuffix] {
   filter: blur(0.1rem);
 }
 
+/* For put a centered overlay element over another*/
+@utility overlay {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Components */
 @layer components {
   /* Main nav component */
   .main-nav {
-    @apply fixed h-[calc(100vh-64px)] w-[82px] max-md:hidden! z-100! bg-[var(--mat-sys-surface)];
+    @apply fixed h-[calc(100vh-64px)] w-20 max-md:hidden! z-100! bg-[var(--mat-sys-surface)];
   }
 
   .main-nav-full {
-    @apply lg:w-[240px];
+    @apply lg:w-60;
   }
 
   /* Secondary nav component (not used) */
   /* .secondary-nav {
-    @apply w-[240px]! rounded-none! top-[63px]! z-50! max-md:ml-[-24px] bg-[#b4b4b4]!;
+    @apply w-60! rounded-none! top-[63px]! z-50! max-md:-ml-6 bg-[#b4b4b4]!;
   } */
 
   /* Main content components */
   .main-content {
-    @apply block py-[0px] ml-[82px] mb-[64px] max-md:px-[24px] max-md:ml-[0px];
+    @apply block py-0 ml-20 mb-16 max-md:px-6 max-md:ml-0;
   }
 
   .main-content-full {
-    @apply lg:ml-[240px];
+    @apply lg:ml-60;
   }
 
   /* mat-multi-page-menu component */
   .mat-multi-page-menu {
-    @apply w-[300px];
+    @apply w-75;
   }
 
   .mat-multi-page-menu-submenu {
-    @apply ml-[12px] mr-[0px]! order-2;
+    @apply ml-3 mr-0! order-2;
   }
 
   .mat-menu-item-info {
-    @apply py-[6px]! px-[12px]! text-center;
+    @apply py-2! px-3! text-center;
   }
 
   .mat-menu-item-noicon {
-    @apply ml-[36px];
+    @apply ml-9;
   }
 
   /* dialog-with-close component */
   .dialog-with-close {
-    @apply flex! items-center m-[0px]! mt-[8px]! gap-[16px] ml-[-16px]!;
+    @apply flex! items-center m-0! mt-2! -ml-4! gap-4;
   }
 
   .dialog-with-close > :last-child {
@@ -187,7 +201,7 @@ button[matsuffix] {
 
   /* dialog-icon-item component */
   .dialog-icon-item {
-    @apply flex items-center gap-[16px] my-[20px] wrap-anywhere;
+    @apply flex items-center gap-4 my-5 wrap-anywhere;
   }
 
   .dialog-icon-item > mat-icon {
@@ -202,32 +216,32 @@ button[matsuffix] {
 
   /* nav-item component */
   .nav-item {
-    @apply rounded-[10px]!;
+    @apply rounded-xl!;
   }
 
   .nav-item-sm {
-    @apply flex-col py-[12px]! px-[0px]! h-[68px]!;
+    @apply flex-col py-3! px-0! h-17!;
   }
 
   .nav-item-sm span {
-    @apply text-[10px]!;
+    @apply text-xs!;
   }
 
   /* General Operation component */
   .operation-card {
-    @apply p-[24px] pb-[20px] m-auto mt-[16px] max-w-[750px] max-sm:p-0 max-sm:border-0!;
+    @apply p-6 pb-5 m-auto mt-3 max-w-185 max-sm:p-0 max-sm:border-0!;
   }
 
   .operation-content {
-    @apply grid! grid-cols-[repeat(5,1fr)] gap-[16px] p-[0px]!;
+    @apply grid! grid-cols-[repeat(5,1fr)] gap-4 p-0!;
   }
 
   .operation-content-left {
-    @apply col-span-3 max-w-[450px] flex flex-col max-sm:col-span-5 max-sm:w-full;
+    @apply col-span-3 max-w-110 flex flex-col max-sm:col-span-5 max-sm:w-full;
   }
 
   .operation-content-right {
-    @apply col-span-2 w-[300px] flex flex-col gap-[16px] max-sm:col-span-5 max-sm:w-full;
+    @apply col-span-2 w-75 flex flex-col gap-4 max-sm:col-span-5 max-sm:w-full;
   }
 
   .operation-content-right > :last-child {
@@ -239,10 +253,10 @@ button[matsuffix] {
   }
 
   .operation-actions {
-    @apply justify-end gap-[6px] p-[0px]!;
+    @apply justify-end gap-2 p-0!;
   }
 
   .operation-icon {
-    @apply icon-size-[100px] max-sm:icon-size-[75px];
+    @apply icon-size-25 max-sm:icon-size-20;
   }
 }

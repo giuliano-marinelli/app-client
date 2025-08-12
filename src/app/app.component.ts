@@ -2,15 +2,17 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { environment } from '../environments/environment';
+import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
 
 import { Logout } from './shared/entities/user.entity';
 
@@ -67,9 +69,13 @@ export class AppComponent {
     public messages: MessagesService,
     public titleService: TitleService,
     public themeService: ThemeService,
+    private _iconRegistry: MatIconRegistry,
+    private _sanitizer: DomSanitizer,
     private _breakpointObserver: BreakpointObserver,
     private _logout: Logout
   ) {
+    this.registerBrandIcons();
+
     this.$isFullNav = localStorage.getItem('app-full-nav') === 'true';
 
     this._breakpointObserver.observe([Breakpoints.Large, Breakpoints.XLarge]).subscribe((result) => {
@@ -89,6 +95,13 @@ export class AppComponent {
     // For change page title
     this.titleService.appTitle = this.title;
     this.titleService.initTitle();
+  }
+
+  registerBrandIcons() {
+    this._iconRegistry.addSvgIconLiteral('chrome', this._sanitizer.bypassSecurityTrustHtml(siGooglechrome.svg));
+    this._iconRegistry.addSvgIconLiteral('firefox', this._sanitizer.bypassSecurityTrustHtml(siFirefoxbrowser.svg));
+    this._iconRegistry.addSvgIconLiteral('safari', this._sanitizer.bypassSecurityTrustHtml(siSafari.svg));
+    this._iconRegistry.addSvgIconLiteral('opera', this._sanitizer.bypassSecurityTrustHtml(siOpera.svg));
   }
 
   toggleFullNav() {

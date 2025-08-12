@@ -1,17 +1,17 @@
 @if (userLoading && !user) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!user) {
-  <mat-icon>search_off</mat-icon> No account found
+  <div class="justify-self-center flex flex-col items-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h1>
     Profile
-    <mat-spinner class="inline-block! ml-[8px]" diameter="24" [hidden]="!userLoading" [class.disabled]="userLoading"></mat-spinner>
+    <mat-spinner class="inline-block! ml-2" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h1>
-  <mat-divider class="m-[8px_0px]!"></mat-divider>
+  <mat-divider class="mt-2!"></mat-divider>
   <form [class.loading]="userLoading" [formGroup]="profileForm" (ngSubmit)="updateUser()">
-    <div class="flex flex-row max-md:flex-col-reverse gap-[32px]">
+    <div class="flex flex-row max-md:flex-col-reverse gap-8">
       <div class="md:basis-7/12" formGroupName="profile">
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" autocomplete="off" />
           <mat-icon matPrefix>person</mat-icon>
@@ -20,11 +20,11 @@
           </mat-error>
           <mat-hint class="text-muted text-sm"> Your name may appear around here in where you contribute or are mentioned. </mat-hint>
         </mat-form-field>
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Public email</mat-label>
           <mat-icon matPrefix>email</mat-icon>
           <mat-select formControlName="publicEmail" [compareWith]="compareById">
-            @for (email of user.emails | filter: { $or: { verified: true, id: user.primaryEmail?.id } }; track email) {
+            @for (email of user.emails | filter: { $or: { verified: true, id: user.primaryEmail?.id } }; track email.id) {
               <mat-option [value]="email">{{ email.address }} {{ !email.verified ? '(unverified)' : '' }}</mat-option>
             }
           </mat-select>
@@ -32,7 +32,7 @@
             You can manage verified email addresses in your <a routerLink="/settings/emails">email settings</a>
           </mat-hint>
         </mat-form-field>
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="bio" rows="3"></textarea>
           <mat-icon matPrefix>article</mat-icon>
@@ -41,7 +41,7 @@
             <invalid-feedback [control]="bio" name="Bio"></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>URL</mat-label>
           <input matInput formControlName="url" autocomplete="off" [inputMask]="urlMask" />
           <mat-icon matPrefix>language</mat-icon>
@@ -49,7 +49,7 @@
             <invalid-feedback [control]="url" name="URL"></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Location</mat-label>
           <input matInput formControlName="location" autocomplete="off" />
           <mat-icon matPrefix>location_on</mat-icon>
@@ -63,7 +63,7 @@
           <mat-hint class="text-muted text-sm"> You're giving us consent to share this data wherever your user profile appears. </mat-hint>
         </mat-form-field>
 
-        <button class="whitespace-nowrap mt-[16px]" matButton="tonal" [disabled]="!profileForm.valid || submitLoading">
+        <button class="whitespace-nowrap mt-3" matButton="tonal" [disabled]="!profileForm.valid || submitLoading">
           @if (submitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
           }
@@ -71,7 +71,7 @@
         </button>
       </div>
       <div class="md:basis-5/12">
-        <label class="inline-block my-[8px]">Profile picture</label>
+        <label class="inline-block my-2">Profile picture</label>
         <picture-input
           [control]="avatar"
           [fileControl]="avatarFile"

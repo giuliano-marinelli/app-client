@@ -18,15 +18,21 @@
 </ng-template>
 
 <ng-template #content_password>
-  <mat-dialog-content class="max-w-[300px]!">
+  <mat-dialog-content class="max-w-75!">
     @if (requiredPasswordMessageType() == 'text') {
-      <p class="mb-[16px]">{{ requiredPasswordMessage }}</p>
+      <p class="mb-4">{{ requiredPasswordMessage }}</p>
     }
     @if (requiredPasswordMessageType() == 'template') {
       <ng-container [ngTemplateOutlet]="requiredPasswordTemplate" [ngTemplateOutletContext]="requiredPasswordData"></ng-container>
     }
     <form [formGroup]="passwordForm">
-      <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" *var="{ active: true } as hidden">
+      <mat-form-field
+        appearance="outline"
+        [floatLabel]="'always'"
+        [subscriptSizing]="'dynamic'"
+        [hideRequiredMarker]="true"
+        *var="{ active: true } as hidden"
+      >
         <mat-label>Password</mat-label>
         <input matInput [type]="hidden.active ? 'password' : 'text'" formControlName="password" />
         <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
@@ -119,7 +125,7 @@
       ></ng-container>
     }
     <form [formGroup]="verificationCodeForm">
-      <div class="mt-[16px]">
+      <div class="mt-3">
         <ng-otp-input
           name="verificationCode"
           [formControl]="verificationCode"
@@ -130,7 +136,7 @@
         ></ng-otp-input>
       </div>
     </form>
-    <p class="flex flex-row justify-items-center items-center mt-[16px]">
+    <p class="flex flex-row justify-items-center items-center mt-3">
       <a
         class="cursor-pointer text-info"
         (click)="!checkVerificationCodeAdviceLoading && sendVerificationCode()"
@@ -139,7 +145,7 @@
         Didn't receive your code or is expired? Send it again.
       </a>
       @if (checkVerificationCodeAdviceLoading) {
-        <mat-icon class="ml-[8px]"><mat-spinner diameter="17"></mat-spinner></mat-icon>
+        <mat-icon class="ml-2"><mat-spinner diameter="17"></mat-spinner></mat-icon>
       }
     </p>
   </mat-dialog-content>

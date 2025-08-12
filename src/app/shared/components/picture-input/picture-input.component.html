@@ -1,7 +1,7 @@
 <img
-  class="w-[200px] h-[200px] object-cover cursor-pointer img-thumbnail"
+  class="w-50 h-50 object-cover cursor-pointer img-thumbnail"
   [class.rounded-full]="rounded"
-  [class.rounded-[16px]]="!rounded"
+  [class.rounded-2xl]="!rounded"
   [src]="control.value"
   #picture_view
   (error)="pictureView.nativeElement.src = defaultImage"

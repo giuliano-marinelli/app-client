@@ -1,6 +1,6 @@
 <mat-sidenav-container class="h-[100vh]">
   <!-- Sidenav -->
-  <mat-sidenav #drawer class="w-[240px]! rounded-none!" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
+  <mat-sidenav #drawer class="w-60! rounded-none!" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
     <!-- Sidenav Toolbar -->
     <ng-container [ngTemplateOutlet]="toolbar"></ng-container>
     <!-- Sidenav Navigation -->
@@ -23,11 +23,11 @@
 </mat-sidenav-container>
 
 <ng-template #toolbar let-fixed="fixed">
-  <mat-toolbar class="gap-[6px] {{ fixed ? 'sticky top-[0px] z-1000' : '' }}">
+  <mat-toolbar class="gap-2 {{ fixed ? 'sticky top-0 z-1000' : '' }}">
     <button matIconButton (click)="$isLargeScreen ? toggleFullNav() : drawer.toggle()" onclick="this.blur()">
       <mat-icon>menu</mat-icon>
     </button>
-    <a class="flex gap-[4px] items-center ml-[8px] font-medium" routerLink="/">
+    <a class="flex gap-1 items-center ml-2 font-medium" routerLink="/">
       <mat-icon>logo_dev</mat-icon>
       <span>App</span>
     </a>
@@ -35,12 +35,7 @@
       <span class="grow"></span>
       @if (!auth.loading && auth.user) {
         <!-- User Logged In -->
-        <button
-          matIconButton
-          class="w-[36px]! h-[36px]! p-[0px]! rounded-full! overflow-hidden!"
-          [matMenuTriggerFor]="menu"
-          (click)="menuPages.resetPages()"
-        >
+        <button matIconButton class="w-9! h-9! p-0! rounded-full! overflow-hidden!" [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
           <img [src]="auth.user.profile?.avatar" class="block w-full! h-full! object-cover" onerror="this.src='assets/images/default-user.png'" />
         </button>
       } @else if (!auth.loading) {
@@ -63,14 +58,10 @@
         <mat-multi-page-menu #menuPages="matMultiPageMenu">
           <menu-page>
             @if (!auth.loading && auth.user) {
-              <div class="mat-menu-item-info flex! flex-row items-start gap-[12px] py-[4px] px-[12px]">
-                <img
-                  [src]="auth.user.profile?.avatar"
-                  class="block w-[44px] h-[44px] rounded-full"
-                  onerror="this.src='assets/images/default-user.png'"
-                />
+              <div class="mat-menu-item-info flex! flex-row items-start gap-3 py-1 px-3">
+                <img [src]="auth.user.profile?.avatar" class="block w-11 h-11 rounded-full" onerror="this.src='assets/images/default-user.png'" />
                 <div class="flex flex-col justify-center items-start">
-                  <b class="text-xl font-medium h-[24px]">{{ auth.user.profile?.name }}</b>
+                  <b class="text-xl font-medium h-6">{{ auth.user.profile?.name }}</b>
                   {{ '@' + auth.user.username }}
                 </div>
               </div>
@@ -152,7 +143,7 @@
 </ng-template>
 
 <ng-template #navigation let-fixed="fixed">
-  <mat-nav-list class="flex! flex-col! gap-[6px]! p-[12px]! {{ fixed ? 'h-full!' : 'h-[calc(100%-64px)]' }}">
+  <mat-nav-list class="flex! flex-col! gap-2! p-3! {{ fixed ? 'h-full!' : 'h-[calc(100%-64px)]' }}">
     @for (link of navLinks; track link.route) {
       @if (link.toBottom) {
         <span class="grow"></span>

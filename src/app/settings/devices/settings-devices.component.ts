@@ -1,10 +1,14 @@
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
-import { CloseSession, FindSessions, Session } from '../../shared/entities/session.entity';
+import { FindSessions, Session } from '../../shared/entities/session.entity';
 import { Global } from '../../shared/global/global';
-import { MomentModule } from 'ngx-moment';
+
+import { SessionCardComponent } from '../../shared/components/session/card/session-card.component';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
@@ -15,7 +19,7 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   selector: 'settings-devices',
   templateUrl: './settings-devices.component.html',
   styleUrls: ['./settings-devices.component.scss'],
-  imports: [NgTemplateOutlet, MomentModule, FilterPipe]
+  imports: [MatButtonModule, MatDividerModule, MatIconModule, MatProgressSpinnerModule, FilterPipe, SessionCardComponent]
 })
 export class SettingsDevicesComponent implements OnInit {
   @ViewChild('message_container') messageContainer!: ElementRef;
@@ -33,8 +37,7 @@ export class SettingsDevicesComponent implements OnInit {
     public auth: AuthService,
     public router: Router,
     public messages: MessagesService,
-    private _findSessions: FindSessions,
-    private _closeSession: CloseSession
+    private _findSessions: FindSessions
   ) {}
 
   ngOnInit(): void {
@@ -50,69 +53,18 @@ export class SettingsDevicesComponent implements OnInit {
       })
       .subscribe({
         next: ({ data, errors }: any) => {
-          if (errors)
-            if (data?.sessions) {
-              // this.messages.error(errors, {
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainer
-              // });
-              const sessions = data?.sessions;
-              this.sessions = sessions?.set;
-              this.sessionsCount = sessions?.count;
-            }
+          if (errors) {
+            this.messages.error(errors, 'Could not fetch sessions. Please try again later.');
+          }
+          if (data?.sessions) {
+            const sessions = data?.sessions;
+            this.sessions = sessions?.set;
+            this.sessionsCount = sessions?.count;
+          }
         }
       })
       .add(() => {
         this.sessionsLoading = false;
       });
-  }
-
-  closeSession(session: Session): void {
-    if (session.id) this.submitLoading.push(session.id);
-    this._closeSession
-      .mutate({ id: session.id })
-      .subscribe({
-        next: ({ data, errors }) => {
-          if (errors)
-            if (data?.closeSession) {
-              // this.messages.error(errors, {
-              //   close: false,
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainer
-              // });
-              this.getSessions();
-              // this.messages.success('Session successfully closed.', {
-              //   onlyOne: true,
-              //   displayMode: 'replace'
-              //   // target: this.messageContainer
-              // });
-            }
-        }
-      })
-      .add(() => {
-        this.submitLoading = this.submitLoading.filter((id) => id != session.id);
-      });
-  }
-
-  deviceTypeIcon(deviceType: string = ''): string[] {
-    if (!deviceType || deviceType == '') return ['far', 'circle-question'];
-    else if (deviceType.includes('desktop')) return ['fas', 'desktop'];
-    else if (deviceType.includes('laptop')) return ['fas', 'laptop'];
-    else if (deviceType.includes('tablet')) return ['fas', 'tablet'];
-    else if (deviceType.includes('smartphone') || deviceType.includes('mobile')) return ['fas', 'mobile'];
-    else if (deviceType.includes('smarttv') || deviceType.includes('tv')) return ['fas', 'tv'];
-    else return ['far', 'circle-question'];
-  }
-
-  browserIcon(client: string = ''): string[] {
-    if (client.includes('Chrome')) return ['fab', 'chrome'];
-    else if (client.includes('Firefox')) return ['fab', 'firefox'];
-    else if (client.includes('Safari')) return ['fab', 'safari'];
-    else if (client.includes('Opera')) return ['fab', 'opera'];
-    else if (client.includes('Edge')) return ['fab', 'edge'];
-    else if (client.includes('Internet Explorer')) return ['fab', 'internet-explorer'];
-    else return ['fas', 'circle-question'];
   }
 }

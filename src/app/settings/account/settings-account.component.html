@@ -1,16 +1,16 @@
 @if (userLoading && !user) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!user) {
-  <mat-icon>search_off</mat-icon> No account found
+  <div class="justify-self-center flex flex-col items-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h2>
     Change username
-    <mat-spinner class="inline-block! ml-[8px]" diameter="24" [hidden]="!userLoading" [class.disabled]="userLoading"></mat-spinner>
+    <mat-spinner class="inline-block! ml-2" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h2>
-  <mat-divider class="m-[8px_0px]!"></mat-divider>
+  <mat-divider class="mt-2!"></mat-divider>
   <form [class.loading]="userLoading" [formGroup]="usernameForm">
-    <div class="md:max-w-[400px]">
-      <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+    <div class="md:max-w-100">
+      <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
         <input matInput formControlName="username" autocomplete="off" />
         <mat-icon matPrefix>person_pin_circle</mat-icon>
         <mat-icon matSuffix>
@@ -27,7 +27,7 @@
         </mat-error>
       </mat-form-field>
       <button
-        class="whitespace-nowrap mt-[16px]"
+        class="whitespace-nowrap mt-3"
         matButton="tonal"
         [disabled]="!usernameForm.valid || updateSubmitLoading || deleteSubmitLoading"
         (click)="updateUsername()"
@@ -39,11 +39,11 @@
       </button>
     </div>
 
-    <h2 class="mt-[24px] text-error">Delete account</h2>
-    <mat-divider class="m-[8px_0px]!"></mat-divider>
-    <p class="mt-[16px]">Once you delete your account, there is no going back. Please be certain.</p>
+    <h2 class="mt-6 text-error">Delete account</h2>
+    <mat-divider class="mt-2!"></mat-divider>
+    <p class="mt-3">Once you delete your account, there is no going back. Please be certain.</p>
     <button
-      class="error whitespace-nowrap mt-[16px]"
+      class="error whitespace-nowrap mt-3"
       matButton="outlined"
       [disabled]="updateSubmitLoading || deleteSubmitLoading"
       (click)="confirmDelete.open(); $event.preventDefault()"
