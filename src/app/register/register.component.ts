@@ -61,6 +61,8 @@ export class RegisterComponent implements OnInit {
     Validators.maxLength(100),
     CustomValidators.equalTo(this.password)
   ]);
+  // profile attributes
+  name = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
 
   submitLoading: boolean = false;
   emailCheckingLoading: boolean = false;
@@ -103,7 +105,10 @@ export class RegisterComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
-      confirmPassword: this.confirmPassword
+      confirmPassword: this.confirmPassword,
+      profile: this.formBuilder.group({
+        name: this.name
+      })
     });
   }
 
@@ -116,7 +121,10 @@ export class RegisterComponent implements OnInit {
           userCreateInput: {
             username: this.registerForm.value.username,
             email: this.registerForm.value.email,
-            password: this.registerForm.value.password
+            password: this.registerForm.value.password,
+            profile: {
+              name: this.registerForm.value.profile.name
+            }
           }
         })
         .subscribe({

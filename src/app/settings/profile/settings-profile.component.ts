@@ -57,7 +57,7 @@ export class SettingsProfileComponent implements OnInit {
 
   profileForm!: FormGroup;
   id: any;
-  name = new FormControl('', [Validators.required, Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
+  name = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
   publicEmail = new FormControl('', [Validators.required]);
   bio = new FormControl('', [
     Validators.maxLength(200)

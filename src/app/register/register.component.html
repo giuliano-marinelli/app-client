@@ -24,6 +24,19 @@
           </mat-error>
         </mat-form-field>
 
+        <div formGroupName="profile">
+          <mat-form-field class="w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" autocomplete="off" />
+
+            <mat-icon matSuffix>person</mat-icon>
+
+            <mat-error>
+              <invalid-feedback [control]="name" name="Name" [messages]="{ pattern: 'Name can only have characters and numbers' }"></invalid-feedback>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
         <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" autocomplete="off" />
@@ -32,7 +45,7 @@
             @if (username.pending) {
               <mat-spinner diameter="20"></mat-spinner>
             } @else {
-              person
+              person_pin_circle
             }
           </mat-icon>
 

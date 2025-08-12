@@ -12,15 +12,12 @@
     <div class="md:max-w-[400px]">
       <mat-form-field class="w-full mt-[16px]" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
         <input matInput formControlName="username" autocomplete="off" />
-
+        <mat-icon matPrefix>person_pin_circle</mat-icon>
         <mat-icon matSuffix>
           @if (username.pending) {
             <mat-spinner diameter="20"></mat-spinner>
-          } @else {
-            person
           }
         </mat-icon>
-
         <mat-error>
           <invalid-feedback
             name="Username"

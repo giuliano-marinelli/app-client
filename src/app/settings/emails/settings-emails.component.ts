@@ -1,6 +1,13 @@
-import { NgClass } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
@@ -21,13 +28,22 @@ import { MessagesService } from '../../services/messages.service';
   selector: 'settings-emails',
   templateUrl: './settings-emails.component.html',
   styleUrls: ['./settings-emails.component.scss'],
-  imports: [ConfirmComponent, FormsModule, ReactiveFormsModule, NgClass, InvalidFeedbackComponent]
+  imports: [
+    ConfirmComponent,
+    FormsModule,
+    InvalidFeedbackComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    ReactiveFormsModule
+  ]
 })
 export class SettingsEmailsComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
-  @ViewChild('message_container_add_email') messageContainerAddEmail!: ElementRef;
-  @ViewChild('message_container_primary_email') messageContainerPrimaryEmail!: ElementRef;
-
   userLoading: boolean = true;
   addEmailSubmitLoading: boolean = false;
   removeEmailSubmitLoading?: string | null;
@@ -65,8 +81,8 @@ export class SettingsEmailsComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public router: Router,
-    public messages: MessagesService,
     public formBuilder: FormBuilder,
+    public messages: MessagesService,
     private _findUser: FindUser,
     private _checkEmailAddressExists: CheckEmailAddressExists,
     private _createEmail: CreateEmail,
@@ -102,8 +118,8 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
+              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
-            // this.messages.error(errors, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
             if (data?.user) {
               this.user = data?.user;
               this.addEmailAddress?.setValidators(this.addEmailValidator);
@@ -131,22 +147,13 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              // this.messages.error(errors, {
-              //   close: false,
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainerAddEmail
-              // });
+              this.messages.error(errors, 'Could not add email. Please try again later.');
             }
             if (data?.createEmail) {
               this.addEmailForm.reset();
               this.getUser();
               this.auth.setUser();
-              // this.messages.success(`Email ${data.createEmail.address} successfully added.`, {
-              //   onlyOne: true,
-              //   displayMode: 'replace'
-              //   // target: this.messageContainer
-              // });
+              this.messages.info(`Email ${data.createEmail.address} successfully added.`);
             }
           }
         })
@@ -164,21 +171,12 @@ export class SettingsEmailsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            // this.messages.error(errors, {
-            //   close: false,
-            //   onlyOne: true,
-            //   displayMode: 'replace',
-            //   target: this.messageContainer
-            // });
+            this.messages.error(errors, 'Could not remove email. Please try again later.');
           }
           if (data?.deleteEmail) {
             this.getUser();
             this.auth.setUser();
-            // this.messages.success(`Email ${email.address} successfully removed.`, {
-            //   onlyOne: true,
-            //   displayMode: 'replace'
-            //   // target: this.messageContainer
-            // });
+            this.messages.info(`Email ${email.address} successfully removed.`);
           }
         }
       })
@@ -201,21 +199,12 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              // this.messages.error(errors, {
-              //   close: false,
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainerPrimaryEmail
-              // });
+              this.messages.error(errors, 'Could not change primary email. Please try again later.');
             }
             if (data?.updateUserPrimaryEmail) {
               this.getUser();
               this.auth.setUser();
-              // this.messages.success('Primary email successfully changed.', {
-              //   onlyOne: true,
-              //   displayMode: 'replace'
-              //   // target: this.messageContainer
-              // });
+              this.messages.info('Primary email successfully changed.');
             }
           }
         })
@@ -231,7 +220,7 @@ export class SettingsEmailsComponent implements OnInit {
         if (errors) this.messages.error(errors);
         else if (data?.updateEmailVerificationCode)
           this.messages.info(
-            `A verification email has been sent to <b>${email.address}</b>, please check your inbox and SPAM in order to verify your account.`
+            `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`
           );
       }
     });

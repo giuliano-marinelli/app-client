@@ -82,7 +82,7 @@ button[matsuffix] {
 }
 
 /* Utilities */
-/* For muted text */
+/* For colored texts */
 @utility text-muted {
   color: var(--mat-sys-outline);
 }
@@ -97,6 +97,22 @@ button[matsuffix] {
 
 @utility text-error {
   color: var(--mat-sys-error);
+}
+
+@utility text-success {
+  color: #198754;
+}
+
+@utility text-warning {
+  color: #ffc107;
+}
+
+@utility text-info {
+  color: #3dd5f3;
+}
+
+@utility border-muted {
+  border-color: var(--mat-sys-outline);
 }
 
 /* For icon sizes */
@@ -162,7 +178,7 @@ button[matsuffix] {
 
   /* dialog-with-close component */
   .dialog-with-close {
-    @apply flex! items-center m-[0px]! mt-[8px]!;
+    @apply flex! items-center m-[0px]! mt-[8px]! gap-[16px] ml-[-16px]!;
   }
 
   .dialog-with-close > :last-child {
