@@ -152,22 +152,26 @@
 </ng-template>
 
 <ng-template #navigation let-fixed="fixed">
-  <mat-nav-list class="flex! flex-col! gap-[6px]! p-[12px]!">
+  <mat-nav-list class="flex! flex-col! gap-[6px]! p-[12px]! {{ fixed ? 'h-full!' : 'h-[calc(100%-64px)]' }}">
     @for (link of navLinks; track link.route) {
-      <a
-        class="nav-item"
-        mat-list-item
-        [routerLink]="link.route"
-        routerLinkActive
-        #route="routerLinkActive"
-        [activated]="route.isActive"
-        [routerLinkActiveOptions]="{ exact: link.exact || false }"
-        [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
-        (click)="drawer.close()"
-      >
-        <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
-        <span matListItemTitle>{{ link.label }}</span>
-      </a>
+      @if (link.toBottom) {
+        <span class="grow"></span>
+      } @else if (link.auth == null || (link.auth && !auth.loading && auth.user) || (!link.auth && !auth.loading && !auth.user)) {
+        <a
+          class="nav-item"
+          mat-list-item
+          [routerLink]="link.route"
+          routerLinkActive
+          #route="routerLinkActive"
+          [activated]="route.isActive"
+          [routerLinkActiveOptions]="{ exact: link.exact || false }"
+          [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
+          (click)="drawer.close()"
+        >
+          <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
+          <span matListItemTitle>{{ link.label }}</span>
+        </a>
+      }
     }
   </mat-nav-list>
 </ng-template>

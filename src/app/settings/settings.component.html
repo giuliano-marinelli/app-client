@@ -4,7 +4,11 @@
 @if (!auth.loading && auth.user) {
   <div class="md:pr-[16px] lg:px-[10%]">
     <div class="my-[16px] mx-[0px] flex flex-row flex-wrap gap-[16px]">
-      <img class="w-[60px] h-[60px] rounded-full" [src]="auth.user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
+      <img
+        class="img-thumbnail w-[60px] h-[60px] rounded-full"
+        [src]="auth.user.profile?.avatar"
+        onerror="this.src='assets/images/default-user.png'"
+      />
       <div>
         <h1 class="text-4xl max-sm:text-2xl">
           {{ auth.user.profile?.name ? auth.user.profile?.name : auth.user.username }}

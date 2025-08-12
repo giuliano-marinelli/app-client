@@ -56,9 +56,9 @@ export class AppComponent {
 
   navLinks = [
     { label: 'Home', icon: 'home', route: '/', exact: true },
-    { label: 'Dashboard', icon: 'dashboard', route: '/asd1' },
-    { label: 'Reports', icon: 'bar_chart', route: '/asd2' },
-    { label: 'Settings', icon: 'settings', route: '/settings' }
+    { toBottom: true },
+    { label: 'Settings', icon: 'settings', route: '/settings', auth: true },
+    { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }
   ];
 
   constructor(

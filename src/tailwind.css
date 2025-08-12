@@ -109,7 +109,7 @@ button[matsuffix] {
 /* For image thumbnails */
 @utility img-thumbnail {
   border: 1px solid var(--mat-sys-outline);
-  padding: 0.25rem;
+  padding: 2px;
 }
 
 /* For loading blur effects on content */
