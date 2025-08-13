@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { environment } from '../../environments/environment';
@@ -10,7 +10,7 @@ import { MessagesService } from '../services/messages.service';
 @Component({
   selector: 'about',
   templateUrl: './about.component.html',
-  imports: [MatButtonModule, MatIconModule],
+  imports: [MatDividerModule, MatIconModule],
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {

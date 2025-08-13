@@ -173,6 +173,11 @@ button[matsuffix] {
     @apply lg:ml-60;
   }
 
+  /* Centered responsive section component */
+  .centered-section {
+    @apply md:pr-4 lg:px-[10%] xl:px-[12%] 2xl:px-[16%];
+  }
+
   /* mat-multi-page-menu component */
   .mat-multi-page-menu {
     @apply w-75;
@@ -220,7 +225,7 @@ button[matsuffix] {
   }
 
   .nav-item-sm {
-    @apply flex-col py-3! px-0! h-17!;
+    @apply flex-col py-3! px-0! h-17! gap-1;
   }
 
   .nav-item-sm span {
