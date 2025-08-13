@@ -1,22 +1,23 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
-import { CloseSession, Session } from '../../shared/entities/session.entity';
 import { FindUsers, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
-import { NgxMasonryComponent, NgxMasonryModule } from 'ngx-masonry';
-import { MomentModule } from 'ngx-moment';
+import { NgxMasonryModule } from 'ngx-masonry';
 import { Observable } from 'rxjs';
 
-import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 import { SearchComponent } from '../../shared/components/search/search.component';
-import { VerifiedMarkComponent } from '../../shared/components/verified-mark/verified-mark.component';
+import { UserCardComponent } from '../../shared/components/user/card/user-card.component';
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
-
-import { VarDirective } from '../../shared/directives/var.directive';
 
 import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
@@ -25,38 +26,43 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.scss'],
   imports: [
-    SearchComponent,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatDividerModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
     NgxMasonryModule,
-    NgTemplateOutlet,
-    NgClass,
-    ConfirmComponent,
-    VarDirective,
-    VerifiedMarkComponent,
-    MomentModule,
-    FilterPipe
+    UserCardComponent
   ]
 })
 export class AdminUsersComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
-
   filter: any = Global.filter;
 
   usersLoading: boolean = true;
   submitLoading: string[] = [];
 
-  users: User[] = [];
-  usersPage: number = 1;
-  usersPageSize: number = 12;
+  users?: User[];
+  usersPage: number = 0;
+  usersPageSize: number = 10;
   usersCount: number = 0;
   usersSearch: any;
+
+  usersListView: 'columns' | 'rows' = 'columns';
+
+  $isSmallScreen: boolean = false;
 
   constructor(
     public auth: AuthService,
     public router: Router,
     public messages: MessagesService,
-    public _findUsers: FindUsers,
-    public _closeSession: CloseSession
-  ) {}
+    private _breakpointObserver: BreakpointObserver,
+    private _findUsers: FindUsers
+  ) {
+    this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+  }
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {
@@ -71,86 +77,40 @@ export class AdminUsersComponent implements OnInit {
     this.getUsers();
   }
 
+  trackByUser(user: User): any {
+    return user;
+  }
+
+  usersPageChange(pageEvent: PageEvent): void {
+    this.usersPage = pageEvent.pageIndex;
+    this.usersPageSize = pageEvent.pageSize;
+    this.getUsers();
+  }
+
   getUsers(): void {
     this.usersLoading = true;
     this._findUsers({ relations: { sessions: { device: true }, emails: true } })
       .fetch({
         ...this.usersSearch,
         pagination: {
-          page: this.usersPage,
+          page: this.usersPage + 1,
           count: this.usersPageSize
         }
       })
       .subscribe({
         next: ({ data, errors }: any) => {
-          if (errors)
-            if (data?.users) {
-              // this.messages.error(errors, {
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainer
-              // });
-              const users = data?.users;
-              this.users = users?.set;
-              this.usersCount = users?.count;
-            }
+          if (errors) {
+            this.messages.error(errors, 'Could not fetch users. Please try again later.');
+          }
+          if (data?.users) {
+            const users = data?.users;
+            this.users = users?.set;
+            this.usersCount = users?.count;
+          }
         }
       })
       .add(() => {
         this.usersLoading = false;
       });
-  }
-
-  deleteUser(user: User): void {
-    // if (user._id) this.submitLoading.push(user._id);
-    // this.userService.deleteUser(user).subscribe({
-    //   next: (data) => {
-    //     this.getUsers();
-    //     this.message.success('User succesfully deleted.', { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
-    //   },
-    //   error: (error) => {
-    //     this.message.error(error, { onlyOne: true, displayMode: 'replace', target: this.messageContainer });
-    //   }
-    // }).add(() => {
-    //   this.submitLoading = this.submitLoading.filter(id => id != user._id)
-    // });
-  }
-
-  closeSession(session: Session, user: User): void {
-    if (session.id) this.submitLoading.push(session.id);
-    this._closeSession
-      .mutate({ id: session.id })
-      .subscribe({
-        next: ({ data, errors }) => {
-          if (errors)
-            if (data?.closeSession) {
-              // this.messages.error(errors, {
-              //   close: false,
-              //   onlyOne: true,
-              //   displayMode: 'replace',
-              //   target: this.messageContainer
-              // });
-              this.getUsers();
-              // this.messages.success('Session successfully closed.', {
-              //   onlyOne: true,
-              //   displayMode: 'replace'
-              //   // target: this.messageContainer
-              // });
-            }
-        }
-      })
-      .add(() => {
-        this.submitLoading = this.submitLoading.filter((id) => id != session.id);
-      });
-  }
-
-  browserIcon(client: string = ''): string {
-    if (client.includes('Chrome')) return 'chrome';
-    else if (client.includes('Firefox')) return 'firefox';
-    else if (client.includes('Safari')) return 'safari';
-    // else if (client.includes('Opera')) return 'opera';
-    else if (client.includes('Edge')) return 'edge';
-    else if (client.includes('Internet Explorer')) return 'internet-explorer';
-    else return 'circle-question';
   }
 }

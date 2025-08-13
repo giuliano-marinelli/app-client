@@ -1,10 +1,10 @@
-<div [ngClass]="searchClass">
+<div [class]="searchClass">
   <div class="input-button" [class.input-button-sm]="advancedCollapsed" (keyup)="onKey($event)">
     @if (advancedCollapsed) {
       <input
         type="text"
         class="form-control form-control-sm bg-dark-subtle"
-        [ngClass]="searchInputClass"
+        [class]="searchInputClass"
         placeholder="Search"
         [(ngModel)]="searchSimple"
         (input)="onSearch(true)"
@@ -13,7 +13,7 @@
     @if (!advancedCollapsed) {
       <div
         class="form-control form-control-md bg-dark-subtle d-flex flex-row align-items-center pt-1 pb-0 ps-1 pe-5 flex-wrap"
-        [ngClass]="searchTagsClass"
+        [class]="searchTagsClass"
       >
         @if (searchAttributes.length <= 0) {
           <span class="ms-1 pb-1 small input-tags-placeholder text-muted"> Search by adding tags </span>
@@ -21,7 +21,7 @@
         <!--search tags-->
         @for (searchAttribute of searchAttributes; track searchAttribute) {
           <div
-            [ngClass]="searchTagEditClass + inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'flex-wrap flex-sm-nowrap' : ''"
+            [class]="searchTagEditClass + inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'flex-wrap flex-sm-nowrap' : ''"
             class="badge d-flex flex-row small align-items-center tag-edit mb-1 ms-0 me-1
         bg-{{ searchAttribute.attribute.color ? searchAttribute.attribute.color : defaultTagColor }}
         text-{{ searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor }}"
@@ -42,10 +42,10 @@
               </span>
             </div>
             <!--search tag spaced zone?-->
-            <div [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'd-sm-none order-3 w-100' : ''"></div>
+            <div [class]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'd-sm-none order-3 w-100' : ''"></div>
             <!--search tag input (text/checkbox/select)-->
             <div
-              [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''"
+              [class]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''"
               class="pb-1 pb-sm-0 px-1 px-sm-0"
             >
               @if (!['select', 'checkbox'].includes(inputByType(searchAttribute.attribute.type))) {
@@ -76,7 +76,7 @@
               }
             </div>
             <!--search tag buttons-->
-            <div [ngClass]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''" class="flex-fill text-end">
+            <div [class]="inputByType(searchAttribute.attribute.type) != 'checkbox' ? 'order-2 order-sm-3' : ''" class="flex-fill text-end">
               <!-- <button
                 class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
                   searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
@@ -157,7 +157,7 @@
             class="badge me-1 pe-pointer tag-attribute
         bg-{{ attribute.color ? attribute.color : defaultTagColor }}
         text-{{ attribute.titleColor ? attribute.titleColor : defaultTagTitleColor }}"
-            [ngClass]="searchTagClass"
+            [class]="searchTagClass"
             (click)="addSearchAttribute(attribute)"
           >
             <div class="mx-2 d-flex flex-column" style="min-height: 1.5rem">

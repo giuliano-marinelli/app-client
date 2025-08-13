@@ -1,4 +1,4 @@
-<mat-card [appearance]="'raised'" [ngClass]="loading ? ['loading', 'brightness-50'] : []">
+<mat-card [appearance]="'raised'" [class]="loading ? ['loading', 'brightness-50'] : []">
   @if (loading) {
     <div class="overlay">
       <mat-spinner diameter="40"></mat-spinner>
@@ -7,11 +7,9 @@
   <!-- Add padding-top when loading to fix content shift -->
   <mat-card-content [class.pt-4!]="loading">
     <div class="flex flex-row">
-      <div>
-        <mat-icon class="icon-size-10">
-          {{ deviceTypeIcon(session.device?.type) }}
-        </mat-icon>
-      </div>
+      <mat-icon class="icon-size-10 shrink-0">
+        {{ deviceTypeIcon(session.device?.type) }}
+      </mat-icon>
       <div class="grow text-center">
         {{
           session.device?.brand
@@ -28,31 +26,31 @@
         <mat-menu #menu="matMenu">
           <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
         </mat-menu>
-        <confirm #confirmClose (confirmed)="closeSession(session)"></confirm>
+        <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
       }
     </div>
     @if (session.blockedAt) {
       <div class="mt-2 flex flex-row gap-2 justify-end text-error">
-        <mat-icon>lock</mat-icon>
+        <mat-icon class="icon-inline-base shrink-0">lock</mat-icon>
         <div>Blocked</div>
       </div>
     }
     @if (session.closedAt && !session.blockedAt) {
       <div class="mt-2 flex flex-row gap-2 justify-end text-muted">
-        <mat-icon>cancel</mat-icon>
+        <mat-icon class="icon-inline-base shrink-0">cancel</mat-icon>
         <div>Closed</div>
       </div>
     }
     @if (session.token == auth.getToken()) {
       <div class="mt-2 flex flex-row gap-2 justify-end text-success">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon class="icon-inline-base shrink-0">check_circle</mat-icon>
         <div>Current device</div>
       </div>
     }
     @if (session.device?.ip) {
       <div class="mt-2 flex flex-row gap-2 text-muted">
-        <mat-icon>language</mat-icon>
-        <div>{{ session.device?.ip }}</div>
+        <mat-icon class="icon-inline-sm shrink-0">language</mat-icon>
+        <div class="text-sm">{{ session.device?.ip }}</div>
       </div>
     }
     <mat-divider class="mt-2!"></mat-divider>
@@ -65,11 +63,11 @@
     @if (session.device?.client) {
       <div class="mt-2 flex flex-row gap-2">
         @if (browserIcon(session.device?.client) == 'unknown') {
-          <mat-icon>travel_explore</mat-icon>
+          <mat-icon class="icon-inline-sm shrink-0">travel_explore</mat-icon>
         } @else {
-          <mat-icon svgIcon="{{ browserIcon(session.device?.client) }}"></mat-icon>
+          <mat-icon class="icon-inline-sm shrink-0" svgIcon="{{ browserIcon(session.device?.client) }}"></mat-icon>
         }
-        <div>{{ session.device?.client }}</div>
+        <div class="text-sm">{{ session.device?.client }}</div>
       </div>
     }
   </mat-card-content>

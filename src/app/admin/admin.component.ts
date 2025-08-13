@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { AuthService } from '../services/auth.service';
-
-import { VarDirective } from '../shared/directives/var.directive';
+import { NavigationPanelComponent, Section } from '../shared/components/navigation-panel/navigation-panel.component';
 
 @Component({
   selector: 'admin',
+  imports: [NavigationPanelComponent],
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
-  imports: [VarDirective, RouterLink, RouterLinkActive, RouterOutlet]
+  styleUrl: './admin.component.scss'
 })
 export class AdminComponent implements OnInit {
-  constructor(
-    public auth: AuthService,
-    public router: Router
-  ) {}
+  sections: Section[] = [
+    { type: 'item', label: 'Users', icon: 'group', route: './users' },
+    { type: 'item', label: 'News', icon: 'newspaper', route: './news', disabled: true },
+    { type: 'item', label: 'Changelog', icon: 'library_books', route: './changelog', disabled: true }
+  ];
 
   ngOnInit(): void {}
 }

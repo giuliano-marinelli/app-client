@@ -9,6 +9,5 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class VerifiedMarkComponent {
   @Input() verified?: boolean = true;
-  @Input() color?: string = 'primary';
   @Input() markNotVerified?: boolean = false;
 }

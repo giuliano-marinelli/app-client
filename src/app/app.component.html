@@ -147,7 +147,7 @@
     @for (link of navLinks; track link.route) {
       @if (link.toBottom) {
         <span class="grow"></span>
-      } @else if (link.auth == null || (link.auth && !auth.loading && auth.user) || (!link.auth && !auth.loading && !auth.user)) {
+      } @else if (checkNavAccess(link)) {
         <a
           class="nav-item"
           mat-list-item

@@ -1,0 +1,148 @@
+<mat-card [appearance]="'raised'" [class]="loading ? ['loading', 'brightness-50'] : []" (onResize)="masonry?.layout()">
+  @if (loading) {
+    <div class="overlay">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+  <!-- Add padding-top when loading to fix content shift -->
+  <mat-card-content [class.pt-4!]="loading">
+    <div class="flex flex-row gap-3">
+      <div class="shrink-0">
+        <img class="img-thumbnail w-12 h-12 rounded-full" [src]="user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
+      </div>
+      <div class="grow flex flex-col break-all">
+        <span>{{ user.profile?.name }}</span>
+        <span class="text-muted">{{ user.username }}</span>
+      </div>
+
+      <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
+        <a mat-menu-item (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
+        <confirm
+          #confirmDelete
+          (confirm)="deleteUser($event, user)"
+          [requiredPassword]="true"
+          requiredPasswordMessage="Please enter your password to continue."
+          [confirmTemplate]="delete_message"
+          confirmActionButton="Delete"
+        ></confirm>
+        <ng-template #delete_message>
+          <p class="mb-3">Are you sure you want to delete the user:</p>
+          <user-mini [user]="user"></user-mini>
+        </ng-template>
+      </mat-menu>
+    </div>
+
+    <div class="mt-2 text-muted!">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="user.emails?.length! <= 1">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="flex flex-row gap-2">
+              <mat-icon class="icon-inline-sm shrink-0">
+                <verified-mark [verified]="user.primaryEmail?.verified" [markNotVerified]="true" />
+              </mat-icon>
+              <span class="text-sm overflow-hidden text-ellipsis">{{ user.primaryEmail?.address }}</span>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        @if (user.emails?.length! > 1) {
+          <ng-template matExpansionPanelContent>
+            <div class="flex flex-col gap-2">
+              @for (email of user.emails | filter: { id: { $not: user.primaryEmail?.id } }; track email) {
+                <div class="flex flex-row gap-2">
+                  <mat-icon class="icon-inline-sm shrink-0">
+                    <verified-mark [verified]="email.verified" [markNotVerified]="true" />
+                  </mat-icon>
+                  <span class="text-sm overflow-hidden text-ellipsis">{{ email.address }}</span>
+                </div>
+              }
+            </div>
+          </ng-template>
+        }
+      </mat-expansion-panel>
+    </div>
+
+    <div class="mt-2">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.profile?.bio">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-sm">
+            Description
+            @if (!user.profile?.bio) {
+              <span class="font-normal text-muted">empty</span>
+            }
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="text-sm">
+          {{ user.profile?.bio }}
+        </div>
+      </mat-expansion-panel>
+    </div>
+
+    <div class="mt-2 flex flex-row gap-2">
+      <mat-icon class="icon-inline-sm shrink-0">language</mat-icon>
+      <div class="text-sm break-all">
+        @if (!user.profile?.url) {
+          <span class="text-muted">empty</span>
+        } @else {
+          <a href="{{ user.profile?.url }}" target="_blank">{{ user.profile?.url }}</a>
+        }
+      </div>
+    </div>
+
+    <div class="mt-2 flex flex-row gap-2">
+      <mat-icon class="icon-inline-sm shrink-0">location_on</mat-icon>
+      <div class="text-sm break-all">
+        @if (!user.profile?.location) {
+          <span class="text-muted">empty</span>
+        } @else {
+          {{ user.profile?.location }}
+        }
+      </div>
+    </div>
+
+    <div class="mt-2 flex flex-row justify-end gap-4">
+      @if (user.role == 'admin') {
+        <div class="text-info flex flex-row gap-2">
+          <mat-icon class="icon-inline-sm shrink-0">manage_accounts</mat-icon>
+          <div class="text-sm">Admin</div>
+        </div>
+      }
+      @if (user.id == auth.user?.id) {
+        <div class="text-success flex flex-row gap-1">
+          <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
+          <div class="text-sm">You</div>
+        </div>
+      }
+    </div>
+
+    <mat-divider class="mt-2!"></mat-divider>
+    <div class="mt-2 text-sm"><b>Created at:</b> {{ user.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
+    <div class="mt-2">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.sessions?.length">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="text-sm">
+            Devices
+            @if (!user.sessions?.length) {
+              <span class="font-normal text-muted">empty</span>
+            }
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div class="max-h-50 overflow-y-auto overflow-x-hidden">
+            @for (session of user.sessions; track session; let isFirst = $first) {
+              @if (!isFirst) {
+                <mat-divider class="mt-2!"></mat-divider>
+              }
+              <div [class.mt-2!]="!isFirst">
+                <session-mini [session]="session" [(loading)]="loading" (onClose)="onSessionClose.emit($event)"></session-mini>
+              </div>
+            }
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    </div>
+  </mat-card-content>
+</mat-card>

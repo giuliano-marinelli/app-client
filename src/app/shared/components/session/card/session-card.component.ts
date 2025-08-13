@@ -1,8 +1,7 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -29,8 +28,7 @@ import { MessagesService } from '../../../../services/messages.service';
     MatMenuModule,
     MatProgressSpinnerModule,
     MomentModule,
-    MatDivider,
-    NgClass
+    MatDividerModule
   ]
 })
 export class SessionCardComponent {
@@ -49,6 +47,8 @@ export class SessionCardComponent {
   ) {}
 
   closeSession(session: Session): void {
+    console.log('closeSession', session);
+
     if (!session) return;
 
     this.loading = true;

@@ -22,15 +22,12 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   imports: [MatButtonModule, MatDividerModule, MatIconModule, MatProgressSpinnerModule, FilterPipe, SessionCardComponent]
 })
 export class SettingsDevicesComponent implements OnInit {
-  @ViewChild('message_container') messageContainer!: ElementRef;
   filter: any = Global.filter;
 
   sessionsLoading: boolean = true;
   submitLoading: string[] = [];
 
-  sessions: Session[] = [];
-  sessionsPage: number = 1;
-  sessionsPageSize: number = 10;
+  sessions?: Session[];
   sessionsCount: number = 0;
 
   constructor(

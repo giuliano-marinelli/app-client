@@ -12,7 +12,9 @@
       <div class="flex flex-col">
         <h1 class="text-4xl max-sm:text-2xl">
           {{ profile.user()?.profile?.name }}
-          <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
+          <mat-icon>
+            <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
+          </mat-icon>
         </h1>
         <h3 class="text-sm max-sm:text-xs">
           {{ '@' + profile.user()?.username }}

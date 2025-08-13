@@ -1,63 +1,29 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTabsModule } from '@angular/material/tabs';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
+
+import { NavigationPanelComponent, Section } from '../shared/components/navigation-panel/navigation-panel.component';
 
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'settings',
+  imports: [MatProgressSpinnerModule, NavigationPanelComponent, RouterLink],
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-  imports: [
-    MatExpansionModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    MatListModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    MatSidenavModule,
-    NgTemplateOutlet,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet
-  ]
+  styleUrl: './settings.component.scss'
 })
 export class SettingsComponent implements OnInit {
-  $isSmallScreen: boolean = false;
+  constructor(public auth: AuthService) {}
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    private _breakpointObserver: BreakpointObserver
-  ) {
-    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
-  }
-
-  sections = [
-    { label: 'Profile', icon: 'person', route: './profile' },
-    { label: 'Account', icon: 'settings', route: './account' },
-    { label: 'Notifications', icon: 'notifications', route: './notifications', disabled: true },
-    { label: 'Access', divider: true },
-    { label: 'Emails', icon: 'email', route: './emails' },
-    { label: 'Passwords', icon: 'key', route: './security' },
-    { label: 'Devices', icon: 'devices', route: './devices' }
+  sections: Section[] = [
+    { type: 'item', label: 'Profile', icon: 'person', route: './profile' },
+    { type: 'item', label: 'Account', icon: 'settings', route: './account' },
+    { type: 'item', label: 'Notifications', icon: 'notifications', route: './notifications', disabled: true },
+    { type: 'divider', label: 'Access' },
+    { type: 'item', label: 'Emails', icon: 'email', route: './emails' },
+    { type: 'item', label: 'Passwords', icon: 'key', route: './security' },
+    { type: 'item', label: 'Devices', icon: 'devices', route: './devices' }
   ];
-
-  get currentSection() {
-    return this.sections.find((section) => section.route === this.router.url);
-  }
 
   ngOnInit(): void {}
 }

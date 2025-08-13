@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -80,7 +79,7 @@ export interface SearchAttribute {
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [NgClass, FormsModule, MatIcon, MatExpansionModule]
+  imports: [FormsModule, MatIcon, MatExpansionModule]
 })
 export class SearchComponent implements OnInit {
   //search input attributes

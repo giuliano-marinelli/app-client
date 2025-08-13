@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,7 +12,7 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
   selector: 'picture-input',
   templateUrl: './picture-input.component.html',
   styleUrl: './picture-input.component.scss',
-  imports: [MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, NgClass, ImageCropperComponent]
+  imports: [MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, ImageCropperComponent]
 })
 export class PictureInputComponent {
   @ViewChild('picture_view') pictureView!: ElementRef;

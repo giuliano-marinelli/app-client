@@ -58,6 +58,7 @@ export class AppComponent {
 
   navLinks = [
     { label: 'Home', icon: 'home', route: '/', exact: true },
+    { label: 'Admin', icon: 'manage_accounts', route: '/admin', admin: true },
     { toBottom: true },
     { label: 'Settings', icon: 'settings', route: '/settings', auth: true },
     { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }
@@ -109,10 +110,19 @@ export class AppComponent {
     localStorage.setItem('app-full-nav', this.$isFullNav.toString());
   }
 
+  checkNavAccess(navLink: any) {
+    if (this.auth.loading && (navLink.auth || navLink.admin)) return false;
+    if (navLink.auth && !this.auth.user) return false;
+    if (navLink.auth === false && this.auth.user) return false;
+    if (navLink.admin && this.auth.user?.role !== 'admin') return false;
+    if (navLink.admin === false && this.auth.user?.role === 'admin') return false;
+    return true;
+  }
+
   logout() {
     this._logout.fetch().subscribe({
       next: ({ data, errors }) => {
-        if (errors) this.messages.error(errors, 'Logout failed. Please try again.');
+        if (errors) this.messages.error(errors, 'Logout failed. Please try again later.');
         else if (data?.logout) {
           this.auth.eraseToken();
           this.auth.setUser();

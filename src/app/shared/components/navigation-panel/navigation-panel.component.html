@@ -1,0 +1,62 @@
+<div class="centered-section">
+  <div class="flex flex-row max-sm:flex-col gap-4 sm:mt-6">
+    @if ($isSmallScreen) {
+      <mat-expansion-panel #expansionPanel class="shadow-none! w-full">
+        <mat-expansion-panel-header class="bg-transparent!">
+          <mat-panel-title class="text-center">
+            <mat-icon class="mr-2">{{ menuIcon }}</mat-icon>
+            {{ menuTitle }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <ng-container
+            [ngTemplateOutlet]="navigation"
+            [ngTemplateOutletContext]="{ containerClass: 'flex! flex-col! gap-2! p-0!', expansionPanel: expansionPanel }"
+          ></ng-container>
+        </ng-template>
+      </mat-expansion-panel>
+    } @else {
+      <!-- Tabs style -->
+      <!-- <nav mat-tab-nav-bar class="headed-tabs" mat-stretch-tabs="false" mat-align-tabs="start">
+          @for (section of sections; track section.route) {
+            <a mat-tab-link [routerLink]="section.route" routerLinkActive #route="routerLinkActive" [active]="route.isActive">
+              <mat-icon class="mr-2"> {{ section.icon }}</mat-icon>
+              {{ section.label }}
+            </a>
+          }
+        </nav> -->
+      <ng-container
+        [ngTemplateOutlet]="navigation"
+        [ngTemplateOutletContext]="{ containerClass: 'w-55 flex! flex-col! gap-2! p-0! shrink-0' }"
+      ></ng-container>
+    }
+    <div class="grow">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<ng-template #navigation let-containerClass="containerClass" let-expansionPanel="expansionPanel">
+  <mat-nav-list [class]="containerClass">
+    @for (section of sections; track section.label) {
+      @if (section.type === 'divider') {
+        <mat-divider></mat-divider>
+        <span class="text-muted ml-8 font-medium">{{ section.label }}</span>
+      } @else {
+        <a
+          class="nav-item cursor-pointer!"
+          mat-list-item
+          [routerLink]="section.route"
+          routerLinkActive
+          #route="routerLinkActive"
+          [activated]="route.isActive"
+          [disabled]="section.disabled || false"
+          (click)="expansionPanel?.close()"
+        >
+          <mat-icon matListItemIcon>{{ section.icon }}</mat-icon>
+          <span matListItemTitle>{{ section.label }}</span>
+        </a>
+      }
+    }
+  </mat-nav-list>
+</ng-template>

@@ -125,6 +125,14 @@ button[matsuffix] {
   height: --value([*]) !important;
 }
 
+@utility icon-inline-sm {
+  @apply text-sm! w-[var(--text-sm)]! h-[var(--text-sm--line-height)]!;
+}
+
+@utility icon-inline-base {
+  @apply text-base! w-[var(--text-base)]! h-[var(--text-base--line-height)]!;
+}
+
 /* For image thumbnails */
 @utility img-thumbnail {
   border: 1px solid var(--mat-sys-outline);
@@ -193,6 +201,29 @@ button[matsuffix] {
 
   .mat-menu-item-noicon {
     @apply ml-9;
+  }
+
+  /* mat-expansion-panel small component */
+  .mat-expansion-panel.small > mat-expansion-panel-header {
+    @apply px-3! pr-4! h-9!;
+  }
+
+  .mat-expansion-panel.small > mat-expansion-panel-header mat-panel-title {
+    @apply block! overflow-hidden;
+  }
+
+  .mat-expansion-panel.small .mat-expansion-panel-body {
+    @apply px-3! pb-2!;
+  }
+
+  /* mat-expansion-panel blocked component */
+  .mat-expansion-panel.blocked > mat-expansion-panel-header {
+    @apply pr-0! pointer-events-none;
+  }
+
+  .mat-expansion-panel.blocked > mat-expansion-panel-header .mat-expansion-indicator,
+  .mat-expansion-panel.blocked .mat-expansion-panel-content-wrapper {
+    @apply hidden!;
   }
 
   /* dialog-with-close component */

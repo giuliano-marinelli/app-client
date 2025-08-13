@@ -97,7 +97,7 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Send password reset email failed. Please try again.');
+              this.messages.error(errors, 'Send password reset email failed. Please try again later.');
             } else if (data?.updateUserPasswordCode) {
               this.messages.info('A password reset email has been sent to your primary email, please check your inbox and SPAM folder.', {
                 duration: 10000
@@ -121,7 +121,7 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Password reset failed. Please try again.');
+              this.messages.error(errors, 'Password reset failed. Please try again later.');
             } else if (data?.resetUserPassword) {
               this.messages.info('Your password has been reset successfully. You can now log in with your new password.', { duration: 10000 });
               this.router.navigate(['/login']);

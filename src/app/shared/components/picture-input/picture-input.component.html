@@ -5,7 +5,7 @@
   [src]="control.value"
   #picture_view
   (error)="pictureView.nativeElement.src = defaultImage"
-  [ngClass]="viewClass"
+  [class]="viewClass"
   [matMenuTriggerFor]="menu"
 />
 <input [hidden]="true" type="file" accept="image/*" [formTarget]="fileControl" (change)="onChangePicture($event, crop_picture)" #pictureInputFile />

@@ -25,6 +25,7 @@ import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { NgxMasonryModule } from 'ngx-masonry';
+import { NgxResizeObserverModule } from 'ngx-resize-observer';
 import { MomentModule } from 'ngx-moment';
 import { InputMaskModule } from '@ngneat/input-mask';
 
@@ -54,8 +55,11 @@ import { InvalidFeedbackComponent } from './app/shared/components/invalid-feedba
 import { LeaveGuardWarningComponent } from './app/shared/components/leave-guard-warning/leave-guard-warning.component';
 import { SearchComponent } from './app/shared/components/search/search.component';
 import { VerifiedMarkComponent } from './app/shared/components/verified-mark/verified-mark.component';
+import { NavigationPanelComponent } from './app/shared/components/navigation-panel/navigation-panel.component';
 import { SessionCardComponent } from './app/shared/components/session/card/session-card.component';
 import { SessionMiniComponent } from './app/shared/components/session/mini/session-mini.component';
+import { UserCardComponent } from './app/shared/components/user/card/user-card.component';
+import { UserMiniComponent } from './app/shared/components/user/mini/user-mini.component';
 
 // components
 import { AppComponent } from './app/app.component';
@@ -157,6 +161,7 @@ bootstrapApplication(AppComponent, {
       //modules
       NgOtpInputModule,
       NgxMasonryModule,
+      NgxResizeObserverModule,
       JwtModule.forRoot({
         config: {
           tokenGetter: (): string | null => localStorage.getItem('token')
@@ -177,8 +182,11 @@ bootstrapApplication(AppComponent, {
     SearchComponent,
     InvalidFeedbackComponent,
     VerifiedMarkComponent,
+    NavigationPanelComponent,
     SessionCardComponent,
     SessionMiniComponent,
+    UserCardComponent,
+    UserMiniComponent,
     //components
     NotFoundComponent,
     AboutComponent,
