@@ -43,6 +43,8 @@ import { ProfileService } from './app/services/profile.service';
 
 // directives
 import { VarDirective } from './app/shared/directives/var.directive';
+import { LongPressDirective } from './app/shared/directives/long-press.directive';
+import { LongPressCopyDirective } from './app/shared/directives/long-press-copy.directive';
 
 // pipes
 import { FilterPipe } from './app/shared/pipes/filter.pipe';
@@ -86,7 +88,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
     //routes
-    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'top' })),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
     //graphql
     provideApollo(() => {
       const httpLink = inject(HttpLink);
@@ -172,6 +174,8 @@ bootstrapApplication(AppComponent, {
     ),
     //directives
     VarDirective,
+    LongPressDirective,
+    LongPressCopyDirective,
     //pipes
     FilterPipe,
     SortPipe,

@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { FindUsers, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
@@ -43,8 +43,8 @@ export class AdminUsersComponent implements OnInit {
   submitLoading: string[] = [];
 
   users?: User[];
-  usersPage: number = 0;
-  usersPageSize: number = 10;
+  usersPage?: number;
+  usersPageSize?: number;
   usersCount: number = 0;
   usersSearch: any;
 
@@ -55,6 +55,7 @@ export class AdminUsersComponent implements OnInit {
   constructor(
     public auth: AuthService,
     public router: Router,
+    public route: ActivatedRoute,
     public messages: MessagesService,
     private _breakpointObserver: BreakpointObserver,
     private _findUsers: FindUsers
@@ -74,17 +75,31 @@ export class AdminUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.route.queryParams.subscribe((params) => {
+      if (!params['page'] || !params['pageSize'] || params['page'] != this.usersPage || params['pageSize'] != this.usersPageSize) {
+        this.usersPage = +params['page'] || 0; // default page to 0
+        this.usersPageSize = +params['pageSize'] || 10; // default pageSize to 10
+        this.getUsers();
+      }
+      if (params['pageView']) this.usersListView = params['pageView'];
+    });
   }
 
   trackByUser(user: User): any {
     return user;
   }
 
-  usersPageChange(pageEvent: PageEvent): void {
-    this.usersPage = pageEvent.pageIndex;
-    this.usersPageSize = pageEvent.pageSize;
-    this.getUsers();
+  usersPageOrViewChange(pageEvent?: PageEvent, usersListView?: 'columns' | 'rows'): void {
+    // set navigation for the page and page size from the event
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: pageEvent?.pageIndex ?? this.usersPage,
+        pageSize: pageEvent?.pageSize ?? this.usersPageSize,
+        pageView: usersListView || this.usersListView
+      },
+      queryParamsHandling: 'merge' // merge with existing query params
+    });
   }
 
   getUsers(): void {
@@ -93,8 +108,8 @@ export class AdminUsersComponent implements OnInit {
       .fetch({
         ...this.usersSearch,
         pagination: {
-          page: this.usersPage + 1,
-          count: this.usersPageSize
+          page: this.usersPage! + 1,
+          count: this.usersPageSize!
         }
       })
       .subscribe({

@@ -22,6 +22,8 @@ import { UserMiniComponent } from '../mini/user-mini.component';
 import { AuthService } from '../../../../services/auth.service';
 import { MessagesService } from '../../../../services/messages.service';
 
+import { LongPressCopyDirective } from '../../../directives/long-press-copy.directive';
+
 import { FilterPipe } from '../../../pipes/filter.pipe';
 
 @Component({
@@ -31,6 +33,7 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
   imports: [
     ConfirmComponent,
     FilterPipe,
+    LongPressCopyDirective,
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
@@ -39,7 +42,6 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
     MatMenuModule,
     MatProgressSpinnerModule,
     MomentModule,
-    MatDividerModule,
     NgxResizeObserverModule,
     RouterLink,
     SessionMiniComponent,

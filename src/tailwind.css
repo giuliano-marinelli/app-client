@@ -26,8 +26,9 @@ button[matsuffix] {
 /* Base styles */
 @layer base {
   /* Reset the user agent margin */
+  /* Set break-word as default wrapping for every text */
   body {
-    @apply m-[0];
+    @apply m-[0] break-word;
   }
 
   /* Typography sizes */
@@ -46,6 +47,8 @@ button[matsuffix] {
   h4 {
     @apply text-lg;
   }
+
+
 
   /* Reset default link styles */
   /* a {
@@ -133,6 +136,11 @@ button[matsuffix] {
   @apply text-base! w-[var(--text-base)]! h-[var(--text-base--line-height)]!;
 }
 
+/* For allow text to wrap correctly in most cases */
+@utility break-word {
+  word-break: break-word;
+}
+
 /* For image thumbnails */
 @utility img-thumbnail {
   border: 1px solid var(--mat-sys-outline);
@@ -209,7 +217,7 @@ button[matsuffix] {
   }
 
   .mat-expansion-panel.small > mat-expansion-panel-header mat-panel-title {
-    @apply block! overflow-hidden;
+    @apply block! whitespace-nowrap overflow-hidden;
   }
 
   .mat-expansion-panel.small .mat-expansion-panel-body {
@@ -218,7 +226,11 @@ button[matsuffix] {
 
   /* mat-expansion-panel blocked component */
   .mat-expansion-panel.blocked > mat-expansion-panel-header {
-    @apply pr-0! pointer-events-none;
+    @apply pr-0!;
+  }
+
+  .mat-expansion-panel.blocked > mat-expansion-panel-header:hover {
+    background-color: initial !important;
   }
 
   .mat-expansion-panel.blocked > mat-expansion-panel-header .mat-expansion-indicator,
@@ -228,7 +240,7 @@ button[matsuffix] {
 
   /* dialog-with-close component */
   .dialog-with-close {
-    @apply flex! items-center m-0! mt-2! -ml-4! gap-4;
+    @apply flex! items-baseline m-0! mt-2! -ml-4! gap-4;
   }
 
   .dialog-with-close > :last-child {

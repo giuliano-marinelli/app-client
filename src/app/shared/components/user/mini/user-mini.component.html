@@ -1,10 +1,10 @@
-<mat-card class="m-auto!" [appearance]="'raised'">
+<mat-card class="m-auto! mb-1!" [appearance]="'raised'">
   <mat-card-content>
     <div class="flex flex-row gap-3">
       <div class="shrink-0">
         <img class="img-thumbnail w-15 h-15 rounded-full" [src]="user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
       </div>
-      <div class="grow flex flex-col break-all">
+      <div class="grow flex flex-col">
         <span>{{ user.profile?.name }}</span>
         <span class="text-muted">{{ user.username }}</span>
       </div>

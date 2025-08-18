@@ -18,20 +18,31 @@
       </div>
     }
     @if (users.length) {
-      @if (!$isSmallScreen) {
-        <div class="mt-3 w-full text-end">
-          <mat-button-toggle-group [value]="usersListView" (change)="usersListView = $event.value">
-            <mat-button-toggle value="columns">
-              <mat-icon>view_column</mat-icon>
-            </mat-button-toggle>
-            <mat-button-toggle value="rows">
-              <mat-icon>view_headline</mat-icon>
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-      }
+      <div class="flex flex-row">
+        <mat-paginator
+          class="shrink-0"
+          [length]="usersCount"
+          [pageIndex]="usersPage"
+          [pageSize]="usersPageSize"
+          [hidePageSize]="true"
+          (page)="usersPageOrViewChange($event)"
+        >
+        </mat-paginator>
+        @if (!$isSmallScreen) {
+          <div class="mt-3 w-full text-end">
+            <mat-button-toggle-group [value]="usersListView" (change)="usersPageOrViewChange(undefined, $event.value)">
+              <mat-button-toggle value="columns">
+                <mat-icon>view_column</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle value="rows">
+                <mat-icon>view_headline</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        }
+      </div>
 
-      <ngx-masonry #masonry class="mt-3" [options]="{ percentPosition: true, horizontalOrder: false }" [ordered]="true">
+      <ngx-masonry #masonry class="mt-3 -mx-1" [options]="{ percentPosition: true, horizontalOrder: false }" [ordered]="true">
         @for (user of users; track trackByUser(user)) {
           <div ngxMasonryItem class="masonry-item mb-2 px-1 w-full" [class]="usersListView === 'columns' ? ['md:w-1/2', 'xl:w-1/3'] : []">
             <user-card
@@ -50,7 +61,7 @@
         [pageIndex]="usersPage"
         [pageSize]="usersPageSize"
         [pageSizeOptions]="[10, 25, 50, 75, 100]"
-        (page)="usersPageChange($event)"
+        (page)="usersPageOrViewChange($event)"
       >
       </mat-paginator>
     }
