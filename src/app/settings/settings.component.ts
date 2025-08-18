@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 
@@ -8,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'settings',
-  imports: [MatProgressSpinnerModule, NavigationPanelComponent, RouterLink],
+  imports: [MatButtonModule, MatProgressSpinnerModule, NavigationPanelComponent, RouterLink],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })

@@ -48,8 +48,6 @@ button[matsuffix] {
     @apply text-lg;
   }
 
-
-
   /* Reset default link styles */
   /* a {
     @apply no-underline text-inherit font-[inherit];

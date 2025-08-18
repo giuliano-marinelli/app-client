@@ -116,3 +116,8 @@ html {
     );
   }
 }
+
+/* Overlay backdrop color adjustment for dark mode */
+.cdk-overlay-backdrop {
+  background-color: light-dark(rgba(0, 0, 0, 0.32), rgba(100, 100, 100, 0.32));
+}
