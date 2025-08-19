@@ -52,7 +52,6 @@ export class SettingsProfileComponent implements OnInit {
 
   user?: User;
 
-  setValid: any = Global.setValid;
   compareById: any = Global.compareById;
 
   profileForm!: FormGroup;

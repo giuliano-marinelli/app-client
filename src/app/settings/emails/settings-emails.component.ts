@@ -63,7 +63,6 @@ export class SettingsEmailsComponent implements OnInit {
     return [Validators.required, ExtraValidators.notEqual(this.user?.primaryEmail)];
   }
 
-  setValid: any = Global.setValid;
   compareById: any = Global.compareById;
 
   addEmailForm!: FormGroup;
