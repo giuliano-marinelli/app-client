@@ -69,7 +69,7 @@ export const routes: Routes = [
         data: { title: 'Passwords' },
         canDeactivate: [LeaveGuard]
       },
-      { path: 'devices', component: SettingsDevicesComponent, data: { title: 'Settings > Devices' } },
+      { path: 'devices', component: SettingsDevicesComponent, data: { title: 'Devices' } },
       { path: '**', redirectTo: 'profile' }
     ]
   },
