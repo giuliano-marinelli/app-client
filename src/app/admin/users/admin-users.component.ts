@@ -108,7 +108,7 @@ export class AdminUsersComponent implements OnInit {
       .fetch({
         ...this.usersSearch,
         pagination: {
-          page: this.usersPage! + 1,
+          page: this.usersPage!,
           count: this.usersPageSize!
         }
       })
