@@ -20,42 +20,42 @@
         }}
       </div>
       @if (session.token !== auth.getToken() && !session.blockedAt && !session.closedAt) {
-        <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
+        <button class="cursor-pointer" [matMenuTriggerFor]="menu" matIconButton>
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
+          <a (click)="confirmClose.open()" mat-menu-item><mat-icon>logout</mat-icon> Close session</a>
         </mat-menu>
         <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
       }
     </div>
     @if (session.blockedAt) {
-      <div class="mt-2 flex flex-row gap-2 justify-end text-error">
+      <div class="text-error mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">lock</mat-icon>
         <div>Blocked</div>
       </div>
     }
     @if (session.closedAt && !session.blockedAt) {
-      <div class="mt-2 flex flex-row gap-2 justify-end text-muted">
+      <div class="text-muted mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">cancel</mat-icon>
         <div>Closed</div>
       </div>
     }
     @if (session.token === auth.getToken()) {
-      <div class="mt-2 flex flex-row gap-2 justify-end text-success">
+      <div class="text-success mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">check_circle</mat-icon>
         <div>Current device</div>
       </div>
     }
     @if (session.device?.ip) {
-      <div class="mt-2 flex flex-row gap-2 text-muted">
+      <div class="text-muted mt-2 flex flex-row gap-2">
         <mat-icon class="icon-inline-sm shrink-0">language</mat-icon>
         <div class="text-sm">{{ session.device?.ip }}</div>
       </div>
     }
     <mat-divider class="mt-2!"></mat-divider>
-    <div class="text-sm mt-2"><b>First login:</b> {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
-    <div class="text-sm mt-2">
+    <div class="mt-2 text-sm"><b>First login:</b> {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
+    <div class="mt-2 text-sm">
       <b> {{ session.closedAt || session.blockedAt ? 'Last' : 'Recent' }} activity: </b>
       {{ session.updatedAt | amLocal | amTimeAgo }}
     </div>

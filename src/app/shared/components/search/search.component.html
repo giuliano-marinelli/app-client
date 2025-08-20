@@ -1,22 +1,22 @@
 <div [class]="searchClass">
   @if (advancedCollapsed) {
-    <mat-form-field class="search w-full" appearance="outline" [subscriptSizing]="'dynamic'">
+    <mat-form-field class="search w-full" [subscriptSizing]="'dynamic'" appearance="outline">
       <input
+        [(ngModel)]="searchString"
+        [class]="searchInputClass"
+        [disabled]="loading"
+        (input)="onSearch(true)"
+        (keyup)="onKey($event)"
         matInput
         type="text"
         placeholder="Search..."
-        [class]="searchInputClass"
-        [(ngModel)]="searchString"
-        (input)="onSearch(true)"
-        (keyup)="onKey($event)"
-        [disabled]="loading"
       />
       @if (loading) {
         <mat-icon matSuffix>
           <mat-spinner diameter="24"></mat-spinner>
         </mat-icon>
       } @else {
-        <button matIconButton matSuffix (click)="onSearch(false)">
+        <button (click)="onSearch(false)" matIconButton matSuffix>
           <mat-icon>search</mat-icon>
         </button>
       }
@@ -24,22 +24,22 @@
   }
   @if (!advancedCollapsed) {
     <div
-      class="form-control form-control-md bg-dark-subtle d-flex flex-row align-items-center pt-1 pb-0 ps-1 pe-5 flex-wrap"
+      class="form-control form-control-md bg-dark-subtle d-flex align-items-center flex-row flex-wrap ps-1 pe-5 pt-1 pb-0"
       [class]="searchTagsClass"
     >
       @if (searchAttributes.length <= 0) {
-        <span class="ms-1 pb-1 small input-tags-placeholder text-muted"> Search by adding tags </span>
+        <span class="small input-tags-placeholder text-muted ms-1 pb-1"> Search by adding tags </span>
       }
       <!--search tags-->
       @for (searchAttribute of searchAttributes; track searchAttribute) {
         <div
-          [class]="searchTagEditClass + inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'flex-wrap flex-sm-nowrap' : ''"
           class="badge d-flex flex-row small align-items-center tag-edit mb-1 ms-0 me-1
         bg-{{ searchAttribute.attribute.color ? searchAttribute.attribute.color : defaultTagColor }}
         text-{{ searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor }}"
+          [class]="searchTagEditClass + inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'flex-sm-nowrap flex-wrap' : ''"
         >
           <!--search tag title (with or without category)-->
-          <div class="mx-2 d-flex flex-column mb-1 mb-sm-0">
+          <div class="d-flex flex-column mb-sm-0 mx-2 mb-1">
             @if (searchAttribute.attribute.category) {
               <span
                 class="badge p-0 text-{{
@@ -57,24 +57,24 @@
           <div [class]="inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'd-sm-none order-3 w-100' : ''"></div>
           <!--search tag input (text/checkbox/select)-->
           <div
-            [class]="inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'order-4 order-sm-2 flex-fill' : ''"
-            class="pb-1 pb-sm-0 px-1 px-sm-0"
+            class="pb-sm-0 px-sm-0 px-1 pb-1"
+            [class]="inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'order-sm-2 flex-fill order-4' : ''"
           >
             @if (!['select', 'checkbox'].includes(inputByType(searchAttribute.attribute.type))) {
               <input
                 class="form-control form-control-xs"
-                [type]="inputByType(searchAttribute.attribute.type)"
                 [(ngModel)]="searchAttribute.value"
+                [type]="inputByType(searchAttribute.attribute.type)"
                 (ngModelChange)="onSearch(true)"
               />
             }
             @if (inputByType(searchAttribute.attribute.type) === 'checkbox') {
               <input
                 class="form-check-input"
-                type="checkbox"
                 [checked]="searchAttribute.value"
                 (change)="searchAttribute.value = !searchAttribute.value"
                 (ngModelChange)="onSearch(true)"
+                type="checkbox"
               />
             }
             @if (inputByType(searchAttribute.attribute.type) === 'select') {
@@ -88,7 +88,7 @@
             }
           </div>
           <!--search tag buttons-->
-          <div [class]="inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'order-2 order-sm-3' : ''" class="flex-fill text-end">
+          <div class="flex-fill text-end" [class]="inputByType(searchAttribute.attribute.type) !== 'checkbox' ? 'order-sm-3 order-2' : ''">
             <!-- <button
                 class="btn btn-sm no-outline border-0 p-0 px-1 text-{{
                   searchAttribute.attribute.titleColor ? searchAttribute.attribute.titleColor : defaultTagTitleColor
@@ -139,11 +139,11 @@
 
   @if (advanced) {
     <div class="d-flex flex-column">
-      <div class="d-flex flex-row-reverse align-items-start">
+      <div class="d-flex align-items-start flex-row-reverse">
         <a
           class="pe-pointer dropdown-toggle text-body no-dropdown-arrow d-flex flex-row"
-          (click)="advancedCollapse.toggle()"
           [attr.aria-expanded]="!advancedCollapsed"
+          (click)="advancedCollapse.toggle()"
         >
           <b class="me-2">Advanced Search</b>
           <mat-icon class="small">{{ advancedCollapsed ? 'expand-more' : 'expand-less' }}</mat-icon>
@@ -151,9 +151,9 @@
         <div class="flex-fill">
           @if (!advancedCollapsed) {
             <div class="btn-group btn-group-xs mt-1" role="group">
-              <input type="radio" class="btn-check" name="optional" id="optional-and" [(ngModel)]="optional" [value]="false" />
+              <input class="btn-check" id="optional-and" [(ngModel)]="optional" [value]="false" type="radio" name="optional" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">AND</label>
-              <input type="radio" class="btn-check" name="optional" id="optional-or" [(ngModel)]="optional" [value]="true" />
+              <input class="btn-check" id="optional-or" [(ngModel)]="optional" [value]="true" type="radio" name="optional" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">OR</label>
             </div>
           }
@@ -169,7 +169,7 @@
             [class]="searchTagClass"
             (click)="addSearchAttribute(attribute)"
           >
-            <div class="mx-2 d-flex flex-column" style="min-height: 1.5rem">
+            <div class="d-flex flex-column mx-2" style="min-height: 1.5rem">
               <span class="badge p-0 text-{{ attribute.categoryColor ? attribute.categoryColor : defaultTagCategoryColor }}">
                 {{ attribute.category }}&nbsp;
               </span>

@@ -7,38 +7,38 @@
         <p class="text-muted mt-3">Please enter your credentials to continue.</p>
       </div>
       <div class="operation-content-right">
-        <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true">
+        <mat-form-field [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true" appearance="outline">
           <mat-label>Email or username</mat-label>
           <input matInput formControlName="usernameOrEmail" />
           <mat-icon matSuffix>email</mat-icon>
           <mat-error>
-            <invalid-feedback name="Email or username" [control]="usernameOrEmail"></invalid-feedback>
+            <invalid-feedback [control]="usernameOrEmail" name="Email or username"></invalid-feedback>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field
-          appearance="outline"
+          *var="{ active: true } as hidden"
           [floatLabel]="'always'"
           [subscriptSizing]="'dynamic'"
           [hideRequiredMarker]="true"
-          *var="{ active: true } as hidden"
+          appearance="outline"
         >
           <mat-label>Password</mat-label>
-          <input matInput [type]="hidden.active ? 'password' : 'text'" formControlName="password" />
-          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
+          <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="password" />
+          <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>
-            <invalid-feedback name="Password" [control]="password"></invalid-feedback>
+            <invalid-feedback [control]="password" name="Password"></invalid-feedback>
           </mat-error>
         </mat-form-field>
 
-        <a matButton class="self-end" routerLink="/password-reset">Forgot password?</a>
+        <a class="self-end" matButton routerLink="/password-reset">Forgot password?</a>
       </div>
     </mat-card-content>
     <mat-card-actions class="operation-actions">
-      <a matButton class="whitespace-nowrap" routerLink="/register">Sign up</a>
-      <button class="whitespace-nowrap" matButton="tonal" [disabled]="!loginForm.valid || submitLoading">
+      <a class="whitespace-nowrap" matButton routerLink="/register">Sign up</a>
+      <button class="whitespace-nowrap" [disabled]="!loginForm.valid || submitLoading" matButton="tonal">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

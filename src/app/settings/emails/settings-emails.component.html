@@ -1,18 +1,18 @@
 @if (userLoading && !user) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!user) {
-  <div class="justify-self-center flex flex-col items-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
+  <div class="flex flex-col items-center justify-self-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h1>
     Emails
-    <mat-spinner class="inline-block! ml-2" diameter="24" [hidden]="!userLoading"></mat-spinner>
+    <mat-spinner class="ml-2 inline-block!" [hidden]="!userLoading" diameter="24"></mat-spinner>
   </h1>
   <mat-divider class="mt-2!"></mat-divider>
-  <div [class.loading]="userLoading" class="mt-3">
-    <ul class="border-muted border-1 rounded-lg">
+  <div class="mt-3" [class.loading]="userLoading">
+    <ul class="border-muted rounded-lg border-1">
       @for (email of user.emails; let last = $last; track email.id) {
-        <li class="p-4 border-muted" [class.border-b-1]="!last">
-          <div class="flex w-full items-center h-10">
+        <li class="border-muted p-4" [class.border-b-1]="!last">
+          <div class="flex h-10 w-full items-center">
             <p class="font-medium wrap-anywhere">
               {{ email.address }}&nbsp;
               @if (user.primaryEmail?.id === email.id) {
@@ -24,10 +24,10 @@
             </p>
             @if (user.primaryEmail?.id !== email.id) {
               <button
-                matIconButton
-                class="ml-auto error"
-                (click)="confirmDelete.open(); $event.preventDefault()"
+                class="error ml-auto"
                 [disabled]="removeEmailSubmitLoading"
+                (click)="confirmDelete.open(); $event.preventDefault()"
+                matIconButton
               >
                 @if (removeEmailSubmitLoading === email.id) {
                   <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
@@ -37,17 +37,17 @@
               </button>
               <confirm
                 #confirmDelete
-                (confirm)="removeEmail($event, email)"
                 [requiredPassword]="true"
                 [requiredVerificationCode]="true"
+                (confirm)="removeEmail($event, email)"
                 requiredPasswordMessage="Please enter your password to continue."
               ></confirm>
             }
           </div>
           @if (user.primaryEmail?.id === email.id && email.verified) {
-            <p class="text-muted text-sm mt-3">This email will be used for account-related notifications and can also be used for password resets.</p>
+            <p class="text-muted mt-3 text-sm">This email will be used for account-related notifications and can also be used for password resets.</p>
           }
-          <ul class="text-muted text-sm list-[circle] ml-4">
+          <ul class="text-muted ml-4 list-[circle] text-sm">
             @if (email.verified) {
               <li class="mt-3">
                 <span class="text-info">Verified</span><br />
@@ -91,7 +91,7 @@
     <mat-divider class="mt-2!"></mat-divider>
     <form [formGroup]="addEmailForm">
       <div class="md:max-w-100">
-        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
           <input matInput formControlName="address" autocomplete="off" placeholder="{{ user.primaryEmail?.address }}" />
           <mat-icon matPrefix>email</mat-icon>
           <mat-icon matSuffix>
@@ -102,12 +102,12 @@
           <mat-error>
             <invalid-feedback
               [control]="addEmailAddress"
-              name="Email"
               [messages]="{ notIncludedIn: 'Email is already added to your account, please try another one' }"
+              name="Email"
             ></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <button class="whitespace-nowrap mt-3" matButton="tonal" [disabled]="!addEmailForm.valid || addEmailSubmitLoading" (click)="addEmail()">
+        <button class="mt-3 whitespace-nowrap" [disabled]="!addEmailForm.valid || addEmailSubmitLoading" (click)="addEmail()" matButton="tonal">
           @if (addEmailSubmitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
           }
@@ -122,19 +122,19 @@
     </p>
     <form [formGroup]="primaryEmailForm">
       <div class="md:max-w-100">
-        <mat-form-field class="w-full mt-3" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
+        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
           <mat-icon matPrefix>email</mat-icon>
-          <mat-select formControlName="address" [compareWith]="compareById">
+          <mat-select [compareWith]="compareById" formControlName="address">
             @for (email of user.emails; track email.id) {
               <mat-option [value]="email" [disabled]="!email.verified"> {{ email.address }} {{ !email.verified ? '(unverified)' : '' }} </mat-option>
             }
           </mat-select>
         </mat-form-field>
         <button
-          class="whitespace-nowrap mt-3"
-          matButton="tonal"
+          class="mt-3 whitespace-nowrap"
           [disabled]="!primaryEmailForm.valid || primaryEmailSubmitLoading"
           (click)="confirmChangePrimaryEmail.open()"
+          matButton="tonal"
         >
           @if (primaryEmailSubmitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
@@ -143,11 +143,11 @@
         </button>
         <confirm
           #confirmChangePrimaryEmail
-          (confirm)="changePrimaryEmail($event)"
           [requiredPassword]="true"
           [requiredVerificationCode]="true"
           [onlyPassword]="true"
           [confirmColor]="'success'"
+          (confirm)="changePrimaryEmail($event)"
           requiredPasswordMessage="Please enter your password to continue."
         ></confirm>
       </div>

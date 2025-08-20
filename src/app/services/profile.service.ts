@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 
-import { FindUser, FindUsers, User } from '../shared/entities/user.entity';
 import { lastValueFrom } from 'rxjs';
+import { FindUser, FindUsers, User } from '../shared/entities/user.entity';
 
 @Injectable({
   providedIn: 'root'

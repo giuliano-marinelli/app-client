@@ -2,7 +2,7 @@ module.exports = {
   printWidth: 120,
   singleQuote: true,
   trailingComma: 'none',
-  overrides: [{ files: '*.html', options: { parser: 'angular' } }],
+  overrides: [{ files: '*.html', options: { parser: 'angular', printWidth: 150 } }],
   plugins: [
     require.resolve('prettier-plugin-organize-imports'),
     require.resolve('prettier-plugin-organize-attributes'),

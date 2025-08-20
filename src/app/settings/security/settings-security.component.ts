@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
-import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
 import { Observable } from 'rxjs';
+import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 

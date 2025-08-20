@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs';
 import { CheckUserUsernameExists, DeleteUser, FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { ExtraValidators } from '../../shared/validators/validators';
-import { Observable } from 'rxjs';
 
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';

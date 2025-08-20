@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Route, UrlSegment } from '@angular/router';
 
-import { FindUsers } from '../entities/user.entity';
 import { map } from 'rxjs';
+import { FindUsers } from '../entities/user.entity';
 
 export const UserExistsGuard: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
   const _findUsers = inject(FindUsers);

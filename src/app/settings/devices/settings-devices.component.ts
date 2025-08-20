@@ -19,7 +19,14 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   selector: 'settings-devices',
   templateUrl: './settings-devices.component.html',
   styleUrls: ['./settings-devices.component.scss'],
-  imports: [MatButtonModule, MatDividerModule, MatIconModule, MatProgressSpinnerModule, FilterPipe, SessionCardComponent]
+  imports: [
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    FilterPipe,
+    SessionCardComponent
+  ]
 })
 export class SettingsDevicesComponent implements OnInit {
   auth: AuthService = inject(AuthService);

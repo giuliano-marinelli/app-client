@@ -1,4 +1,4 @@
-<div class="flex flex-row gap-2 relative">
+<div class="relative flex flex-row gap-2">
   <mat-icon class="icon-inline-sm shrink-0">{{ deviceTypeIcon(session.device?.type) }}</mat-icon>
   <div class="grow text-sm">
     {{
@@ -10,41 +10,41 @@
     }}
   </div>
   @if (session.token !== auth.getToken() && !session.blockedAt && !session.closedAt) {
-    <button matIconButton class="cursor-pointer absolute! right-0" [matMenuTriggerFor]="menu">
+    <button class="absolute! right-0 cursor-pointer" [matMenuTriggerFor]="menu" matIconButton>
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
+      <a (click)="confirmClose.open()" mat-menu-item><mat-icon>logout</mat-icon> Close session</a>
     </mat-menu>
     <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
   }
 </div>
 @if (session.blockedAt) {
-  <div class="mt-2 flex flex-row gap-2 text-error">
+  <div class="text-error mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">lock</mat-icon>
     <div class="text-sm">Blocked</div>
   </div>
 }
 @if (session.closedAt && !session.blockedAt) {
-  <div class="mt-2 flex flex-row gap-2 text-muted">
+  <div class="text-muted mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">cancel</mat-icon>
     <div class="text-sm">Closed</div>
   </div>
 }
 @if (session.token === auth.getToken()) {
-  <div class="mt-2 flex flex-row gap-2 text-success">
+  <div class="text-success mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
     <div class="text-sm">Current device</div>
   </div>
 }
 @if (session.device?.ip) {
-  <div class="mt-1 flex flex-row gap-2 text-muted">
+  <div class="text-muted mt-1 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">language</mat-icon>
     <div class="text-sm">{{ session.device?.ip }}</div>
   </div>
 }
 @if (session.device?.client) {
-  <div class="mt-1 flex flex-row gap-2 text-muted">
+  <div class="text-muted mt-1 flex flex-row gap-2">
     @if (browserIcon(session.device?.client) === 'unknown') {
       <mat-icon class="icon-inline-sm shrink-0">travel_explore</mat-icon>
     } @else {
@@ -53,11 +53,11 @@
     <div class="text-sm">{{ session.device?.client }}</div>
   </div>
 }
-<div class="mt-1 flex flex-row gap-2 text-muted">
+<div class="text-muted mt-1 flex flex-row gap-2">
   <mat-icon class="icon-inline-sm shrink-0">event_available</mat-icon>
   <div class="text-sm">first login: {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
 </div>
-<div class="mt-1 flex flex-row gap-2 text-muted">
+<div class="text-muted mt-1 flex flex-row gap-2">
   <mat-icon class="icon-inline-sm shrink-0">access_time</mat-icon>
   <div class="text-sm">recent activity: {{ session.updatedAt | amLocal | amTimeAgo }}</div>
 </div>

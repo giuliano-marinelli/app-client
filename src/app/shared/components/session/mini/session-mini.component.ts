@@ -3,8 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { CloseSession, Session } from '../../../entities/session.entity';
 import { MomentModule } from 'ngx-moment';
+import { CloseSession, Session } from '../../../entities/session.entity';
 
 import { ConfirmComponent } from '../../confirm/confirm.component';
 

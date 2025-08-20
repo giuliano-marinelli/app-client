@@ -11,10 +11,10 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
+import { Observable, firstValueFrom } from 'rxjs';
 import { CheckEmailAddressExists, Email, UpdateEmailVerificationCode } from '../shared/entities/email.entity';
 import { CheckUserUsernameExists, CreateUser, Login } from '../shared/entities/user.entity';
 import { ExtraValidators } from '../shared/validators/validators';
-import { Observable, firstValueFrom } from 'rxjs';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
@@ -73,7 +73,12 @@ export class RegisterComponent implements OnInit {
     CustomValidators.equalTo(this.password)
   ]);
   // profile attributes
-  name = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
+  name = new FormControl('', [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(30),
+    Validators.pattern('[a-zA-Z0-9\\s]*')
+  ]);
 
   submitLoading = false;
   emailCheckingLoading = false;
@@ -155,7 +160,9 @@ export class RegisterComponent implements OnInit {
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);
-                              this.messages.info('You successfully registered. A verification email has been sent to your email address.');
+                              this.messages.info(
+                                'You successfully registered. A verification email has been sent to your email address.'
+                              );
                               this.router.navigate(['/']);
                             }
                           }

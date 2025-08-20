@@ -3,8 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-import { FindUser, User } from '../shared/entities/user.entity';
 import { Observable, ReplaySubject } from 'rxjs';
+import { FindUser, User } from '../shared/entities/user.entity';
 
 import { MessagesService } from './messages.service';
 

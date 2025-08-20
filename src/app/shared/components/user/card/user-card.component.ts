@@ -8,11 +8,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 
-import { Session } from '../../../entities/session.entity';
-import { DeleteUser, User } from '../../../entities/user.entity';
 import { NgxMasonryComponent } from 'ngx-masonry';
 import { MomentModule } from 'ngx-moment';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
+import { Session } from '../../../entities/session.entity';
+import { DeleteUser, User } from '../../../entities/user.entity';
 
 import { ConfirmComponent } from '../../confirm/confirm.component';
 import { SessionMiniComponent } from '../../session/mini/session-mini.component';

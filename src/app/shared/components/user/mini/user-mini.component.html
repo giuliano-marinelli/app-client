@@ -3,13 +3,13 @@
     <div class="flex flex-row gap-3">
       <div class="shrink-0">
         <img
-          class="img-thumbnail w-15 h-15 rounded-full"
+          class="img-thumbnail h-15 w-15 rounded-full"
           [src]="user.profile?.avatar"
           alt="Profile picture"
           onerror="this.src='assets/images/default-user.png'"
         />
       </div>
-      <div class="grow flex flex-col">
+      <div class="flex grow flex-col">
         <span>{{ user.profile?.name }}</span>
         <span class="text-muted">{{ user.username }}</span>
       </div>

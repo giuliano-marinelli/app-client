@@ -9,29 +9,29 @@
     <div class="flex flex-row gap-3">
       <div class="shrink-0">
         <img
-          class="img-thumbnail w-12 h-12 rounded-full"
+          class="img-thumbnail h-12 w-12 rounded-full"
           [src]="user.profile?.avatar"
           alt="Profile picture"
           onerror="this.src='assets/images/default-user.png'"
         />
       </div>
-      <div class="grow flex flex-col">
+      <div class="flex grow flex-col">
         <span>{{ user.profile?.name }}</span>
         <span class="text-muted">{{ user.username }}</span>
       </div>
 
-      <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
+      <button class="cursor-pointer" [matMenuTriggerFor]="menu" matIconButton>
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a mat-menu-item (click)="confirmDelete.open()" [hidden]="user.id === auth.user?.id"><mat-icon>person_off</mat-icon> Delete user</a>
+        <a [hidden]="user.id === auth.user?.id" (click)="confirmDelete.open()" mat-menu-item><mat-icon>person_off</mat-icon> Delete user</a>
         <confirm
           #confirmDelete
-          (confirm)="deleteUser($event, user)"
           [requiredPassword]="true"
-          requiredPasswordMessage="Please enter your password to continue."
           [confirmTemplate]="delete_message"
+          (confirm)="deleteUser($event, user)"
+          requiredPasswordMessage="Please enter your password to continue."
           confirmActionButton="Delete"
         ></confirm>
         <ng-template #delete_message>
@@ -41,15 +41,15 @@
       </mat-menu>
     </div>
 
-    <div class="mt-2 text-muted!">
-      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="user.emails?.length! <= 1">
+    <div class="text-muted! mt-2">
+      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="user.emails?.length! <= 1">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <div class="flex flex-row gap-2">
               <mat-icon class="icon-inline-sm shrink-0">
                 <verified-mark [verified]="user.primaryEmail?.verified" [markNotVerified]="true" />
               </mat-icon>
-              <span class="text-sm overflow-hidden text-ellipsis" [longPressCopy]="user.primaryEmail?.address">{{ user.primaryEmail?.address }}</span>
+              <span class="overflow-hidden text-sm text-ellipsis" [longPressCopy]="user.primaryEmail?.address">{{ user.primaryEmail?.address }}</span>
             </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -61,7 +61,7 @@
                   <mat-icon class="icon-inline-sm shrink-0">
                     <verified-mark [verified]="email.verified" [markNotVerified]="true" />
                   </mat-icon>
-                  <span class="text-sm overflow-hidden text-ellipsis" [longPressCopy]="email.address">{{ email.address }}</span>
+                  <span class="overflow-hidden text-sm text-ellipsis" [longPressCopy]="email.address">{{ email.address }}</span>
                 </div>
               }
             </div>
@@ -71,12 +71,12 @@
     </div>
 
     <div class="mt-2">
-      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.profile?.bio">
+      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="!user.profile?.bio">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
             Description
             @if (!user.profile?.bio) {
-              <span class="font-normal text-muted">empty</span>
+              <span class="text-muted font-normal">empty</span>
             }
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -126,23 +126,23 @@
     <mat-divider class="mt-2!"></mat-divider>
     <div class="mt-2 text-sm"><b>Created at:</b> {{ user.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
     <div class="mt-2">
-      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.sessions?.length">
+      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="!user.sessions?.length">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
             Devices
             @if (!user.sessions?.length) {
-              <span class="font-normal text-muted">empty</span>
+              <span class="text-muted font-normal">empty</span>
             }
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
-          <div class="max-h-50 overflow-y-auto overflow-x-hidden">
+          <div class="max-h-50 overflow-x-hidden overflow-y-auto">
             @for (session of user.sessions; track session; let isFirst = $first) {
               @if (!isFirst) {
                 <mat-divider class="mt-2!"></mat-divider>
               }
               <div [class.mt-2!]="!isFirst">
-                <session-mini [session]="session" [(loading)]="loading" (closed)="sessionClosed.emit($event)"></session-mini>
+                <session-mini [(loading)]="loading" [session]="session" (closed)="sessionClosed.emit($event)"></session-mini>
               </div>
             }
           </div>

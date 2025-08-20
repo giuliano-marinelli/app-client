@@ -1,24 +1,24 @@
 @if (sessionsLoading && !sessions) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!sessions) {
-  <div class="justify-self-center flex flex-col items-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
+  <div class="flex flex-col items-center justify-self-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h1>
     Devices
-    <button matIconButton class="inline-block! float-end" [disabled]="sessionsLoading" (click)="getSessions()">
+    <button class="float-end inline-block!" [disabled]="sessionsLoading" (click)="getSessions()" matIconButton>
       <mat-icon>refresh</mat-icon>
     </button>
-    <mat-spinner class="inline-block! ml-2" diameter="24" [hidden]="!sessionsLoading"></mat-spinner>
+    <mat-spinner class="ml-2 inline-block!" [hidden]="!sessionsLoading" diameter="24"></mat-spinner>
   </h1>
   <mat-divider class="mt-2!"></mat-divider>
   <div [class.loading]="sessionsLoading">
     @if (!sessions.length) {
-      <div class="justify-self-center flex flex-col items-center mt-3">
+      <div class="mt-3 flex flex-col items-center justify-self-center">
         <mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No devices found
       </div>
     }
     @if (filter(sessions, { blockedAt: null, closedAt: null })?.length) {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+      <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         @for (session of sessions | filter: { blockedAt: null, closedAt: null }; track session.id) {
           <div class="col-span-1">
             <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (closed)="getSessions()"></session-card>
@@ -29,7 +29,7 @@
     @if (filter(sessions, { $or: { blockedAt: { $not: null }, closedAt: { $not: null } } })?.length) {
       <h2 class="mt-6">Closed sessions</h2>
       <mat-divider class="mt-2!"></mat-divider>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+      <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
         @for (session of sessions | filter: { $or: { blockedAt: { $not: null }, closedAt: { $not: null } } }; track session.id) {
           <div class="col-span-1">
             <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (closed)="getSessions()"></session-card>

@@ -146,7 +146,10 @@ export class Search {
   static searchInputAdvanced(searchAttributes: SearchAttribute[], optional: boolean, useLikeWildcard = true): any {
     let resultSearch: any = { order: [], where: optional ? [] : {} };
     searchAttributes.forEach((searchAttribute) => {
-      let whereValue = searchAttribute.attribute.type == 'Date' ? moment(searchAttribute.value as string).toDate() : searchAttribute.value;
+      let whereValue =
+        searchAttribute.attribute.type == 'Date'
+          ? moment(searchAttribute.value as string).toDate()
+          : searchAttribute.value;
       whereValue = searchAttribute.criteria == 'ilike' && useLikeWildcard ? '%' + whereValue + '%' : whereValue;
       if (optional) {
         resultSearch.where.push(
@@ -155,7 +158,11 @@ export class Search {
           })
         );
       } else {
-        this.attrPathToExistingWhereInput(searchAttribute.attribute.name, { [searchAttribute.criteria]: whereValue }, resultSearch.where);
+        this.attrPathToExistingWhereInput(
+          searchAttribute.attribute.name,
+          { [searchAttribute.criteria]: whereValue },
+          resultSearch.where
+        );
       }
       if (searchAttribute.sort) resultSearch.order.push({ [searchAttribute.attribute.name]: searchAttribute.sort });
     });
@@ -167,10 +174,14 @@ export class Search {
   // then navigate with the router
   static updateSearchParams(searchParams: SearchParams, currentSearchParams: SearchParams, router: Router): void {
     const queryParams: any = {};
-    if (searchParams.page != null && searchParams.page !== currentSearchParams.page) queryParams.page = searchParams.page;
-    if (searchParams.pageSize != null && searchParams.pageSize !== currentSearchParams.pageSize) queryParams.pageSize = searchParams.pageSize;
-    if (searchParams.pageView != null && searchParams.pageView !== currentSearchParams.pageView) queryParams.pageView = searchParams.pageView;
-    if (searchParams.search != null && searchParams.search !== currentSearchParams.search) queryParams.search = searchParams.search;
+    if (searchParams.page != null && searchParams.page !== currentSearchParams.page)
+      queryParams.page = searchParams.page;
+    if (searchParams.pageSize != null && searchParams.pageSize !== currentSearchParams.pageSize)
+      queryParams.pageSize = searchParams.pageSize;
+    if (searchParams.pageView != null && searchParams.pageView !== currentSearchParams.pageView)
+      queryParams.pageView = searchParams.pageView;
+    if (searchParams.search != null && searchParams.search !== currentSearchParams.search)
+      queryParams.search = searchParams.search;
     if (searchParams.refresh) queryParams.refresh = true;
 
     router.navigate([], {

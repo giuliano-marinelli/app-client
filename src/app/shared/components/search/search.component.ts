@@ -7,14 +7,30 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { Attribute, AttributeColor, AttributeTextColor, Criteria, Search, SearchAttribute, Sort } from '../../global/search';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  Attribute,
+  AttributeColor,
+  AttributeTextColor,
+  Criteria,
+  Search,
+  SearchAttribute,
+  Sort
+} from '../../global/search';
 
 @Component({
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [FormsModule, MatButtonModule, MatIcon, MatExpansionModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule]
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIcon,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule
+  ]
 })
 export class SearchComponent implements OnInit {
   //search input attributes
@@ -151,7 +167,11 @@ export class SearchComponent implements OnInit {
       }
     } else {
       if (!isContinuous || this.continuousSearching) {
-        const searchInputAdvanced: any = Search.searchInputAdvanced(this.searchAttributes, this.optional, this.useLikeWildcard);
+        const searchInputAdvanced: any = Search.searchInputAdvanced(
+          this.searchAttributes,
+          this.optional,
+          this.useLikeWildcard
+        );
         this.searchChange.emit(searchInputAdvanced);
         this.searchAttributesChange.emit(this.searchAttributes);
       }

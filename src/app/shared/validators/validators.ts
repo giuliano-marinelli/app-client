@@ -1,9 +1,9 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { CheckEmailAddressExists } from '../entities/email.entity';
-import { CheckUserUsernameExists } from '../entities/user.entity';
 import { isEmail } from 'class-validator';
 import { map } from 'rxjs';
+import { CheckEmailAddressExists } from '../entities/email.entity';
+import { CheckUserUsernameExists } from '../entities/user.entity';
 
 export class ExtraValidators {
   /**

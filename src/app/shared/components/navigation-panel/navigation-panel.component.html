@@ -1,7 +1,7 @@
 <div class="centered-section">
-  <div class="flex flex-row max-sm:flex-col gap-4 sm:mt-6">
+  <div class="flex flex-row gap-4 max-sm:flex-col sm:mt-6">
     @if ($isSmallScreen) {
-      <mat-expansion-panel #expansionPanel class="shadow-none! w-full">
+      <mat-expansion-panel class="w-full shadow-none!" #expansionPanel>
         <mat-expansion-panel-header class="bg-transparent!">
           <mat-panel-title class="text-center">
             <mat-icon class="mr-2">{{ menuIcon }}</mat-icon>
@@ -45,13 +45,13 @@
       } @else {
         <a
           class="nav-item cursor-pointer!"
-          mat-list-item
-          [routerLink]="section.route"
-          routerLinkActive
           #route="routerLinkActive"
+          [routerLink]="section.route"
           [activated]="route.isActive"
           [disabled]="section.disabled || false"
           (click)="expansionPanel?.close()"
+          mat-list-item
+          routerLinkActive
         >
           <mat-icon matListItemIcon>{{ section.icon }}</mat-icon>
           <span matListItemTitle>{{ section.label }}</span>

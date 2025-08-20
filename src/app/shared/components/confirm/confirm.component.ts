@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { CheckUserPassword, CheckUserVerificationCode, UpdateUserVerificationCode } from '../../entities/user.entity';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { CheckUserPassword, CheckUserVerificationCode, UpdateUserVerificationCode } from '../../entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../invalid-feedback/invalid-feedback.component';
 
@@ -59,7 +59,8 @@ export class ConfirmComponent {
   @Input() confirmActionButtonPassword = 'Proceed';
   @Input() onlyPassword = false;
   @Input() requiredVerificationCode = false;
-  @Input() requiredVerificationCodeMessage = `Please enter the verification code sended to your primary email to confirm.`;
+  @Input() requiredVerificationCodeMessage =
+    `Please enter the verification code sended to your primary email to confirm.`;
   @Input() requiredVerificationCodeTemplate: TemplateRef<any> | null = null;
   @Input() requiredVerificationCodeData?: any;
   @Input() requiredVerificationCodeUseDefaultTemplate = true;
@@ -80,7 +81,8 @@ export class ConfirmComponent {
   @ViewChild('content_password', { static: false }) contentPassword?: TemplateRef<any>;
   @ViewChild('content_verification_code', { static: false }) contentVerificationCode?: TemplateRef<any>;
   @ViewChild('content_verification_code_advice', { static: false }) contentVerificationCodeAdvice?: TemplateRef<any>;
-  @ViewChild('content_verification_code_advice_default_message', { static: false }) contentVerificationCodeAdviceDefaultMessage?: TemplateRef<any>;
+  @ViewChild('content_verification_code_advice_default_message', { static: false })
+  contentVerificationCodeAdviceDefaultMessage?: TemplateRef<any>;
 
   checkPasswordLoading = false;
   checkVerificationCodeLoading = false;

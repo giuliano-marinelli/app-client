@@ -9,8 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterLink } from '@angular/router';
 
-import { Login } from '../shared/entities/user.entity';
 import { firstValueFrom } from 'rxjs';
+import { Login } from '../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
@@ -89,7 +89,9 @@ export class LoginComponent implements OnInit {
                     this.messages.error(errors, 'Login failed. Please check your credentials.');
                   }
                   if (data?.user) {
-                    this.messages.info('Welcome, ' + (data.user?.profile?.name ? data.user?.profile?.name : data.user?.username) + '!');
+                    this.messages.info(
+                      'Welcome, ' + (data.user?.profile?.name ? data.user?.profile?.name : data.user?.username) + '!'
+                    );
                     this.router.navigate(['/']);
                   }
                 }

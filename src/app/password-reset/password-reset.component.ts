@@ -11,8 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
-import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
 import { firstValueFrom } from 'rxjs';
+import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
@@ -98,9 +98,12 @@ export class PasswordResetComponent implements OnInit {
             if (errors) {
               this.messages.error(errors, 'Send password reset email failed. Please try again later.');
             } else if (data?.updateUserPasswordCode) {
-              this.messages.info('A password reset email has been sent to your primary email, please check your inbox and SPAM folder.', {
-                duration: 10000
-              });
+              this.messages.info(
+                'A password reset email has been sent to your primary email, please check your inbox and SPAM folder.',
+                {
+                  duration: 10000
+                }
+              );
               this.router.navigate(['/login']);
             }
           }
@@ -122,7 +125,10 @@ export class PasswordResetComponent implements OnInit {
             if (errors) {
               this.messages.error(errors, 'Password reset failed. Please try again later.');
             } else if (data?.resetUserPassword) {
-              this.messages.info('Your password has been reset successfully. You can now log in with your new password.', { duration: 10000 });
+              this.messages.info(
+                'Your password has been reset successfully. You can now log in with your new password.',
+                { duration: 10000 }
+              );
               this.router.navigate(['/login']);
             }
           }

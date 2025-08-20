@@ -1,13 +1,6 @@
 <mat-sidenav-container class="h-[100vh]">
   <!-- Sidenav -->
-  <mat-sidenav
-    class="w-60! rounded-none!"
-    #drawer
-    [fixedInViewport]="true"
-    [autoFocus]="false"
-    mode="over"
-    role="navigation"
-  >
+  <mat-sidenav class="w-60! rounded-none!" #drawer [fixedInViewport]="true" [autoFocus]="false" mode="over" role="navigation">
     <!-- Sidenav Toolbar -->
     <ng-container [ngTemplateOutlet]="toolbar"></ng-container>
     <!-- Sidenav Navigation -->
@@ -42,12 +35,7 @@
       <span class="grow"></span>
       @if (!auth.loading && auth.user) {
         <!-- User Logged In -->
-        <button
-          class="h-9! w-9! overflow-hidden! rounded-full! p-0!"
-          [matMenuTriggerFor]="menu"
-          (click)="menuPages.resetPages()"
-          matIconButton
-        >
+        <button class="h-9! w-9! overflow-hidden! rounded-full! p-0!" [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()" matIconButton>
           <img
             class="block h-full! w-full! object-cover"
             [src]="auth.user.profile?.avatar"

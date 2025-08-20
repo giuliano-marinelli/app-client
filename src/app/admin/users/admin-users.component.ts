@@ -10,10 +10,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ApolloQueryResult } from '@apollo/client';
 
-import { FindUsers, User } from '../../shared/entities/user.entity';
-import { Attribute, Search, SearchParams } from '../../shared/global/search';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { Observable } from 'rxjs';
+import { FindUsers, User } from '../../shared/entities/user.entity';
+import { Attribute, Search, SearchParams } from '../../shared/global/search';
 
 import { SearchComponent } from '../../shared/components/search/search.component';
 import { UserCardComponent } from '../../shared/components/user/card/user-card.component';
@@ -58,8 +58,22 @@ export class AdminUsersComponent implements OnInit {
     { name: 'profile.name', category: 'Profile', title: 'Name', type: 'string', color: 'secondary', simple: true },
     { name: 'profile.bio', category: 'Profile', title: 'Bio', type: 'string', color: 'secondary', simple: true },
     { name: 'profile.url', category: 'Profile', title: 'URL', type: 'string', color: 'secondary', simple: true },
-    { name: 'profile.location', category: 'Profile', title: 'Location', type: 'string', color: 'secondary', simple: true },
-    { name: 'profile.publicEmail.address', category: 'Profile', title: 'Public Email', type: 'string', color: 'secondary', simple: true }
+    {
+      name: 'profile.location',
+      category: 'Profile',
+      title: 'Location',
+      type: 'string',
+      color: 'secondary',
+      simple: true
+    },
+    {
+      name: 'profile.publicEmail.address',
+      category: 'Profile',
+      title: 'Public Email',
+      type: 'string',
+      color: 'secondary',
+      simple: true
+    }
   ];
   usersSearchParams: SearchParams = Search.getDefaultSearchParams();
   usersCount = 0;
