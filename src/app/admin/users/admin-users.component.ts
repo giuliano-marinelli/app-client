@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import { ApolloQueryResult } from '@apollo/client';
 
 import { FindUsers, User } from '../../shared/entities/user.entity';
 import { Attribute, Search, SearchParams } from '../../shared/global/search';
@@ -36,7 +38,14 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class AdminUsersComponent implements OnInit {
-  usersLoading: boolean = true;
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  route: ActivatedRoute = inject(ActivatedRoute);
+  messages: MessagesService = inject(MessagesService);
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+  _findUsers: FindUsers = inject(FindUsers);
+
+  usersLoading = true;
   submitLoading: string[] = [];
 
   users?: User[];
@@ -53,22 +62,9 @@ export class AdminUsersComponent implements OnInit {
     { name: 'profile.publicEmail.address', category: 'Profile', title: 'Public Email', type: 'string', color: 'secondary', simple: true }
   ];
   usersSearchParams: SearchParams = Search.getDefaultSearchParams();
-  usersCount: number = 0;
+  usersCount = 0;
 
-  $isSmallScreen: boolean = false;
-
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public messages: MessagesService,
-    private _breakpointObserver: BreakpointObserver,
-    private _findUsers: FindUsers
-  ) {
-    this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
-  }
+  $isSmallScreen = false;
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {
@@ -80,13 +76,17 @@ export class AdminUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+
     // restore search params and if there are changes, fetch users
     this.route.queryParams.subscribe((params) => {
       if (Search.restoreSearchParams(params, this.usersSearchParams, this.router)) this.getUsers();
     });
   }
 
-  trackByUser(user: User): any {
+  trackByUser(user: User): User {
     return user;
   }
 
@@ -106,7 +106,7 @@ export class AdminUsersComponent implements OnInit {
         }
       })
       .subscribe({
-        next: ({ data, errors }: any) => {
+        next: ({ data, errors }: ApolloQueryResult<{ users: { set: User[]; count: number } }>) => {
           if (errors) {
             this.messages.error(errors, 'Could not fetch users. Please try again later.');
           }

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDivider, MatDividerModule } from '@angular/material/divider';
@@ -47,8 +47,15 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   ]
 })
 export class SettingsProfileComponent implements OnInit {
-  userLoading: boolean = true;
-  submitLoading: boolean = false;
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  messages: MessagesService = inject(MessagesService);
+  _findUser: FindUser = inject(FindUser);
+  _updateUser: UpdateUser = inject(UpdateUser);
+
+  userLoading = true;
+  submitLoading = false;
 
   user?: User;
 
@@ -71,15 +78,6 @@ export class SettingsProfileComponent implements OnInit {
   location = new FormControl('', [Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
   avatar = new FormControl('', []);
   avatarFile = new FormControl<Blob | null>(null, []);
-
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public formBuilder: FormBuilder,
-    public messages: MessagesService,
-    private _findUser: FindUser,
-    private _updateUser: UpdateUser
-  ) {}
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {

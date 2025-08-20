@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -15,34 +15,32 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
   imports: [MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, ImageCropperComponent]
 })
 export class PictureInputComponent {
+  dialog: MatDialog = inject(MatDialog);
+  compressor: NgxImageCompressService = inject(NgxImageCompressService);
+
   @ViewChild('picture_view') pictureView!: ElementRef;
 
   @Input() control!: FormControl;
   @Input() fileControl!: FormControl<Blob | null>;
-  @Input() defaultImage: string = 'assets/images/default-picture.png';
+  @Input() defaultImage = 'assets/images/default-picture.png';
 
-  @Input() uploadLabel: string = 'Upload picture...';
-  @Input() removeLabel: string = 'Remove picture';
-  @Input() cropLabel: string = 'Crop picture';
-  @Input() saveLabel: string = 'Save picture';
+  @Input() uploadLabel = 'Upload picture...';
+  @Input() removeLabel = 'Remove picture';
+  @Input() cropLabel = 'Crop picture';
+  @Input() saveLabel = 'Save picture';
 
-  @Input() uploadIcon: string = 'camera_alt';
-  @Input() removeIcon: string = 'delete';
-  @Input() rounded: boolean = true;
+  @Input() uploadIcon = 'camera_alt';
+  @Input() removeIcon = 'delete';
+  @Input() rounded = true;
 
-  @Input() compression: boolean = true;
-  @Input() compressionQuality: number = 50;
-  @Input() compressionRatio: number = 50;
+  @Input() compression = true;
+  @Input() compressionQuality = 50;
+  @Input() compressionRatio = 50;
   @Input() cropSize: { width: number; height: number } = { width: 500, height: 500 };
 
   @Input() viewClass: string[] = [];
 
   pictureChange!: Event;
-
-  constructor(
-    private dialog: MatDialog,
-    private compressor: NgxImageCompressService
-  ) {}
 
   onChangePicture(event: any, cropDialog: any): void {
     if (event.target.files[0]) {

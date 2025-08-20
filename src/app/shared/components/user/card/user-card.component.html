@@ -8,7 +8,12 @@
   <mat-card-content [class.pt-4!]="loading">
     <div class="flex flex-row gap-3">
       <div class="shrink-0">
-        <img class="img-thumbnail w-12 h-12 rounded-full" [src]="user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
+        <img
+          class="img-thumbnail w-12 h-12 rounded-full"
+          [src]="user.profile?.avatar"
+          alt="Profile picture"
+          onerror="this.src='assets/images/default-user.png'"
+        />
       </div>
       <div class="grow flex flex-col">
         <span>{{ user.profile?.name }}</span>
@@ -20,7 +25,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a mat-menu-item (click)="confirmDelete.open()" [hidden]="user.id == auth.user?.id"><mat-icon>person_off</mat-icon> Delete user</a>
+        <a mat-menu-item (click)="confirmDelete.open()" [hidden]="user.id === auth.user?.id"><mat-icon>person_off</mat-icon> Delete user</a>
         <confirm
           #confirmDelete
           (confirm)="deleteUser($event, user)"
@@ -104,13 +109,13 @@
     </div>
 
     <div class="mt-2 flex flex-row justify-end gap-4">
-      @if (user.role == 'admin') {
+      @if (user.role === 'admin') {
         <div class="text-info flex flex-row gap-2">
           <mat-icon class="icon-inline-sm shrink-0">manage_accounts</mat-icon>
           <div class="text-sm">Admin</div>
         </div>
       }
-      @if (user.id == auth.user?.id) {
+      @if (user.id === auth.user?.id) {
         <div class="text-success flex flex-row gap-1">
           <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
           <div class="text-sm">You</div>
@@ -137,7 +142,7 @@
                 <mat-divider class="mt-2!"></mat-divider>
               }
               <div [class.mt-2!]="!isFirst">
-                <session-mini [session]="session" [(loading)]="loading" (onClose)="onSessionClose.emit($event)"></session-mini>
+                <session-mini [session]="session" [(loading)]="loading" (closed)="sessionClosed.emit($event)"></session-mini>
               </div>
             }
           </div>

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 
 import { FindUser, FindUsers, User } from '../shared/entities/user.entity';
 import { lastValueFrom } from 'rxjs';
@@ -7,13 +7,11 @@ import { lastValueFrom } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-  public user = signal<User | null>(null);
-  public loading = signal(false);
+  _findUser: FindUser = inject(FindUser);
+  _findUsers: FindUsers = inject(FindUsers);
 
-  constructor(
-    private _findUser: FindUser,
-    private _findUsers: FindUsers
-  ) {}
+  user = signal<User | null>(null);
+  loading = signal(false);
 
   async fetchUser(username: string): Promise<void> {
     this.loading.set(true);

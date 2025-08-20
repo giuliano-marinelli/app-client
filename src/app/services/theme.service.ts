@@ -6,8 +6,8 @@ type themeMode = 'light' | 'dark' | 'light dark';
   providedIn: 'root'
 })
 export class ThemeService {
-  private _themeKey: string = 'app-theme-mode';
-  private _favIcon: HTMLLinkElement | null = document.querySelector('#appIcon');
+  _themeKey = 'app-theme-mode';
+  _favIcon: HTMLLinkElement | null = document.querySelector('#appIcon');
 
   get theme(): themeMode {
     return (localStorage.getItem(this._themeKey) as themeMode) || 'light dark';
@@ -16,8 +16,6 @@ export class ThemeService {
   get preferredTheme(): themeMode {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
-
-  constructor() {}
 
   init() {
     document.documentElement.style.setProperty('color-scheme', this.theme);

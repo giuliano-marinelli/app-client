@@ -29,7 +29,7 @@
                 (click)="confirmDelete.open(); $event.preventDefault()"
                 [disabled]="removeEmailSubmitLoading"
               >
-                @if (removeEmailSubmitLoading == email.id) {
+                @if (removeEmailSubmitLoading === email.id) {
                   <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
                 } @else {
                   <mat-icon>delete</mat-icon>

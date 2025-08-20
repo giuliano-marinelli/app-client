@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,29 +38,27 @@ import { VarDirective } from '../shared/directives/var.directive';
   ]
 })
 export class LoginComponent implements OnInit {
+  auth: AuthService = inject(AuthService);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  router: Router = inject(Router);
+  messages: MessagesService = inject(MessagesService);
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+  _login: Login = inject(Login);
+
   // login form
   loginForm!: FormGroup;
   usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
   password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
 
-  submitLoading: boolean = false;
+  submitLoading = false;
 
-  $isSmallScreen: boolean = false;
+  $isSmallScreen = false;
 
-  constructor(
-    public auth: AuthService,
-    public formBuilder: FormBuilder,
-    public router: Router,
-    public messages: MessagesService,
-    private _breakpointObserver: BreakpointObserver,
-    private _login: Login
-  ) {
+  ngOnInit(): void {
     this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
       this.$isSmallScreen = result.matches;
     });
-  }
 
-  ngOnInit(): void {
     firstValueFrom(this.auth.logged).then((logged) => {
       if (logged) this.router.navigate(['/']);
     });

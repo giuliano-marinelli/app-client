@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -11,8 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { environment } from '../environments/environment';
 import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
+import { environment } from '../environments/environment';
 
 import { Logout } from './shared/entities/user.entity';
 
@@ -45,16 +45,27 @@ import { MatMultiPageMenuModule } from './shared/components/material/multi-page-
     VarDirective
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  messages: MessagesService = inject(MessagesService);
+  titleService: TitleService = inject(TitleService);
+  themeService: ThemeService = inject(ThemeService);
+
+  _iconRegistry: MatIconRegistry = inject(MatIconRegistry);
+  _sanitizer: DomSanitizer = inject(DomSanitizer);
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+  _logout: Logout = inject(Logout);
+
   @ViewChild('drawer') drawer: any;
 
   title = 'App';
 
-  isDevelopment: boolean = !environment.production;
+  isDevelopment = !environment.production;
 
-  $isFullNav: boolean = false;
-  $isLargeScreen: boolean = false;
-  $isSmallScreen: boolean = false;
+  $isFullNav = false;
+  $isLargeScreen = false;
+  $isSmallScreen = false;
 
   navLinks = [
     { label: 'Home', icon: 'home', route: '/', exact: true },
@@ -64,17 +75,7 @@ export class AppComponent {
     { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }
   ];
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public messages: MessagesService,
-    public titleService: TitleService,
-    public themeService: ThemeService,
-    private _iconRegistry: MatIconRegistry,
-    private _sanitizer: DomSanitizer,
-    private _breakpointObserver: BreakpointObserver,
-    private _logout: Logout
-  ) {
+  ngOnInit() {
     this.registerBrandIcons();
 
     this.$isFullNav = localStorage.getItem('app-full-nav') === 'true';
@@ -87,9 +88,7 @@ export class AppComponent {
     this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
       this.$isSmallScreen = result.matches;
     });
-  }
 
-  ngOnInit() {
     // Initialize theme
     this.themeService.init();
 

@@ -1,4 +1,4 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 import moment from 'moment';
 
@@ -94,7 +94,7 @@ export class Search {
   // receive a path like: 'profile.bio' and a value, and return a object:
   // { profile: { bio: value } }
   static attrPathToWhereInput(attrPath: string, value: any): any {
-    let whereInput: any = {};
+    const whereInput: any = {};
     let attr: any = whereInput;
     if (!attrPath.includes('.')) return { [attrPath]: value };
     attrPath.split('.').forEach((subAttribute, index, array) => {
@@ -128,8 +128,8 @@ export class Search {
   }
 
   // create a search input (only where) from the attributes and search string
-  static searchInput(attributes: Attribute[], searchString: string = '', useLikeWildcard: boolean = true): any {
-    let whereInput: any = [];
+  static searchInput(attributes: Attribute[], searchString = '', useLikeWildcard = true): any {
+    const whereInput: any = [];
     attributes.forEach((attribute) => {
       if (attribute.simple) {
         whereInput.push(
@@ -143,7 +143,7 @@ export class Search {
   }
 
   // create a search input (where + order) from the search attributes
-  static searchInputAdvanced(searchAttributes: SearchAttribute[], optional: boolean, useLikeWildcard: boolean = true): any {
+  static searchInputAdvanced(searchAttributes: SearchAttribute[], optional: boolean, useLikeWildcard = true): any {
     let resultSearch: any = { order: [], where: optional ? [] : {} };
     searchAttributes.forEach((searchAttribute) => {
       let whereValue = searchAttribute.attribute.type == 'Date' ? moment(searchAttribute.value as string).toDate() : searchAttribute.value;
@@ -166,7 +166,7 @@ export class Search {
   // combine provided search params with current search params and convert them to query params
   // then navigate with the router
   static updateSearchParams(searchParams: SearchParams, currentSearchParams: SearchParams, router: Router): void {
-    let queryParams: any = {};
+    const queryParams: any = {};
     if (searchParams.page != null && searchParams.page !== currentSearchParams.page) queryParams.page = searchParams.page;
     if (searchParams.pageSize != null && searchParams.pageSize !== currentSearchParams.pageSize) queryParams.pageSize = searchParams.pageSize;
     if (searchParams.pageView != null && searchParams.pageView !== currentSearchParams.pageView) queryParams.pageView = searchParams.pageView;

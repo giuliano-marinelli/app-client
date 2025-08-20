@@ -1,4 +1,4 @@
-// sort-imports-ignore
+// organize-imports-ignore
 //angular
 import { Routes } from '@angular/router';
 
@@ -24,7 +24,7 @@ import { SettingsSecurityComponent } from './settings/security/settings-security
 import { AdminComponent } from './admin/admin.component';
 import { AdminUsersComponent } from './admin/users/admin-users.component';
 
-const loading: string = '⟳';
+const loading = '⟳';
 
 export const routes: Routes = [
   { path: '', component: AboutComponent, data: { title: 'Welcome' } },
@@ -93,7 +93,7 @@ export const routes: Routes = [
     component: ProfileComponent,
     canMatch: [UserExistsGuard],
     data: {
-      title: (params: { [key: string]: string }) => {
+      title: (params: Record<string, string>) => {
         if (!params['username']) return loading;
         return (params['profilename'] ? params['profilename'] + ' · ' : '') + '@' + params['username'];
       }

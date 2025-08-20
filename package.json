@@ -60,17 +60,16 @@
     "tailwindcss": "^4.x",
     "tslib": "^2.x",
     "uuid": "^11.x",
-    "zone.js": "~0.15.x"
+    "zone.js": "^0.x"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.x",
     "@angular/cli": "^20.x",
     "@angular/compiler-cli": "^20.x",
     "@angular/localize": "^20.x",
-    "@trivago/prettier-plugin-sort-imports": "^5.x",
     "@types/extract-files": "^13.x",
     "@types/inputmask": "^5.x",
-    "@types/jasmine": "~5.x",
+    "@types/jasmine": "^5.x",
     "@types/lodash": "^4.x",
     "@types/node": "^24.x",
     "@types/uuid": "^10.x",
@@ -80,15 +79,19 @@
     "eslint": "^9.x",
     "eslint-config-prettier": "^10.x",
     "eslint-plugin-prettier": "^5.x",
-    "jasmine-core": "~5.x",
-    "karma": "~6.x",
-    "karma-chrome-launcher": "~3.x",
-    "karma-coverage": "~2.x",
-    "karma-jasmine": "~5.x",
-    "karma-jasmine-html-reporter": "~2.x",
+    "jasmine-core": "^5.x",
+    "karma": "^6.x",
+    "karma-chrome-launcher": "^3.x",
+    "karma-coverage": "^2.x",
+    "karma-jasmine": "^5.x",
+    "karma-jasmine-html-reporter": "^2.x",
     "prettier": "^3.x",
     "prettier-eslint": "^16.x",
-    "typescript": "~5.x",
-    "typescript-eslint": "8.x"
+    "prettier-plugin-multiline-arrays": "^4.x",
+    "prettier-plugin-organize-attributes": "^1.x",
+    "prettier-plugin-organize-imports": "^4.x",
+    "prettier-plugin-tailwindcss": "^0.x",
+    "typescript": "^5.x",
+    "typescript-eslint": "^8.x"
   }
 }

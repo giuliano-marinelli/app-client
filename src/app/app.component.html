@@ -1,6 +1,13 @@
 <mat-sidenav-container class="h-[100vh]">
   <!-- Sidenav -->
-  <mat-sidenav #drawer class="w-60! rounded-none!" mode="over" [fixedInViewport]="true" role="navigation" [autoFocus]="false">
+  <mat-sidenav
+    class="w-60! rounded-none!"
+    #drawer
+    [fixedInViewport]="true"
+    [autoFocus]="false"
+    mode="over"
+    role="navigation"
+  >
     <!-- Sidenav Toolbar -->
     <ng-container [ngTemplateOutlet]="toolbar"></ng-container>
     <!-- Sidenav Navigation -->
@@ -24,10 +31,10 @@
 
 <ng-template #toolbar let-fixed="fixed">
   <mat-toolbar class="gap-2 {{ fixed ? 'sticky top-0 z-1000' : '' }}">
-    <button matIconButton (click)="$isLargeScreen ? toggleFullNav() : drawer.toggle()" onclick="this.blur()">
+    <button (click)="$isLargeScreen ? toggleFullNav() : drawer.toggle()" matIconButton onclick="this.blur()">
       <mat-icon>menu</mat-icon>
     </button>
-    <a class="flex gap-1 items-center ml-2 font-medium" routerLink="/">
+    <a class="ml-2 flex items-center gap-1 font-medium" routerLink="/">
       <mat-icon>logo_dev</mat-icon>
       <span>App</span>
     </a>
@@ -35,14 +42,24 @@
       <span class="grow"></span>
       @if (!auth.loading && auth.user) {
         <!-- User Logged In -->
-        <button matIconButton class="w-9! h-9! p-0! rounded-full! overflow-hidden!" [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
-          <img [src]="auth.user.profile?.avatar" class="block w-full! h-full! object-cover" onerror="this.src='assets/images/default-user.png'" />
+        <button
+          class="h-9! w-9! overflow-hidden! rounded-full! p-0!"
+          [matMenuTriggerFor]="menu"
+          (click)="menuPages.resetPages()"
+          matIconButton
+        >
+          <img
+            class="block h-full! w-full! object-cover"
+            [src]="auth.user.profile?.avatar"
+            alt="Profile picture"
+            onerror="this.src='assets/images/default-user.png'"
+          />
         </button>
       } @else if (!auth.loading) {
         <!-- Not Logged User -->
         <!-- Config Menu -->
         <div *var="{ section: 'main' } as configMenuOptions">
-          <button matIconButton [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
+          <button [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()" matIconButton>
             <mat-icon>more_vert</mat-icon>
           </button>
         </div>
@@ -54,14 +71,19 @@
       } @else {
         <mat-spinner [diameter]="36"></mat-spinner>
       }
-      <mat-menu #menu="matMenu" class="mat-multi-page-menu menu">
+      <mat-menu class="mat-multi-page-menu menu" #menu="matMenu">
         <mat-multi-page-menu #menuPages="matMultiPageMenu">
           <menu-page>
             @if (!auth.loading && auth.user) {
-              <div class="mat-menu-item-info flex! flex-row items-start gap-3 py-1 px-3">
-                <img [src]="auth.user.profile?.avatar" class="block w-11 h-11 rounded-full" onerror="this.src='assets/images/default-user.png'" />
-                <div class="flex flex-col justify-center items-start">
-                  <b class="text-xl font-medium h-6">{{ auth.user.profile?.name }}</b>
+              <div class="mat-menu-item-info flex! flex-row items-start gap-3 px-3 py-1">
+                <img
+                  class="block h-11 w-11 rounded-full"
+                  [src]="auth.user.profile?.avatar"
+                  alt="Profile picture"
+                  onerror="this.src='assets/images/default-user.png'"
+                />
+                <div class="flex flex-col items-start justify-center">
+                  <b class="h-6 text-xl font-medium">{{ auth.user.profile?.name }}</b>
                   {{ '@' + auth.user.username }}
                 </div>
               </div>
@@ -70,13 +92,13 @@
                 <mat-icon>person</mat-icon>
                 <span>Profile</span>
               </a>
-              <a mat-menu-item (click)="logout()">
+              <a (click)="logout()" mat-menu-item>
                 <mat-icon>logout</mat-icon>
                 <span>Sign out</span>
               </a>
               <mat-divider></mat-divider>
             }
-            <button mat-menu-item [matMenuPageLink]="'appearance'">
+            <button [matMenuPageLink]="'appearance'" mat-menu-item>
               <mat-icon>dark_mode</mat-icon>
               <span
                 >Appearance:
@@ -105,7 +127,7 @@
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
             </button>
             <mat-divider></mat-divider>
-            <a mat-menu-item routerLink="/settings" [disabled]="auth.loading || !auth.user">
+            <a [disabled]="auth.loading || !auth.user" mat-menu-item routerLink="/settings">
               <mat-icon>settings</mat-icon>
               <span>Settings</span>
             </a>
@@ -117,19 +139,19 @@
           </menu-page>
           <menu-page pageId="appearance" title="Appearance">
             <p class="text-muted mat-menu-item-info">Setting applies to this browser only</p>
-            <button mat-menu-item (click)="themeService.set('light dark')">
+            <button (click)="themeService.set('light dark')" mat-menu-item>
               @if (themeService.theme === 'light dark') {
                 <mat-icon>check</mat-icon>
               }
               <span [class.mat-menu-item-noicon]="themeService.theme !== 'light dark'">Use device theme</span>
             </button>
-            <button mat-menu-item (click)="themeService.set('light')">
+            <button (click)="themeService.set('light')" mat-menu-item>
               @if (themeService.theme === 'light') {
                 <mat-icon>check</mat-icon>
               }
               <span [class.mat-menu-item-noicon]="themeService.theme !== 'light'">Light theme</span>
             </button>
-            <button mat-menu-item (click)="themeService.set('dark')">
+            <button (click)="themeService.set('dark')" mat-menu-item>
               @if (themeService.theme === 'dark') {
                 <mat-icon>check</mat-icon>
               }
@@ -150,14 +172,14 @@
       } @else if (checkNavAccess(link)) {
         <a
           class="nav-item"
-          mat-list-item
-          [routerLink]="link.route"
-          routerLinkActive
           #route="routerLinkActive"
+          [routerLink]="link.route"
           [activated]="route.isActive"
           [routerLinkActiveOptions]="{ exact: link.exact || false }"
           [class.nav-item-sm]="fixed && (!$isLargeScreen || !$isFullNav)"
           (click)="drawer.close()"
+          mat-list-item
+          routerLinkActive
         >
           <mat-icon matListItemIcon>{{ link.icon }}</mat-icon>
           <span matListItemTitle>{{ link.label }}</span>

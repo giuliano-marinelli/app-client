@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentInit, ChangeDetectorRef, Component, ContentChildren, QueryList } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, ContentChildren, QueryList, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,12 +14,12 @@ import { MatMenuPage } from './menu-page';
   imports: [CommonModule, MatMenuModule, MatButtonModule, MatIconModule, MatDividerModule]
 })
 export class MatMultiPageMenu implements AfterContentInit {
+  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
   @ContentChildren(MatMenuPage) pages!: QueryList<MatMenuPage>;
 
   pageMap = new Map<string | null, MatMenuPage>();
   pageStack: MatMenuPage[] = [];
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   get currentPage(): MatMenuPage | undefined {
     return this.pageStack[this.pageStack.length - 1];

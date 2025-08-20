@@ -3,7 +3,12 @@
 } @else if (auth.user) {
   <div class="centered-section">
     <div class="my-4 mx-0 flex flex-row flex-wrap gap-4">
-      <img class="img-thumbnail w-15 h-15 rounded-full" [src]="auth.user.profile?.avatar" onerror="this.src='assets/images/default-user.png'" />
+      <img
+        class="img-thumbnail w-15 h-15 rounded-full"
+        [src]="auth.user.profile?.avatar"
+        alt="Profile picture"
+        onerror="this.src='assets/images/default-user.png'"
+      />
       <div>
         <h1 class="text-4xl max-sm:text-2xl">
           {{ auth.user.profile?.name ? auth.user.profile?.name : auth.user.username }}

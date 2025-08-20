@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit, TemplateRef, ViewChild, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, effect, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -34,27 +34,23 @@ import { TitleService } from '../services/title.service';
     VerifiedMarkComponent
   ]
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  route: ActivatedRoute = inject(ActivatedRoute);
+  titleService: TitleService = inject(TitleService);
+  profile: ProfileService = inject(ProfileService);
+  dialog: MatDialog = inject(MatDialog);
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+
   @ViewChild('info') info!: TemplateRef<any>;
 
   //router params
   username!: string;
 
-  $isSmallScreen: boolean = false;
+  $isSmallScreen = false;
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public route: ActivatedRoute,
-    public titleService: TitleService,
-    public profile: ProfileService,
-    public dialog: MatDialog,
-    private _breakpointObserver: BreakpointObserver
-  ) {
-    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
-
+  constructor() {
     effect(() => {
       const user = this.profile.user();
       if (user) {
@@ -65,13 +61,17 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+
     this.route.params.subscribe(async (params) => {
       this.username = params['username'];
 
       if (!this.username) this.router.navigate(['/']);
       try {
         await this.profile.fetchUser(this.username);
-      } catch (error) {
+      } catch {
         this.router.navigate(['not-found']);
       }
     });

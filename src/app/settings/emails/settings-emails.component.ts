@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -12,11 +12,17 @@ import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
-import { CheckEmailAddressExists, CreateEmail, DeleteEmail, Email, UpdateEmailVerificationCode } from '../../shared/entities/email.entity';
+import { Observable } from 'rxjs';
+import {
+  CheckEmailAddressExists,
+  CreateEmail,
+  DeleteEmail,
+  Email,
+  UpdateEmailVerificationCode
+} from '../../shared/entities/email.entity';
 import { FindUser, UpdateUserPrimaryEmail, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
 import { ExtraValidators } from '../../shared/validators/validators';
-import { Observable } from 'rxjs';
 
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
@@ -44,10 +50,21 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class SettingsEmailsComponent implements OnInit {
-  userLoading: boolean = true;
-  addEmailSubmitLoading: boolean = false;
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  messages: MessagesService = inject(MessagesService);
+  _findUser: FindUser = inject(FindUser);
+  _checkEmailAddressExists: CheckEmailAddressExists = inject(CheckEmailAddressExists);
+  _createEmail: CreateEmail = inject(CreateEmail);
+  _deleteEmail: DeleteEmail = inject(DeleteEmail);
+  _updateUserPrimaryEmail: UpdateUserPrimaryEmail = inject(UpdateUserPrimaryEmail);
+  _updateEmailVerificationCode: UpdateEmailVerificationCode = inject(UpdateEmailVerificationCode);
+
+  userLoading = true;
+  addEmailSubmitLoading = false;
   removeEmailSubmitLoading?: string | null;
-  primaryEmailSubmitLoading: boolean = false;
+  primaryEmailSubmitLoading = false;
 
   user?: User;
   get addEmailValidator() {
@@ -77,19 +94,6 @@ export class SettingsEmailsComponent implements OnInit {
     return this.primaryEmailForm.get('address');
   }
 
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public formBuilder: FormBuilder,
-    public messages: MessagesService,
-    private _findUser: FindUser,
-    private _checkEmailAddressExists: CheckEmailAddressExists,
-    private _createEmail: CreateEmail,
-    private _deleteEmail: DeleteEmail,
-    private _updateUserPrimaryEmail: UpdateUserPrimaryEmail,
-    private _updateEmailVerificationCode: UpdateEmailVerificationCode
-  ) {}
-
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {
     return !this.hasChanges();
@@ -101,7 +105,7 @@ export class SettingsEmailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.addEmailForm = this.formBuilder.group({
-      address: new FormControl('', this.addEmailValidator, [ExtraValidators.emailExists(this._checkEmailAddressExists, true)])
+      address: new FormControl('', this.addEmailValidator, [ExtraValidators.emailExists(this._checkEmailAddressExists)])
     });
 
     this.primaryEmailForm = this.formBuilder.group({ address: new FormControl('', this.primaryEmailValidator) });

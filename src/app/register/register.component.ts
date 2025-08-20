@@ -1,5 +1,5 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -42,12 +42,23 @@ import { VarDirective } from '../shared/directives/var.directive';
   ]
 })
 export class RegisterComponent implements OnInit {
+  auth: AuthService = inject(AuthService);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  router: Router = inject(Router);
+  messages: MessagesService = inject(MessagesService);
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+  _createUser: CreateUser = inject(CreateUser);
+  _checkUsernameExists: CheckUserUsernameExists = inject(CheckUserUsernameExists);
+  _checkEmailAddressExists: CheckEmailAddressExists = inject(CheckEmailAddressExists);
+  _updateEmailVerificationCode: UpdateEmailVerificationCode = inject(UpdateEmailVerificationCode);
+  _login: Login = inject(Login);
+
   // register form
   registerForm!: FormGroup;
   email = new FormControl(
     '',
     [Validators.required, Validators.maxLength(100), ExtraValidators.email],
-    [ExtraValidators.emailExists(this._checkEmailAddressExists, true)]
+    [ExtraValidators.emailExists(this._checkEmailAddressExists)]
   );
   username = new FormControl(
     '',
@@ -64,28 +75,11 @@ export class RegisterComponent implements OnInit {
   // profile attributes
   name = new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9\\s]*')]);
 
-  submitLoading: boolean = false;
-  emailCheckingLoading: boolean = false;
-  usernameCheckingLoading: boolean = false;
+  submitLoading = false;
+  emailCheckingLoading = false;
+  usernameCheckingLoading = false;
 
-  $isSmallScreen: boolean = false;
-
-  constructor(
-    public auth: AuthService,
-    public formBuilder: FormBuilder,
-    public router: Router,
-    public messages: MessagesService,
-    private _breakpointObserver: BreakpointObserver,
-    private _createUser: CreateUser,
-    private _checkUsernameExists: CheckUserUsernameExists,
-    private _checkEmailAddressExists: CheckEmailAddressExists,
-    private _updateEmailVerificationCode: UpdateEmailVerificationCode,
-    private _login: Login
-  ) {
-    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
-  }
+  $isSmallScreen = false;
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {
@@ -97,6 +91,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
+      this.$isSmallScreen = result.matches;
+    });
+
     firstValueFrom(this.auth.logged).then((logged) => {
       if (logged) this.router.navigate(['/']);
     });
@@ -153,6 +151,7 @@ export class RegisterComponent implements OnInit {
                         ?.subscribe({
                           next: ({ data, errors }: any) => {
                             if (errors) {
+                              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);

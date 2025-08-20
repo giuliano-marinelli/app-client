@@ -21,7 +21,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
         @for (session of sessions | filter: { blockedAt: null, closedAt: null }; track session.id) {
           <div class="col-span-1">
-            <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (onClose)="getSessions()"></session-card>
+            <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (closed)="getSessions()"></session-card>
           </div>
         }
       </div>
@@ -32,7 +32,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
         @for (session of sessions | filter: { $or: { blockedAt: { $not: null }, closedAt: { $not: null } } }; track session.id) {
           <div class="col-span-1">
-            <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (onClose)="getSessions()"></session-card>
+            <session-card [session]="session" [loading]="submitLoading.includes(session.id)" (closed)="getSessions()"></session-card>
           </div>
         }
       </div>

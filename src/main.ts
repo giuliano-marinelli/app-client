@@ -1,4 +1,4 @@
-// sort-imports-ignore
+// organize-imports-ignore
 //angular
 import { HttpHeaders, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom, inject } from '@angular/core';
@@ -79,6 +79,8 @@ import { SettingsProfileComponent } from './app/settings/profile/settings-profil
 import { SettingsSecurityComponent } from './app/settings/security/settings-security.component';
 import { AdminComponent } from './app/admin/admin.component';
 import { AdminUsersComponent } from './app/admin/users/admin-users.component';
+import { GraphQLFormattedError } from 'graphql';
+import { ExtractedFiles } from 'apollo-angular/http/types';
 
 if (environment.production) {
   enableProdMode();
@@ -96,7 +98,7 @@ bootstrapApplication(AppComponent, {
 
       const http = httpLink.create({
         uri: `http://${environment.host}:${environment.appPort}/${environment.graphql}`,
-        extractFiles: (body) => extractFiles(body, isExtractableFile) as any,
+        extractFiles: (body) => extractFiles(body, isExtractableFile) as ExtractedFiles,
         headers: new HttpHeaders().set('apollo-require-preflight', 'true')
       });
       const ws = new GraphQLWsLink(
@@ -110,7 +112,7 @@ bootstrapApplication(AppComponent, {
       });
       const error = onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
-          graphQLErrors.map((error: any) => console.error('[GraphQL error]', error));
+          graphQLErrors.map((error: GraphQLFormattedError) => console.error('[GraphQL error]', error));
         }
         if (networkError) {
           console.error('[Network error]', networkError);

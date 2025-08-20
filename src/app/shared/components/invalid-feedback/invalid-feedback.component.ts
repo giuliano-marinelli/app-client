@@ -10,8 +10,8 @@ import { AbstractControl, FormArray, FormControl } from '@angular/forms';
 })
 export class InvalidFeedbackComponent {
   @Input() control?: AbstractControl | null;
-  @Input() name: string = 'This field';
-  @Input() itemsName: string = 'items';
+  @Input() name = 'This field';
+  @Input() itemsName = 'items';
   @Input() messages?: any;
   @HostBinding('class')
   elementClass = 'invalid-feedback';

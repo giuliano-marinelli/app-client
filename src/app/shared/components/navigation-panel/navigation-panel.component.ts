@@ -1,6 +1,6 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -40,14 +40,16 @@ export type Section =
   templateUrl: './navigation-panel.component.html',
   styleUrl: './navigation-panel.component.scss'
 })
-export class NavigationPanelComponent {
+export class NavigationPanelComponent implements OnInit {
+  _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+
   @Input() sections: Section[] = [];
-  @Input() menuIcon: string = '';
-  @Input() menuTitle: string = '';
+  @Input() menuIcon = '';
+  @Input() menuTitle = '';
 
-  $isSmallScreen: boolean = false;
+  $isSmallScreen = false;
 
-  constructor(private _breakpointObserver: BreakpointObserver) {
+  ngOnInit() {
     this._breakpointObserver.observe([Breakpoints.XSmall]).subscribe((result) => {
       this.$isSmallScreen = result.matches;
     });

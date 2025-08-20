@@ -2,11 +2,12 @@ import { FormControl } from '@angular/forms';
 
 export class Global {
   static createFormData(object: any): FormData {
-    var formData: any = new FormData();
-    var jsonData: any = {};
+    const formData: any = new FormData();
+    const jsonData: any = {};
 
     Object.entries(object).forEach(([key, value]) => {
-      if (value && (value instanceof File || value instanceof Blob) /*|| isBase64(value, { allowMime: true })*/) formData.append(key, value);
+      if (value && (value instanceof File || value instanceof Blob) /*|| isBase64(value, { allowMime: true })*/)
+        formData.append(key, value);
       else jsonData[key] = value;
     });
     formData.append('data', JSON.stringify(jsonData));
@@ -35,17 +36,19 @@ export class Global {
 
   //convert base64 url to file
   static dataURLtoFile(dataurl: string, filename: string): File {
-    let arr: any = dataurl.split(',');
-    let mime: any = arr[0].match(/:(.*?);/)[1];
-    let bstr: any = atob(arr[1]);
+    const arr: any = dataurl.split(',');
+    const mime: any = arr[0].match(/:(.*?);/)[1];
+    const bstr: any = atob(arr[1]);
     let n: number = bstr.length;
-    let u8arr: Uint8Array = new Uint8Array(n);
+    const u8arr: Uint8Array = new Uint8Array(n);
 
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
     }
 
-    return new File([u8arr], filename, { type: mime });
+    const u8arrCopy = new Uint8Array(u8arr);
+
+    return new File([u8arrCopy], filename, { type: mime });
   }
 
   static setValid(control: FormControl): object {
@@ -58,7 +61,7 @@ export class Global {
 
   static filter(items: any[], filter: any): any {
     return items?.filter((item) => {
-      var match = true;
+      let match = true;
       if (Object.keys(filter)[0] == '$and') {
         Object.keys(filter.$and).forEach((key) => {
           if (!Global.filterEqual(filter.$and[key], item[key])) match = false;

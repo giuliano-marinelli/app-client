@@ -6,10 +6,11 @@ import { MatMultiPageMenu } from './multi-page-menu';
   selector: '[matMenuPageLink]'
 })
 export class MatMenuPageLink implements OnInit {
+  menu = inject(MatMultiPageMenu);
+  el = inject(ElementRef<HTMLElement>);
+  renderer = inject(Renderer2);
+
   @Input('matMenuPageLink') targetPageId!: string;
-  private menu = inject(MatMultiPageMenu);
-  private el = inject(ElementRef<HTMLElement>);
-  private renderer = inject(Renderer2);
 
   ngOnInit(): void {
     this.renderer.listen(this.el.nativeElement, 'click', (event) => {

@@ -28,7 +28,7 @@ export class ExtraValidators {
    * @returns An error map with the `email` property
    * if the validation check fails, otherwise `null`.
    */
-  static emailExists(checkAddressExists: CheckEmailAddressExists, verified?: boolean): AsyncValidatorFn {
+  static emailExists(checkAddressExists: CheckEmailAddressExists): AsyncValidatorFn {
     return (control: AbstractControl) => {
       return checkAddressExists.fetch({ address: control.value }).pipe(
         map(({ data }) => {
@@ -74,7 +74,7 @@ export class ExtraValidators {
    */
   static notEqual = (val: any, compare?: (controlValue: any, value: any) => boolean): ValidatorFn => {
     return (control: AbstractControl): ValidationErrors | null => {
-      const v: any = control.value;
+      const v = control.value;
       let areNotEquals;
       if (compare && typeof compare == 'function') areNotEquals = !compare(val, v);
       else areNotEquals = val !== v;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,20 +22,18 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   imports: [MatButtonModule, MatDividerModule, MatIconModule, MatProgressSpinnerModule, FilterPipe, SessionCardComponent]
 })
 export class SettingsDevicesComponent implements OnInit {
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  messages: MessagesService = inject(MessagesService);
+  _findSessions: FindSessions = inject(FindSessions);
+
   filter: any = Global.filter;
 
-  sessionsLoading: boolean = true;
+  sessionsLoading = true;
   submitLoading: string[] = [];
 
   sessions?: Session[];
-  sessionsCount: number = 0;
-
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public messages: MessagesService,
-    private _findSessions: FindSessions
-  ) {}
+  sessionsCount = 0;
 
   ngOnInit(): void {
     this.getSessions();

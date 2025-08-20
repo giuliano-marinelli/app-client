@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
@@ -11,9 +11,9 @@ import { Subject } from 'rxjs';
   imports: [MatButtonModule, MatDialogModule]
 })
 export class LeaveGuardWarningComponent {
-  subject?: Subject<boolean>;
+  dialog: MatDialog = inject(MatDialog);
 
-  constructor(public dialog: MatDialog) {}
+  subject?: Subject<boolean>;
 
   proceed(value: boolean) {
     this.dialog.closeAll();

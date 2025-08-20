@@ -1,9 +1,9 @@
 <ng-template #content let-modal>
   <mat-dialog-content>
-    @if (confirmMessageType() == 'text') {
+    @if (confirmMessageType() === 'text') {
       <p class="mb-0">{{ confirmMessage }}</p>
     }
-    @if (confirmMessageType() == 'template') {
+    @if (confirmMessageType() === 'template') {
       <ng-container [ngTemplateOutlet]="confirmTemplate" [ngTemplateOutletContext]="confirmData"></ng-container>
     }
   </mat-dialog-content>
@@ -19,10 +19,10 @@
 
 <ng-template #content_password>
   <mat-dialog-content class="max-w-75!">
-    @if (requiredPasswordMessageType() == 'text') {
+    @if (requiredPasswordMessageType() === 'text') {
       <p class="mb-4">{{ requiredPasswordMessage }}</p>
     }
-    @if (requiredPasswordMessageType() == 'template') {
+    @if (requiredPasswordMessageType() === 'template') {
       <ng-container [ngTemplateOutlet]="requiredPasswordTemplate" [ngTemplateOutletContext]="requiredPasswordData"></ng-container>
     }
     <form [formGroup]="passwordForm">
@@ -75,12 +75,12 @@
 
 <ng-template #content_verification_code_advice let-modal>
   <mat-dialog-content>
-    @if (requiredVerificationCodeAdviceMessageType() == 'text') {
+    @if (requiredVerificationCodeAdviceMessageType() === 'text') {
       <p class="mb-0">
         {{ requiredVerificationCodeAdviceMessage }}
       </p>
     }
-    @if (requiredVerificationCodeAdviceMessageType() == 'template') {
+    @if (requiredVerificationCodeAdviceMessageType() === 'template') {
       <ng-container
         [ngTemplateOutlet]="requiredVerificationCodeAdviceTemplate || content_verification_code_advice_default_message"
         [ngTemplateOutletContext]="requiredVerificationCodeAdviceData"
@@ -113,12 +113,12 @@
 
 <ng-template #content_verification_code>
   <mat-dialog-content>
-    @if (requiredVerificationCodeMessageType() == 'text') {
+    @if (requiredVerificationCodeMessageType() === 'text') {
       <p>
         {{ requiredVerificationCodeMessage }}
       </p>
     }
-    @if (requiredVerificationCodeMessageType() == 'template') {
+    @if (requiredVerificationCodeMessageType() === 'template') {
       <ng-container
         [ngTemplateOutlet]="requiredVerificationCodeTemplate || content_verification_code_default_message"
         [ngTemplateOutletContext]="requiredVerificationCodeData"

@@ -60,8 +60,8 @@
               [user]="user"
               [masonry]="masonry"
               [loading]="submitLoading.includes(user.id!)"
-              (onDelete)="searchUsers({ page: 0, refresh: true })"
-              (onSessionClose)="searchUsers({ refresh: true })"
+              (deleted)="searchUsers({ page: 0, refresh: true })"
+              (sessionClosed)="searchUsers({ refresh: true })"
             ></user-card>
           </div>
         }

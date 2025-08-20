@@ -8,6 +8,4 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./not-found.component.scss'],
   imports: [MatCardModule, MatIconModule]
 })
-export class NotFoundComponent {
-  constructor() {}
-}
+export class NotFoundComponent {}

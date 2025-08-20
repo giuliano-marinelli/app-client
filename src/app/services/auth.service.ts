@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { ApolloQueryResult } from '@apollo/client';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -10,15 +10,15 @@ import { MessagesService } from './messages.service';
 
 @Injectable()
 export class AuthService {
+  jwtHelper: JwtHelperService = inject(JwtHelperService);
+  messages: MessagesService = inject(MessagesService);
+  _findUser: FindUser = inject(FindUser);
+
   user?: User;
-  loading: boolean = true;
+  loading = true;
   logged: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
-  constructor(
-    public jwtHelper: JwtHelperService,
-    public messages: MessagesService,
-    public _findUser: FindUser
-  ) {
+  constructor() {
     this.setUser();
   }
 

@@ -1,4 +1,4 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input, inject } from '@angular/core';
 
 import { MessagesService } from '../../services/messages.service';
 
@@ -6,11 +6,11 @@ import { MessagesService } from '../../services/messages.service';
   selector: '[longPressCopy]'
 })
 export class LongPressCopyDirective {
-  @Input('longPressCopy') longPressCopy?: string;
+  messages: MessagesService = inject(MessagesService);
+
+  @Input() longPressCopy?: string;
 
   private timeout: any;
-
-  constructor(private messages: MessagesService) {}
 
   @HostListener('mousedown') onMouseDown() {
     this.timeout = setTimeout(() => {

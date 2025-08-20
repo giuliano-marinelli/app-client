@@ -20,22 +20,22 @@ export class SearchComponent implements OnInit {
   //search input attributes
   @Input() attributes: Attribute[] = [];
   //options
-  advanced: boolean = false; //disabled until its fully migrated to material
-  @Input() startAdvanced: boolean = false;
-  @Input() continuousSearching: boolean = false;
-  @Input() continuousSearchingOnlySimple: boolean = false;
-  @Input() useLikeWildcard: boolean = true;
+  advanced = false; //disabled until its fully migrated to material
+  @Input() startAdvanced = false;
+  @Input() continuousSearching = false;
+  @Input() continuousSearchingOnlySimple = false;
+  @Input() useLikeWildcard = true;
   //style configurations
-  @Input() searchClass: string = '';
-  @Input() searchInputClass: string = '';
-  @Input() searchTagsClass: string = '';
-  @Input() searchTagClass: string = '';
-  @Input() searchTagEditClass: string = '';
+  @Input() searchClass = '';
+  @Input() searchInputClass = '';
+  @Input() searchTagsClass = '';
+  @Input() searchTagClass = '';
+  @Input() searchTagEditClass = '';
   @Input() defaultTagColor: AttributeColor = 'body-secondary';
   @Input() defaultTagTitleColor: AttributeTextColor = 'body';
   @Input() defaultTagCategoryColor: AttributeTextColor = 'body-emphasis';
   //loading state
-  @Input() loading: boolean = false;
+  @Input() loading = false;
 
   @Input() search: any;
   @Output() searchChange = new EventEmitter<any>();
@@ -46,10 +46,8 @@ export class SearchComponent implements OnInit {
   @Input() searchAttributes: SearchAttribute[] = [];
   @Output() searchAttributesChange = new EventEmitter<SearchAttribute[]>();
 
-  optional: boolean = false;
-  advancedCollapsed: boolean = true;
-
-  constructor() {}
+  optional = false;
+  advancedCollapsed = true;
 
   ngOnInit(): void {
     this.advancedCollapsed = !this.startAdvanced;
@@ -75,7 +73,7 @@ export class SearchComponent implements OnInit {
     else searchAttribute.sort = null;
   }
 
-  changeCriteria(searchAttribute: SearchAttribute, criteria: Criteria, tippy?: any): void {
+  changeCriteria(searchAttribute: SearchAttribute, criteria: Criteria /*tippy?: any*/): void {
     searchAttribute.criteria = criteria;
     // tippy?.hide();
   }
@@ -147,13 +145,13 @@ export class SearchComponent implements OnInit {
   onSearch(isContinuous: boolean): void {
     if (this.advancedCollapsed) {
       if (!isContinuous || this.continuousSearching || this.continuousSearchingOnlySimple) {
-        let searchInput: any = Search.searchInput(this.attributes, this.searchString, this.useLikeWildcard);
+        const searchInput: any = Search.searchInput(this.attributes, this.searchString, this.useLikeWildcard);
         this.searchChange.emit(searchInput);
         this.searchStringChange.emit(this.searchString);
       }
     } else {
       if (!isContinuous || this.continuousSearching) {
-        let searchInputAdvanced: any = Search.searchInputAdvanced(this.searchAttributes, this.optional, this.useLikeWildcard);
+        const searchInputAdvanced: any = Search.searchInputAdvanced(this.searchAttributes, this.optional, this.useLikeWildcard);
         this.searchChange.emit(searchInputAdvanced);
         this.searchAttributesChange.emit(this.searchAttributes);
       }

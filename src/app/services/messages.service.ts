@@ -1,16 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig, MatSnackBarRef } from '@angular/material/snack-bar';
 
-declare var iziToast: any;
-
 @Injectable({
   providedIn: 'root'
 })
 export class MessagesService {
-  private _snackBar = inject(MatSnackBar);
-  private _snackBarRef: MatSnackBarRef<any> | null = null;
-
-  constructor() {}
+  _snackBar = inject(MatSnackBar);
+  _snackBarRef: MatSnackBarRef<any> | null = null;
 
   info(message: string, config?: MatSnackBarConfig): void {
     this._snackBarRef = this._snackBar.open(message, 'Close', config || { duration: 3000 });

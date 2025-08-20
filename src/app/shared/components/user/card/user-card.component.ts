@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -50,21 +50,19 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
   ]
 })
 export class UserCardComponent {
+  auth: AuthService = inject(AuthService);
+  messages: MessagesService = inject(MessagesService);
+  _deleteUser: DeleteUser = inject(DeleteUser);
+
   @Input() user!: User;
   @Input() masonry?: NgxMasonryComponent;
-  @Input() loading: boolean = false;
+  @Input() loading = false;
 
   @Output() loadingChange = new EventEmitter<boolean>();
-  @Output() onDelete: EventEmitter<string> = new EventEmitter<string>();
-  @Output() onSessionClose: EventEmitter<Session> = new EventEmitter<Session>();
+  @Output() deleted: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sessionClosed: EventEmitter<Session> = new EventEmitter<Session>();
 
-  constructor(
-    public auth: AuthService,
-    public messages: MessagesService,
-    private _deleteUser: DeleteUser
-  ) {}
-
-  deleteUser({ password, verificationCode }: any, user: User): void {
+  deleteUser({ password }: any, user: User): void {
     if (!user) return;
 
     this.loading = true;
@@ -79,7 +77,7 @@ export class UserCardComponent {
           }
           if (data?.deleteUser) {
             this.messages.info('User successfully deleted.');
-            this.onDelete.emit(data?.deleteUser);
+            this.deleted.emit(data?.deleteUser);
           }
         }
       })

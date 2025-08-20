@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -32,19 +32,17 @@ import { MessagesService } from '../../../../services/messages.service';
   ]
 })
 export class SessionCardComponent {
+  auth: AuthService = inject(AuthService);
+  messages: MessagesService = inject(MessagesService);
+  _closeSession: CloseSession = inject(CloseSession);
+
   @Input() session!: Session;
   @Input() masonry?: NgxMasonryComponent;
-  @Input() loading: boolean = false;
+  @Input() loading = false;
 
   @Output() loadingChange = new EventEmitter<boolean>();
 
-  @Output() onClose: EventEmitter<Session> = new EventEmitter<Session>();
-
-  constructor(
-    public auth: AuthService,
-    public messages: MessagesService,
-    private _closeSession: CloseSession
-  ) {}
+  @Output() closed: EventEmitter<Session> = new EventEmitter<Session>();
 
   closeSession(session: Session): void {
     console.log('closeSession', session);
@@ -61,7 +59,7 @@ export class SessionCardComponent {
           if (errors) this.messages.error(errors, 'Could not close session. Please try again later.');
           if (data?.closeSession) {
             this.messages.info('Session successfully closed.');
-            this.onClose.emit(data?.closeSession);
+            this.closed.emit(data?.closeSession);
           }
         }
       })
@@ -71,7 +69,7 @@ export class SessionCardComponent {
       });
   }
 
-  deviceTypeIcon(deviceType: string = ''): string {
+  deviceTypeIcon(deviceType = ''): string {
     if (!deviceType || deviceType == '') return 'help';
     else if (deviceType.includes('desktop')) return 'desktop_windows';
     else if (deviceType.includes('laptop')) return 'laptop';
@@ -81,7 +79,7 @@ export class SessionCardComponent {
     else return 'help';
   }
 
-  browserIcon(client: string = ''): string {
+  browserIcon(client = ''): string {
     if (client.includes('Chrome')) return 'chrome';
     else if (client.includes('Firefox')) return 'firefox';
     else if (client.includes('Safari')) return 'safari';

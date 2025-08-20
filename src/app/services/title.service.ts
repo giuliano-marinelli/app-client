@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
@@ -13,21 +13,21 @@ export interface Breadcrumb {
   providedIn: 'root'
 })
 export class TitleService {
-  appTitle: string = 'App';
-  appSeparator: string = ' · ';
-  subTitleSeparator: string = ' / ';
+  router: Router = inject(Router);
+  titleService: Title = inject(Title);
+
+  appTitle = 'App';
+  appSeparator = ' · ';
+  subTitleSeparator = ' / ';
 
   titles: any[] = [];
 
-  params: { [key: string]: string } = {};
+  params: Record<string, string> = {};
 
   breadcrumb: Breadcrumb[] = [];
   breadcrumbSubject: ReplaySubject<Breadcrumb[]>;
 
-  constructor(
-    public router: Router,
-    public titleService: Title
-  ) {
+  constructor() {
     this.breadcrumbSubject = new ReplaySubject();
   }
 
@@ -77,7 +77,7 @@ export class TitleService {
   }
 
   updateTitle(): void {
-    let title: string = '';
+    let title = '';
 
     // process the title if it is a function call it with params else use it as is
     this.titles.forEach((t: any, i: number) => {
@@ -92,7 +92,7 @@ export class TitleService {
   }
 
   updateBreadcrumb(): void {
-    let breadcrumb: { path: string; title: string }[] = [];
+    const breadcrumb: { path: string; title: string }[] = [];
 
     // process the breadcrumb if it is a function call it with params else use it as is
     this.breadcrumb.forEach((b: any) => {

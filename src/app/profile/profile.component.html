@@ -7,6 +7,7 @@
       <img
         class="img-thumbnail w-30 h-30 rounded-full max-sm:w-18 max-sm:h-18 md:w-40 md:h-40"
         [src]="profile.user()?.profile?.avatar"
+        alt="Profile picture"
         onerror="this.src='assets/images/default-user.png'"
       />
       <div class="flex flex-col">
@@ -46,7 +47,7 @@
     </ng-template>
 
     <ng-template #actions>
-      @if (profile.user()?.id == auth.user?.id) {
+      @if (profile.user()?.id === auth.user?.id) {
         <div class="mt-3 max-sm:flex">
           <a matButton="tonal" class="grow" routerLink="/settings/profile">Edit Profile</a>
         </div>
@@ -56,7 +57,7 @@
     <ng-template #info>
       <h2 mat-dialog-title class="dialog-with-close">
         {{ profile.user()?.profile?.name }}
-        <button matIconButton [mat-dialog-close]="true" autofocus="false">
+        <button matIconButton [mat-dialog-close]="true">
           <mat-icon>close</mat-icon>
         </button>
       </h2>

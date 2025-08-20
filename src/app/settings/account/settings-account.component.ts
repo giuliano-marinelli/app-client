@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -36,9 +36,18 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class SettingsAccountComponent implements OnInit {
-  userLoading: boolean = true;
-  updateSubmitLoading: boolean = false;
-  deleteSubmitLoading: boolean = false;
+  auth: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+  formBuilder: FormBuilder = inject(FormBuilder);
+  messages: MessagesService = inject(MessagesService);
+  _findUser: FindUser = inject(FindUser);
+  _usernameExists: CheckUserUsernameExists = inject(CheckUserUsernameExists);
+  _updateUser: UpdateUser = inject(UpdateUser);
+  _deleteUser: DeleteUser = inject(DeleteUser);
+
+  userLoading = true;
+  updateSubmitLoading = false;
+  deleteSubmitLoading = false;
 
   user?: User;
 
@@ -49,17 +58,6 @@ export class SettingsAccountComponent implements OnInit {
     [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
     [ExtraValidators.usernameExists(this._usernameExists)]
   );
-
-  constructor(
-    public auth: AuthService,
-    public router: Router,
-    public formBuilder: FormBuilder,
-    public messages: MessagesService,
-    private _findUser: FindUser,
-    private _usernameExists: CheckUserUsernameExists,
-    private _updateUser: UpdateUser,
-    private _deleteUser: DeleteUser
-  ) {}
 
   @HostListener('window:beforeunload', ['$event'])
   canDeactivate(): Observable<boolean> | boolean {

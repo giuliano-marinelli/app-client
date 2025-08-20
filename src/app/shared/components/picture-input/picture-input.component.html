@@ -1,5 +1,6 @@
 <img
   class="w-50 h-50 object-cover cursor-pointer img-thumbnail"
+  alt="Picture preview"
   [class.rounded-full]="rounded"
   [class.rounded-2xl]="!rounded"
   [src]="control.value"
@@ -21,7 +22,7 @@
 <ng-template #crop_picture>
   <h2 mat-dialog-title class="dialog-with-close">
     {{ cropLabel }}
-    <button matIconButton [mat-dialog-close]="true" autofocus="false">
+    <button matIconButton [mat-dialog-close]="true">
       <mat-icon>close</mat-icon>
     </button>
   </h2>

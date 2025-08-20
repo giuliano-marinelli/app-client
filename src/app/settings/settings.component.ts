@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
@@ -13,8 +13,8 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
-export class SettingsComponent implements OnInit {
-  constructor(public auth: AuthService) {}
+export class SettingsComponent {
+  auth: AuthService = inject(AuthService);
 
   sections: Section[] = [
     { type: 'item', label: 'Profile', icon: 'person', route: './profile' },
@@ -25,6 +25,4 @@ export class SettingsComponent implements OnInit {
     { type: 'item', label: 'Passwords', icon: 'key', route: './security' },
     { type: 'item', label: 'Devices', icon: 'devices', route: './devices' }
   ];
-
-  ngOnInit(): void {}
 }

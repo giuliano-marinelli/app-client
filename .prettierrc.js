@@ -1,29 +1,13 @@
 module.exports = {
-  printWidth: 150,
+  printWidth: 120,
   singleQuote: true,
   trailingComma: 'none',
-  overrides: [
-    {
-      files: '*.html',
-      options: {
-        parser: 'angular'
-      }
-    }
+  overrides: [{ files: '*.html', options: { parser: 'angular' } }],
+  plugins: [
+    require.resolve('prettier-plugin-organize-imports'),
+    require.resolve('prettier-plugin-organize-attributes'),
+    require.resolve('prettier-plugin-multiline-arrays'),
+    require.resolve('prettier-plugin-tailwindcss')
   ],
-  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
-  importOrder: [
-    '^@angular/(.*)$',
-    '^@(.*)$',
-    '<THIRD_PARTY_MODULES>',
-    '^./(?!.*model$)(?!.*component$)(?!.*service$)(?!.*directive$)(?!.*pipe$)(?!.*module$).*$',
-    '.*.model$',
-    '.*.component$',
-    '.*.service$',
-    '.*.directive$',
-    '.*.pipe$',
-    '.*.module$'
-  ],
-  importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
-  importOrderParserPlugins: ['typescript', 'decorators-legacy']
+  multilineArraysWrapThreshold: 1
 };

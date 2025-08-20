@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -13,15 +13,9 @@ import { MessagesService } from '../services/messages.service';
   imports: [MatDividerModule, MatIconModule],
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
-  JSON = JSON;
+export class AboutComponent {
+  messages: MessagesService = inject(MessagesService);
+  auth: AuthService = inject(AuthService);
 
-  graphqlUrl: string = `http://${environment.host}:${environment.appPort}/${environment.graphql}`;
-
-  constructor(
-    public messages: MessagesService,
-    public auth: AuthService
-  ) {}
-
-  ngOnInit(): void {}
+  graphqlUrl = `http://${environment.host}:${environment.appPort}/${environment.graphql}`;
 }
