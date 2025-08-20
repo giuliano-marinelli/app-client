@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FindUsers, User } from '../../shared/entities/user.entity';
-import { Global } from '../../shared/global/global';
+import { Attribute, Search, SearchParams } from '../../shared/global/search';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { Observable } from 'rxjs';
 
@@ -18,8 +18,6 @@ import { UserCardComponent } from '../../shared/components/user/card/user-card.c
 
 import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
-
-import { FilterPipe } from '../../shared/pipes/filter.pipe';
 
 @Component({
   selector: 'admin-users',
@@ -33,22 +31,29 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     NgxMasonryModule,
+    SearchComponent,
     UserCardComponent
   ]
 })
 export class AdminUsersComponent implements OnInit {
-  filter: any = Global.filter;
-
   usersLoading: boolean = true;
   submitLoading: string[] = [];
 
   users?: User[];
-  usersPage?: number;
-  usersPageSize?: number;
+  usersAttributes: Attribute[] = [
+    { name: 'username', title: 'Username', type: 'string', simple: true },
+    { name: 'role', title: 'Role', type: ['user', 'admin'] },
+    { name: 'createdAt', title: 'Created at', type: 'Date' },
+    { name: 'emails.address', title: 'Email', type: 'string', simple: true },
+    { name: 'primaryEmail.verified', title: 'Verified', type: 'boolean' },
+    { name: 'profile.name', category: 'Profile', title: 'Name', type: 'string', color: 'secondary', simple: true },
+    { name: 'profile.bio', category: 'Profile', title: 'Bio', type: 'string', color: 'secondary', simple: true },
+    { name: 'profile.url', category: 'Profile', title: 'URL', type: 'string', color: 'secondary', simple: true },
+    { name: 'profile.location', category: 'Profile', title: 'Location', type: 'string', color: 'secondary', simple: true },
+    { name: 'profile.publicEmail.address', category: 'Profile', title: 'Public Email', type: 'string', color: 'secondary', simple: true }
+  ];
+  usersSearchParams: SearchParams = Search.getDefaultSearchParams();
   usersCount: number = 0;
-  usersSearch: any;
-
-  usersListView: 'columns' | 'rows' = 'columns';
 
   $isSmallScreen: boolean = false;
 
@@ -75,13 +80,9 @@ export class AdminUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // restore search params and if there are changes, fetch users
     this.route.queryParams.subscribe((params) => {
-      if (!params['page'] || !params['pageSize'] || params['page'] != this.usersPage || params['pageSize'] != this.usersPageSize) {
-        this.usersPage = +params['page'] || 0; // default page to 0
-        this.usersPageSize = +params['pageSize'] || 10; // default pageSize to 10
-        this.getUsers();
-      }
-      if (params['pageView']) this.usersListView = params['pageView'];
+      if (Search.restoreSearchParams(params, this.usersSearchParams, this.router)) this.getUsers();
     });
   }
 
@@ -89,27 +90,19 @@ export class AdminUsersComponent implements OnInit {
     return user;
   }
 
-  usersPageOrViewChange(pageEvent?: PageEvent, usersListView?: 'columns' | 'rows'): void {
-    // set navigation for the page and page size from the event
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        page: pageEvent?.pageIndex ?? this.usersPage,
-        pageSize: pageEvent?.pageSize ?? this.usersPageSize,
-        pageView: usersListView || this.usersListView
-      },
-      queryParamsHandling: 'merge' // merge with existing query params
-    });
+  searchUsers(searchParams: SearchParams): void {
+    // navigates with the updated search parameters
+    Search.updateSearchParams(searchParams, this.usersSearchParams, this.router);
   }
 
   getUsers(): void {
     this.usersLoading = true;
     this._findUsers({ relations: { sessions: { device: true }, emails: true } })
       .fetch({
-        ...this.usersSearch,
+        ...Search.searchInput(this.usersAttributes, this.usersSearchParams.search),
         pagination: {
-          page: this.usersPage!,
-          count: this.usersPageSize!
+          page: this.usersSearchParams.page,
+          count: this.usersSearchParams.pageSize
         }
       })
       .subscribe({

@@ -107,14 +107,25 @@ html {
       protected-state-layer-color: var(--mat-sys-error)
     )
   );
+}
 
-  [matIconButton].error {
-    @include mat.icon-overrides(
-      (
-        color: var(--mat-sys-error)
-      )
-    );
-  }
+[matIconButton].error {
+  @include mat.icon-overrides(
+    (
+      color: var(--mat-sys-error)
+    )
+  );
+}
+
+.search {
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: var(--mat-sys-corner-extra-large),
+      outlined-input-text-placeholder-color: var(--mat-sys-outline),
+      container-height: 20px,
+      container-vertical-padding: 8px
+    )
+  );
 }
 
 /* Overlay backdrop color adjustment for dark mode */

@@ -20,7 +20,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a mat-menu-item (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
+        <a mat-menu-item (click)="confirmDelete.open()" [hidden]="user.id == auth.user?.id"><mat-icon>person_off</mat-icon> Delete user</a>
         <confirm
           #confirmDelete
           (confirm)="deleteUser($event, user)"

@@ -1,91 +1,26 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import moment from 'moment';
+import { Attribute, AttributeColor, AttributeTextColor, Criteria, Search, SearchAttribute, Sort } from '../../global/search';
 import { v4 as uuidv4 } from 'uuid';
-
-export type Color =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark'
-  | 'primary-subtle'
-  | 'secondary-subtle'
-  | 'success-subtle'
-  | 'danger-subtle'
-  | 'warning-subtle'
-  | 'info-subtle'
-  | 'light-subtle'
-  | 'dark-subtle'
-  | 'body'
-  | 'body-secondary'
-  | 'body-tertiary'
-  | 'black'
-  | 'white'
-  | 'transparent';
-export type TextColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'danger'
-  | 'warning'
-  | 'info'
-  | 'light'
-  | 'dark'
-  | 'primary-emphasis'
-  | 'secondary-emphasis'
-  | 'success-emphasis'
-  | 'danger-emphasis'
-  | 'warning-emphasis'
-  | 'info-emphasis'
-  | 'light-emphasis'
-  | 'dark-emphasis'
-  | 'body'
-  | 'body-emphasis'
-  | 'body-secondary'
-  | 'body-tertiary'
-  | 'black'
-  | 'white'
-  | 'muted';
-export type Sort = 'ASC' | 'DESC' | null;
-export type Criteria = 'gt' | 'gte' | 'lt' | 'lte' | 'eq' | 'ne' | 'ilike';
-
-export interface Attribute {
-  name: string;
-  type: string | string[];
-  title?: string;
-  category?: string;
-  simple?: boolean;
-  color?: Color;
-  titleColor?: TextColor;
-  categoryColor?: TextColor;
-}
-
-export interface SearchAttribute {
-  id: string;
-  attribute: Attribute;
-  value: string | boolean;
-  criteria: Criteria;
-  sort: Sort;
-}
 
 @Component({
   selector: 'search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  imports: [FormsModule, MatIcon, MatExpansionModule]
+  imports: [FormsModule, MatButtonModule, MatIcon, MatExpansionModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule]
 })
 export class SearchComponent implements OnInit {
   //search input attributes
   @Input() attributes: Attribute[] = [];
   //options
-  @Input() advanced: boolean = true;
+  advanced: boolean = false; //disabled until its fully migrated to material
   @Input() startAdvanced: boolean = false;
   @Input() continuousSearching: boolean = false;
   @Input() continuousSearchingOnlySimple: boolean = false;
@@ -96,15 +31,21 @@ export class SearchComponent implements OnInit {
   @Input() searchTagsClass: string = '';
   @Input() searchTagClass: string = '';
   @Input() searchTagEditClass: string = '';
-  @Input() defaultTagColor: Color = 'body-secondary';
-  @Input() defaultTagTitleColor: TextColor = 'body';
-  @Input() defaultTagCategoryColor: TextColor = 'body-emphasis';
+  @Input() defaultTagColor: AttributeColor = 'body-secondary';
+  @Input() defaultTagTitleColor: AttributeTextColor = 'body';
+  @Input() defaultTagCategoryColor: AttributeTextColor = 'body-emphasis';
+  //loading state
+  @Input() loading: boolean = false;
 
   @Input() search: any;
   @Output() searchChange = new EventEmitter<any>();
 
-  searchSimple: string = '';
-  searchAttributes: SearchAttribute[] = [];
+  @Input() searchString?: string;
+  @Output() searchStringChange = new EventEmitter<any>();
+
+  @Input() searchAttributes: SearchAttribute[] = [];
+  @Output() searchAttributesChange = new EventEmitter<SearchAttribute[]>();
+
   optional: boolean = false;
   advancedCollapsed: boolean = true;
 
@@ -203,76 +144,18 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  // receive a path like: 'profile.bio' and a value, and return a object:
-  // { profile: { bio: value } }
-  attrPathToWhereInput(attrPath: string, value: any): any {
-    let whereInput: any = {};
-    let attr: any = whereInput;
-    if (!attrPath.includes('.')) return { [attrPath]: value };
-    attrPath.split('.').forEach((subAttribute, index, array) => {
-      if (index == array.length - 1) attr[subAttribute] = value;
-      else {
-        attr[subAttribute] = {};
-        attr = attr[subAttribute];
-      }
-    });
-    return whereInput;
-  }
-
-  // receive a path like: 'profile.bio' and a value, and add to a existing where input:
-  // { profile: { bio: { and: { eq: 'someValue' } } }
-  // => { profile: { bio: { and: [ { eq: 'someValue' }, { eq: 'anotherValue' } ] } }
-  attrPathToExistingWhereInput(attrPath: string, value: any, whereInput: any): void {
-    if (!attrPath.includes('.')) {
-      if (!whereInput[attrPath]) whereInput[attrPath] = { and: [] };
-      whereInput[attrPath]['and'].push(value);
-    } else {
-      attrPath.split('.').forEach((subAttribute, index, array) => {
-        if (index == array.length - 1) {
-          if (!whereInput[subAttribute]) whereInput[subAttribute] = { and: [] };
-          whereInput[subAttribute]['and'].push(value);
-        } else {
-          if (!whereInput[subAttribute]) whereInput[subAttribute] = {};
-          whereInput = whereInput[subAttribute];
-        }
-      });
-    }
-  }
-
   onSearch(isContinuous: boolean): void {
     if (this.advancedCollapsed) {
       if (!isContinuous || this.continuousSearching || this.continuousSearchingOnlySimple) {
-        let whereInput: any = [];
-        this.attributes.forEach((attribute) => {
-          if (attribute.simple) {
-            whereInput.push(
-              this.attrPathToWhereInput(attribute.name, {
-                ilike: this.useLikeWildcard ? '%' + this.searchSimple + '%' : this.searchSimple
-              })
-            );
-          }
-        });
-        this.searchChange.emit({ where: whereInput });
+        let searchInput: any = Search.searchInput(this.attributes, this.searchString, this.useLikeWildcard);
+        this.searchChange.emit(searchInput);
+        this.searchStringChange.emit(this.searchString);
       }
     } else {
       if (!isContinuous || this.continuousSearching) {
-        let resultSearch: any = { order: [], where: this.optional ? [] : {} };
-        this.searchAttributes.forEach((searchAttribute) => {
-          let whereValue = searchAttribute.attribute.type == 'Date' ? moment(searchAttribute.value as string).toDate() : searchAttribute.value;
-          whereValue = searchAttribute.criteria == 'ilike' && this.useLikeWildcard ? '%' + whereValue + '%' : whereValue;
-          if (this.optional) {
-            resultSearch.where.push(
-              this.attrPathToWhereInput(searchAttribute.attribute.name, {
-                [searchAttribute.criteria]: whereValue
-              })
-            );
-          } else {
-            this.attrPathToExistingWhereInput(searchAttribute.attribute.name, { [searchAttribute.criteria]: whereValue }, resultSearch.where);
-          }
-          if (searchAttribute.sort) resultSearch.order.push({ [searchAttribute.attribute.name]: searchAttribute.sort });
-        });
-        if (!this.searchAttributes?.length) resultSearch = null;
-        this.searchChange.emit(resultSearch);
+        let searchInputAdvanced: any = Search.searchInputAdvanced(this.searchAttributes, this.optional, this.useLikeWildcard);
+        this.searchChange.emit(searchInputAdvanced);
+        this.searchAttributesChange.emit(this.searchAttributes);
       }
     }
   }
