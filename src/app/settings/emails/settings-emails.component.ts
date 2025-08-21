@@ -34,7 +34,6 @@ import { MessagesService } from '../../services/messages.service';
 @Component({
   selector: 'settings-emails',
   templateUrl: './settings-emails.component.html',
-  styleUrls: ['./settings-emails.component.scss'],
   imports: [
     ConfirmComponent,
     FormsModule,

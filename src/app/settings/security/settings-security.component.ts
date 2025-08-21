@@ -24,7 +24,6 @@ import { VarDirective } from '../../shared/directives/var.directive';
 @Component({
   selector: 'settings-security',
   templateUrl: './settings-security.component.html',
-  styleUrls: ['./settings-security.component.scss'],
   imports: [
     FormsModule,
     InvalidFeedbackComponent,

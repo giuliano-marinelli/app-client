@@ -28,7 +28,6 @@ import { MatMultiPageMenuModule } from './shared/components/material/multi-page-
 @Component({
   selector: 'root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
   imports: [
     MatButtonModule,
     MatIconModule,

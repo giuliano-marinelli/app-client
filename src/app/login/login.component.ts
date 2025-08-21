@@ -23,7 +23,6 @@ import { VarDirective } from '../shared/directives/var.directive';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
   imports: [
     FormsModule,
     InvalidFeedbackComponent,

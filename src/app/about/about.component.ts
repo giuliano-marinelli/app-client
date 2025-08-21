@@ -13,8 +13,7 @@ import { MessagesService } from '../services/messages.service';
   imports: [
     MatDividerModule,
     MatIconModule
-  ],
-  styleUrls: ['./about.component.scss']
+  ]
 })
 export class AboutComponent {
   messages: MessagesService = inject(MessagesService);

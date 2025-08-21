@@ -15,7 +15,6 @@ import { MessagesService } from '../../../../services/messages.service';
 @Component({
   selector: 'session-mini',
   templateUrl: './session-mini.component.html',
-  styleUrl: './session-mini.component.scss',
   imports: [
     ConfirmComponent,
     MatButtonModule,

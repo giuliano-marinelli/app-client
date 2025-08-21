@@ -25,7 +25,6 @@ import { MessagesService } from '../../services/messages.service';
 @Component({
   selector: 'admin-users',
   templateUrl: './admin-users.component.html',
-  styleUrls: ['./admin-users.component.scss'],
   imports: [
     MatButtonModule,
     MatButtonToggleModule,

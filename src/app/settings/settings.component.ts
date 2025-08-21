@@ -9,14 +9,13 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'settings',
+  templateUrl: './settings.component.html',
   imports: [
     MatButtonModule,
     MatProgressSpinnerModule,
     NavigationPanelComponent,
     RouterLink
-  ],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss'
+  ]
 })
 export class SettingsComponent {
   auth: AuthService = inject(AuthService);

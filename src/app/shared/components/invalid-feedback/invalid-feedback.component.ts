@@ -5,7 +5,6 @@ import { AbstractControl, FormArray, FormControl } from '@angular/forms';
 @Component({
   selector: 'invalid-feedback',
   templateUrl: './invalid-feedback.component.html',
-  styleUrls: ['./invalid-feedback.component.scss'],
   imports: [KeyValuePipe]
 })
 export class InvalidFeedbackComponent {

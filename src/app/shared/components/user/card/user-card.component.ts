@@ -30,7 +30,6 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
 @Component({
   selector: 'user-card',
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.scss',
   imports: [
     ConfirmComponent,
     FilterPipe,

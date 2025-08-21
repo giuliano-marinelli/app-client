@@ -23,6 +23,7 @@ export type Section =
 
 @Component({
   selector: 'navigation-panel',
+  templateUrl: './navigation-panel.component.html',
   imports: [
     MatExpansionModule,
     MatButtonModule,
@@ -36,9 +37,7 @@ export type Section =
     RouterLink,
     RouterLinkActive,
     RouterOutlet
-  ],
-  templateUrl: './navigation-panel.component.html',
-  styleUrl: './navigation-panel.component.scss'
+  ]
 })
 export class NavigationPanelComponent implements OnInit {
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);

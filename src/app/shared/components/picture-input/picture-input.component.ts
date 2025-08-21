@@ -11,7 +11,6 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
 @Component({
   selector: 'picture-input',
   templateUrl: './picture-input.component.html',
-  styleUrl: './picture-input.component.scss',
   imports: [
     MatButtonModule,
     MatDialogModule,

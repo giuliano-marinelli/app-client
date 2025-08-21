@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'not-found',
   templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss'],
   imports: [
     MatCardModule,
     MatIconModule

@@ -4,9 +4,8 @@ import { NavigationPanelComponent, Section } from '../shared/components/navigati
 
 @Component({
   selector: 'admin',
-  imports: [NavigationPanelComponent],
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  imports: [NavigationPanelComponent]
 })
 export class AdminComponent {
   sections: Section[] = [

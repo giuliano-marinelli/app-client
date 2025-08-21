@@ -19,7 +19,6 @@ import { MessagesService } from '../../../../services/messages.service';
 @Component({
   selector: 'session-card',
   templateUrl: './session-card.component.html',
-  styleUrl: './session-card.component.scss',
   imports: [
     ConfirmComponent,
     MatButtonModule,

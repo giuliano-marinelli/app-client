@@ -22,7 +22,6 @@ import { MessagesService } from '../../services/messages.service';
 @Component({
   selector: 'settings-account',
   templateUrl: './settings-account.component.html',
-  styleUrls: ['./settings-account.component.scss'],
   imports: [
     ConfirmComponent,
     FormsModule,

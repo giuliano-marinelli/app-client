@@ -19,7 +19,6 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
 @Component({
   selector: 'settings-devices',
   templateUrl: './settings-devices.component.html',
-  styleUrls: ['./settings-devices.component.scss'],
   imports: [
     MatButtonModule,
     MatDividerModule,

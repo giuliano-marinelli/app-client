@@ -4,7 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'verified-mark',
   templateUrl: './verified-mark.component.html',
-  styleUrl: './verified-mark.component.scss',
   imports: [MatIconModule]
 })
 export class VerifiedMarkComponent {

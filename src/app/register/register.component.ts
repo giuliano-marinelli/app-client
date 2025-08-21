@@ -27,7 +27,6 @@ import { VarDirective } from '../shared/directives/var.directive';
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
   imports: [
     FormsModule,
     InvalidFeedbackComponent,

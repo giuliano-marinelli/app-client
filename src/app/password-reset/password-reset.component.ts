@@ -25,7 +25,6 @@ import { VarDirective } from '../shared/directives/var.directive';
 @Component({
   selector: 'password-reset',
   templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.scss'],
   imports: [
     FormsModule,
     InvalidFeedbackComponent,

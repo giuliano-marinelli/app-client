@@ -9,7 +9,6 @@ import { User } from '../../../entities/user.entity';
 @Component({
   selector: 'user-mini',
   templateUrl: './user-mini.component.html',
-  styleUrl: './user-mini.component.scss',
   imports: [
     MatButtonModule,
     MatCardModule,

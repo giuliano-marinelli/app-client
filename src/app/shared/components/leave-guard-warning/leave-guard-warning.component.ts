@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'leave-guard-warning',
   templateUrl: './leave-guard-warning.component.html',
-  styleUrls: ['./leave-guard-warning.component.scss'],
   imports: [
     MatButtonModule,
     MatDialogModule

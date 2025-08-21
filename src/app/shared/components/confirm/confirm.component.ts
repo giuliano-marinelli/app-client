@@ -22,7 +22,6 @@ import { VarDirective } from '../../directives/var.directive';
 @Component({
   selector: 'confirm',
   templateUrl: './confirm.component.html',
-  styleUrls: ['./confirm.component.scss'],
   imports: [
     FormsModule,
     InvalidFeedbackComponent,

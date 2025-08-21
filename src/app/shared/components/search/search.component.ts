@@ -21,7 +21,6 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
   imports: [
     FormsModule,
     MatButtonModule,

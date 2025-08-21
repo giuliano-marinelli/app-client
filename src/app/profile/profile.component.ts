@@ -20,7 +20,6 @@ import { TitleService } from '../services/title.service';
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
   imports: [
     MatButtonModule,
     MatDialogModule,
