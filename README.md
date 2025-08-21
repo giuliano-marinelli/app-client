@@ -2,7 +2,7 @@
 
 _On this project we had the **frontend** code._
 
-It's a [Angular](https://angular.dev/) project that is served by the [app-server](https://github.com/giuliano-marinelli/app-server) via [Express](https://expressjs.com). It uses [Angular Material](https://material.angular.dev/) for UI components and styling, and [GraphQL](https://graphql.org/) + [Apollo](https://www.apollographql.com/) for query the application endpoints.
+It's an [Angular](https://angular.dev/) project that is served by the [app-server](https://github.com/giuliano-marinelli/app-server) via [Express](https://expressjs.com). It uses [Angular Material](https://material.angular.dev/) for UI components and [Tailwind](https://tailwindcss.com/) for utility-first styling, and [GraphQL](https://graphql.org/) + [Apollo](https://www.apollographql.com/) for query the application endpoints.
 
 Additionally, it uses [Apollo Dynamic](https://github.com/giuliano-marinelli/apollo-dynamic) + [Apollo Dynamic Angular](https://github.com/giuliano-marinelli/apollo-dynamic-angular) for dynamic GraphQL queries and mutations.
 
