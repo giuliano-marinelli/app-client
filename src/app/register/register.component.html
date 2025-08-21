@@ -7,7 +7,7 @@
         <p class="text-muted mt-3">Please provide your information to continue.</p>
       </div>
       <div class="operation-content-right">
-        <mat-form-field [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true" appearance="outline">
+        <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true">
           <mat-label>Email</mat-label>
           <input matInput formControlName="email" autocomplete="off" />
 
@@ -20,24 +20,24 @@
           </mat-icon>
 
           <mat-error>
-            <invalid-feedback [control]="email" name="Email"></invalid-feedback>
+            <invalid-feedback name="Email" [control]="email"></invalid-feedback>
           </mat-error>
         </mat-form-field>
 
         <div formGroupName="profile">
-          <mat-form-field class="w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true" appearance="outline">
+          <mat-form-field class="w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" autocomplete="off" />
 
             <mat-icon matSuffix>person</mat-icon>
 
             <mat-error>
-              <invalid-feedback [control]="name" [messages]="{ pattern: 'Name can only have characters and numbers' }" name="Name"></invalid-feedback>
+              <invalid-feedback name="Name" [control]="name" [messages]="{ pattern: 'Name can only have characters and numbers' }"></invalid-feedback>
             </mat-error>
           </mat-form-field>
         </div>
 
-        <mat-form-field [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true" appearance="outline">
+        <mat-form-field appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" [hideRequiredMarker]="true">
           <mat-label>Username</mat-label>
           <input matInput formControlName="username" autocomplete="off" />
 
@@ -51,51 +51,51 @@
 
           <mat-error>
             <invalid-feedback
+              name="Username"
               [control]="username"
               [messages]="{ pattern: 'Username can only have characters, numbers and _ or - symbols' }"
-              name="Username"
             ></invalid-feedback>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field
+          appearance="outline"
           *var="{ active: true } as hidden"
           [floatLabel]="'always'"
           [subscriptSizing]="'dynamic'"
           [hideRequiredMarker]="true"
-          appearance="outline"
         >
           <mat-label>Password</mat-label>
-          <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="password" autocomplete="new-password" />
-          <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
+          <input matInput formControlName="password" autocomplete="new-password" [type]="hidden.active ? 'password' : 'text'" />
+          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>
-            <invalid-feedback [control]="password" name="Password"></invalid-feedback>
+            <invalid-feedback name="Password" [control]="password"></invalid-feedback>
           </mat-error>
         </mat-form-field>
 
         <mat-form-field
+          appearance="outline"
           *var="{ active: true } as hidden"
           [floatLabel]="'always'"
           [subscriptSizing]="'dynamic'"
           [hideRequiredMarker]="true"
-          appearance="outline"
         >
           <mat-label>Repeat Password</mat-label>
-          <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="confirmPassword" autocomplete="off" />
-          <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
+          <input matInput formControlName="confirmPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
+          <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
             <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error>
-            <invalid-feedback [control]="confirmPassword" [messages]="{ equalTo: 'Passwords must be equals' }" name="Password"></invalid-feedback>
+            <invalid-feedback name="Password" [control]="confirmPassword" [messages]="{ equalTo: 'Passwords must be equals' }"></invalid-feedback>
           </mat-error>
         </mat-form-field>
       </div>
     </mat-card-content>
     <mat-card-actions class="operation-actions">
-      <a class="justify-self-start" matButton routerLink="/login">Did you already have an account?</a>
-      <button class="ml-auto whitespace-nowrap" [disabled]="!registerForm.valid || submitLoading" matButton="tonal">
+      <a matButton class="justify-self-start" routerLink="/login">Did you already have an account?</a>
+      <button matButton="tonal" class="ml-auto whitespace-nowrap" [disabled]="!registerForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

@@ -20,11 +20,11 @@
         }}
       </div>
       @if (session.token !== auth.getToken() && !session.blockedAt && !session.closedAt) {
-        <button class="cursor-pointer" [matMenuTriggerFor]="menu" matIconButton>
+        <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <a (click)="confirmClose.open()" mat-menu-item><mat-icon>logout</mat-icon> Close session</a>
+          <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
         </mat-menu>
         <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
       }

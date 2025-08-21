@@ -1,7 +1,7 @@
 @if (currentPage) {
   <ng-container>
     @if (hasBackButton) {
-      <button (click)="goBack($event)" mat-menu-item>
+      <button mat-menu-item (click)="goBack($event)">
         <mat-icon>chevron_left</mat-icon>
         <span>{{ currentPage.title }}</span>
       </button>

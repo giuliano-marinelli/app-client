@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 
 import { lastValueFrom } from 'rxjs';
+
 import { FindUser, FindUsers, User } from '../shared/entities/user.entity';
 
 @Injectable({

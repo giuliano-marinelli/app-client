@@ -7,7 +7,6 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { v4 as uuidv4 } from 'uuid';
 import {
   Attribute,
   AttributeColor,
@@ -17,6 +16,7 @@ import {
   SearchAttribute,
   Sort
 } from '../../global/search';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'search',
@@ -95,13 +95,27 @@ export class SearchComponent implements OnInit {
   }
 
   criteriaByType(type: string | string[]): Criteria[] {
-    if (Array.isArray(type)) return ['eq', 'ne'];
+    if (Array.isArray(type)) return [
+        'eq',
+        'ne'
+      ];
     switch (type) {
       case 'number':
       case 'Date':
-        return ['eq', 'ne', 'gt', 'gte', 'lt', 'lte'];
+        return [
+          'eq',
+          'ne',
+          'gt',
+          'gte',
+          'lt',
+          'lte'
+        ];
       case 'string':
-        return ['eq', 'ne', 'ilike'];
+        return [
+          'eq',
+          'ne',
+          'ilike'
+        ];
       default:
         return ['eq'];
     }

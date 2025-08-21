@@ -5,8 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
-import { FindSessions, Session } from '../../shared/entities/session.entity';
 import { Global } from '../../shared/global/global';
+
+import { FindSessions, Session } from '../../shared/entities/session.entity';
 
 import { SessionCardComponent } from '../../shared/components/session/card/session-card.component';
 
@@ -51,7 +52,10 @@ export class SettingsDevicesComponent implements OnInit {
     this._findSessions
       .fetch({
         where: { user: { id: { eq: this.auth.user?.id } } },
-        order: [{ blockedAt: 'ASC' }, { closedAt: 'ASC' }, { updatedAt: 'DESC' }]
+        order: [
+          { blockedAt: 'ASC' },
+          { closedAt: 'ASC' },
+          { updatedAt: 'DESC' }]
       })
       .subscribe({
         next: ({ data, errors }: any) => {

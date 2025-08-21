@@ -10,9 +10,9 @@
       <div class="shrink-0">
         <img
           class="img-thumbnail h-12 w-12 rounded-full"
-          [src]="user.profile?.avatar"
           alt="Profile picture"
           onerror="this.src='assets/images/default-user.png'"
+          [src]="user.profile?.avatar"
         />
       </div>
       <div class="flex grow flex-col">
@@ -20,19 +20,19 @@
         <span class="text-muted">{{ user.username }}</span>
       </div>
 
-      <button class="cursor-pointer" [matMenuTriggerFor]="menu" matIconButton>
+      <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a [hidden]="user.id === auth.user?.id" (click)="confirmDelete.open()" mat-menu-item><mat-icon>person_off</mat-icon> Delete user</a>
+        <a mat-menu-item [hidden]="user.id === auth.user?.id" (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
         <confirm
           #confirmDelete
+          requiredPasswordMessage="Please enter your password to continue."
+          confirmActionButton="Delete"
           [requiredPassword]="true"
           [confirmTemplate]="delete_message"
           (confirm)="deleteUser($event, user)"
-          requiredPasswordMessage="Please enter your password to continue."
-          confirmActionButton="Delete"
         ></confirm>
         <ng-template #delete_message>
           <p class="mb-3">Are you sure you want to delete the user:</p>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="text-muted! mt-2">
-      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="user.emails?.length! <= 1">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="user.emails?.length! <= 1">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <div class="flex flex-row gap-2">
@@ -71,7 +71,7 @@
     </div>
 
     <div class="mt-2">
-      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="!user.profile?.bio">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.profile?.bio">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
             Description
@@ -126,7 +126,7 @@
     <mat-divider class="mt-2!"></mat-divider>
     <div class="mt-2 text-sm"><b>Created at:</b> {{ user.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
     <div class="mt-2">
-      <mat-expansion-panel class="small" #expansionPanel [class.blocked]="!user.sessions?.length">
+      <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.sessions?.length">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
             Devices

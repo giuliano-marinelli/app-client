@@ -9,7 +9,12 @@ import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'settings',
-  imports: [MatButtonModule, MatProgressSpinnerModule, NavigationPanelComponent, RouterLink],
+  imports: [
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    NavigationPanelComponent,
+    RouterLink
+  ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })

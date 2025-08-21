@@ -3,6 +3,6 @@
   <p><b>Changes may not be saved</b></p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button class="secondary" (click)="proceed(false)" matButton>Cancel</button>
-  <button class="error" (click)="proceed(true)" matButton="filled">Proceed</button>
+  <button matButton class="secondary" (click)="proceed(false)">Cancel</button>
+  <button matButton="filled" class="error" (click)="proceed(true)">Proceed</button>
 </mat-dialog-actions>

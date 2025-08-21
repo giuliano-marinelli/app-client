@@ -8,7 +8,10 @@ import { Subject } from 'rxjs';
   selector: 'leave-guard-warning',
   templateUrl: './leave-guard-warning.component.html',
   styleUrls: ['./leave-guard-warning.component.scss'],
-  imports: [MatButtonModule, MatDialogModule]
+  imports: [
+    MatButtonModule,
+    MatDialogModule
+  ]
 })
 export class LeaveGuardWarningComponent {
   dialog: MatDialog = inject(MatDialog);

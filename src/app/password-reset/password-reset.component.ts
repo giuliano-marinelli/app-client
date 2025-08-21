@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { firstValueFrom } from 'rxjs';
+
 import { ResetUserPassword, UpdateUserPasswordCode } from '../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
@@ -50,11 +51,19 @@ export class PasswordResetComponent implements OnInit {
 
   // forgot password form
   forgotPasswordForm!: FormGroup;
-  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
+  usernameOrEmail = new FormControl('', [
+    Validators.required,
+    Validators.minLength(4),
+    Validators.maxLength(100)
+  ]);
 
   // restore password form
   resetPasswordForm!: FormGroup;
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(100)
+  ]);
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),

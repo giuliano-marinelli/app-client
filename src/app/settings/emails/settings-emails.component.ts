@@ -12,7 +12,10 @@ import { Router } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
+import { Global } from '../../shared/global/global';
+import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
+
 import {
   CheckEmailAddressExists,
   CreateEmail,
@@ -21,8 +24,6 @@ import {
   UpdateEmailVerificationCode
 } from '../../shared/entities/email.entity';
 import { FindUser, UpdateUserPrimaryEmail, User } from '../../shared/entities/user.entity';
-import { Global } from '../../shared/global/global';
-import { ExtraValidators } from '../../shared/validators/validators';
 
 import { ConfirmComponent } from '../../shared/components/confirm/confirm.component';
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
@@ -77,7 +78,10 @@ export class SettingsEmailsComponent implements OnInit {
   }
 
   get primaryEmailValidator() {
-    return [Validators.required, ExtraValidators.notEqual(this.user?.primaryEmail)];
+    return [
+      Validators.required,
+      ExtraValidators.notEqual(this.user?.primaryEmail)
+    ];
   }
 
   compareById: any = Global.compareById;

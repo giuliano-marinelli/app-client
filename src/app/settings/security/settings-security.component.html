@@ -5,66 +5,66 @@
 } @else {
   <h2>
     Change password
-    <mat-spinner class="ml-2 inline-block!" [hidden]="!userLoading" diameter="24"></mat-spinner>
+    <mat-spinner class="ml-2 inline-block!" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h2>
   <mat-divider class="mt-2!"></mat-divider>
   <form [formGroup]="passwordForm">
     <div class="md:max-w-100">
       <mat-form-field
         class="mt-3 w-full"
+        appearance="outline"
         *var="{ active: true } as hidden"
         [floatLabel]="'always'"
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
-        appearance="outline"
       >
         <mat-label>Old password</mat-label>
-        <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="oldPassword" autocomplete="off" />
-        <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
+        <input matInput formControlName="oldPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
+        <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <mat-error>
-          <invalid-feedback [control]="oldPassword" name="Password"></invalid-feedback>
+          <invalid-feedback name="Password" [control]="oldPassword"></invalid-feedback>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field
         class="mt-3 w-full"
+        appearance="outline"
         *var="{ active: true } as hidden"
         [floatLabel]="'always'"
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
-        appearance="outline"
       >
         <mat-label>New password</mat-label>
-        <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="newPassword" autocomplete="off" />
-        <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
+        <input matInput formControlName="newPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
+        <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <mat-error>
-          <invalid-feedback [control]="newPassword" name="Password"></invalid-feedback>
+          <invalid-feedback name="Password" [control]="newPassword"></invalid-feedback>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field
         class="mt-3 w-full"
+        appearance="outline"
         *var="{ active: true } as hidden"
         [floatLabel]="'always'"
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
-        appearance="outline"
       >
         <mat-label>Confirm new password</mat-label>
-        <input [type]="hidden.active ? 'password' : 'text'" matInput formControlName="confirmNewPassword" autocomplete="off" />
-        <button (click)="hidden.active = !hidden.active; $event.preventDefault()" matIconButton matSuffix>
+        <input matInput formControlName="confirmNewPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
+        <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <mat-error>
-          <invalid-feedback [control]="confirmNewPassword" [messages]="{ equalTo: 'Passwords must be equals' }" name="Password"></invalid-feedback>
+          <invalid-feedback name="Password" [control]="confirmNewPassword" [messages]="{ equalTo: 'Passwords must be equals' }"></invalid-feedback>
         </mat-error>
       </mat-form-field>
 
-      <button class="mt-3 whitespace-nowrap" [disabled]="!passwordForm.valid || updateSubmitLoading" (click)="updatePassword()" matButton="tonal">
+      <button matButton="tonal" class="mt-3 whitespace-nowrap" [disabled]="!passwordForm.valid || updateSubmitLoading" (click)="updatePassword()">
         @if (updateSubmitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }

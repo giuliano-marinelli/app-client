@@ -1,22 +1,22 @@
 <div [class]="searchClass">
   @if (advancedCollapsed) {
-    <mat-form-field class="search w-full" [subscriptSizing]="'dynamic'" appearance="outline">
+    <mat-form-field class="search w-full" appearance="outline" [subscriptSizing]="'dynamic'">
       <input
+        matInput
+        type="text"
+        placeholder="Search..."
         [(ngModel)]="searchString"
         [class]="searchInputClass"
         [disabled]="loading"
         (input)="onSearch(true)"
         (keyup)="onKey($event)"
-        matInput
-        type="text"
-        placeholder="Search..."
       />
       @if (loading) {
         <mat-icon matSuffix>
           <mat-spinner diameter="24"></mat-spinner>
         </mat-icon>
       } @else {
-        <button (click)="onSearch(false)" matIconButton matSuffix>
+        <button matIconButton matSuffix (click)="onSearch(false)">
           <mat-icon>search</mat-icon>
         </button>
       }
@@ -71,10 +71,10 @@
             @if (inputByType(searchAttribute.attribute.type) === 'checkbox') {
               <input
                 class="form-check-input"
+                type="checkbox"
                 [checked]="searchAttribute.value"
                 (change)="searchAttribute.value = !searchAttribute.value"
                 (ngModelChange)="onSearch(true)"
-                type="checkbox"
               />
             }
             @if (inputByType(searchAttribute.attribute.type) === 'select') {
@@ -151,9 +151,9 @@
         <div class="flex-fill">
           @if (!advancedCollapsed) {
             <div class="btn-group btn-group-xs mt-1" role="group">
-              <input class="btn-check" id="optional-and" [(ngModel)]="optional" [value]="false" type="radio" name="optional" />
+              <input class="btn-check" id="optional-and" name="optional" type="radio" [(ngModel)]="optional" [value]="false" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">AND</label>
-              <input class="btn-check" id="optional-or" [(ngModel)]="optional" [value]="true" type="radio" name="optional" />
+              <input class="btn-check" id="optional-or" name="optional" type="radio" [(ngModel)]="optional" [value]="true" />
               <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">OR</label>
             </div>
           }

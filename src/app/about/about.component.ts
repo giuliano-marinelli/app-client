@@ -10,7 +10,10 @@ import { MessagesService } from '../services/messages.service';
 @Component({
   selector: 'about',
   templateUrl: './about.component.html',
-  imports: [MatDividerModule, MatIconModule],
+  imports: [
+    MatDividerModule,
+    MatIconModule
+  ],
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent {

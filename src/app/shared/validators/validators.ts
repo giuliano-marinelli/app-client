@@ -2,6 +2,7 @@ import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from
 
 import { isEmail } from 'class-validator';
 import { map } from 'rxjs';
+
 import { CheckEmailAddressExists } from '../entities/email.entity';
 import { CheckUserUsernameExists } from '../entities/user.entity';
 

@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 import { MomentModule } from 'ngx-moment';
+
 import { CloseSession, Session } from '../../../entities/session.entity';
 
 import { ConfirmComponent } from '../../confirm/confirm.component';
@@ -15,7 +16,13 @@ import { MessagesService } from '../../../../services/messages.service';
   selector: 'session-mini',
   templateUrl: './session-mini.component.html',
   styleUrl: './session-mini.component.scss',
-  imports: [ConfirmComponent, MatButtonModule, MatIconModule, MatMenuModule, MomentModule]
+  imports: [
+    ConfirmComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MomentModule
+  ]
 })
 export class SessionMiniComponent {
   auth: AuthService = inject(AuthService);

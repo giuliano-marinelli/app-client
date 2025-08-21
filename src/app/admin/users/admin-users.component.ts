@@ -10,10 +10,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ApolloQueryResult } from '@apollo/client';
 
+import { Attribute, Search, SearchParams } from '../../shared/global/search';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { Observable } from 'rxjs';
+
 import { FindUsers, User } from '../../shared/entities/user.entity';
-import { Attribute, Search, SearchParams } from '../../shared/global/search';
 
 import { SearchComponent } from '../../shared/components/search/search.component';
 import { UserCardComponent } from '../../shared/components/user/card/user-card.component';
@@ -51,7 +52,10 @@ export class AdminUsersComponent implements OnInit {
   users?: User[];
   usersAttributes: Attribute[] = [
     { name: 'username', title: 'Username', type: 'string', simple: true },
-    { name: 'role', title: 'Role', type: ['user', 'admin'] },
+    { name: 'role', title: 'Role', type: [
+        'user',
+        'admin'
+      ] },
     { name: 'createdAt', title: 'Created at', type: 'Date' },
     { name: 'emails.address', title: 'Email', type: 'string', simple: true },
     { name: 'primaryEmail.verified', title: 'Verified', type: 'boolean' },
@@ -90,9 +94,14 @@ export class AdminUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
+    this._breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small
+      ])
+      .subscribe((result) => {
+        this.$isSmallScreen = result.matches;
+      });
 
     // restore search params and if there are changes, fetch users
     this.route.queryParams.subscribe((params) => {

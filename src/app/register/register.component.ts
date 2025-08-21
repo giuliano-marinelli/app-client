@@ -11,10 +11,11 @@ import { Router, RouterLink } from '@angular/router';
 
 import { CustomValidators } from '@narik/custom-validators';
 
+import { ExtraValidators } from '../shared/validators/validators';
 import { Observable, firstValueFrom } from 'rxjs';
+
 import { CheckEmailAddressExists, Email, UpdateEmailVerificationCode } from '../shared/entities/email.entity';
 import { CheckUserUsernameExists, CreateUser, Login } from '../shared/entities/user.entity';
-import { ExtraValidators } from '../shared/validators/validators';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
 
@@ -57,15 +58,28 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   email = new FormControl(
     '',
-    [Validators.required, Validators.maxLength(100), ExtraValidators.email],
+    [
+      Validators.required,
+      Validators.maxLength(100),
+      ExtraValidators.email
+    ],
     [ExtraValidators.emailExists(this._checkEmailAddressExists)]
   );
   username = new FormControl(
     '',
-    [Validators.required, Validators.minLength(4), Validators.maxLength(30), Validators.pattern('[a-zA-Z0-9_-]*')],
+    [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(30),
+      Validators.pattern('[a-zA-Z0-9_-]*')
+    ],
     [ExtraValidators.usernameExists(this._checkUsernameExists)]
   );
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(100)
+  ]);
   confirmPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),

@@ -5,63 +5,63 @@
 } @else {
   <h1>
     Profile
-    <mat-spinner class="ml-2 inline-block!" [hidden]="!userLoading" diameter="24"></mat-spinner>
+    <mat-spinner class="ml-2 inline-block!" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h1>
   <mat-divider class="mt-2!"></mat-divider>
   <form [class.loading]="userLoading" [formGroup]="profileForm" (ngSubmit)="updateUser()">
     <div class="flex flex-row gap-8 max-md:flex-col-reverse">
       <div class="md:basis-7/12" formGroupName="profile">
-        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
+        <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Name</mat-label>
           <input matInput formControlName="name" autocomplete="off" />
           <mat-icon matPrefix>person</mat-icon>
           <mat-error>
-            <invalid-feedback [control]="name" [messages]="{ pattern: 'Name can only have characters and numbers' }" name="Name"></invalid-feedback>
+            <invalid-feedback name="Name" [control]="name" [messages]="{ pattern: 'Name can only have characters and numbers' }"></invalid-feedback>
           </mat-error>
         </mat-form-field>
         <p class="text-muted text-sm">Your name may appear around here in where you contribute or are mentioned.</p>
-        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
+        <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Public email</mat-label>
           <mat-icon matPrefix>email</mat-icon>
-          <mat-select [compareWith]="compareById" formControlName="publicEmail">
+          <mat-select formControlName="publicEmail" [compareWith]="compareById">
             @for (email of user.emails | filter: { $or: { verified: true, id: user.primaryEmail?.id } }; track email.id) {
               <mat-option [value]="email">{{ email.address }} {{ !email.verified ? '(unverified)' : '' }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
         <p class="text-muted text-sm">You can manage verified email addresses in your <a routerLink="/settings/emails">email settings</a></p>
-        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
+        <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Description</mat-label>
           <textarea matInput formControlName="bio" rows="3"></textarea>
           <mat-icon matPrefix>article</mat-icon>
           <mat-error>
-            <invalid-feedback [control]="bio" name="Bio"></invalid-feedback>
+            <invalid-feedback name="Bio" [control]="bio"></invalid-feedback>
           </mat-error>
           <mat-hint align="end">{{ (bio.value?.length || 0) + '/200' }}</mat-hint>
         </mat-form-field>
-        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
+        <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>URL</mat-label>
-          <input [inputMask]="urlMask" matInput formControlName="url" autocomplete="off" />
+          <input matInput formControlName="url" autocomplete="off" [inputMask]="urlMask" />
           <mat-icon matPrefix>language</mat-icon>
           <mat-error>
-            <invalid-feedback [control]="url" name="URL"></invalid-feedback>
+            <invalid-feedback name="URL" [control]="url"></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="mt-3 w-full" [floatLabel]="'always'" [subscriptSizing]="'dynamic'" appearance="outline">
+        <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
           <mat-label>Location</mat-label>
           <input matInput formControlName="location" autocomplete="off" />
           <mat-icon matPrefix>location_on</mat-icon>
           <mat-error>
             <invalid-feedback
+              name="Location"
               [control]="location"
               [messages]="{ pattern: 'Location can only have characters, numbers and commas' }"
-              name="Location"
             ></invalid-feedback>
           </mat-error>
         </mat-form-field>
         <p class="text-muted text-sm">You're giving us consent to share this data wherever your user profile appears.</p>
 
-        <button class="mt-3 whitespace-nowrap" [disabled]="!profileForm.valid || submitLoading" matButton="tonal">
+        <button matButton="tonal" class="mt-3 whitespace-nowrap" [disabled]="!profileForm.valid || submitLoading">
           @if (submitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
           }
@@ -71,13 +71,13 @@
       <div class="md:basis-5/12">
         <span class="my-2 inline-block">Profile picture</span>
         <picture-input
-          [control]="avatar"
-          [fileControl]="avatarFile"
           uploadLabel="Upload photo..."
           removeLabel="Remove photo"
           cropLabel="Crop your profile picture"
           saveLabel="Save new profile picture"
           defaultImage="assets/images/default-user.png"
+          [control]="avatar"
+          [fileControl]="avatarFile"
         ></picture-input>
       </div>
     </div>

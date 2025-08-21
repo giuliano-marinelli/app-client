@@ -1,4 +1,4 @@
-// organize-imports-ignore
+// sort-imports-ignore
 //angular
 import { HttpHeaders, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { enableProdMode, importProvidersFrom, inject } from '@angular/core';

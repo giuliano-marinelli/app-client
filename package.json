@@ -67,6 +67,7 @@
     "@angular/cli": "^20.x",
     "@angular/compiler-cli": "^20.x",
     "@angular/localize": "^20.x",
+    "@trivago/prettier-plugin-sort-imports": "^5.x",
     "@types/extract-files": "^13.x",
     "@types/inputmask": "^5.x",
     "@types/jasmine": "^5.x",
@@ -89,7 +90,6 @@
     "prettier-eslint": "^16.x",
     "prettier-plugin-multiline-arrays": "^4.x",
     "prettier-plugin-organize-attributes": "^1.x",
-    "prettier-plugin-organize-imports": "^4.x",
     "prettier-plugin-tailwindcss": "^0.x",
     "typescript": "^5.x",
     "typescript-eslint": "^8.x"

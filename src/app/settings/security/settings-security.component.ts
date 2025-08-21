@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { Observable } from 'rxjs';
+
 import { FindUser, UpdateUserPassword, User } from '../../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
@@ -52,8 +53,16 @@ export class SettingsSecurityComponent implements OnInit {
 
   passwordForm!: FormGroup;
   id: any;
-  oldPassword = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
-  newPassword = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]);
+  oldPassword = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(30)
+  ]);
+  newPassword = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(30)
+  ]);
   confirmNewPassword = new FormControl('', [
     Validators.required,
     Validators.minLength(8),

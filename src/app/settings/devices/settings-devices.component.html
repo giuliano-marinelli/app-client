@@ -5,10 +5,10 @@
 } @else {
   <h1>
     Devices
-    <button class="float-end inline-block!" [disabled]="sessionsLoading" (click)="getSessions()" matIconButton>
+    <button matIconButton class="float-end inline-block!" [disabled]="sessionsLoading" (click)="getSessions()">
       <mat-icon>refresh</mat-icon>
     </button>
-    <mat-spinner class="ml-2 inline-block!" [hidden]="!sessionsLoading" diameter="24"></mat-spinner>
+    <mat-spinner class="ml-2 inline-block!" diameter="24" [hidden]="!sessionsLoading"></mat-spinner>
   </h1>
   <mat-divider class="mt-2!"></mat-divider>
   <div [class.loading]="sessionsLoading">

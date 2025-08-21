@@ -73,6 +73,11 @@ export class InvalidFeedbackComponent {
       }
     });
 
-    return Array.from(errorMap.entries()).map(([error, index]) => ({ error, index }));
+    return Array.from(errorMap.entries()).map(
+      ([
+        error,
+        index
+      ]) => ({ error, index })
+    );
   }
 }

@@ -1,4 +1,4 @@
-// organize-imports-ignore
+// sort-imports-ignore
 //angular
 import { Routes } from '@angular/router';
 

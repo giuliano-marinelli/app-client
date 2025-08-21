@@ -12,9 +12,10 @@ import { Router, RouterLink } from '@angular/router';
 import { CustomValidators } from '@narik/custom-validators';
 import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
-import { Observable } from 'rxjs';
-import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 import { Global } from '../../shared/global/global';
+import { Observable } from 'rxjs';
+
+import { FindUser, UpdateUser, User } from '../../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../../shared/components/invalid-feedback/invalid-feedback.component';
 import { PictureInputComponent } from '../../shared/components/picture-input/picture-input.component';
@@ -80,7 +81,10 @@ export class SettingsProfileComponent implements OnInit {
     // Validators.pattern('[a-zA-Z0-9,;\.\/_-\\s]*')
   ]);
   urlMask = createMask({ alias: 'url' });
-  location = new FormControl('', [Validators.maxLength(100), Validators.pattern('[a-zA-Z0-9,\\s]*')]);
+  location = new FormControl('', [
+    Validators.maxLength(100),
+    Validators.pattern('[a-zA-Z0-9,\\s]*')
+  ]);
   avatar = new FormControl('', []);
   avatarFile = new FormControl<Blob | null>(null, []);
 

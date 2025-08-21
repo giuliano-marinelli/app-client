@@ -5,11 +5,16 @@ export class Global {
     const formData: any = new FormData();
     const jsonData: any = {};
 
-    Object.entries(object).forEach(([key, value]) => {
-      if (value && (value instanceof File || value instanceof Blob) /*|| isBase64(value, { allowMime: true })*/)
-        formData.append(key, value);
-      else jsonData[key] = value;
-    });
+    Object.entries(object).forEach(
+      ([
+        key,
+        value
+      ]) => {
+        if (value && (value instanceof File || value instanceof Blob) /*|| isBase64(value, { allowMime: true })*/)
+          formData.append(key, value);
+        else jsonData[key] = value;
+      }
+    );
     formData.append('data', JSON.stringify(jsonData));
 
     return formData;

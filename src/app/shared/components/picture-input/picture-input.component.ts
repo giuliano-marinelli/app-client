@@ -12,7 +12,13 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
   selector: 'picture-input',
   templateUrl: './picture-input.component.html',
   styleUrl: './picture-input.component.scss',
-  imports: [MatButtonModule, MatDialogModule, MatIconModule, MatMenuModule, ImageCropperComponent]
+  imports: [
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatMenuModule,
+    ImageCropperComponent
+  ]
 })
 export class PictureInputComponent {
   dialog: MatDialog = inject(MatDialog);

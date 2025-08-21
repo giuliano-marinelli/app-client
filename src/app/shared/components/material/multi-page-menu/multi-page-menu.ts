@@ -11,7 +11,13 @@ import { MatMenuPage } from './menu-page';
   selector: 'mat-multi-page-menu',
   exportAs: 'matMultiPageMenu',
   templateUrl: './multi-page-menu.html',
-  imports: [CommonModule, MatMenuModule, MatButtonModule, MatIconModule, MatDividerModule]
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule
+  ]
 })
 export class MatMultiPageMenu implements AfterContentInit {
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

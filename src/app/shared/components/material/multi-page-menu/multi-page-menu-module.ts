@@ -5,7 +5,15 @@ import { MatMenuPageLink } from './menu-page-link';
 import { MatMultiPageMenu } from './multi-page-menu';
 
 @NgModule({
-  imports: [MatMultiPageMenu, MatMenuPage, MatMenuPageLink],
-  exports: [MatMultiPageMenu, MatMenuPage, MatMenuPageLink]
+  imports: [
+    MatMultiPageMenu,
+    MatMenuPage,
+    MatMenuPageLink
+  ],
+  exports: [
+    MatMultiPageMenu,
+    MatMenuPage,
+    MatMenuPageLink
+  ]
 })
 export class MatMultiPageMenuModule {}

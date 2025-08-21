@@ -1,46 +1,46 @@
 <img
-  class="img-thumbnail h-50 w-50 cursor-pointer object-cover"
   #picture_view
+  class="img-thumbnail h-50 w-50 cursor-pointer object-cover"
+  alt="Picture preview"
   [class.rounded-full]="rounded"
   [class.rounded-2xl]="!rounded"
   [src]="control.value"
   [class]="viewClass"
   [matMenuTriggerFor]="menu"
   (error)="pictureView.nativeElement.src = defaultImage"
-  alt="Picture preview"
 />
-<input #pictureInputFile [hidden]="true" [formTarget]="fileControl" (change)="onChangePicture($event, crop_picture)" type="file" accept="image/*" />
+<input #pictureInputFile type="file" accept="image/*" [hidden]="true" [formTarget]="fileControl" (change)="onChangePicture($event, crop_picture)" />
 <mat-menu #menu="matMenu" xPosition="after">
-  <a (click)="pictureInputFile.click()" mat-menu-item>
+  <a mat-menu-item (click)="pictureInputFile.click()">
     <mat-icon>{{ uploadIcon }}</mat-icon> {{ uploadLabel }}
   </a>
-  <a (click)="control.setValue(''); fileControl.setValue(null)" mat-menu-item>
+  <a mat-menu-item (click)="control.setValue(''); fileControl.setValue(null)">
     <mat-icon>{{ removeIcon }}</mat-icon> {{ removeLabel }}
   </a>
 </mat-menu>
 
 <ng-template #crop_picture>
-  <h2 class="dialog-with-close" mat-dialog-title>
+  <h2 mat-dialog-title class="dialog-with-close">
     {{ cropLabel }}
-    <button [mat-dialog-close]="true" matIconButton>
+    <button matIconButton [mat-dialog-close]="true">
       <mat-icon>close</mat-icon>
     </button>
   </h2>
   <mat-dialog-content>
     <image-cropper
       #image_cropper
+      output="base64"
+      format="png"
       [imageChangedEvent]="pictureChange"
       [maintainAspectRatio]="true"
       [aspectRatio]="1 / 1"
       [roundCropper]="rounded"
       [autoCrop]="false"
       (imageCropped)="onCroppedPicture($event)"
-      output="base64"
-      format="png"
     ></image-cropper>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button class="w-full" [mat-dialog-close]="true" (click)="image_cropper.crop()" matButton="tonal">
+    <button matButton="tonal" class="w-full" [mat-dialog-close]="true" (click)="image_cropper.crop()">
       {{ saveLabel }}
     </button>
   </mat-dialog-actions>

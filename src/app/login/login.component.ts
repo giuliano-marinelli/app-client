@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterLink } from '@angular/router';
 
 import { firstValueFrom } from 'rxjs';
+
 import { Login } from '../shared/entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../shared/components/invalid-feedback/invalid-feedback.component';
@@ -47,8 +48,16 @@ export class LoginComponent implements OnInit {
 
   // login form
   loginForm!: FormGroup;
-  usernameOrEmail = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(100)]);
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
+  usernameOrEmail = new FormControl('', [
+    Validators.required,
+    Validators.minLength(4),
+    Validators.maxLength(100)
+  ]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(100)
+  ]);
 
   submitLoading = false;
 

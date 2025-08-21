@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgxMasonryComponent } from 'ngx-masonry';
 import { MomentModule } from 'ngx-moment';
+
 import { CloseSession, Session } from '../../../entities/session.entity';
 
 import { ConfirmComponent } from '../../confirm/confirm.component';

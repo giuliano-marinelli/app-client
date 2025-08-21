@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NgOtpInputComponent } from 'ng-otp-input';
+
 import { CheckUserPassword, CheckUserVerificationCode, UpdateUserVerificationCode } from '../../entities/user.entity';
 
 import { InvalidFeedbackComponent } from '../invalid-feedback/invalid-feedback.component';
@@ -91,11 +92,19 @@ export class ConfirmComponent {
   dialogRef?: MatDialogRef<any> | null;
 
   passwordForm!: FormGroup;
-  password = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(8),
+    Validators.maxLength(100)
+  ]);
   passwordStored?: string | null;
 
   verificationCodeForm!: FormGroup;
-  verificationCode = new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]);
+  verificationCode = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(6)
+  ]);
   verificationCodeStored?: string | null;
 
   @HostListener('mousedown')

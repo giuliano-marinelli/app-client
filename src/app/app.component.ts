@@ -11,8 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
 import { environment } from '../environments/environment';
+import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
 
 import { Logout } from './shared/entities/user.entity';
 
@@ -72,22 +72,31 @@ export class AppComponent implements OnInit {
     { label: 'Admin', icon: 'manage_accounts', route: '/admin', admin: true },
     { toBottom: true },
     { label: 'Settings', icon: 'settings', route: '/settings', auth: true },
-    { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }
-  ];
+    { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }];
 
   ngOnInit() {
     this.registerBrandIcons();
 
     this.$isFullNav = localStorage.getItem('app-full-nav') === 'true';
 
-    this._breakpointObserver.observe([Breakpoints.Large, Breakpoints.XLarge]).subscribe((result) => {
-      this.$isLargeScreen = result.matches;
-      if (this.$isLargeScreen) this.drawer?.close();
-    });
+    this._breakpointObserver
+      .observe([
+        Breakpoints.Large,
+        Breakpoints.XLarge
+      ])
+      .subscribe((result) => {
+        this.$isLargeScreen = result.matches;
+        if (this.$isLargeScreen) this.drawer?.close();
+      });
 
-    this._breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]).subscribe((result) => {
-      this.$isSmallScreen = result.matches;
-    });
+    this._breakpointObserver
+      .observe([
+        Breakpoints.XSmall,
+        Breakpoints.Small
+      ])
+      .subscribe((result) => {
+        this.$isSmallScreen = result.matches;
+      });
 
     // Initialize theme
     this.themeService.init();
