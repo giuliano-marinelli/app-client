@@ -19,5 +19,5 @@ export class AboutComponent {
   messages: MessagesService = inject(MessagesService);
   auth: AuthService = inject(AuthService);
 
-  graphqlUrl = `http://${environment.host}:${environment.appPort}/${environment.graphql}`;
+  graphqlUrl = `${environment.protocol}${environment.host}:${environment.appPort}/${environment.graphql}`;
 }

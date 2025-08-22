@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
     { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }];
 
   ngOnInit() {
-    this.registerBrandIcons();
+    this.registerIcons();
 
     this.$isFullNav = localStorage.getItem('app-full-nav') === 'true';
 
@@ -105,7 +105,13 @@ export class AppComponent implements OnInit {
     this.titleService.initTitle();
   }
 
-  registerBrandIcons() {
+  registerIcons() {
+    // app logo
+    this._iconRegistry.addSvgIcon(
+      'app-logo',
+      this._sanitizer.bypassSecurityTrustResourceUrl('../assets/images/logo.svg')
+    );
+    // brand logos
     this._iconRegistry.addSvgIconLiteral('chrome', this._sanitizer.bypassSecurityTrustHtml(siGooglechrome.svg));
     this._iconRegistry.addSvgIconLiteral('firefox', this._sanitizer.bypassSecurityTrustHtml(siFirefoxbrowser.svg));
     this._iconRegistry.addSvgIconLiteral('safari', this._sanitizer.bypassSecurityTrustHtml(siSafari.svg));

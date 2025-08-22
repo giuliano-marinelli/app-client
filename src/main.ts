@@ -7,10 +7,12 @@ import { HammerModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { provideServiceWorker } from '@angular/service-worker';
 
 //graphql
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
+import { ExtractedFiles } from 'apollo-angular/http/types';
 import { ApolloDynamic } from 'apollo-dynamic';
 import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
@@ -18,6 +20,7 @@ import { onError } from '@apollo/client/link/error';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
+import { GraphQLFormattedError } from 'graphql';
 import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
@@ -79,8 +82,6 @@ import { SettingsProfileComponent } from './app/settings/profile/settings-profil
 import { SettingsSecurityComponent } from './app/settings/security/settings-security.component';
 import { AdminComponent } from './app/admin/admin.component';
 import { AdminUsersComponent } from './app/admin/users/admin-users.component';
-import { GraphQLFormattedError } from 'graphql';
-import { ExtractedFiles } from 'apollo-angular/http/types';
 
 if (environment.production) {
   enableProdMode();
@@ -97,7 +98,7 @@ bootstrapApplication(AppComponent, {
       const messages = inject(MessagesService);
 
       const http = httpLink.create({
-        uri: `http://${environment.host}:${environment.appPort}/${environment.graphql}`,
+        uri: `${environment.protocol}${environment.host}:${environment.appPort}/${environment.graphql}`,
         extractFiles: (body) => extractFiles(body, isExtractableFile) as ExtractedFiles,
         headers: new HttpHeaders().set('apollo-require-preflight', 'true')
       });
@@ -148,6 +149,11 @@ bootstrapApplication(AppComponent, {
           mutate: { fetchPolicy: 'network-only', errorPolicy: 'all' }
         }
       };
+    }),
+    //service worker for pwa
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: true,
+      registrationStrategy: 'registerWhenStable:30000'
     }),
     //angular material (error matcher configuration)
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },

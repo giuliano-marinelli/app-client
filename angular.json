@@ -30,9 +30,11 @@
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": ["src/styles.scss", "src/tailwind.css"],
-            "scripts": []
+            "scripts": [],
+            "outputHashing": "all",
+            "serviceWorker": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -47,8 +49,7 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "optimization": false,
@@ -82,7 +83,7 @@
             "polyfills": ["zone.js", "zone.js/testing", "@angular/localize/init"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/favicon.dark.ico", "src/assets", "src/manifest.webmanifest"],
             "styles": ["src/styles.scss", "src/tailwind.css"],
             "scripts": []
           }

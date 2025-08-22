@@ -28,6 +28,7 @@
     "@angular/platform-browser": "^20.x",
     "@angular/platform-browser-dynamic": "^20.x",
     "@angular/router": "^20.x",
+    "@angular/service-worker": "^20.x",
     "@apollo/client": "^3.x",
     "@auth0/angular-jwt": "^5.x",
     "@narik/custom-validators": "^14.x",

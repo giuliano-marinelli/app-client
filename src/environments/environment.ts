@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   host: '192.168.1.40', // use your local IP for test on LAN devices
+  protocol: 'https://',
   appPort: 3000,
   graphql: 'graphql'
 };

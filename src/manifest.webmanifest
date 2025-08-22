@@ -1,0 +1,103 @@
+{
+  "name": "App",
+  "short_name": "App",
+  "description": "Template for web app based on Angular and Nest.",
+  "display": "standalone",
+  "background_color": "#bababa",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/images/icons/512.png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/192.png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/144.png",
+      "sizes": "144x144",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/96.png",
+      "sizes": "96x96",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/72.png",
+      "sizes": "72x72",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/48.png",
+      "sizes": "48x48",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/images/icons/rounded/512.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "assets/images/icons/rounded/192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/icons/rounded/144.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "assets/images/icons/rounded/96.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "assets/images/icons/rounded/72.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "assets/images/icons/rounded/48.png",
+      "sizes": "48x48"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/images/screenshots/wide-home.png",
+      "type": "image/png",
+      "sizes": "2560x1440",
+      "form_factor": "wide"
+    },
+    {
+      "src": "assets/images/screenshots/wide-login.png",
+      "type": "image/png",
+      "sizes": "2560x1440",
+      "form_factor": "wide"
+    },
+    {
+      "src": "assets/images/screenshots/wide-register.png",
+      "type": "image/png",
+      "sizes": "2560x1440",
+      "form_factor": "wide"
+    },
+    {
+      "src": "assets/images/screenshots/narrow-home.png",
+      "type": "image/png",
+      "sizes": "850x1600",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "assets/images/screenshots/narrow-login.png",
+      "type": "image/png",
+      "sizes": "850x1600",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "assets/images/screenshots/narrow-register.png",
+      "type": "image/png",
+      "sizes": "850x1600",
+      "form_factor": "narrow"
+    }
+  ]
+}
