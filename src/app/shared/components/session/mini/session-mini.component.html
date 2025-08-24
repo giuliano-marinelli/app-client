@@ -9,7 +9,7 @@
           : 'Unknown'
     }}
   </div>
-  @if (session.token !== auth.getToken() && !session.blockedAt && !session.closedAt) {
+  @if (session.token !== _auth.getToken() && !session.blockedAt && !session.closedAt) {
     <button matIconButton class="absolute! right-0 cursor-pointer" [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -31,7 +31,7 @@
     <div class="text-sm">Closed</div>
   </div>
 }
-@if (session.token === auth.getToken()) {
+@if (session.token === _auth.getToken()) {
   <div class="text-success mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
     <div class="text-sm">Current device</div>

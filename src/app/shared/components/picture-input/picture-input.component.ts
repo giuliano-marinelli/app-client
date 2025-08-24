@@ -20,8 +20,8 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
   ]
 })
 export class PictureInputComponent {
-  dialog: MatDialog = inject(MatDialog);
-  compressor: NgxImageCompressService = inject(NgxImageCompressService);
+  _dialog: MatDialog = inject(MatDialog);
+  _compressor: NgxImageCompressService = inject(NgxImageCompressService);
 
   @ViewChild('picture_view') pictureView!: ElementRef;
 
@@ -49,7 +49,7 @@ export class PictureInputComponent {
 
   onChangePicture(event: any, cropDialog: any): void {
     if (event.target.files[0]) {
-      this.dialog.open(cropDialog);
+      this._dialog.open(cropDialog);
       this.pictureChange = event;
     }
   }
@@ -57,7 +57,7 @@ export class PictureInputComponent {
   async onCroppedPicture(event: ImageCroppedEvent): Promise<void> {
     if (event.base64) {
       const compressedImage = this.compression
-        ? await this.compressor.compressFile(
+        ? await this._compressor.compressFile(
             event.base64,
             0,
             this.compressionRatio,

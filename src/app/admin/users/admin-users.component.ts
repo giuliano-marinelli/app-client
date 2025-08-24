@@ -38,10 +38,9 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class AdminUsersComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  route: ActivatedRoute = inject(ActivatedRoute);
-  messages: MessagesService = inject(MessagesService);
+  _router: Router = inject(Router);
+  _route: ActivatedRoute = inject(ActivatedRoute);
+  _messages: MessagesService = inject(MessagesService);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
   _findUsers: FindUsers = inject(FindUsers);
 
@@ -103,8 +102,8 @@ export class AdminUsersComponent implements OnInit {
       });
 
     // restore search params and if there are changes, fetch users
-    this.route.queryParams.subscribe((params) => {
-      if (Search.restoreSearchParams(params, this.usersSearchParams, this.router)) this.getUsers();
+    this._route.queryParams.subscribe((params) => {
+      if (Search.restoreSearchParams(params, this.usersSearchParams, this._router)) this.getUsers();
     });
   }
 
@@ -114,7 +113,7 @@ export class AdminUsersComponent implements OnInit {
 
   searchUsers(searchParams: SearchParams): void {
     // navigates with the updated search parameters
-    Search.updateSearchParams(searchParams, this.usersSearchParams, this.router);
+    Search.updateSearchParams(searchParams, this.usersSearchParams, this._router);
   }
 
   getUsers(): void {
@@ -130,7 +129,7 @@ export class AdminUsersComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: ApolloQueryResult<{ users: { set: User[]; count: number } }>) => {
           if (errors) {
-            this.messages.error(errors, 'Could not fetch users. Please try again later.');
+            this._messages.error(errors, 'Could not fetch users. Please try again later.');
           }
           if (data?.users) {
             const users = data?.users;

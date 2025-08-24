@@ -38,10 +38,10 @@ import { VarDirective } from '../shared/directives/var.directive';
   ]
 })
 export class LoginComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  router: Router = inject(Router);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
   _login: Login = inject(Login);
 
@@ -67,11 +67,11 @@ export class LoginComponent implements OnInit {
       this.$isSmallScreen = result.matches;
     });
 
-    firstValueFrom(this.auth.logged).then((logged) => {
-      if (logged) this.router.navigate(['/']);
+    firstValueFrom(this._auth.logged).then((logged) => {
+      if (logged) this._router.navigate(['/']);
     });
 
-    this.loginForm = this.formBuilder.group({
+    this.loginForm = this._formBuilder.group({
       usernameOrEmail: this.usernameOrEmail,
       password: this.password
     });
@@ -84,23 +84,23 @@ export class LoginComponent implements OnInit {
       this._login.fetch(this.loginForm.value).subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this.messages.error(errors, 'Login failed. Please check your credentials.');
+            this._messages.error(errors, 'Login failed. Please check your credentials.');
             this.submitLoading = false;
           }
           if (data?.login) {
-            this.auth.setToken(data.login);
-            this.auth
+            this._auth.setToken(data.login);
+            this._auth
               .setUser()
               ?.subscribe({
                 next: ({ data, errors }: any) => {
                   if (errors) {
-                    this.messages.error(errors, 'Login failed. Please check your credentials.');
+                    this._messages.error(errors, 'Login failed. Please check your credentials.');
                   }
                   if (data?.user) {
-                    this.messages.info(
+                    this._messages.info(
                       'Welcome, ' + (data.user?.profile?.name ? data.user?.profile?.name : data.user?.username) + '!'
                     );
-                    this.router.navigate(['/']);
+                    this._router.navigate(['/']);
                   }
                 }
               })
@@ -114,7 +114,7 @@ export class LoginComponent implements OnInit {
         }
       });
     } else {
-      this.messages.error('Some values are invalid, please check.');
+      this._messages.error('Some values are invalid, please check.');
     }
   }
 }

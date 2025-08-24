@@ -2,15 +2,15 @@ import { Directive, Input, TemplateRef, ViewContainerRef, inject } from '@angula
 
 @Directive({ selector: '[var]' })
 export class VarDirective {
-  templateRef: TemplateRef<any> = inject(TemplateRef);
-  vcRef: ViewContainerRef = inject(ViewContainerRef);
+  _templateRef: TemplateRef<any> = inject(TemplateRef);
+  _vcRef: ViewContainerRef = inject(ViewContainerRef);
 
   @Input()
   set var(context: unknown) {
     this.context.$implicit = this.context.var = context;
 
     if (!this.hasView) {
-      this.vcRef.createEmbeddedView(this.templateRef, this.context);
+      this._vcRef.createEmbeddedView(this._templateRef, this.context);
       this.hasView = true;
     }
   }

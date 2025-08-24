@@ -1,7 +1,7 @@
 // sort-imports-ignore
 //angular
 import { HttpHeaders, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { enableProdMode, importProvidersFrom, inject } from '@angular/core';
+import { enableProdMode, importProvidersFrom, inject, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HammerModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +24,10 @@ import { GraphQLFormattedError } from 'graphql';
 import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
+// i18n
+import { provideTransloco } from '@jsverse/transloco';
+import { TranslocoHttpLoader } from './transloco-loader';
+
 // modules
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgOtpInputModule } from 'ng-otp-input';
@@ -41,6 +45,7 @@ import { environment } from './environments/environment';
 // services
 import { AuthService } from './app/services/auth.service';
 import { MessagesService } from './app/services/messages.service';
+import { LanguageService } from './app/services/language.service';
 import { TitleService } from './app/services/title.service';
 import { ProfileService } from './app/services/profile.service';
 
@@ -150,6 +155,27 @@ bootstrapApplication(AppComponent, {
         }
       };
     }),
+    // i18n
+    provideTransloco({
+      config: {
+        availableLangs: [
+          'de',
+          'en',
+          'es',
+          'fr',
+          'it',
+          'pt'
+        ],
+        defaultLang: 'en',
+        fallbackLang: 'en',
+        missingHandler: {
+          useFallbackTranslation: true
+        },
+        reRenderOnLangChange: true, // remove this option if doesn't want to support changing language in runtime
+        prodMode: !isDevMode()
+      },
+      loader: TranslocoHttpLoader
+    }),
     //service worker for pwa
     provideServiceWorker('ngsw-worker.js', {
       enabled: true,
@@ -158,8 +184,9 @@ bootstrapApplication(AppComponent, {
     //angular material (error matcher configuration)
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     //services
-    MessagesService,
     AuthService,
+    MessagesService,
+    LanguageService,
     TitleService,
     ProfileService,
     importProvidersFrom(

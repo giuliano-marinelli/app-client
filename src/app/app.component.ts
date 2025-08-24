@@ -11,12 +11,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
+import { LangDefinition, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+
 import { environment } from '../environments/environment';
 import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
 
 import { Logout } from './shared/entities/user.entity';
 
 import { AuthService } from './services/auth.service';
+import { LanguageService } from './services/language.service';
 import { MessagesService } from './services/messages.service';
 import { ThemeService } from './services/theme.service';
 import { TitleService } from './services/title.service';
@@ -41,16 +44,17 @@ import { MatMultiPageMenuModule } from './shared/components/material/multi-page-
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    VarDirective
+    VarDirective,
+    TranslocoPipe
   ]
 })
 export class AppComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  messages: MessagesService = inject(MessagesService);
-  titleService: TitleService = inject(TitleService);
-  themeService: ThemeService = inject(ThemeService);
-
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _lang: LanguageService = inject(LanguageService);
+  _title: TitleService = inject(TitleService);
+  _theme: ThemeService = inject(ThemeService);
   _iconRegistry: MatIconRegistry = inject(MatIconRegistry);
   _sanitizer: DomSanitizer = inject(DomSanitizer);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
@@ -97,12 +101,16 @@ export class AppComponent implements OnInit {
         this.$isSmallScreen = result.matches;
       });
 
+    // Initialize language
+    this._lang.init();
+    this._lang.preferredLang;
+
     // Initialize theme
-    this.themeService.init();
+    this._theme.init();
 
     // For change page title
-    this.titleService.appTitle = this.title;
-    this.titleService.initTitle();
+    this._title.appTitle = this.title;
+    this._title.initTitle();
   }
 
   registerIcons() {
@@ -124,22 +132,22 @@ export class AppComponent implements OnInit {
   }
 
   checkNavAccess(navLink: any) {
-    if (this.auth.loading && (navLink.auth || navLink.admin)) return false;
-    if (navLink.auth && !this.auth.user) return false;
-    if (navLink.auth === false && this.auth.user) return false;
-    if (navLink.admin && this.auth.user?.role !== 'admin') return false;
-    if (navLink.admin === false && this.auth.user?.role === 'admin') return false;
+    if (this._auth.loading && (navLink.auth || navLink.admin)) return false;
+    if (navLink.auth && !this._auth.user) return false;
+    if (navLink.auth === false && this._auth.user) return false;
+    if (navLink.admin && this._auth.user?.role !== 'admin') return false;
+    if (navLink.admin === false && this._auth.user?.role === 'admin') return false;
     return true;
   }
 
   logout() {
     this._logout.fetch().subscribe({
       next: ({ data, errors }) => {
-        if (errors) this.messages.error(errors, 'Logout failed. Please try again later.');
+        if (errors) this._messages.error(errors, 'Logout failed. Please try again later.');
         else if (data?.logout) {
-          this.auth.eraseToken();
-          this.auth.setUser();
-          this.messages.info('Goodbye! Hope to see you soon!');
+          this._auth.eraseToken();
+          this._auth.setUser();
+          this._messages.info('Goodbye! Hope to see you soon!');
         }
       }
     });

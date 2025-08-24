@@ -25,7 +25,7 @@
       </button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a mat-menu-item [hidden]="user.id === auth.user?.id" (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
+        <a mat-menu-item [hidden]="user.id === _auth.user?.id" (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
         <confirm
           #confirmDelete
           requiredPasswordMessage="Please enter your password to continue."
@@ -115,7 +115,7 @@
           <div class="text-sm">Admin</div>
         </div>
       }
-      @if (user.id === auth.user?.id) {
+      @if (user.id === _auth.user?.id) {
         <div class="text-success flex flex-row gap-1">
           <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
           <div class="text-sm">You</div>

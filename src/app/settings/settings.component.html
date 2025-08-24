@@ -1,21 +1,23 @@
-@if (auth.loading) {
+@if (_auth.loading) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
-} @else if (auth.user) {
+} @else if (_auth.user) {
   <div class="centered-section">
     <div class="mx-0 my-4 flex flex-row flex-wrap gap-4">
       <img
         class="img-thumbnail h-15 w-15 rounded-full"
         alt="Profile picture"
         onerror="this.src='assets/images/default-user.png'"
-        [src]="auth.user.profile?.avatar"
+        [src]="_auth.user.profile?.avatar"
       />
       <div>
         <h1 class="text-4xl max-sm:text-2xl">
-          {{ auth.user.profile?.name ? auth.user.profile?.name : auth.user.username }}
+          {{ _auth.user.profile?.name ? _auth.user.profile?.name : _auth.user.username }}
         </h1>
         <h3 class="text-muted text-sm max-sm:text-xs">Your personal account</h3>
       </div>
-      <a matButton="tonal" class="max-sm ml-auto max-sm:min-w-50 max-sm:grow" routerLink="/{{ auth.user.username }}"> Go to your personal profile </a>
+      <a matButton="tonal" class="max-sm ml-auto max-sm:min-w-50 max-sm:grow" routerLink="/{{ _auth.user.username }}">
+        Go to your personal profile
+      </a>
     </div>
   </div>
 }

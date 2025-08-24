@@ -66,7 +66,7 @@
   <p>
     We need to verify your identity before you can proceed. We will send a verification code to your primary email (
     <b>
-      {{ auth.user?.primaryEmail?.address }}
+      {{ _auth.user?.primaryEmail?.address }}
     </b>
     ).
   </p>
@@ -107,7 +107,7 @@
 
 <ng-template #content_verification_code_default_message>
   <p>
-    Please enter the verification code sended to <b>{{ auth.user?.primaryEmail?.address }}</b> to confirm.
+    Please enter the verification code sended to <b>{{ _auth.user?.primaryEmail?.address }}</b> to confirm.
   </p>
 </ng-template>
 

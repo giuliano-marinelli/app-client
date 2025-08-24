@@ -20,7 +20,7 @@ import { MatMenuPage } from './menu-page';
   ]
 })
 export class MatMultiPageMenu implements AfterContentInit {
-  cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   @ContentChildren(MatMenuPage) pages!: QueryList<MatMenuPage>;
 
@@ -47,14 +47,14 @@ export class MatMultiPageMenu implements AfterContentInit {
       });
     }
 
-    this.cdr.markForCheck();
+    this._cdr.markForCheck();
   }
 
   openSubPage(id: string) {
     const page = this.pageMap.get(id);
     if (page) {
       this.pageStack.push(page);
-      this.cdr.markForCheck();
+      this._cdr.markForCheck();
     }
   }
 
@@ -62,7 +62,7 @@ export class MatMultiPageMenu implements AfterContentInit {
     event.stopPropagation();
     if (this.hasBackButton) {
       this.pageStack.pop();
-      this.cdr.markForCheck();
+      this._cdr.markForCheck();
     }
   }
 
@@ -70,7 +70,7 @@ export class MatMultiPageMenu implements AfterContentInit {
     const root = this.pageMap.get(null);
     if (root) {
       this.pageStack = [root];
-      this.cdr.markForCheck();
+      this._cdr.markForCheck();
     }
   }
 }

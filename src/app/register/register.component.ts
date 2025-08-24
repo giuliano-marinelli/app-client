@@ -42,10 +42,10 @@ import { VarDirective } from '../shared/directives/var.directive';
   ]
 })
 export class RegisterComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  router: Router = inject(Router);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
   _createUser: CreateUser = inject(CreateUser);
   _checkUsernameExists: CheckUserUsernameExists = inject(CheckUserUsernameExists);
@@ -113,16 +113,16 @@ export class RegisterComponent implements OnInit {
       this.$isSmallScreen = result.matches;
     });
 
-    firstValueFrom(this.auth.logged).then((logged) => {
-      if (logged) this.router.navigate(['/']);
+    firstValueFrom(this._auth.logged).then((logged) => {
+      if (logged) this._router.navigate(['/']);
     });
 
-    this.registerForm = this.formBuilder.group({
+    this.registerForm = this._formBuilder.group({
       username: this.username,
       email: this.email,
       password: this.password,
       confirmPassword: this.confirmPassword,
-      profile: this.formBuilder.group({
+      profile: this._formBuilder.group({
         name: this.name
       })
     });
@@ -146,7 +146,7 @@ export class RegisterComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Registration failed. Please check your inputs.');
+              this._messages.error(errors, 'Registration failed. Please check your inputs.');
               this.submitLoading = false;
             }
             if (data?.createUser) {
@@ -159,24 +159,24 @@ export class RegisterComponent implements OnInit {
                 .subscribe({
                   next: ({ data, errors }) => {
                     if (errors) {
-                      this.messages.error(errors, 'Login failed. Please try again later.');
+                      this._messages.error(errors, 'Login failed. Please try again later.');
                       this.submitLoading = false;
                     }
                     if (data?.login) {
-                      this.auth.setToken(data.login);
-                      this.auth
+                      this._auth.setToken(data.login);
+                      this._auth
                         .setUser()
                         ?.subscribe({
                           next: ({ data, errors }: any) => {
                             if (errors) {
-                              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+                              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);
-                              this.messages.info(
+                              this._messages.info(
                                 'You successfully registered. A verification email has been sent to your email address.'
                               );
-                              this.router.navigate(['/']);
+                              this._router.navigate(['/']);
                             }
                           }
                         })
@@ -196,16 +196,16 @@ export class RegisterComponent implements OnInit {
           }
         });
     } else {
-      this.messages.error('Some values are invalid, please check.');
+      this._messages.error('Some values are invalid, please check.');
     }
   }
 
   sendVerificationEmail(email: Email): void {
     this._updateEmailVerificationCode.mutate({ id: email.id }).subscribe({
       next: ({ data, errors }) => {
-        if (errors) this.messages.error(errors);
+        if (errors) this._messages.error(errors);
         else if (data?.updateEmailVerificationCode)
-          this.messages.info(
+          this._messages.info(
             `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`,
             { duration: 10000 }
           );

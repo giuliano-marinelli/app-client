@@ -38,10 +38,10 @@ import { VarDirective } from '../../directives/var.directive';
   ]
 })
 export class ConfirmComponent {
-  auth: AuthService = inject(AuthService);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  messages: MessagesService = inject(MessagesService);
-  dialog: MatDialog = inject(MatDialog);
+  _auth: AuthService = inject(AuthService);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
+  _dialog: MatDialog = inject(MatDialog);
   _checkUserPassword: CheckUserPassword = inject(CheckUserPassword);
   _checkUserVerificationCode: CheckUserVerificationCode = inject(CheckUserVerificationCode);
   _updateUserVerificationCode: UpdateUserVerificationCode = inject(UpdateUserVerificationCode);
@@ -110,23 +110,23 @@ export class ConfirmComponent {
   open() {
     if (this.onlyPassword) this.openPassword();
     else if (this.onlyVerificationCode) this.openVerificationCodeAdvice();
-    else this.dialogRef = this.dialog.open(this.content!);
+    else this.dialogRef = this._dialog.open(this.content!);
   }
 
   openPassword() {
-    this.dialogRef = this.dialog.open(this.contentPassword!, { disableClose: true });
-    this.passwordForm = this.formBuilder.group({
+    this.dialogRef = this._dialog.open(this.contentPassword!, { disableClose: true });
+    this.passwordForm = this._formBuilder.group({
       password: this.password
     });
   }
 
   openVerificationCodeAdvice() {
-    this.dialogRef = this.dialog.open(this.contentVerificationCodeAdvice!, { disableClose: true });
+    this.dialogRef = this._dialog.open(this.contentVerificationCodeAdvice!, { disableClose: true });
   }
 
   openVerificationCode() {
-    this.dialogRef = this.dialog.open(this.contentVerificationCode!, { disableClose: true });
-    this.verificationCodeForm = this.formBuilder.group({
+    this.dialogRef = this._dialog.open(this.contentVerificationCode!, { disableClose: true });
+    this.verificationCodeForm = this._formBuilder.group({
       verificationCode: this.verificationCode
     });
   }
@@ -185,15 +185,15 @@ export class ConfirmComponent {
   async checkPassword(): Promise<boolean> {
     return new Promise((resolve) => {
       this.checkPasswordLoading = true;
-      if (this.auth.user) {
+      if (this._auth.user) {
         this._checkUserPassword
-          .fetch({ id: this.auth.user.id, password: this.password?.value })
+          .fetch({ id: this._auth.user.id, password: this.password?.value })
           .subscribe({
             next: ({ data, errors }) => {
-              if (errors) this.messages.error(errors, 'Could not check password. Please try again later.');
+              if (errors) this._messages.error(errors, 'Could not check password. Please try again later.');
               else if (data?.checkUserPassword) resolve(true);
               else {
-                this.messages.error('Password does not match.');
+                this._messages.error('Password does not match.');
                 resolve(false);
               }
             }
@@ -210,17 +210,17 @@ export class ConfirmComponent {
   async checkVerificationCode(): Promise<boolean> {
     return new Promise((resolve) => {
       this.checkVerificationCodeLoading = true;
-      if (this.auth.user) {
+      if (this._auth.user) {
         this._checkUserVerificationCode
-          .fetch({ id: this.auth.user.id, code: this.verificationCode?.value })
+          .fetch({ id: this._auth.user.id, code: this.verificationCode?.value })
           .subscribe({
             next: ({ data, errors }) => {
               if (errors) {
-                this.messages.error(errors, 'Could not check verification code. Please try again later.');
+                this._messages.error(errors, 'Could not check verification code. Please try again later.');
                 resolve(false);
               } else if (data?.checkUserVerificationCode) resolve(true);
               else {
-                this.messages.error('Verification code does not match.');
+                this._messages.error('Verification code does not match.');
                 resolve(false);
               }
             }
@@ -237,16 +237,16 @@ export class ConfirmComponent {
   async sendVerificationCode() {
     return new Promise((resolve) => {
       this.checkVerificationCodeAdviceLoading = true;
-      if (this.auth.user) {
+      if (this._auth.user) {
         this._updateUserVerificationCode
-          .mutate({ id: this.auth.user.id })
+          .mutate({ id: this._auth.user.id })
           .subscribe({
             next: ({ errors }) => {
               if (errors) {
-                this.messages.error(errors, 'Could not send verification code. Please try again later.');
+                this._messages.error(errors, 'Could not send verification code. Please try again later.');
                 resolve(false);
               } else {
-                this.messages.info('Verification code sent to your primary email.');
+                this._messages.info('Verification code sent to your primary email.');
                 resolve(true);
               }
             }

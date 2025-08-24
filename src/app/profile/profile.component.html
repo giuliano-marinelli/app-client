@@ -1,28 +1,28 @@
-@if (profile.loading()) {
+@if (_profile.loading()) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 }
-@if (!profile.loading() && profile.user()) {
+@if (!_profile.loading() && _profile.user()) {
   <div class="centered-section">
     <div class="mx-0 my-4 flex flex-row gap-4">
       <img
         class="img-thumbnail h-30 w-30 rounded-full max-sm:h-18 max-sm:w-18 md:h-40 md:w-40"
         alt="Profile picture"
         onerror="this.src='assets/images/default-user.png'"
-        [src]="profile.user()?.profile?.avatar"
+        [src]="_profile.user()?.profile?.avatar"
       />
       <div class="flex flex-col">
         <h1 class="text-4xl max-sm:text-2xl">
-          {{ profile.user()?.profile?.name }}
-          @if (profile.user()?.primaryEmail?.verified) {
+          {{ _profile.user()?.profile?.name }}
+          @if (_profile.user()?.primaryEmail?.verified) {
             <mat-icon>
-              <verified-mark [verified]="profile.user()?.primaryEmail?.verified" />
+              <verified-mark [verified]="_profile.user()?.primaryEmail?.verified" />
             </mat-icon>
           }
         </h1>
         <h3 class="text-sm max-sm:text-xs">
-          {{ '@' + profile.user()?.username }}
-          @if (profile.user()?.profile?.location) {
-            <span class="text-muted font-light"> · {{ profile.user()?.profile?.location }}</span>
+          {{ '@' + _profile.user()?.username }}
+          @if (_profile.user()?.profile?.location) {
+            <span class="text-muted font-light"> · {{ _profile.user()?.profile?.location }}</span>
           }
         </h3>
         @if (!$isSmallScreen) {
@@ -40,14 +40,14 @@
     }
 
     <ng-template #bio>
-      <div class="mt-3 cursor-pointer font-light" (click)="dialog.open(info)">
-        <span class="text-muted">{{ $isSmallScreen ? profile.user()?.profile?.bio?.substring(0, 100) : profile.user()?.profile?.bio }}</span>
+      <div class="mt-3 cursor-pointer font-light" (click)="_dialog.open(info)">
+        <span class="text-muted">{{ $isSmallScreen ? _profile.user()?.profile?.bio?.substring(0, 100) : _profile.user()?.profile?.bio }}</span>
         <span class="font-bold"> ...more</span>
       </div>
     </ng-template>
 
     <ng-template #actions>
-      @if (profile.user()?.id === auth.user?.id) {
+      @if (_profile.user()?.id === _auth.user?.id) {
         <div class="mt-3 max-sm:flex">
           <a matButton="tonal" class="grow" routerLink="/settings/profile">Edit Profile</a>
         </div>
@@ -56,36 +56,36 @@
 
     <ng-template #info>
       <h2 mat-dialog-title class="dialog-with-close">
-        {{ profile.user()?.profile?.name }}
+        {{ _profile.user()?.profile?.name }}
         <button matIconButton [mat-dialog-close]="true">
           <mat-icon>close</mat-icon>
         </button>
       </h2>
       <mat-dialog-content>
-        @if (profile.user()?.profile?.bio) {
+        @if (_profile.user()?.profile?.bio) {
           <h2>Description</h2>
-          <p class="my-5">{{ profile.user()?.profile?.bio }}</p>
+          <p class="my-5">{{ _profile.user()?.profile?.bio }}</p>
         }
         <h2>More info</h2>
-        @if (profile.user()?.profile?.publicEmail?.address) {
+        @if (_profile.user()?.profile?.publicEmail?.address) {
           <p class="dialog-icon-item">
             <mat-icon>email</mat-icon>
-            <a href="mailto:{{ profile.user()?.profile?.publicEmail?.address }}">{{ profile.user()?.profile?.publicEmail?.address }}</a>
+            <a href="mailto:{{ _profile.user()?.profile?.publicEmail?.address }}">{{ _profile.user()?.profile?.publicEmail?.address }}</a>
           </p>
         }
-        @if (profile.user()?.profile?.url) {
+        @if (_profile.user()?.profile?.url) {
           <p class="dialog-icon-item">
             <mat-icon>language</mat-icon>
-            <a href="{{ profile.user()?.profile?.url }}" target="_blank">{{ profile.user()?.profile?.url }}</a>
+            <a href="{{ _profile.user()?.profile?.url }}" target="_blank">{{ _profile.user()?.profile?.url }}</a>
           </p>
         }
-        @if (profile.user()?.profile?.location) {
+        @if (_profile.user()?.profile?.location) {
           <p class="dialog-icon-item">
             <mat-icon>location_on</mat-icon>
-            {{ profile.user()?.profile?.location }}
+            {{ _profile.user()?.profile?.location }}
           </p>
         }
-        <p class="dialog-icon-item"><mat-icon>info_outline</mat-icon> Joined at {{ profile.user()?.createdAt | amLocal | amDateFormat: 'LL' }}</p>
+        <p class="dialog-icon-item"><mat-icon>info_outline</mat-icon> Joined at {{ _profile.user()?.createdAt | amLocal | amDateFormat: 'LL' }}</p>
       </mat-dialog-content>
     </ng-template>
 

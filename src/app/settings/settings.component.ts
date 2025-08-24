@@ -18,7 +18,7 @@ import { AuthService } from '../services/auth.service';
   ]
 })
 export class SettingsComponent {
-  auth: AuthService = inject(AuthService);
+  _auth: AuthService = inject(AuthService);
 
   sections: Section[] = [
     { type: 'item', label: 'Profile', icon: 'person', route: './profile' },

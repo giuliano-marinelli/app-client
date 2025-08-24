@@ -24,8 +24,8 @@ import { MessagesService } from '../../../../services/messages.service';
   ]
 })
 export class SessionMiniComponent {
-  auth: AuthService = inject(AuthService);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _messages: MessagesService = inject(MessagesService);
   _closeSession: CloseSession = inject(CloseSession);
 
   @Input() session!: Session;
@@ -45,9 +45,9 @@ export class SessionMiniComponent {
       .mutate({ id: session.id })
       .subscribe({
         next: ({ data, errors }) => {
-          if (errors) this.messages.error(errors, 'Could not close session. Please try again later.');
+          if (errors) this._messages.error(errors, 'Could not close session. Please try again later.');
           if (data?.closeSession) {
-            this.messages.info('Session successfully closed.');
+            this._messages.info('Session successfully closed.');
             this.closed.emit(data?.closeSession);
           }
         }

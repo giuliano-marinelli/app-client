@@ -13,12 +13,12 @@ import { Subject } from 'rxjs';
   ]
 })
 export class LeaveGuardWarningComponent {
-  dialog: MatDialog = inject(MatDialog);
+  _dialog: MatDialog = inject(MatDialog);
 
   subject?: Subject<boolean>;
 
   proceed(value: boolean) {
-    this.dialog.closeAll();
+    this._dialog.closeAll();
     if (this.subject) {
       this.subject.next(value);
       this.subject.complete();

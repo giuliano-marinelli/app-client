@@ -38,10 +38,10 @@ import { VarDirective } from '../../shared/directives/var.directive';
   ]
 })
 export class SettingsSecurityComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _findUser: FindUser = inject(FindUser);
   _updateUserPassword: UpdateUserPassword = inject(UpdateUserPassword);
 
@@ -79,7 +79,7 @@ export class SettingsSecurityComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.passwordForm = this.formBuilder.group({
+    this.passwordForm = this._formBuilder.group({
       id: this.id,
       oldPassword: this.oldPassword,
       newPassword: this.newPassword,
@@ -89,14 +89,14 @@ export class SettingsSecurityComponent implements OnInit {
   }
 
   getUser(): void {
-    if (this.auth.user) {
+    if (this._auth.user) {
       this.userLoading = true;
       this._findUser
-        .fetch({ id: this.auth.user.id })
+        .fetch({ id: this._auth.user.id })
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
             if (data?.user) {
               this.user = data?.user;
@@ -109,25 +109,25 @@ export class SettingsSecurityComponent implements OnInit {
           this.userLoading = false;
         });
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 
   updatePassword(): void {
-    if (this.auth.user) {
+    if (this._auth.user) {
       this.passwordForm.markAllAsTouched();
       if (this.passwordForm.valid) {
         this.updateSubmitLoading = true;
         this._updateUserPassword
-          .mutate({ id: this.auth.user.id, password: this.oldPassword.value, newPassword: this.newPassword.value })
+          .mutate({ id: this._auth.user.id, password: this.oldPassword.value, newPassword: this.newPassword.value })
           .subscribe({
             next: ({ data, errors }) => {
               if (errors) {
-                this.messages.error(errors, 'Could not update password. Please try again later.');
+                this._messages.error(errors, 'Could not update password. Please try again later.');
               }
               if (data?.updateUserPassword) {
                 this.passwordForm.reset();
-                this.messages.info('Password successfully changed.');
+                this._messages.info('Password successfully changed.');
               }
             }
           })
@@ -135,10 +135,10 @@ export class SettingsSecurityComponent implements OnInit {
             this.updateSubmitLoading = false;
           });
       } else {
-        this.messages.error('Some values are invalid, please check.');
+        this._messages.error('Some values are invalid, please check.');
       }
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 }

@@ -47,10 +47,10 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   ]
 })
 export class SettingsProfileComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _findUser: FindUser = inject(FindUser);
   _updateUser: UpdateUser = inject(UpdateUser);
 
@@ -97,9 +97,9 @@ export class SettingsProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profileForm = this.formBuilder.group({
+    this.profileForm = this._formBuilder.group({
       id: this.id,
-      profile: this.formBuilder.group({
+      profile: this._formBuilder.group({
         avatar: this.avatar,
         name: this.name,
         publicEmail: this.publicEmail,
@@ -112,14 +112,14 @@ export class SettingsProfileComponent implements OnInit {
   }
 
   getUser(): void {
-    if (this.auth.user) {
+    if (this._auth.user) {
       this.userLoading = true;
       this._findUser({ relations: { emails: true } })
-        .fetch({ id: this.auth.user?.id })
+        .fetch({ id: this._auth.user?.id })
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
             if (data?.user) {
               this.user = data?.user;
@@ -131,7 +131,7 @@ export class SettingsProfileComponent implements OnInit {
           this.userLoading = false;
         });
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 
@@ -147,13 +147,13 @@ export class SettingsProfileComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not update user data. Please try again later.');
+              this._messages.error(errors, 'Could not update user data. Please try again later.');
             }
             if (data?.updateUser) {
               this.profileForm.markAsPristine();
               this.getUser();
-              this.auth.setUser();
-              this.messages.info('Profile settings successfully saved.');
+              this._auth.setUser();
+              this._messages.info('Profile settings successfully saved.');
             }
           }
         })
@@ -161,7 +161,7 @@ export class SettingsProfileComponent implements OnInit {
           this.submitLoading = false;
         });
     } else {
-      this.messages.error('Some values are invalid, please check.');
+      this._messages.error('Some values are invalid, please check.');
     }
   }
 }

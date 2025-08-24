@@ -16,8 +16,5 @@ import { MessagesService } from '../services/messages.service';
   ]
 })
 export class AboutComponent {
-  messages: MessagesService = inject(MessagesService);
-  auth: AuthService = inject(AuthService);
-
   graphqlUrl = `${environment.protocol}${environment.host}:${environment.appPort}/${environment.graphql}`;
 }

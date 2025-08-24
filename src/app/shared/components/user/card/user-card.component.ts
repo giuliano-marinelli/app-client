@@ -50,8 +50,8 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
   ]
 })
 export class UserCardComponent {
-  auth: AuthService = inject(AuthService);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _messages: MessagesService = inject(MessagesService);
   _deleteUser: DeleteUser = inject(DeleteUser);
 
   @Input() user!: User;
@@ -73,10 +73,10 @@ export class UserCardComponent {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this.messages.error(errors, 'Could not delete user. Please try again later.');
+            this._messages.error(errors, 'Could not delete user. Please try again later.');
           }
           if (data?.deleteUser) {
-            this.messages.info('User successfully deleted.');
+            this._messages.info('User successfully deleted.');
             this.deleted.emit(data?.deleteUser);
           }
         }

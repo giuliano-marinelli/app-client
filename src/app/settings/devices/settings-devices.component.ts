@@ -29,9 +29,9 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
   ]
 })
 export class SettingsDevicesComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
   _findSessions: FindSessions = inject(FindSessions);
 
   filter: any = Global.filter;
@@ -50,7 +50,7 @@ export class SettingsDevicesComponent implements OnInit {
     this.sessionsLoading = true;
     this._findSessions
       .fetch({
-        where: { user: { id: { eq: this.auth.user?.id } } },
+        where: { user: { id: { eq: this._auth.user?.id } } },
         order: [
           { blockedAt: 'ASC' },
           { closedAt: 'ASC' },
@@ -59,7 +59,7 @@ export class SettingsDevicesComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: any) => {
           if (errors) {
-            this.messages.error(errors, 'Could not fetch sessions. Please try again later.');
+            this._messages.error(errors, 'Could not fetch sessions. Please try again later.');
           }
           if (data?.sessions) {
             const sessions = data?.sessions;

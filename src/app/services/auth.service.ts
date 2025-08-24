@@ -11,8 +11,8 @@ import { MessagesService } from './messages.service';
 
 @Injectable()
 export class AuthService {
-  jwtHelper: JwtHelperService = inject(JwtHelperService);
-  messages: MessagesService = inject(MessagesService);
+  _jwtHelper: JwtHelperService = inject(JwtHelperService);
+  _messages: MessagesService = inject(MessagesService);
   _findUser: FindUser = inject(FindUser);
 
   user?: User;
@@ -47,7 +47,7 @@ export class AuthService {
 
       return;
     } else {
-      const userId = this.jwtHelper.decodeToken(token).id;
+      const userId = this._jwtHelper.decodeToken(token).id;
 
       const obs = this._findUser({ relations: { emails: true } }).fetch({ id: userId });
 
@@ -55,7 +55,7 @@ export class AuthService {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this.messages.error(errors);
+              this._messages.error(errors);
               this.eraseToken();
             }
             if (data) {

@@ -50,10 +50,10 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class SettingsEmailsComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _findUser: FindUser = inject(FindUser);
   _checkEmailAddressExists: CheckEmailAddressExists = inject(CheckEmailAddressExists);
   _createEmail: CreateEmail = inject(CreateEmail);
@@ -107,24 +107,24 @@ export class SettingsEmailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addEmailForm = this.formBuilder.group({
+    this.addEmailForm = this._formBuilder.group({
       address: new FormControl('', this.addEmailValidator, [ExtraValidators.emailExists(this._checkEmailAddressExists)])
     });
 
-    this.primaryEmailForm = this.formBuilder.group({ address: new FormControl('', this.primaryEmailValidator) });
+    this.primaryEmailForm = this._formBuilder.group({ address: new FormControl('', this.primaryEmailValidator) });
 
     this.getUser();
   }
 
   getUser(): void {
-    if (this.auth.user) {
+    if (this._auth.user) {
       this.userLoading = true;
       this._findUser({ relations: { emails: true } })
-        .fetch({ id: this.auth.user.id })
+        .fetch({ id: this._auth.user.id })
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
             if (data?.user) {
               this.user = data?.user;
@@ -140,7 +140,7 @@ export class SettingsEmailsComponent implements OnInit {
           this.userLoading = false;
         });
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 
@@ -153,13 +153,13 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not add email. Please try again later.');
+              this._messages.error(errors, 'Could not add email. Please try again later.');
             }
             if (data?.createEmail) {
               this.addEmailForm.reset();
               this.getUser();
-              this.auth.setUser();
-              this.messages.info(`Email ${data.createEmail.address} successfully added.`);
+              this._auth.setUser();
+              this._messages.info(`Email ${data.createEmail.address} successfully added.`);
             }
           }
         })
@@ -177,12 +177,12 @@ export class SettingsEmailsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this.messages.error(errors, 'Could not remove email. Please try again later.');
+            this._messages.error(errors, 'Could not remove email. Please try again later.');
           }
           if (data?.deleteEmail) {
             this.getUser();
-            this.auth.setUser();
-            this.messages.info(`Email ${email.address} successfully removed.`);
+            this._auth.setUser();
+            this._messages.info(`Email ${email.address} successfully removed.`);
           }
         }
       })
@@ -205,12 +205,12 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not change primary email. Please try again later.');
+              this._messages.error(errors, 'Could not change primary email. Please try again later.');
             }
             if (data?.updateUserPrimaryEmail) {
               this.getUser();
-              this.auth.setUser();
-              this.messages.info('Primary email successfully changed.');
+              this._auth.setUser();
+              this._messages.info('Primary email successfully changed.');
             }
           }
         })
@@ -223,9 +223,9 @@ export class SettingsEmailsComponent implements OnInit {
   sendVerificationEmail(email: Email): void {
     this._updateEmailVerificationCode.mutate({ id: email.id }).subscribe({
       next: ({ data, errors }) => {
-        if (errors) this.messages.error(errors);
+        if (errors) this._messages.error(errors);
         else if (data?.updateEmailVerificationCode)
-          this.messages.info(
+          this._messages.info(
             `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`
           );
       }

@@ -13,8 +13,8 @@ export interface Breadcrumb {
   providedIn: 'root'
 })
 export class TitleService {
-  router: Router = inject(Router);
-  titleService: Title = inject(Title);
+  _router: Router = inject(Router);
+  _title: Title = inject(Title);
 
   appTitle = 'App';
   appSeparator = ' · ';
@@ -32,11 +32,11 @@ export class TitleService {
   }
 
   initTitle(): void {
-    this.router.events
+    this._router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => {
-          let route: ActivatedRoute = this.router.routerState.root;
+          let route: ActivatedRoute = this._router.routerState.root;
           const titles: any[] = [];
           const breadcrumb: Breadcrumb[] = [];
 
@@ -88,7 +88,7 @@ export class TitleService {
     });
 
     // set the final title
-    this.titleService.setTitle(title + this.appSeparator + this.appTitle);
+    this._title.setTitle(title + this.appSeparator + this.appTitle);
   }
 
   updateBreadcrumb(): void {

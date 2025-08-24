@@ -34,12 +34,12 @@ import { TitleService } from '../services/title.service';
   ]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  route: ActivatedRoute = inject(ActivatedRoute);
-  titleService: TitleService = inject(TitleService);
-  profile: ProfileService = inject(ProfileService);
-  dialog: MatDialog = inject(MatDialog);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _route: ActivatedRoute = inject(ActivatedRoute);
+  _title: TitleService = inject(TitleService);
+  _profile: ProfileService = inject(ProfileService);
+  _dialog: MatDialog = inject(MatDialog);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
 
   @ViewChild('info') info!: TemplateRef<any>;
@@ -51,10 +51,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const user = this.profile.user();
+      const user = this._profile.user();
       if (user) {
-        if (user.username) this.titleService.setParam('username', user.username);
-        if (user.profile?.name) this.titleService.setParam('profilename', user.profile.name);
+        if (user.username) this._title.setParam('username', user.username);
+        if (user.profile?.name) this._title.setParam('profilename', user.profile.name);
       }
     });
   }
@@ -64,19 +64,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.$isSmallScreen = result.matches;
     });
 
-    this.route.params.subscribe(async (params) => {
+    this._route.params.subscribe(async (params) => {
       this.username = params['username'];
 
-      if (!this.username) this.router.navigate(['/']);
+      if (!this.username) this._router.navigate(['/']);
       try {
-        await this.profile.fetchUser(this.username);
+        await this._profile.fetchUser(this.username);
       } catch {
-        this.router.navigate(['not-found']);
+        this._router.navigate(['not-found']);
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.profile.reset();
+    this._profile.reset();
   }
 }

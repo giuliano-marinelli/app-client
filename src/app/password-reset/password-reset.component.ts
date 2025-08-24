@@ -39,11 +39,11 @@ import { VarDirective } from '../shared/directives/var.directive';
   ]
 })
 export class PasswordResetComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  router: Router = inject(Router);
-  route: ActivatedRoute = inject(ActivatedRoute);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _route: ActivatedRoute = inject(ActivatedRoute);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
   _updateUserPasswordCode: UpdateUserPasswordCode = inject(UpdateUserPasswordCode);
   _resetUserPassword: ResetUserPassword = inject(ResetUserPassword);
@@ -78,7 +78,7 @@ export class PasswordResetComponent implements OnInit {
   $isSmallScreen = false;
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this._route.params.subscribe((params) => {
       this.code = params['code'];
     });
 
@@ -86,13 +86,16 @@ export class PasswordResetComponent implements OnInit {
       this.$isSmallScreen = result.matches;
     });
 
-    firstValueFrom(this.auth.logged).then((logged) => {
-      if (logged) this.router.navigate(['/']);
+    firstValueFrom(this._auth.logged).then((logged) => {
+      if (logged) this._router.navigate(['/']);
     });
 
-    this.forgotPasswordForm = this.formBuilder.group({ usernameOrEmail: this.usernameOrEmail });
+    this.forgotPasswordForm = this._formBuilder.group({ usernameOrEmail: this.usernameOrEmail });
 
-    this.resetPasswordForm = this.formBuilder.group({ password: this.password, confirmPassword: this.confirmPassword });
+    this.resetPasswordForm = this._formBuilder.group({
+      password: this.password,
+      confirmPassword: this.confirmPassword
+    });
   }
 
   sendPasswordResetEmail(): void {
@@ -104,15 +107,15 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Send password reset email failed. Please try again later.');
+              this._messages.error(errors, 'Send password reset email failed. Please try again later.');
             } else if (data?.updateUserPasswordCode) {
-              this.messages.info(
+              this._messages.info(
                 'A password reset email has been sent to your primary email, please check your inbox and SPAM folder.',
                 {
                   duration: 10000
                 }
               );
-              this.router.navigate(['/login']);
+              this._router.navigate(['/login']);
             }
           }
         })
@@ -131,13 +134,13 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Password reset failed. Please try again later.');
+              this._messages.error(errors, 'Password reset failed. Please try again later.');
             } else if (data?.resetUserPassword) {
-              this.messages.info(
+              this._messages.info(
                 'Your password has been reset successfully. You can now log in with your new password.',
                 { duration: 10000 }
               );
-              this.router.navigate(['/login']);
+              this._router.navigate(['/login']);
             }
           }
         })

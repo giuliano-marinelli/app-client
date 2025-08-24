@@ -6,7 +6,7 @@ import { MessagesService } from '../../services/messages.service';
   selector: '[longPressCopy]'
 })
 export class LongPressCopyDirective {
-  messages: MessagesService = inject(MessagesService);
+  _messages: MessagesService = inject(MessagesService);
 
   @Input() longPressCopy?: string;
 
@@ -39,7 +39,7 @@ export class LongPressCopyDirective {
   private copyToClipboard(text?: string): void {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-      this.messages.info(`Copied ${text} to clipboard!`);
+      this._messages.info(`Copied ${text} to clipboard!`);
     });
   }
 }

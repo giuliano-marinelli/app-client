@@ -33,17 +33,17 @@
     </a>
     @if (fixed) {
       <span class="grow"></span>
-      @if (!auth.loading && auth.user) {
+      @if (!_auth.loading && _auth.user) {
         <!-- User Logged In -->
         <button matIconButton class="h-9! w-9! overflow-hidden! rounded-full! p-0!" [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
           <img
             class="block h-full! w-full! object-cover"
             alt="Profile picture"
             onerror="this.src='assets/images/default-user.png'"
-            [src]="auth.user.profile?.avatar"
+            [src]="_auth.user.profile?.avatar"
           />
         </button>
-      } @else if (!auth.loading) {
+      } @else if (!_auth.loading) {
         <!-- Not Logged User -->
         <!-- Config Menu -->
         <div *var="{ section: 'main' } as configMenuOptions">
@@ -62,21 +62,21 @@
       <mat-menu #menu="matMenu" class="mat-multi-page-menu menu">
         <mat-multi-page-menu #menuPages="matMultiPageMenu">
           <menu-page>
-            @if (!auth.loading && auth.user) {
+            @if (!_auth.loading && _auth.user) {
               <div class="mat-menu-item-info flex! flex-row items-start gap-3 px-3 py-1">
                 <img
                   class="block h-11 w-11 rounded-full"
                   alt="Profile picture"
                   onerror="this.src='assets/images/default-user.png'"
-                  [src]="auth.user.profile?.avatar"
+                  [src]="_auth.user.profile?.avatar"
                 />
                 <div class="flex flex-col items-start justify-center">
-                  <b class="h-6 text-xl font-medium">{{ auth.user.profile?.name }}</b>
-                  {{ '@' + auth.user.username }}
+                  <b class="h-6 text-xl font-medium">{{ _auth.user.profile?.name }}</b>
+                  {{ '@' + _auth.user.username }}
                 </div>
               </div>
               <mat-divider></mat-divider>
-              <a mat-menu-item routerLink="/{{ auth.user.username }}">
+              <a mat-menu-item routerLink="/{{ _auth.user.username }}">
                 <mat-icon>person</mat-icon>
                 <span>Profile</span>
               </a>
@@ -90,7 +90,7 @@
               <mat-icon>dark_mode</mat-icon>
               <span
                 >Appearance:
-                @switch (themeService.theme) {
+                @switch (_theme.theme) {
                   @case ('light dark') {
                     Device theme
                   }
@@ -104,18 +104,18 @@
               </span>
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
             </button>
-            <button mat-menu-item disabled>
+            <button mat-menu-item [matMenuPageLink]="'language'">
               <mat-icon>translate</mat-icon>
-              <span>Language: English</span>
+              <span>Language: {{ 'lang.' + _lang.lang | transloco }}</span>
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
             </button>
-            <button mat-menu-item disabled>
+            <!-- <button mat-menu-item disabled>
               <mat-icon>language</mat-icon>
               <span>Location: Argentina</span>
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
-            </button>
+            </button> -->
             <mat-divider></mat-divider>
-            <a mat-menu-item routerLink="/settings" [disabled]="auth.loading || !auth.user">
+            <a mat-menu-item routerLink="/settings" [disabled]="_auth.loading || !_auth.user">
               <mat-icon>settings</mat-icon>
               <span>Settings</span>
             </a>
@@ -127,24 +127,34 @@
           </menu-page>
           <menu-page title="Appearance" pageId="appearance">
             <p class="text-muted mat-menu-item-info">Setting applies to this browser only</p>
-            <button mat-menu-item (click)="themeService.set('light dark')">
-              @if (themeService.theme === 'light dark') {
+            <button mat-menu-item (click)="_theme.set('light dark')">
+              @if (_theme.theme === 'light dark') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="themeService.theme !== 'light dark'">Use device theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light dark'">Use device theme</span>
             </button>
-            <button mat-menu-item (click)="themeService.set('light')">
-              @if (themeService.theme === 'light') {
+            <button mat-menu-item (click)="_theme.set('light')">
+              @if (_theme.theme === 'light') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="themeService.theme !== 'light'">Light theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light'">Light theme</span>
             </button>
-            <button mat-menu-item (click)="themeService.set('dark')">
-              @if (themeService.theme === 'dark') {
+            <button mat-menu-item (click)="_theme.set('dark')">
+              @if (_theme.theme === 'dark') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="themeService.theme !== 'dark'">Dark theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'dark'">Dark theme</span>
             </button>
+          </menu-page>
+          <menu-page title="Select your language" pageId="language">
+            @for (lang of _lang.availableLangs; track lang) {
+              <button mat-menu-item (click)="_lang.set(lang)">
+                @if (_lang.lang === lang) {
+                  <mat-icon>check</mat-icon>
+                }
+                <span [class.mat-menu-item-noicon]="_lang.lang !== lang">{{ 'lang.' + lang | transloco }}</span>
+              </button>
+            }
           </menu-page>
         </mat-multi-page-menu>
       </mat-menu>

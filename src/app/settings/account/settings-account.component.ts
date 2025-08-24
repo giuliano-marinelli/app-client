@@ -36,10 +36,10 @@ import { MessagesService } from '../../services/messages.service';
   ]
 })
 export class SettingsAccountComponent implements OnInit {
-  auth: AuthService = inject(AuthService);
-  router: Router = inject(Router);
-  formBuilder: FormBuilder = inject(FormBuilder);
-  messages: MessagesService = inject(MessagesService);
+  _auth: AuthService = inject(AuthService);
+  _router: Router = inject(Router);
+  _messages: MessagesService = inject(MessagesService);
+  _formBuilder: FormBuilder = inject(FormBuilder);
   _findUser: FindUser = inject(FindUser);
   _usernameExists: CheckUserUsernameExists = inject(CheckUserUsernameExists);
   _updateUser: UpdateUser = inject(UpdateUser);
@@ -74,7 +74,7 @@ export class SettingsAccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usernameForm = this.formBuilder.group({
+    this.usernameForm = this._formBuilder.group({
       id: this.id,
       username: this.username
     });
@@ -82,14 +82,14 @@ export class SettingsAccountComponent implements OnInit {
   }
 
   getUser(): void {
-    if (this.auth.user) {
+    if (this._auth.user) {
       this.userLoading = true;
       this._findUser({ relations: { emails: true } })
-        .fetch({ id: this.auth.user?.id })
+        .fetch({ id: this._auth.user?.id })
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this.messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
             }
             if (data?.user) {
               this.user = data?.user;
@@ -102,7 +102,7 @@ export class SettingsAccountComponent implements OnInit {
           this.userLoading = false;
         });
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 
@@ -115,13 +115,13 @@ export class SettingsAccountComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not update user data. Please try again later.');
+              this._messages.error(errors, 'Could not update user data. Please try again later.');
             }
             if (data?.updateUser) {
               this.getUser();
-              this.auth.setUser();
+              this._auth.setUser();
               this.usernameForm.markAsPristine();
-              this.messages.info('Username successfully changed.');
+              this._messages.info('Username successfully changed.');
             }
           }
         })
@@ -129,24 +129,24 @@ export class SettingsAccountComponent implements OnInit {
           this.updateSubmitLoading = false;
         });
     } else {
-      this.messages.error('Some values are invalid, please check.');
+      this._messages.error('Some values are invalid, please check.');
     }
   }
 
   deleteUser({ password, verificationCode }: any): void {
     this.deleteSubmitLoading = true;
-    if (this.auth.user) {
+    if (this._auth.user) {
       this._deleteUser
-        .mutate({ id: this.auth.user.id, password: password, code: verificationCode })
+        .mutate({ id: this._auth.user.id, password: password, code: verificationCode })
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this.messages.error(errors, 'Could not delete user data. Please try again later.');
+              this._messages.error(errors, 'Could not delete user data. Please try again later.');
             }
             if (data?.deleteUser) {
-              this.auth.eraseToken();
-              this.auth.setUser();
-              this.messages.info('Your account was successfully deleted. We will miss you!');
+              this._auth.eraseToken();
+              this._auth.setUser();
+              this._messages.info('Your account was successfully deleted. We will miss you!');
             }
           }
         })
@@ -154,7 +154,7 @@ export class SettingsAccountComponent implements OnInit {
           this.deleteSubmitLoading = false;
         });
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 }
