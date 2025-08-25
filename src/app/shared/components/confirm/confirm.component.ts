@@ -1,5 +1,15 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, EventEmitter, HostListener, Input, Output, TemplateRef, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+  TemplateRef,
+  ViewChild,
+  inject
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -7,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { TranslocoModule, TranslocoService, translate } from '@jsverse/transloco';
 
 import { NgOtpInputComponent } from 'ng-otp-input';
 
@@ -34,44 +46,45 @@ import { VarDirective } from '../../directives/var.directive';
     NgOtpInputComponent,
     NgTemplateOutlet,
     ReactiveFormsModule,
+    TranslocoModule,
     VarDirective
   ]
 })
-export class ConfirmComponent {
+export class ConfirmComponent implements OnInit {
   _auth: AuthService = inject(AuthService);
   _messages: MessagesService = inject(MessagesService);
   _formBuilder: FormBuilder = inject(FormBuilder);
+  _transloco: TranslocoService = inject(TranslocoService);
   _dialog: MatDialog = inject(MatDialog);
   _checkUserPassword: CheckUserPassword = inject(CheckUserPassword);
   _checkUserVerificationCode: CheckUserVerificationCode = inject(CheckUserVerificationCode);
   _updateUserVerificationCode: UpdateUserVerificationCode = inject(UpdateUserVerificationCode);
 
-  @Input() confirmMessage = 'Are you sure you want to do this?';
+  @Input() confirmMessage?: string;
   @Input() confirmTemplate: TemplateRef<any> | null = null;
   @Input() confirmData?: any;
-  @Input() confirmActionButton = 'Proceed';
+  @Input() confirmActionButton?: string;
   @Input() confirmColor = 'error';
-  @Input() rejectActionButton = 'Cancel';
+  @Input() rejectActionButton?: string;
   @Input() requiredPassword = false;
-  @Input() requiredPasswordMessage = 'Please enter your password to confirm.';
+  @Input() requiredPasswordMessage?: string;
   @Input() requiredPasswordTemplate: TemplateRef<any> | null = null;
   @Input() requiredPasswordData?: any;
-  @Input() confirmActionButtonPassword = 'Proceed';
+  @Input() confirmActionButtonPassword?: string;
   @Input() onlyPassword = false;
   @Input() requiredVerificationCode = false;
-  @Input() requiredVerificationCodeMessage =
-    `Please enter the verification code sended to your primary email to confirm.`;
+  @Input() requiredVerificationCodeMessage?: string;
   @Input() requiredVerificationCodeTemplate: TemplateRef<any> | null = null;
   @Input() requiredVerificationCodeData?: any;
   @Input() requiredVerificationCodeUseDefaultTemplate = true;
-  @Input() requiredVerificationCodeAdviceMessage =
-    `We need to verify your identity before you can proceed. We will send a verification code to your primary email.
-    Did you lost access to your primary email? Contact your email provider to recover your email account.`;
+  @Input() requiredVerificationCodeAdviceMessage?: string;
+  @Input() requiredVerificationCodeLostAccessMessage?: string;
+  @Input() requiredVerificationCodeDidntReceiveMessage?: string;
   @Input() requiredVerificationCodeAdviceTemplate: TemplateRef<any> | null = null;
   @Input() requiredVerificationCodeAdviceData?: any;
   @Input() requiredVerificationCodeAdviceUseDefaultTemplate = true;
-  @Input() confirmActionButtonVerificationCode = 'Proceed';
-  @Input() confirmActionButtonVerificationCodeAdvice = 'Send code';
+  @Input() confirmActionButtonVerificationCode?: string;
+  @Input() confirmActionButtonVerificationCodeAdvice?: string;
   @Input() onlyVerificationCode = false;
 
   @Output() confirm = new EventEmitter();
@@ -105,6 +118,43 @@ export class ConfirmComponent {
     Validators.maxLength(6)
   ]);
   verificationCodeStored?: string | null;
+
+  ngOnInit() {
+    this._transloco.selectTranslation().subscribe(() => {
+      if (!this.confirmMessage) this.confirmMessage = translate('shared.confirm.defaults.confirmMessage');
+      if (!this.confirmActionButton)
+        this.confirmActionButton = translate('shared.confirm.defaults.confirmActionButton');
+      if (!this.rejectActionButton) this.rejectActionButton = translate('shared.confirm.defaults.rejectActionButton');
+      if (!this.requiredPasswordMessage)
+        this.requiredPasswordMessage = translate('shared.confirm.defaults.requiredPasswordMessage');
+      if (!this.confirmActionButtonPassword)
+        this.confirmActionButtonPassword = translate('shared.confirm.defaults.confirmActionButtonPassword');
+      if (!this.requiredVerificationCodeMessage)
+        this.requiredVerificationCodeMessage = translate('shared.confirm.defaults.requiredVerificationCodeMessage', {
+          email: this._auth.user?.primaryEmail?.address
+        });
+      if (!this.requiredVerificationCodeAdviceMessage)
+        this.requiredVerificationCodeAdviceMessage = translate(
+          'shared.confirm.defaults.requiredVerificationCodeAdviceMessage'
+        );
+      if (!this.requiredVerificationCodeLostAccessMessage)
+        this.requiredVerificationCodeLostAccessMessage = translate(
+          'shared.confirm.defaults.requiredVerificationCodeLostAccessMessage'
+        );
+      if (!this.requiredVerificationCodeDidntReceiveMessage)
+        this.requiredVerificationCodeDidntReceiveMessage = translate(
+          'shared.confirm.defaults.requiredVerificationCodeDidntReceiveMessage'
+        );
+      if (!this.confirmActionButtonVerificationCode)
+        this.confirmActionButtonVerificationCode = translate(
+          'shared.confirm.defaults.confirmActionButtonVerificationCode'
+        );
+      if (!this.confirmActionButtonVerificationCodeAdvice)
+        this.confirmActionButtonVerificationCodeAdvice = translate(
+          'shared.confirm.defaults.confirmActionButtonVerificationCodeAdvice'
+        );
+    });
+  }
 
   @HostListener('mousedown')
   open() {
@@ -190,10 +240,10 @@ export class ConfirmComponent {
           .fetch({ id: this._auth.user.id, password: this.password?.value })
           .subscribe({
             next: ({ data, errors }) => {
-              if (errors) this._messages.error(errors, 'Could not check password. Please try again later.');
+              if (errors) this._messages.error(errors, translate('shared.confirm.messages.checkPasswordError'));
               else if (data?.checkUserPassword) resolve(true);
               else {
-                this._messages.error('Password does not match.');
+                this._messages.error(translate('shared.confirm.messages.checkPasswordNotMatch'));
                 resolve(false);
               }
             }
@@ -216,11 +266,11 @@ export class ConfirmComponent {
           .subscribe({
             next: ({ data, errors }) => {
               if (errors) {
-                this._messages.error(errors, 'Could not check verification code. Please try again later.');
+                this._messages.error(errors, translate('shared.confirm.messages.checkVerificationCodeError'));
                 resolve(false);
               } else if (data?.checkUserVerificationCode) resolve(true);
               else {
-                this._messages.error('Verification code does not match.');
+                this._messages.error(translate('shared.confirm.messages.checkVerificationCodeNotMatch'));
                 resolve(false);
               }
             }
@@ -243,10 +293,10 @@ export class ConfirmComponent {
           .subscribe({
             next: ({ errors }) => {
               if (errors) {
-                this._messages.error(errors, 'Could not send verification code. Please try again later.');
+                this._messages.error(errors, translate('shared.confirm.messages.sendVerificationCodeError'));
                 resolve(false);
               } else {
-                this._messages.info('Verification code sent to your primary email.');
+                this._messages.info(translate('shared.confirm.messages.sendVerificationCodeSuccess'));
                 resolve(true);
               }
             }

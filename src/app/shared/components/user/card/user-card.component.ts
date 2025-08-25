@@ -8,6 +8,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
+
 import { NgxMasonryComponent } from 'ngx-masonry';
 import { MomentModule } from 'ngx-moment';
 import { NgxResizeObserverModule } from 'ngx-resize-observer';
@@ -45,6 +47,7 @@ import { FilterPipe } from '../../../pipes/filter.pipe';
     NgxResizeObserverModule,
     RouterLink,
     SessionMiniComponent,
+    TranslocoModule,
     UserMiniComponent,
     VerifiedMarkComponent
   ]
@@ -73,10 +76,10 @@ export class UserCardComponent {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this._messages.error(errors, 'Could not delete user. Please try again later.');
+            this._messages.error(errors, translate('shared.user.messages.deleteUserError'));
           }
           if (data?.deleteUser) {
-            this._messages.info('User successfully deleted.');
+            this._messages.info(translate('shared.user.messages.deleteUserSuccess'));
             this.deleted.emit(data?.deleteUser);
           }
         }

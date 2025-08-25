@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { User } from '../../../entities/user.entity';
 
 @Component({
@@ -13,7 +15,8 @@ import { User } from '../../../entities/user.entity';
     MatButtonModule,
     MatCardModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    TranslocoModule
   ]
 })
 export class UserMiniComponent {

@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { Subject } from 'rxjs';
 
 @Component({
@@ -9,7 +11,8 @@ import { Subject } from 'rxjs';
   templateUrl: './leave-guard-warning.component.html',
   imports: [
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslocoModule
   ]
 })
 export class LeaveGuardWarningComponent {

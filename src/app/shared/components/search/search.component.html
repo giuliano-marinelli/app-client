@@ -4,7 +4,7 @@
       <input
         matInput
         type="text"
-        placeholder="Search..."
+        placeholder="{{ 'shared.search.placeholder' | transloco }}"
         [(ngModel)]="searchString"
         [class]="searchInputClass"
         [disabled]="loading"
@@ -28,7 +28,7 @@
       [class]="searchTagsClass"
     >
       @if (searchAttributes.length <= 0) {
-        <span class="small input-tags-placeholder text-muted ms-1 pb-1"> Search by adding tags </span>
+        <span class="small input-tags-placeholder text-muted ms-1 pb-1">{{ 'shared.search.placeholderAdvanced' | transloco }}</span>
       }
       <!--search tags-->
       @for (searchAttribute of searchAttributes; track searchAttribute) {
@@ -145,16 +145,16 @@
           [attr.aria-expanded]="!advancedCollapsed"
           (click)="advancedCollapse.toggle()"
         >
-          <b class="me-2">Advanced Search</b>
+          <b class="me-2">{{ 'shared.search.advanced' | transloco }}</b>
           <mat-icon class="small">{{ advancedCollapsed ? 'expand-more' : 'expand-less' }}</mat-icon>
         </a>
         <div class="flex-fill">
           @if (!advancedCollapsed) {
             <div class="btn-group btn-group-xs mt-1" role="group">
               <input class="btn-check" id="optional-and" name="optional" type="radio" [(ngModel)]="optional" [value]="false" />
-              <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">AND</label>
+              <label class="btn btn-outline-secondary no-outline m-0" for="optional-and">{{ 'shared.search.optionalAnd' | transloco }}</label>
               <input class="btn-check" id="optional-or" name="optional" type="radio" [(ngModel)]="optional" [value]="true" />
-              <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">OR</label>
+              <label class="btn btn-outline-secondary no-outline m-0" for="optional-or">{{ 'shared.search.optionalOr' | transloco }}</label>
             </div>
           }
         </div>

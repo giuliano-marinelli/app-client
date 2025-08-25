@@ -241,8 +241,12 @@
       "hints": {
         "primary": "Primär",
         "primaryDescription": "Diese E-Mail wird für kontobezogene Benachrichtigungen verwendet und kann auch zum Zurücksetzen des Passworts verwendet werden.",
+        "verified": "Verifiziert",
         "verifiedDescription": "Diese E-Mail kann als Anmeldemethode und zum Empfangen von Benachrichtigungen verwendet werden. Wenn sie als primäre E-Mail konfiguriert ist, kann sie zum Zurücksetzen Ihres Passworts verwendet werden.",
+        "unverified": "Nicht verifiziert",
         "unverifiedDescription": "Nicht verifizierte E-Mail-Adressen können nicht zum Zurücksetzen Ihres Passworts, als Anmeldemethode, zum Empfangen von Benachrichtigungen oder zum Festlegen als primäre E-Mail verwendet werden",
+        "resendVerificationEmail": "Bestätigungs-E-Mail erneut senden",
+        "unlessUnverifiedPrimary": "es sei denn, es ist Ihre primäre E-Mail-Adresse",
         "visibleEmail": "Sichtbar in E-Mails",
         "visibleEmailDescription": "Diese E-Mail kann in Profil-E-Mails sichtbar sein.",
         "notVisibleEmail": "Nicht sichtbar in E-Mails",
@@ -308,5 +312,105 @@
     },
     "news": {},
     "changelog": {}
+  },
+  "shared": {
+    "confirm": {
+      "password": "Passwort",
+      "defaults": {
+        "confirmMessage": "Sind Sie sicher, dass Sie dies tun möchten?",
+        "confirmActionButton": "Fortfahren",
+        "rejectActionButton": "Abbrechen",
+        "requiredPasswordMessage": "Bitte geben Sie Ihr Passwort ein, um fortzufahren.",
+        "confirmActionButtonPassword": "Fortfahren",
+        "requiredVerificationCodeMessage": "Bitte geben Sie den an {{email}} gesendeten Bestätigungscode ein, um zu bestätigen.",
+        "requiredVerificationCodeAdviceMessage": "Wir müssen Ihre Identität überprüfen, bevor Sie fortfahren können. Wir senden einen Bestätigungscode an Ihre primäre E-Mail",
+        "requiredVerificationCodeLostAccessMessage": "Haben Sie den Zugriff auf Ihre primäre E-Mail verloren? Wenden Sie sich an Ihren E-Mail-Anbieter, um Ihr Konto wiederherzustellen.",
+        "requiredVerificationCodeDidntReceiveMessage": "Code nicht erhalten oder abgelaufen? Erneut senden.",
+        "confirmActionButtonVerificationCode": "Fortfahren",
+        "confirmActionButtonVerificationCodeAdvice": "Code senden"
+      },
+      "messages": {
+        "checkPasswordError": "Passwort konnte nicht überprüft werden. Bitte versuchen Sie es später erneut.",
+        "checkPasswordNotMatch": "Das Passwort stimmt nicht überein.",
+        "checkVerificationCodeError": "Überprüfungscode konnte nicht geprüft werden. Bitte versuchen Sie es später erneut.",
+        "checkVerificationCodeNotMatch": "Der Bestätigungscode stimmt nicht überein.",
+        "sendVerificationCodeError": "Bestätigungscode konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.",
+        "sendVerificationCodeSuccess": "Bestätigungscode erfolgreich gesendet."
+      }
+    },
+    "invalidFeedback": {
+      "required": "{{name}} ist erforderlich.",
+      "minlength": "{{name}} muss mindestens {{requiredLength}} Zeichen lang sein.",
+      "minlengthItem": "Muss mindestens {{requiredLength}} {{itemsName}} haben.",
+      "maxlength": "{{name}} darf höchstens {{requiredLength}} Zeichen haben.",
+      "maxlengthItem": "Darf höchstens {{requiredLength}} {{itemsName}} haben.",
+      "url": "{{name}} muss im Format http://www.example.com/something sein.",
+      "email": "{{name}} muss im Format beispiel@email.com sein.",
+      "usernameExists": "Benutzername ist bereits vergeben, bitte versuchen Sie einen anderen.",
+      "emailExists": "E-Mail ist bereits vergeben, bitte versuchen Sie eine andere.",
+      "equalTo": "{{name}} muss mit {{controlName}} übereinstimmen.",
+      "pattern": "{{name}} enthält ungültige Zeichen.",
+      "default": "{{name}} ist ungültig."
+    },
+    "leaveGuardWarning": {
+      "leavePageQuestion": "Möchten Sie diese Seite verlassen?",
+      "leavePageWarning": "Änderungen werden möglicherweise nicht gespeichert",
+      "leavePageProceed": "Fortfahren",
+      "leavePageCancel": "Abbrechen"
+    },
+    "pictureInput": {
+      "uploadPicture": "Bild hochladen...",
+      "removePicture": "Bild entfernen",
+      "cropPicture": "Bild zuschneiden",
+      "savePicture": "Bild speichern"
+    },
+    "search": {
+      "placeholder": "Suchen...",
+      "placeholderAdvanced": "Suche durch Hinzufügen von Tags",
+      "advanced": "Erweiterte Suche",
+      "optionalAnd": "UND",
+      "optionalOr": "ODER"
+    },
+    "session": {
+      "labels": {
+        "blocked": "Blockiert",
+        "closed": "Geschlossen",
+        "currentDevice": "Aktuelles Gerät",
+        "firstLogin": "Erste Anmeldung",
+        "lastActivity": "Letzte Aktivität",
+        "recentActivity": "Aktuelle Aktivität"
+      },
+      "buttons": {
+        "closeSession": "Sitzung schließen"
+      },
+      "messages": {
+        "closeSessionError": "Konnte Sitzung nicht schließen. Bitte versuchen Sie es später erneut.",
+        "closeSessionSuccess": "Sitzung erfolgreich geschlossen."
+      }
+    },
+    "user": {
+      "labels": {
+        "profilePicture": "Profilbild",
+        "empty": "leer",
+        "description": "Beschreibung",
+        "admin": "Admin",
+        "you": "Du",
+        "createdAt": "Erstellt am",
+        "devices": "Geräte"
+      },
+      "buttons": {
+        "goToProfile": "Zum Profil",
+        "deleteUser": "Benutzer löschen"
+      },
+      "confirm": {
+        "deleteRequiredPasswordMessage": "Bitte geben Sie Ihr Passwort ein, um fortzufahren.",
+        "deleteConfirmActionButton": "Fortfahren",
+        "deleteConfirmMessage": "Sind Sie sicher, dass Sie den Benutzer löschen möchten"
+      },
+      "messages": {
+        "deleteUserError": "Konnte den Benutzer nicht löschen. Bitte versuchen Sie es später erneut.",
+        "deleteUserSuccess": "Benutzer erfolgreich gelöscht."
+      }
+    }
   }
 }

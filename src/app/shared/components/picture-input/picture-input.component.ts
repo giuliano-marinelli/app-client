@@ -1,9 +1,11 @@
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+
+import { TranslocoService, translate } from '@jsverse/transloco';
 
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-image-cropper';
@@ -19,9 +21,10 @@ import { ImageCroppedEvent, ImageCropperComponent, base64ToFile } from 'ngx-imag
     ImageCropperComponent
   ]
 })
-export class PictureInputComponent {
+export class PictureInputComponent implements OnInit {
   _dialog: MatDialog = inject(MatDialog);
   _compressor: NgxImageCompressService = inject(NgxImageCompressService);
+  _transloco: TranslocoService = inject(TranslocoService);
 
   @ViewChild('picture_view') pictureView!: ElementRef;
 
@@ -29,10 +32,10 @@ export class PictureInputComponent {
   @Input() fileControl!: FormControl<Blob | null>;
   @Input() defaultImage = 'assets/images/default-picture.png';
 
-  @Input() uploadLabel = 'Upload picture...';
-  @Input() removeLabel = 'Remove picture';
-  @Input() cropLabel = 'Crop picture';
-  @Input() saveLabel = 'Save picture';
+  @Input() uploadLabel?: string;
+  @Input() removeLabel?: string;
+  @Input() cropLabel?: string;
+  @Input() saveLabel?: string;
 
   @Input() uploadIcon = 'camera_alt';
   @Input() removeIcon = 'delete';
@@ -46,6 +49,15 @@ export class PictureInputComponent {
   @Input() viewClass: string[] = [];
 
   pictureChange!: Event;
+
+  ngOnInit(): void {
+    this._transloco.selectTranslation().subscribe(() => {
+      if (!this.uploadLabel) this.uploadLabel = translate('shared.pictureInput.uploadPicture');
+      if (!this.removeLabel) this.removeLabel = translate('shared.pictureInput.removePicture');
+      if (!this.cropLabel) this.cropLabel = translate('shared.pictureInput.cropPicture');
+      if (!this.saveLabel) this.saveLabel = translate('shared.pictureInput.savePicture');
+    });
+  }
 
   onChangePicture(event: any, cropDialog: any): void {
     if (event.target.files[0]) {

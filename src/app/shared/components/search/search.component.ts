@@ -7,6 +7,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { TranslocoModule } from '@jsverse/transloco';
+
 import {
   Attribute,
   AttributeColor,
@@ -28,7 +30,8 @@ import { v4 as uuidv4 } from 'uuid';
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    TranslocoModule
   ]
 })
 export class SearchComponent implements OnInit {

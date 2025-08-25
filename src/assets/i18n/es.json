@@ -236,8 +236,12 @@
       "hints": {
         "primary": "Principal",
         "primaryDescription": "Este correo será utilizado para notificaciones relacionadas con la cuenta y también puede usarse para restablecer la contraseña.",
+        "verified": "Verificado",
         "verifiedDescription": "Este correo puede usarse como método de inicio de sesión y para recibir notificaciones. Si está configurado como correo principal, puede usarse para restablecer tu contraseña.",
+        "unverified": "No verificado",
         "unverifiedDescription": "Las direcciones de correo no verificadas no pueden usarse para restablecer tu contraseña, como método de inicio de sesión, para recibir notificaciones o establecerse como correo principal",
+        "resendVerificationEmail": "Reenviar correo de verificación",
+        "unlessUnverifiedPrimary": "a menos que sea tu primer correo",
         "visibleEmail": "Visible en correos",
         "visibleEmailDescription": "Este correo puede mostrarse en los correos del perfil.",
         "notVisibleEmail": "No visible en correos",
@@ -303,5 +307,105 @@
     },
     "news": {},
     "changelog": {}
+  },
+  "shared": {
+    "confirm": {
+      "password": "Contraseña",
+      "defaults": {
+        "confirmMessage": "¿Estás seguro de que quieres hacer esto?",
+        "confirmActionButton": "Proceder",
+        "rejectActionButton": "Cancelar",
+        "requiredPasswordMessage": "Por favor, introduce tu contraseña para continuar.",
+        "confirmActionButtonPassword": "Proceder",
+        "requiredVerificationCodeMessage": "Por favor, introduce el código de verificación enviado a {{email}} para confirmar.",
+        "requiredVerificationCodeAdviceMessage": "Necesitamos verificar tu identidad antes de continuar. Enviaremos un código de verificación a tu correo principal",
+        "requiredVerificationCodeLostAccessMessage": "¿Perdiste el acceso a tu correo principal? Contacta con tu proveedor de correo para recuperar tu cuenta.",
+        "requiredVerificationCodeDidntReceiveMessage": "¿No recibiste tu código o ha caducado? Envíalo de nuevo.",
+        "confirmActionButtonVerificationCode": "Proceder",
+        "confirmActionButtonVerificationCodeAdvice": "Enviar código"
+      },
+      "messages": {
+        "checkPasswordError": "No se pudo comprobar la contraseña. Por favor, inténtalo más tarde.",
+        "checkPasswordNotMatch": "La contraseña no coincide.",
+        "checkVerificationCodeError": "No se pudo comprobar el código de verificación. Por favor, inténtalo más tarde.",
+        "checkVerificationCodeNotMatch": "El código de verificación no coincide.",
+        "sendVerificationCodeError": "No se pudo enviar el código de verificación. Por favor, inténtalo más tarde.",
+        "sendVerificationCodeSuccess": "Código de verificación enviado correctamente."
+      }
+    },
+    "invalidFeedback": {
+      "required": "{{name}} es obligatorio.",
+      "minlength": "{{name}} debe tener al menos {{requiredLength}} caracteres.",
+      "minlengthItem": "Debe tener al menos {{requiredLength}} {{itemsName}}.",
+      "maxlength": "{{name}} debe tener como máximo {{requiredLength}} caracteres.",
+      "maxlengthItem": "Debe tener como máximo {{requiredLength}} {{itemsName}}.",
+      "url": "{{name}} debe tener el formato http://www.example.com/something.",
+      "email": "{{name}} debe tener el formato ejemplo@email.com.",
+      "usernameExists": "El nombre de usuario ya está en uso, por favor prueba con otro.",
+      "emailExists": "El correo ya está en uso, por favor prueba con otro.",
+      "equalTo": "{{name}} debe coincidir con {{controlName}}.",
+      "pattern": "{{name}} tiene caracteres no válidos.",
+      "default": "{{name}} no es válido."
+    },
+    "leaveGuardWarning": {
+      "leavePageQuestion": "¿Quieres salir de esta página?",
+      "leavePageWarning": "Los cambios pueden no guardarse",
+      "leavePageProceed": "Proceder",
+      "leavePageCancel": "Cancelar"
+    },
+    "pictureInput": {
+      "uploadPicture": "Subir imagen...",
+      "removePicture": "Eliminar imagen",
+      "cropPicture": "Recortar imagen",
+      "savePicture": "Guardar imagen"
+    },
+    "search": {
+      "placeholder": "Buscar...",
+      "placeholderAdvanced": "Buscar añadiendo etiquetas",
+      "advanced": "Búsqueda avanzada",
+      "optionalAnd": "Y",
+      "optionalOr": "O"
+    },
+    "session": {
+      "labels": {
+        "blocked": "Bloqueado",
+        "closed": "Cerrado",
+        "currentDevice": "Dispositivo actual",
+        "firstLogin": "Primer inicio de sesión",
+        "lastActivity": "Última actividad",
+        "recentActivity": "Actividad reciente"
+      },
+      "buttons": {
+        "closeSession": "Cerrar sesión"
+      },
+      "messages": {
+        "closeSessionError": "No se pudo cerrar la sesión. Por favor, inténtalo más tarde.",
+        "closeSessionSuccess": "Sesión cerrada correctamente."
+      }
+    },
+    "user": {
+      "labels": {
+        "profilePicture": "Foto de perfil",
+        "empty": "vacío",
+        "description": "Descripción",
+        "admin": "Administrador",
+        "you": "Tú",
+        "createdAt": "Creado el",
+        "devices": "Dispositivos"
+      },
+      "buttons": {
+        "goToProfile": "Ir al perfil",
+        "deleteUser": "Eliminar usuario"
+      },
+      "confirm": {
+        "deleteRequiredPasswordMessage": "Por favor, introduce tu contraseña para continuar.",
+        "deleteConfirmActionButton": "Proceder",
+        "deleteConfirmMessage": "¿Estás seguro de que quieres eliminar al usuario"
+      },
+      "messages": {
+        "deleteUserError": "No se pudo eliminar el usuario. Por favor, inténtalo más tarde.",
+        "deleteUserSuccess": "Usuario eliminado correctamente."
+      }
+    }
   }
 }

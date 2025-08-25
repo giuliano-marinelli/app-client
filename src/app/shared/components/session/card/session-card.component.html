@@ -24,7 +24,7 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
+          <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> {{ 'shared.session.buttons.closeSession' | transloco }}</a>
         </mat-menu>
         <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
       }
@@ -32,19 +32,19 @@
     @if (session.blockedAt) {
       <div class="text-error mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">lock</mat-icon>
-        <div>Blocked</div>
+        <div>{{ 'shared.session.labels.blocked' | transloco }}</div>
       </div>
     }
     @if (session.closedAt && !session.blockedAt) {
       <div class="text-muted mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">cancel</mat-icon>
-        <div>Closed</div>
+        <div>{{ 'shared.session.labels.closed' | transloco }}</div>
       </div>
     }
     @if (session.token === _auth.getToken()) {
       <div class="text-success mt-2 flex flex-row justify-end gap-2">
         <mat-icon class="icon-inline-base shrink-0">check_circle</mat-icon>
-        <div>Current device</div>
+        <div>{{ 'shared.session.labels.currentDevice' | transloco }}</div>
       </div>
     }
     @if (session.device?.ip) {
@@ -54,9 +54,13 @@
       </div>
     }
     <mat-divider class="mt-2!"></mat-divider>
-    <div class="mt-2 text-sm"><b>First login:</b> {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
     <div class="mt-2 text-sm">
-      <b> {{ session.closedAt || session.blockedAt ? 'Last' : 'Recent' }} activity: </b>
+      <b>{{ 'shared.session.labels.firstLogin' | transloco }}:</b> {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}
+    </div>
+    <div class="mt-2 text-sm">
+      <b>
+        {{ (session.closedAt || session.blockedAt ? 'shared.session.labels.lastActivity' : 'shared.session.labels.recentActivity') | transloco }}
+      </b>
       {{ session.updatedAt | amLocal | amTimeAgo }}
     </div>
     <mat-divider class="mt-2!"></mat-divider>

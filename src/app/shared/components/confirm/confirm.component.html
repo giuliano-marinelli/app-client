@@ -33,7 +33,7 @@
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
       >
-        <mat-label>Password</mat-label>
+        <mat-label>{{ 'shared.confirm.password' | transloco }}</mat-label>
         <input matInput formControlName="password" [type]="hidden.active ? 'password' : 'text'" />
         <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -64,13 +64,13 @@
 
 <ng-template #content_verification_code_advice_default_message>
   <p>
-    We need to verify your identity before you can proceed. We will send a verification code to your primary email (
+    {{ requiredVerificationCodeAdviceMessage }} (
     <b>
       {{ _auth.user?.primaryEmail?.address }}
     </b>
     ).
   </p>
-  <p class="text-muted mb-0">Did you lost access to your primary email? Contact your email provider to recover your email account.</p>
+  <p class="text-muted mb-0">{{ requiredVerificationCodeLostAccessMessage }}</p>
 </ng-template>
 
 <ng-template #content_verification_code_advice let-modal>
@@ -107,7 +107,7 @@
 
 <ng-template #content_verification_code_default_message>
   <p>
-    Please enter the verification code sended to <b>{{ _auth.user?.primaryEmail?.address }}</b> to confirm.
+    {{ requiredVerificationCodeMessage }}
   </p>
 </ng-template>
 
@@ -142,7 +142,7 @@
         [class.text-muted]="checkVerificationCodeAdviceLoading"
         (click)="!checkVerificationCodeAdviceLoading && sendVerificationCode()"
       >
-        Didn't receive your code or is expired? Send it again.
+        {{ requiredVerificationCodeDidntReceiveMessage }}
       </a>
       @if (checkVerificationCodeAdviceLoading) {
         <mat-icon class="ml-2"><mat-spinner diameter="17"></mat-spinner></mat-icon>

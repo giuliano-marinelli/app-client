@@ -6,7 +6,7 @@
     <div class="mx-0 my-4 flex flex-row gap-4">
       <img
         class="img-thumbnail h-30 w-30 rounded-full max-sm:h-18 max-sm:w-18 md:h-40 md:w-40"
-        alt="Profile picture"
+        alt="{{ 'shared.user.labels.profilePicture' | transloco }}"
         onerror="this.src='assets/images/default-user.png'"
         [src]="_profile.user()?.profile?.avatar"
       />

@@ -38,7 +38,7 @@
         <button matIconButton class="h-9! w-9! overflow-hidden! rounded-full! p-0!" [matMenuTriggerFor]="menu" (click)="menuPages.resetPages()">
           <img
             class="block h-full! w-full! object-cover"
-            alt="Profile picture"
+            alt="{{ 'shared.user.labels.profilePicture' | transloco }}"
             onerror="this.src='assets/images/default-user.png'"
             [src]="_auth.user.profile?.avatar"
           />
@@ -66,7 +66,7 @@
               <div class="mat-menu-item-info flex! flex-row items-start gap-3 px-3 py-1">
                 <img
                   class="block h-11 w-11 rounded-full"
-                  alt="Profile picture"
+                  alt="{{ 'shared.user.labels.profilePicture' | transloco }}"
                   onerror="this.src='assets/images/default-user.png'"
                   [src]="_auth.user.profile?.avatar"
                 />

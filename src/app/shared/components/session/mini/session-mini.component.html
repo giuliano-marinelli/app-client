@@ -14,7 +14,7 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> Close session</a>
+      <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> {{ 'shared.session.buttons.closeSession' | transloco }}</a>
     </mat-menu>
     <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
   }
@@ -22,19 +22,19 @@
 @if (session.blockedAt) {
   <div class="text-error mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">lock</mat-icon>
-    <div class="text-sm">Blocked</div>
+    <div class="text-sm">{{ 'shared.session.labels.blocked' | transloco }}</div>
   </div>
 }
 @if (session.closedAt && !session.blockedAt) {
   <div class="text-muted mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">cancel</mat-icon>
-    <div class="text-sm">Closed</div>
+    <div class="text-sm">{{ 'shared.session.labels.closed' | transloco }}</div>
   </div>
 }
 @if (session.token === _auth.getToken()) {
   <div class="text-success mt-2 flex flex-row gap-2">
     <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
-    <div class="text-sm">Current device</div>
+    <div class="text-sm">{{ 'shared.session.labels.currentDevice' | transloco }}</div>
   </div>
 }
 @if (session.device?.ip) {
@@ -55,9 +55,13 @@
 }
 <div class="text-muted mt-1 flex flex-row gap-2">
   <mat-icon class="icon-inline-sm shrink-0">event_available</mat-icon>
-  <div class="text-sm">first login: {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
+  <div class="text-sm">{{ 'shared.session.labels.firstLogin' | transloco | lowercase }}: {{ session.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
 </div>
 <div class="text-muted mt-1 flex flex-row gap-2">
   <mat-icon class="icon-inline-sm shrink-0">access_time</mat-icon>
-  <div class="text-sm">recent activity: {{ session.updatedAt | amLocal | amTimeAgo }}</div>
+  <div class="text-sm">
+    {{
+      (session.closedAt || session.blockedAt ? 'shared.session.labels.lastActivity' : 'shared.session.labels.recentActivity') | transloco | lowercase
+    }}: {{ session.updatedAt | amLocal | amTimeAgo }}
+  </div>
 </div>

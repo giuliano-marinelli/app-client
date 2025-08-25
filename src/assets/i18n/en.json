@@ -244,8 +244,12 @@
       "hints": {
         "primary": "Primary",
         "primaryDescription": "This email will be used for account-related notifications and can also be used for password resets.",
+        "verified": "Verified",
         "verifiedDescription": "This email may be used as login method and for receive notifications. If it's configured as primary email, it can be used for reset your password.",
+        "unverified": "Unverified",
         "unverifiedDescription": "Unverified email addresses cannot be used to reset your password, as a login method, for receive notifications or set as primary email",
+        "resendVerificationEmail": "Resend verification email",
+        "unlessUnverifiedPrimary": "unless it's your first email",
         "visibleEmail": "Visible in emails",
         "visibleEmailDescription": "This email can be visible in profile emails.",
         "notVisibleEmail": "Not visible in emails",
@@ -311,5 +315,105 @@
     },
     "news": {},
     "changelog": {}
+  },
+  "shared": {
+    "confirm": {
+      "password": "Password",
+      "defaults": {
+        "confirmMessage": "Are you sure you want to do this?",
+        "confirmActionButton": "Proceed",
+        "rejectActionButton": "Cancel",
+        "requiredPasswordMessage": "Please enter your password to confirm.",
+        "confirmActionButtonPassword": "Proceed",
+        "requiredVerificationCodeMessage": "Please enter the verification code sent to {{email}} to confirm.",
+        "requiredVerificationCodeAdviceMessage": "We need to verify your identity before you can proceed. We will send a verification code to your primary email",
+        "requiredVerificationCodeLostAccessMessage": "Did you lost access to your primary email? Contact your email provider to recover your email account.",
+        "requiredVerificationCodeDidntReceiveMessage": "Didn't receive your code or is expired? Send it again.",
+        "confirmActionButtonVerificationCode": "Proceed",
+        "confirmActionButtonVerificationCodeAdvice": "Send code"
+      },
+      "messages": {
+        "checkPasswordError": "Could not check password. Please try again later.",
+        "checkPasswordNotMatch": "Password does not match.",
+        "checkVerificationCodeError": "Could not check verification code. Please try again later.",
+        "checkVerificationCodeNotMatch": "Verification code does not match.",
+        "sendVerificationCodeError": "Could not send verification code. Please try again later.",
+        "sendVerificationCodeSuccess": "Verification code sent successfully."
+      }
+    },
+    "invalidFeedback": {
+      "required": "{{name}} is required.",
+      "minlength": "{{name}} must be at least {{requiredLength}} characters long.",
+      "minlengthItem": "Must have at least {{requiredLength}} {{itemsName}}.",
+      "maxlength": "{{name}} must be at most {{requiredLength}} characters long.",
+      "maxlengthItem": "Must have at most {{requiredLength}} {{itemsName}}.",
+      "url": "{{name}} must be on the format http://www.example.com/something.",
+      "email": "{{name}} must be on the format example@email.com.",
+      "usernameExists": "Username is already taken, please try another one.",
+      "emailExists": "Email is already taken, please try another one.",
+      "equalTo": "{{name}} must match {{controlName}}.",
+      "pattern": "{{name}} has invalid characters.",
+      "default": "{{name}} is invalid."
+    },
+    "leaveGuardWarning": {
+      "leavePageQuestion": "Do you want to leave this page?",
+      "leavePageWarning": "Changes may not be saved",
+      "leavePageProceed": "Proceed",
+      "leavePageCancel": "Cancel"
+    },
+    "pictureInput": {
+      "uploadPicture": "Upload picture...",
+      "removePicture": "Remove picture",
+      "cropPicture": "Crop picture",
+      "savePicture": "Save picture"
+    },
+    "search": {
+      "placeholder": "Search...",
+      "placeholderAdvanced": "Search by adding tags",
+      "advanced": "Advanced Search",
+      "optionalAnd": "AND",
+      "optionalOr": "OR"
+    },
+    "session": {
+      "labels": {
+        "blocked": "Blocked",
+        "closed": "Closed",
+        "currentDevice": "Current Device",
+        "firstLogin": "First Login",
+        "lastActivity": "Last activity",
+        "recentActivity": "Recent activity"
+      },
+      "buttons": {
+        "closeSession": "Close session"
+      },
+      "messages": {
+        "closeSessionError": "Could not close session. Please try again later.",
+        "closeSessionSuccess": "Session successfully closed."
+      }
+    },
+    "user": {
+      "labels": {
+        "profilePicture": "Profile picture",
+        "empty": "empty",
+        "description": "Description",
+        "admin": "Admin",
+        "you": "You",
+        "createdAt": "Created at",
+        "devices": "Devices"
+      },
+      "buttons": {
+        "goToProfile": "Go to profile",
+        "deleteUser": "Delete user"
+      },
+      "confirm": {
+        "deleteRequiredPasswordMessage": "Please enter your password to continue.",
+        "deleteConfirmActionButton": "Proceed",
+        "deleteConfirmMessage": "Are you sure you want to delete the user"
+      },
+      "messages": {
+        "deleteUserError": "Could not delete user. Please try again later.",
+        "deleteUserSuccess": "User successfully deleted."
+      }
+    }
   }
 }

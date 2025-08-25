@@ -1,8 +1,10 @@
 <mat-dialog-content>
-  <p>Do you want to leave this page?</p>
-  <p><b>Changes may not be saved</b></p>
+  <p>{{ 'shared.leaveGuardWarning.leavePageQuestion' | transloco }}</p>
+  <p>
+    <b>{{ 'shared.leaveGuardWarning.leavePageWarning' | transloco }}</b>
+  </p>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button matButton class="secondary" (click)="proceed(false)">Cancel</button>
-  <button matButton="filled" class="error" (click)="proceed(true)">Proceed</button>
+  <button matButton class="secondary" (click)="proceed(false)">{{ 'shared.leaveGuardWarning.leavePageCancel' | transloco }}</button>
+  <button matButton="filled" class="error" (click)="proceed(true)">{{ 'shared.leaveGuardWarning.leavePageProceed' | transloco }}</button>
 </mat-dialog-actions>

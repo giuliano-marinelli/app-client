@@ -2,6 +2,8 @@ import { KeyValuePipe } from '@angular/common';
 import { Component, HostBinding, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormControl } from '@angular/forms';
 
+import { translate } from '@jsverse/transloco';
+
 @Component({
   selector: 'invalid-feedback',
   templateUrl: './invalid-feedback.component.html',
@@ -25,31 +27,46 @@ export class InvalidFeedbackComponent {
 
     switch (error) {
       case 'required':
-        return `${this.name} is required.`;
+        return translate('shared.invalidFeedback.required', { name: this.name });
       case 'minlength':
         if (index === undefined && this.isFormArray())
-          return `Must have at least ${control?.errors?.['minlength']?.requiredLength} ${this.itemsName}.`;
-        else return `${this.name} must be at least ${control?.errors?.['minlength']?.requiredLength} characters long.`;
+          return translate('shared.invalidFeedback.minlengthItem', {
+            requiredLength: control?.errors?.['minlength']?.requiredLength,
+            itemsName: this.itemsName
+          });
+        else
+          return translate('shared.invalidFeedback.minlength', {
+            name: this.name,
+            requiredLength: control?.errors?.['minlength']?.requiredLength
+          });
       case 'maxlength':
         if (index === undefined && this.isFormArray())
-          return `Must have at most ${control?.errors?.['maxlength']?.requiredLength} ${this.itemsName}.`;
-        else return `${this.name} must be at most ${control?.errors?.['maxlength']?.requiredLength} characters long.`;
+          return translate('shared.invalidFeedback.maxlengthItem', {
+            requiredLength: control?.errors?.['maxlength']?.requiredLength,
+            itemsName: this.itemsName
+          });
+        else
+          return translate('shared.invalidFeedback.maxlength', {
+            name: this.name,
+            requiredLength: control?.errors?.['maxlength']?.requiredLength
+          });
       case 'url':
-        return `${this.name} must be on the format http://www.example.com/something`;
+        return translate('shared.invalidFeedback.url', { name: this.name });
       case 'email':
-        return `${this.name} must be on the format example@email.com`;
+        return translate('shared.invalidFeedback.email', { name: this.name });
       case 'usernameExists':
-        return 'Username is already taken, please try another one';
+        return translate('shared.invalidFeedback.usernameExists');
       case 'emailExists':
-        return 'Email is already taken, please try another one';
-      case 'tagExists':
-        return 'Tag is already taken, please try another one';
+        return translate('shared.invalidFeedback.emailExists');
       case 'equalTo':
-        return `${this.name} must match ${control?.errors?.['equalTo']?.controlName}.`;
+        return translate('shared.invalidFeedback.equalTo', {
+          name: this.name,
+          controlName: control?.errors?.['equalTo']?.controlName
+        });
       case 'pattern':
-        return `${this.name} has invalid characters.`;
+        return translate('shared.invalidFeedback.pattern', { name: this.name });
       default:
-        return `${this.name} is invalid.`;
+        return translate('shared.invalidFeedback.invalid', { name: this.name });
     }
   }
 

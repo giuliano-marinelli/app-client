@@ -54,7 +54,8 @@
           <ul class="text-muted ml-4 list-[circle] text-sm">
             @if (email.verified) {
               <li class="mt-3">
-                <span class="text-info">Verified</span><br />
+                <span class="text-info">{{ 'settings.emails.hints.verified' | transloco }}</span
+                ><br />
                 <span class="small">
                   {{ 'settings.emails.hints.verifiedDescription' | transloco }}
                 </span>
@@ -62,12 +63,15 @@
             }
             @if (!email.verified) {
               <li class="mt-3">
-                <span class="text-warning">Unverified</span>
-                <a class="text-info ms-4 cursor-pointer" (click)="sendVerificationEmail(email)"> Resend verification email </a><br />
+                <span class="text-warning">{{ 'settings.emails.hints.unverified' | transloco }}</span>
+                <a class="text-info ms-4 cursor-pointer" (click)="sendVerificationEmail(email)">
+                  {{ 'settings.emails.hints.resendVerificationEmail' | transloco }}
+                </a>
+                <br />
                 <span class="text-sm">
                   {{ 'settings.emails.hints.unverifiedDescription' | transloco }}
                   @if (user.primaryEmail?.id === email.id) {
-                    <span>(unless it's your first email)</span>
+                    <span>({{ 'settings.emails.hints.unlessUnverifiedPrimary' | transloco }})</span>
                   }
                   .
                 </span>
@@ -147,7 +151,7 @@
         </button>
         <confirm
           #confirmChangePrimaryEmail
-          requiredPasswordMessage="Please enter your password to continue."
+          requiredPasswordMessage="{{ 'settings.emails.confirm.passwordMessage' | transloco }}"
           [requiredPassword]="true"
           [requiredVerificationCode]="true"
           [onlyPassword]="true"

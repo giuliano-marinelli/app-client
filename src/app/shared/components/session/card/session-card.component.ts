@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
+
 import { NgxMasonryComponent } from 'ngx-masonry';
 import { MomentModule } from 'ngx-moment';
 
@@ -28,7 +30,8 @@ import { MessagesService } from '../../../../services/messages.service';
     MatMenuModule,
     MatProgressSpinnerModule,
     MomentModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslocoModule
   ]
 })
 export class SessionCardComponent {
@@ -56,9 +59,9 @@ export class SessionCardComponent {
       .mutate({ id: session.id })
       .subscribe({
         next: ({ data, errors }) => {
-          if (errors) this._messages.error(errors, 'Could not close session. Please try again later.');
+          if (errors) this._messages.error(errors, translate('shared.session.messages.closeSessionError'));
           if (data?.closeSession) {
-            this._messages.info('Session successfully closed.');
+            this._messages.info(translate('shared.session.messages.closeSessionSuccess'));
             this.closed.emit(data?.closeSession);
           }
         }

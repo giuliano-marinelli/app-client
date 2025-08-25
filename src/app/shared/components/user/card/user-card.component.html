@@ -10,7 +10,7 @@
       <div class="shrink-0">
         <img
           class="img-thumbnail h-12 w-12 rounded-full"
-          alt="Profile picture"
+          alt="{{ 'shared.user.labels.profilePicture' | transloco }}"
           onerror="this.src='assets/images/default-user.png'"
           [src]="user.profile?.avatar"
         />
@@ -24,18 +24,20 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> Go to profile</a>
-        <a mat-menu-item [hidden]="user.id === _auth.user?.id" (click)="confirmDelete.open()"><mat-icon>person_off</mat-icon> Delete user</a>
+        <a mat-menu-item routerLink="/{{ user.username }}"><mat-icon>person</mat-icon> {{ 'shared.user.buttons.goToProfile' | transloco }}</a>
+        <a mat-menu-item [hidden]="user.id === _auth.user?.id" (click)="confirmDelete.open()"
+          ><mat-icon>person_off</mat-icon> {{ 'shared.user.buttons.deleteUser' | transloco }}</a
+        >
         <confirm
           #confirmDelete
-          requiredPasswordMessage="Please enter your password to continue."
-          confirmActionButton="Delete"
+          requiredPasswordMessage="{{ 'shared.user.confirm.deleteRequiredPasswordMessage' | transloco }}"
+          confirmActionButton="{{ 'shared.user.confirm.deleteConfirmActionButton' | transloco }}"
           [requiredPassword]="true"
           [confirmTemplate]="delete_message"
           (confirm)="deleteUser($event, user)"
         ></confirm>
         <ng-template #delete_message>
-          <p class="mb-3">Are you sure you want to delete the user:</p>
+          <p class="mb-3">{{ 'shared.user.confirm.deleteConfirmMessage' | transloco }}:</p>
           <user-mini [user]="user"></user-mini>
         </ng-template>
       </mat-menu>
@@ -74,9 +76,9 @@
       <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.profile?.bio">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
-            Description
+            {{ 'shared.user.labels.description' | transloco }}
             @if (!user.profile?.bio) {
-              <span class="text-muted font-normal">empty</span>
+              <span class="text-muted font-normal">{{ 'shared.user.labels.empty' | transloco }}</span>
             }
           </mat-panel-title>
         </mat-expansion-panel-header>
@@ -90,7 +92,7 @@
       <mat-icon class="icon-inline-sm shrink-0">language</mat-icon>
       <div class="text-sm">
         @if (!user.profile?.url) {
-          <span class="text-muted">empty</span>
+          <span class="text-muted">{{ 'shared.user.labels.empty' | transloco }}</span>
         } @else {
           <a href="{{ user.profile?.url }}" target="_blank">{{ user.profile?.url }}</a>
         }
@@ -101,7 +103,7 @@
       <mat-icon class="icon-inline-sm shrink-0">location_on</mat-icon>
       <div class="text-sm">
         @if (!user.profile?.location) {
-          <span class="text-muted">empty</span>
+          <span class="text-muted">{{ 'shared.user.labels.empty' | transloco }}</span>
         } @else {
           {{ user.profile?.location }}
         }
@@ -112,26 +114,28 @@
       @if (user.role === 'admin') {
         <div class="text-info flex flex-row gap-2">
           <mat-icon class="icon-inline-sm shrink-0">manage_accounts</mat-icon>
-          <div class="text-sm">Admin</div>
+          <div class="text-sm">{{ 'shared.user.labels.admin' | transloco }}</div>
         </div>
       }
       @if (user.id === _auth.user?.id) {
         <div class="text-success flex flex-row gap-1">
           <mat-icon class="icon-inline-sm shrink-0">check_circle</mat-icon>
-          <div class="text-sm">You</div>
+          <div class="text-sm">{{ 'shared.user.labels.you' | transloco }}</div>
         </div>
       }
     </div>
 
     <mat-divider class="mt-2!"></mat-divider>
-    <div class="mt-2 text-sm"><b>Created at:</b> {{ user.createdAt | amLocal | amDateFormat: 'LLL' }}</div>
+    <div class="mt-2 text-sm">
+      <b>{{ 'shared.user.labels.createdAt' | transloco }}:</b> {{ user.createdAt | amLocal | amDateFormat: 'LLL' }}
+    </div>
     <div class="mt-2">
       <mat-expansion-panel #expansionPanel class="small" [class.blocked]="!user.sessions?.length">
         <mat-expansion-panel-header>
           <mat-panel-title class="text-sm">
-            Devices
+            {{ 'shared.user.labels.devices' | transloco }}
             @if (!user.sessions?.length) {
-              <span class="text-muted font-normal">empty</span>
+              <span class="text-muted font-normal">{{ 'shared.user.labels.empty' | transloco }}</span>
             }
           </mat-panel-title>
         </mat-expansion-panel-header>
