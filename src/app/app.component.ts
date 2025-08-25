@@ -11,7 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { LangDefinition, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService, translate } from '@jsverse/transloco';
 
 import { environment } from '../environments/environment';
 import { siFirefoxbrowser, siGooglechrome, siOpera, siSafari } from 'simple-icons';
@@ -27,6 +27,18 @@ import { TitleService } from './services/title.service';
 import { VarDirective } from './shared/directives/var.directive';
 
 import { MatMultiPageMenuModule } from './shared/components/material/multi-page-menu/multi-page-menu-module';
+
+export type NavLink =
+  | {
+      type: 'item';
+      label: string;
+      icon: string;
+      route: string;
+      exact?: boolean;
+      auth?: boolean;
+      admin?: boolean;
+    }
+  | { type: 'toBottom' };
 
 @Component({
   selector: 'root',
@@ -44,8 +56,8 @@ import { MatMultiPageMenuModule } from './shared/components/material/multi-page-
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
-    VarDirective,
-    TranslocoPipe
+    TranslocoModule,
+    VarDirective
   ]
 })
 export class AppComponent implements OnInit {
@@ -55,6 +67,7 @@ export class AppComponent implements OnInit {
   _lang: LanguageService = inject(LanguageService);
   _title: TitleService = inject(TitleService);
   _theme: ThemeService = inject(ThemeService);
+  _transloco: TranslocoService = inject(TranslocoService);
   _iconRegistry: MatIconRegistry = inject(MatIconRegistry);
   _sanitizer: DomSanitizer = inject(DomSanitizer);
   _breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
@@ -62,20 +75,13 @@ export class AppComponent implements OnInit {
 
   @ViewChild('drawer') drawer: any;
 
-  title = 'App';
-
   isDevelopment = !environment.production;
 
   $isFullNav = false;
   $isLargeScreen = false;
   $isSmallScreen = false;
 
-  navLinks = [
-    { label: 'Home', icon: 'home', route: '/', exact: true },
-    { label: 'Admin', icon: 'manage_accounts', route: '/admin', admin: true },
-    { toBottom: true },
-    { label: 'Settings', icon: 'settings', route: '/settings', auth: true },
-    { label: 'Sign in', icon: 'account_circle', route: '/login', auth: false }];
+  navLinks: NavLink[] = [];
 
   ngOnInit() {
     this.registerIcons();
@@ -103,14 +109,51 @@ export class AppComponent implements OnInit {
 
     // Initialize language
     this._lang.init();
-    this._lang.preferredLang;
 
     // Initialize theme
     this._theme.init();
 
     // For change page title
-    this._title.appTitle = this.title;
     this._title.initTitle();
+
+    // Initialize navigation links
+    this._transloco.selectTranslation().subscribe(() => {
+      this.navLinks = [
+        {
+          type: 'item',
+          label: translate('section.home'),
+          icon: 'home',
+          route: '/',
+          exact: true
+        },
+        {
+          type: 'item',
+          label: translate('section.admin'),
+          icon: 'manage_accounts',
+          route: '/admin',
+          admin: true
+        },
+        { type: 'toBottom' },
+        {
+          type: 'item',
+          label: translate('section.settings'),
+          icon: 'settings',
+          route: '/settings',
+          auth: true
+        },
+        {
+          type: 'item',
+          label: translate('section.signIn'),
+          icon: 'account_circle',
+          route: '/login',
+          auth: false
+        }
+      ];
+    });
+  }
+
+  trackByNavLink(navLink: NavLink): string {
+    return `${navLink.type}${navLink.type === 'item' ? '::' + navLink.route : ''}`;
   }
 
   registerIcons() {
@@ -143,11 +186,11 @@ export class AppComponent implements OnInit {
   logout() {
     this._logout.fetch().subscribe({
       next: ({ data, errors }) => {
-        if (errors) this._messages.error(errors, 'Logout failed. Please try again later.');
+        if (errors) this._messages.error(errors, translate('messages.logoutError'));
         else if (data?.logout) {
           this._auth.eraseToken();
           this._auth.setUser();
-          this._messages.info('Goodbye! Hope to see you soon!');
+          this._messages.info(translate('messages.logoutSuccess'));
         }
       }
     });

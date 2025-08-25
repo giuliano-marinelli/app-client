@@ -23,6 +23,11 @@ button[matsuffix] {
   @apply mr-[5px] ml-[3px];
 }
 
+/* Material mat-button fix: ellipsis on button labels overflow */
+.mdc-button__label {
+  @apply overflow-hidden text-ellipsis;
+}
+
 /* Material fix: specific for search button */
 .search button[matsuffix] {
   @apply h-[30px] w-[30px] p-[3px];
@@ -283,11 +288,19 @@ button[matsuffix] {
   }
 
   .nav-item-sm {
-    @apply flex-col py-3! px-0! h-17! gap-1;
+    @apply flex-col py-3! px-0! h-17!;
   }
 
-  .nav-item-sm span {
-    @apply text-xs!;
+  .nav-item-sm .mdc-list-item__content {
+    @apply text-[10px]! text-center w-full px-1;
+  }
+
+  .nav-item-sm .mat-mdc-list-item-title {
+    @apply text-[10px]!;
+  }
+
+  .nav-item-sm .mat-mdc-list-item-unscoped-content {
+    @apply p-0!;
   }
 
   /* General Operation component */

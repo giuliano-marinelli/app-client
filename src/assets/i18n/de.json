@@ -1,0 +1,124 @@
+{
+  "section": {
+    "home": "Startseite",
+    "admin": "Administration",
+    "settings": "Einstellungen",
+    "signIn": "Anmelden"
+  },
+  "menu": {
+    "profile": { "title": "Profil" },
+    "signOut": { "title": "Abmelden" },
+    "appearance": {
+      "title": "Darstellung",
+      "useDeviceTheme": "Gerätethema verwenden",
+      "deviceTheme": "Gerätethema",
+      "lightTheme": "Helles Thema",
+      "darkTheme": "Dunkles Thema",
+      "browserNote": "Die Einstellung gilt nur für diesen Browser"
+    },
+    "language": { "title": "Sprache", "select": "Wählen Sie Ihre Sprache" },
+    "settings": { "title": "Einstellungen" },
+    "feedback": { "title": "Feedback senden" }
+  },
+  "messages": {
+    "invalidValues": "Einige Werte sind ungültig, bitte überprüfen Sie diese.",
+    "logoutSuccess": "Auf Wiedersehen! Hoffentlich bis bald!",
+    "logoutError": "Abmeldung fehlgeschlagen. Bitte versuche es später noch einmal."
+  },
+  "not-found": "Seite nicht gefunden",
+  "login": {
+    "title": "Anmelden bei {{appTitle}}",
+    "subtitle": "Bitte geben Sie Ihre Zugangsdaten ein, um fortzufahren.",
+    "labels": {
+      "emailOrUsername": "Email oder Benutzername",
+      "password": "Passwort"
+    },
+    "buttons": {
+      "forgotPassword": "Passwort vergessen?",
+      "signUp": "Registrieren",
+      "submit": "Anmelden"
+    },
+    "messages": {
+      "loginSuccess": "Willkommen, {{userName}}!",
+      "loginError": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Zugangsdaten."
+    }
+  },
+  "register": {
+    "title": "Konto erstellen",
+    "subtitle": "Bitte geben Sie Ihre Informationen ein, um fortzufahren.",
+    "labels": {
+      "email": "E-Mail",
+      "name": "Name",
+      "username": "Benutzername",
+      "password": "Passwort",
+      "confirmPassword": "Passwort wiederholen"
+    },
+    "errors": {
+      "namePattern": "Name darf nur Buchstaben und Zahlen enthalten",
+      "usernamePattern": "Benutzername darf nur Buchstaben, Zahlen sowie _ oder - enthalten",
+      "passwordEqual": "Passwörter müssen gleich sein"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "Haben Sie bereits ein Konto?",
+      "submit": "Registrieren"
+    },
+    "messages": {
+      "registerSuccess": "Sie haben sich erfolgreich registriert. Eine Bestätigungs-E-Mail wurde an Ihre Adresse gesendet.",
+      "registerError": "Registrierung fehlgeschlagen. Bitte prüfen Sie Ihre Eingaben.",
+      "loginError": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es später erneut.",
+      "fetchUserError": "Konnte Benutzerdaten nicht abrufen. Bitte versuchen Sie es später erneut.",
+      "verificationEmail": "Eine Bestätigungs-E-Mail wurde an {{email}} gesendet, bitte prüfen Sie Ihren Posteingang und den SPAM-Ordner, um Ihr Konto zu verifizieren."
+    }
+  },
+  "passwordReset": {
+    "title": "Setzen Sie Ihr Passwort zurück",
+    "forgotForm": {
+      "subtitle": "Bitte geben Sie Ihren Benutzernamen oder eine verifizierte E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen des Passworts an Ihre primäre E-Mail.",
+      "labels": {
+        "emailOrUsername": "Email oder Benutzername"
+      },
+      "buttons": {
+        "submit": "Passwort-Zurücksetzungs-E-Mail senden"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "Eine E-Mail zum Zurücksetzen des Passworts wurde an Ihre primäre E-Mail gesendet, bitte prüfen Sie Ihren Posteingang und den SPAM-Ordner.",
+        "sendPasswordResetEmailError": "Senden der Passwort-Zurücksetzungs-E-Mail fehlgeschlagen. Bitte versuchen Sie es später noch einmal."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Bitte vergeben Sie ein neues Passwort für Ihr Konto.",
+      "labels": {
+        "password": "Passwort",
+        "confirmPassword": "Passwort wiederholen"
+      },
+      "buttons": {
+        "submit": "Passwort zurücksetzen"
+      },
+      "messages": {
+        "resetPasswordSuccess": "Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich jetzt mit Ihrem neuen Passwort anmelden.",
+        "resetPasswordError": "Passwort zurücksetzen fehlgeschlagen. Bitte versuchen Sie es später noch einmal."
+      }
+    },
+    "errors": {
+      "passwordEqual": "Passwörter müssen gleich sein"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Übersicht",
+      "posts": "Beiträge"
+    },
+    "buttons": {
+      "editProfile": "Profil bearbeiten",
+      "moreText": "...mehr"
+    },
+    "moreInfo": {
+      "description": "Beschreibung",
+      "moreInfo": "Mehr Informationen",
+      "joinedAt": "Beigetreten am {{date}}",
+      "email": "Email",
+      "website": "Webseite",
+      "location": "Standort"
+    }
+  }
+}

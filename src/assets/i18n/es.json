@@ -1,1 +1,125 @@
-{}
+{
+  "section": {
+    "home": "Principal",
+    "admin": "Administración",
+    "settings": "Configuración",
+    "signIn": "Acceder"
+  },
+  "menu": {
+    "profile": { "title": "Perfil" },
+    "signOut": { "title": "Salir" },
+    "appearance": {
+      "title": "Apariencia",
+      "useDeviceTheme": "Usar tema del dispositivo",
+      "deviceTheme": "Tema del dispositivo",
+      "lightTheme": "Tema claro",
+      "darkTheme": "Tema oscuro",
+      "browserNote": "La configuración solo se aplica a este navegador"
+    },
+    "language": { "title": "Idioma", "select": "Selecciona tu idioma" },
+    "settings": { "title": "Configuración" },
+    "feedback": { "title": "Enviar comentarios" }
+  },
+  "messages": {
+    "invalidValues": "Algunos valores no son válidos, por favor comprueba.",
+    "logoutSuccess": "¡Adiós! ¡Espero verte pronto!",
+    "logoutError": "Error al cerrar sesión. Por favor, inténtalo de nuevo más tarde."
+  },
+
+  "not-found": "Página no encontrada",
+  "login": {
+    "title": "Acceder a {{appTitle}}",
+    "subtitle": "Por favor, introduce tus credenciales para continuar.",
+    "labels": {
+      "emailOrUsername": "Correo electrónico o nombre de usuario",
+      "password": "Contraseña"
+    },
+    "buttons": {
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "signUp": "Regístrate",
+      "submit": "Acceder"
+    },
+    "messages": {
+      "loginSuccess": "¡Bienvenido, {{userName}}!",
+      "loginError": "Error de inicio de sesión. Por favor, comprueba tus credenciales."
+    }
+  },
+  "register": {
+    "title": "Crear una cuenta",
+    "subtitle": "Por favor, proporciona tu información para continuar.",
+    "labels": {
+      "email": "Correo electrónico",
+      "name": "Nombre",
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "confirmPassword": "Repetir contraseña"
+    },
+    "errors": {
+      "namePattern": "El nombre solo puede contener letras y números",
+      "usernamePattern": "El nombre de usuario solo puede contener letras, números y los símbolos _ o -",
+      "passwordEqual": "Las contraseñas deben ser iguales"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "submit": "Regístrate"
+    },
+    "messages": {
+      "registerSuccess": "Te has registrado correctamente. Se ha enviado un correo de verificación a tu dirección de correo electrónico.",
+      "registerError": "Registro fallido. Por favor, comprueba tus datos.",
+      "loginError": "Error de inicio de sesión. Por favor, comprueba tus credenciales.",
+      "fetchUserError": "No se pudieron obtener los datos del usuario. Por favor, inténtalo más tarde.",
+      "verificationEmail": "Se ha enviado un correo de verificación a {{email}}, por favor revisa tu bandeja de entrada y SPAM para verificar tu cuenta."
+    }
+  },
+  "passwordReset": {
+    "title": "Restablece tu contraseña",
+    "forgotForm": {
+      "subtitle": "Por favor, introduce tu nombre de usuario o un correo electrónico verificado y te enviaremos un enlace para restablecer la contraseña a tu correo principal.",
+      "labels": {
+        "emailOrUsername": "Correo electrónico o nombre de usuario"
+      },
+      "buttons": {
+        "submit": "Enviar correo para restablecer contraseña"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "Se ha enviado un correo para restablecer la contraseña a tu correo principal, por favor revisa tu bandeja de entrada y SPAM.",
+        "sendPasswordResetEmailError": "Enviar correo para restablecer contraseña falló. Por favor, inténtalo más tarde."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Por favor asigna una nueva contraseña para tu cuenta.",
+      "labels": {
+        "password": "Contraseña",
+        "confirmPassword": "Repetir contraseña"
+      },
+      "buttons": {
+        "submit": "Restablecer contraseña"
+      },
+      "messages": {
+        "resetPasswordSuccess": "Tu contraseña ha sido restablecida correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.",
+        "resetPasswordError": "Restablecer contraseña falló. Por favor, inténtalo más tarde."
+      }
+    },
+    "errors": {
+      "passwordEqual": "Las contraseñas deben ser iguales"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Resumen",
+      "posts": "Publicaciones"
+    },
+    "buttons": {
+      "editProfile": "Editar perfil",
+      "moreText": "...más"
+    },
+    "moreInfo": {
+      "description": "Descripción",
+      "moreInfo": "Más información",
+      "joinedAt": "Se unió el {{date}}",
+      "email": "Correo electrónico",
+      "website": "Sitio web",
+      "location": "Ubicación"
+    }
+  }
+}

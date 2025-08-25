@@ -29,7 +29,7 @@
     </button>
     <a class="ml-2 flex items-center gap-1 font-medium" routerLink="/">
       <mat-icon class="rounded-full" svgIcon="app-logo"></mat-icon>
-      <span>App</span>
+      <span>{{ _title.appTitle }}</span>
     </a>
     @if (fixed) {
       <span class="grow"></span>
@@ -54,7 +54,7 @@
         <!-- Sign In -->
         <a matButton="outlined" routerLink="/login">
           <mat-icon>account_circle</mat-icon>
-          Sign in
+          {{ 'section.signIn' | transloco }}
         </a>
       } @else {
         <mat-spinner [diameter]="36"></mat-spinner>
@@ -78,27 +78,27 @@
               <mat-divider></mat-divider>
               <a mat-menu-item routerLink="/{{ _auth.user.username }}">
                 <mat-icon>person</mat-icon>
-                <span>Profile</span>
+                <span>{{ 'menu.profile.title' | transloco }}</span>
               </a>
               <a mat-menu-item (click)="logout()">
                 <mat-icon>logout</mat-icon>
-                <span>Sign out</span>
+                <span>{{ 'menu.signOut.title' | transloco }}</span>
               </a>
               <mat-divider></mat-divider>
             }
             <button mat-menu-item [matMenuPageLink]="'appearance'">
               <mat-icon>dark_mode</mat-icon>
-              <span
-                >Appearance:
+              <span>
+                {{ 'menu.appearance.title' | transloco }}:
                 @switch (_theme.theme) {
                   @case ('light dark') {
-                    Device theme
+                    {{ 'menu.appearance.deviceTheme' | transloco }}
                   }
                   @case ('light') {
-                    Light theme
+                    {{ 'menu.appearance.lightTheme' | transloco }}
                   }
                   @case ('dark') {
-                    Dark theme
+                    {{ 'menu.appearance.darkTheme' | transloco }}
                   }
                 }
               </span>
@@ -106,7 +106,7 @@
             </button>
             <button mat-menu-item [matMenuPageLink]="'language'">
               <mat-icon>translate</mat-icon>
-              <span>Language: {{ 'lang.' + _lang.lang | transloco }}</span>
+              <span>{{ 'menu.language.title' | transloco }}: {{ `lang.${_lang.lang}` | transloco }}</span>
               <mat-icon class="mat-multi-page-menu-submenu">chevron_right</mat-icon>
             </button>
             <!-- <button mat-menu-item disabled>
@@ -117,42 +117,42 @@
             <mat-divider></mat-divider>
             <a mat-menu-item routerLink="/settings" [disabled]="_auth.loading || !_auth.user">
               <mat-icon>settings</mat-icon>
-              <span>Settings</span>
+              <span>{{ 'menu.settings.title' | transloco }}</span>
             </a>
             <mat-divider></mat-divider>
             <button mat-menu-item disabled>
               <mat-icon>feedback</mat-icon>
-              <span>Send feedback</span>
+              <span>{{ 'menu.feedback.title' | transloco }}</span>
             </button>
           </menu-page>
-          <menu-page title="Appearance" pageId="appearance">
-            <p class="text-muted mat-menu-item-info">Setting applies to this browser only</p>
+          <menu-page title="{{ 'menu.appearance.title' | transloco }}" pageId="appearance">
+            <p class="text-muted mat-menu-item-info">{{ 'menu.appearance.browserNote' | transloco }}</p>
             <button mat-menu-item (click)="_theme.set('light dark')">
               @if (_theme.theme === 'light dark') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light dark'">Use device theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light dark'">{{ 'menu.appearance.useDeviceTheme' | transloco }}</span>
             </button>
             <button mat-menu-item (click)="_theme.set('light')">
               @if (_theme.theme === 'light') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light'">Light theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'light'">{{ 'menu.appearance.lightTheme' | transloco }}</span>
             </button>
             <button mat-menu-item (click)="_theme.set('dark')">
               @if (_theme.theme === 'dark') {
                 <mat-icon>check</mat-icon>
               }
-              <span [class.mat-menu-item-noicon]="_theme.theme !== 'dark'">Dark theme</span>
+              <span [class.mat-menu-item-noicon]="_theme.theme !== 'dark'">{{ 'menu.appearance.darkTheme' | transloco }}</span>
             </button>
           </menu-page>
-          <menu-page title="Select your language" pageId="language">
+          <menu-page title="{{ 'menu.language.select' | transloco }}" pageId="language">
             @for (lang of _lang.availableLangs; track lang) {
               <button mat-menu-item (click)="_lang.set(lang)">
                 @if (_lang.lang === lang) {
                   <mat-icon>check</mat-icon>
                 }
-                <span [class.mat-menu-item-noicon]="_lang.lang !== lang">{{ 'lang.' + lang | transloco }}</span>
+                <span [class.mat-menu-item-noicon]="_lang.lang !== lang">{{ `lang.${lang}` | transloco }}</span>
               </button>
             }
           </menu-page>
@@ -164,8 +164,8 @@
 
 <ng-template #navigation let-fixed="fixed">
   <mat-nav-list class="flex! flex-col! gap-2! p-3! {{ fixed ? 'h-full!' : 'h-[calc(100%-64px)]' }}">
-    @for (link of navLinks; track link.route) {
-      @if (link.toBottom) {
+    @for (link of navLinks; track trackByNavLink(link)) {
+      @if (link.type === 'toBottom') {
         <span class="grow"></span>
       } @else if (checkNavAccess(link)) {
         <a

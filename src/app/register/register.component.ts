@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterLink } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { ExtraValidators } from '../shared/validators/validators';
@@ -38,6 +39,7 @@ import { VarDirective } from '../shared/directives/var.directive';
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     RouterLink,
+    TranslocoModule,
     VarDirective
   ]
 })
@@ -146,7 +148,7 @@ export class RegisterComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Registration failed. Please check your inputs.');
+              this._messages.error(errors, translate('register.messages.registerError'));
               this.submitLoading = false;
             }
             if (data?.createUser) {
@@ -159,7 +161,7 @@ export class RegisterComponent implements OnInit {
                 .subscribe({
                   next: ({ data, errors }) => {
                     if (errors) {
-                      this._messages.error(errors, 'Login failed. Please try again later.');
+                      this._messages.error(errors, translate('register.messages.loginError'));
                       this.submitLoading = false;
                     }
                     if (data?.login) {
@@ -169,13 +171,11 @@ export class RegisterComponent implements OnInit {
                         ?.subscribe({
                           next: ({ data, errors }: any) => {
                             if (errors) {
-                              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
+                              this._messages.error(errors, translate('register.messages.fetchUserError'));
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);
-                              this._messages.info(
-                                'You successfully registered. A verification email has been sent to your email address.'
-                              );
+                              this._messages.info(translate('register.messages.registerSuccess'));
                               this._router.navigate(['/']);
                             }
                           }
@@ -196,7 +196,7 @@ export class RegisterComponent implements OnInit {
           }
         });
     } else {
-      this._messages.error('Some values are invalid, please check.');
+      this._messages.error(translate('messages.invalidValues'));
     }
   }
 
@@ -205,10 +205,9 @@ export class RegisterComponent implements OnInit {
       next: ({ data, errors }) => {
         if (errors) this._messages.error(errors);
         else if (data?.updateEmailVerificationCode)
-          this._messages.info(
-            `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`,
-            { duration: 10000 }
-          );
+          this._messages.info(translate('register.messages.verificationEmail', { email: email.address }), {
+            duration: 10000
+          });
       }
     });
   }

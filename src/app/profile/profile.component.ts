@@ -9,6 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
+import { TranslocoModule } from '@jsverse/transloco';
+
 import { MomentModule } from 'ngx-moment';
 
 import { VerifiedMarkComponent } from '../shared/components/verified-mark/verified-mark.component';
@@ -30,6 +32,7 @@ import { TitleService } from '../services/title.service';
     MomentModule,
     NgTemplateOutlet,
     RouterLink,
+    TranslocoModule,
     VerifiedMarkComponent
   ]
 })

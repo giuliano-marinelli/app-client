@@ -19,7 +19,6 @@ import { FindUsers, User } from '../../shared/entities/user.entity';
 import { SearchComponent } from '../../shared/components/search/search.component';
 import { UserCardComponent } from '../../shared/components/user/card/user-card.component';
 
-import { AuthService } from '../../services/auth.service';
 import { MessagesService } from '../../services/messages.service';
 
 @Component({

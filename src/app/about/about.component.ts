@@ -1,18 +1,18 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { environment } from '../../environments/environment';
+import { TranslocoModule } from '@jsverse/transloco';
 
-import { AuthService } from '../services/auth.service';
-import { MessagesService } from '../services/messages.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'about',
   templateUrl: './about.component.html',
   imports: [
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    TranslocoModule
   ]
 })
 export class AboutComponent {

@@ -1,0 +1,125 @@
+{
+  "section": {
+    "home": "Accueil",
+    "admin": "Administration",
+    "settings": "Paramètres",
+    "signIn": "Se connecter"
+  },
+  "menu": {
+    "profile": { "title": "Profil" },
+    "signOut": { "title": "Se déconnecter" },
+    "appearance": {
+      "title": "Apparence",
+      "useDeviceTheme": "Utiliser le thème de l'appareil",
+      "deviceTheme": "Thème de l'appareil",
+      "lightTheme": "Thème clair",
+      "darkTheme": "Thème sombre",
+      "browserNote": "Le réglage s'applique uniquement à ce navigateur"
+    },
+    "language": { "title": "Langue", "select": "Sélectionnez votre langue" },
+    "settings": { "title": "Paramètres" },
+    "feedback": { "title": "Envoyer des commentaires" }
+  },
+  "messages": {
+    "invalidValues": "Certaines valeurs sont invalides, veuillez vérifier.",
+    "logoutSuccess": "Au revoir ! J'espère vous revoir bientôt !",
+    "logoutError": "La déconnexion a échoué. Veuillez réessayer plus tard."
+  },
+
+  "not-found": "Page non trouvée",
+  "login": {
+    "title": "Connectez-vous à {{appTitle}}",
+    "subtitle": "Veuillez saisir vos identifiants pour continuer.",
+    "labels": {
+      "emailOrUsername": "Email ou nom d'utilisateur",
+      "password": "Mot de passe"
+    },
+    "buttons": {
+      "forgotPassword": "Mot de passe oublié ?",
+      "signUp": "S'inscrire",
+      "submit": "Se connecter"
+    },
+    "messages": {
+      "loginSuccess": "Bienvenue, {{userName}} !",
+      "loginError": "Échec de la connexion. Veuillez vérifier vos identifiants."
+    }
+  },
+  "register": {
+    "title": "Créer un compte",
+    "subtitle": "Veuillez fournir vos informations pour continuer.",
+    "labels": {
+      "email": "E-mail",
+      "name": "Nom",
+      "username": "Nom d'utilisateur",
+      "password": "Mot de passe",
+      "confirmPassword": "Répéter le mot de passe"
+    },
+    "errors": {
+      "namePattern": "Le nom ne peut contenir que des lettres et des chiffres",
+      "usernamePattern": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et les symboles _ ou -",
+      "passwordEqual": "Les mots de passe doivent être identiques"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "Avez-vous déjà un compte ?",
+      "submit": "S'inscrire"
+    },
+    "messages": {
+      "registerSuccess": "Vous vous êtes inscrit avec succès. Un e-mail de vérification a été envoyé à votre adresse e-mail.",
+      "registerError": "Échec de l'inscription. Veuillez vérifier vos informations.",
+      "loginError": "Échec de la connexion. Veuillez vérifier vos identifiants.",
+      "fetchUserError": "Impossible de récupérer les données utilisateur. Veuillez réessayer plus tard.",
+      "verificationEmail": "Un e-mail de vérification a été envoyé à {{email}}, veuillez vérifier votre boîte de réception et les SPAM pour vérifier votre compte."
+    }
+  },
+  "passwordReset": {
+    "title": "Réinitialisez votre mot de passe",
+    "forgotForm": {
+      "subtitle": "Veuillez saisir votre nom d'utilisateur ou une adresse e-mail vérifiée et nous vous enverrons un lien de réinitialisation de mot de passe vers votre e-mail principal.",
+      "labels": {
+        "emailOrUsername": "Email ou nom d'utilisateur"
+      },
+      "buttons": {
+        "submit": "Envoyer l'email de réinitialisation"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "Un e-mail de réinitialisation a été envoyé à votre e-mail principal, veuillez vérifier votre boîte de réception et les SPAM.",
+        "sendPasswordResetEmailError": "L'envoi de l'e-mail de réinitialisation a échoué. Veuillez réessayer plus tard."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Veuillez attribuer un nouveau mot de passe pour votre compte.",
+      "labels": {
+        "password": "Mot de passe",
+        "confirmPassword": "Répéter le mot de passe"
+      },
+      "buttons": {
+        "submit": "Réinitialiser le mot de passe"
+      },
+      "messages": {
+        "resetPasswordSuccess": "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+        "resetPasswordError": "La réinitialisation du mot de passe a échoué. Veuillez réessayer plus tard."
+      }
+    },
+    "errors": {
+      "passwordEqual": "Les mots de passe doivent être identiques"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Aperçu",
+      "posts": "Publications"
+    },
+    "buttons": {
+      "editProfile": "Modifier le profil",
+      "moreText": "...plus"
+    },
+    "moreInfo": {
+      "description": "Description",
+      "moreInfo": "Plus d'informations",
+      "joinedAt": "A rejoint le {{date}}",
+      "email": "Email",
+      "website": "Site web",
+      "location": "Emplacement"
+    }
+  }
+}

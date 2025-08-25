@@ -1,0 +1,125 @@
+{
+  "section": {
+    "home": "Início",
+    "admin": "Admin",
+    "settings": "Configurações",
+    "signIn": "Entrar"
+  },
+  "menu": {
+    "profile": { "title": "Perfil" },
+    "signOut": { "title": "Sair" },
+    "appearance": {
+      "title": "Aparência",
+      "useDeviceTheme": "Usar tema do dispositivo",
+      "deviceTheme": "Tema do dispositivo",
+      "lightTheme": "Tema claro",
+      "darkTheme": "Tema escuro",
+      "browserNote": "A configuração se aplica apenas a este navegador"
+    },
+    "language": { "title": "Idioma", "select": "Selecione seu idioma" },
+    "settings": { "title": "Configurações" },
+    "feedback": { "title": "Enviar feedback" }
+  },
+  "messages": {
+    "invalidValues": "Alguns valores são inválidos, por favor verifique.",
+    "logoutSuccess": "Adeus! Espero vê-lo em breve!",
+    "logoutError": "Falha ao sair. Por favor, tente novamente mais tarde."
+  },
+
+  "not-found": "Página não encontrada",
+  "login": {
+    "title": "Faça login em {{appTitle}}",
+    "subtitle": "Por favor, insira suas credenciais para continuar.",
+    "labels": {
+      "emailOrUsername": "Email ou nome de usuário",
+      "password": "Senha"
+    },
+    "buttons": {
+      "forgotPassword": "Esqueceu a senha?",
+      "signUp": "Registrar-se",
+      "submit": "Entrar"
+    },
+    "messages": {
+      "loginSuccess": "Bem-vindo, {{userName}}!",
+      "loginError": "Falha no login. Por favor, verifique suas credenciais."
+    }
+  },
+  "register": {
+    "title": "Criar uma conta",
+    "subtitle": "Por favor, forneça suas informações para continuar.",
+    "labels": {
+      "email": "Email",
+      "name": "Nome",
+      "username": "Nome de usuário",
+      "password": "Senha",
+      "confirmPassword": "Repetir senha"
+    },
+    "errors": {
+      "namePattern": "O nome pode conter apenas letras e números",
+      "usernamePattern": "O nome de usuário pode conter apenas letras, números e os símbolos _ ou -",
+      "passwordEqual": "As senhas devem ser iguais"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "Você já tem uma conta?",
+      "submit": "Registrar-se"
+    },
+    "messages": {
+      "registerSuccess": "Você se registrou com sucesso. Um e-mail de verificação foi enviado para o seu endereço de e-mail.",
+      "registerError": "Registro falhou. Por favor, verifique seus dados.",
+      "loginError": "Falha no login. Por favor, verifique suas credenciais.",
+      "fetchUserError": "Não foi possível buscar os dados do usuário. Por favor, tente novamente mais tarde.",
+      "verificationEmail": "Um e-mail de verificação foi enviado para {{email}}, por favor verifique sua caixa de entrada e SPAM para verificar sua conta."
+    }
+  },
+  "passwordReset": {
+    "title": "Redefina sua senha",
+    "forgotForm": {
+      "subtitle": "Por favor, insira seu nome de usuário ou um endereço de e-mail verificado e enviaremos um link para redefinir a senha para seu e-mail principal.",
+      "labels": {
+        "emailOrUsername": "Email ou nome de usuário"
+      },
+      "buttons": {
+        "submit": "Enviar email de redefinição de senha"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "Um email para redefinir a senha foi enviado para seu email principal, por favor verifique sua caixa de entrada e SPAM.",
+        "sendPasswordResetEmailError": "Envio do email de redefinição de senha falhou. Por favor, tente novamente mais tarde."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Por favor atribua uma nova senha para sua conta.",
+      "labels": {
+        "password": "Senha",
+        "confirmPassword": "Repetir senha"
+      },
+      "buttons": {
+        "submit": "Redefinir senha"
+      },
+      "messages": {
+        "resetPasswordSuccess": "Sua senha foi redefinida com sucesso. Agora você pode efetuar login com sua nova senha.",
+        "resetPasswordError": "Redefinição de senha falhou. Por favor, tente novamente mais tarde."
+      }
+    },
+    "errors": {
+      "passwordEqual": "As senhas devem ser iguais"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Visão geral",
+      "posts": "Publicações"
+    },
+    "buttons": {
+      "editProfile": "Editar perfil",
+      "moreText": "...mais"
+    },
+    "moreInfo": {
+      "description": "Descrição",
+      "moreInfo": "Mais informações",
+      "joinedAt": "Ingressou em {{date}}",
+      "email": "Email",
+      "website": "Site",
+      "location": "Localização"
+    }
+  }
+}

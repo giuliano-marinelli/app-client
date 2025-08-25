@@ -1,0 +1,125 @@
+{
+  "section": {
+    "home": "Home",
+    "admin": "Amministrazione",
+    "settings": "Impostazioni",
+    "signIn": "Accedi"
+  },
+  "menu": {
+    "profile": { "title": "Profilo" },
+    "signOut": { "title": "Disconnetti" },
+    "appearance": {
+      "title": "Aspetto",
+      "useDeviceTheme": "Usa tema del dispositivo",
+      "deviceTheme": "Tema del dispositivo",
+      "lightTheme": "Tema chiaro",
+      "darkTheme": "Tema scuro",
+      "browserNote": "La impostazione si applica solo a questo browser"
+    },
+    "language": { "title": "Lingua", "select": "Seleziona la tua lingua" },
+    "settings": { "title": "Impostazioni" },
+    "feedback": { "title": "Invia feedback" }
+  },
+  "messages": {
+    "invalidValues": "Alcuni valori non sono validi, controlla per favore.",
+    "logoutSuccess": "Arrivederci! Spero di rivederti presto!",
+    "logoutError": "Logout non riuscito. Per favore riprova più tardi."
+  },
+
+  "not-found": "Pagina non trovata",
+  "login": {
+    "title": "Accedi a {{appTitle}}",
+    "subtitle": "Per favore inserisci le tue credenziali per continuare.",
+    "labels": {
+      "emailOrUsername": "Email o nome utente",
+      "password": "Password"
+    },
+    "buttons": {
+      "forgotPassword": "Password dimenticata?",
+      "signUp": "Registrati",
+      "submit": "Accedi"
+    },
+    "messages": {
+      "loginSuccess": "Benvenuto, {{userName}}!",
+      "loginError": "Accesso non riuscito. Per favore controlla le tue credenziali."
+    }
+  },
+  "register": {
+    "title": "Crea un account",
+    "subtitle": "Per favore fornisci le tue informazioni per continuare.",
+    "labels": {
+      "email": "Email",
+      "name": "Nome",
+      "username": "Nome utente",
+      "password": "Password",
+      "confirmPassword": "Ripeti password"
+    },
+    "errors": {
+      "namePattern": "Il nome può contenere solo lettere e numeri",
+      "usernamePattern": "Il nome utente può contenere solo lettere, numeri e i simboli _ o -",
+      "passwordEqual": "Le password devono essere uguali"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "Hai già un account?",
+      "submit": "Registrati"
+    },
+    "messages": {
+      "registerSuccess": "Ti sei registrato con successo. Una email di verifica è stata inviata al tuo indirizzo email.",
+      "registerError": "Registrazione non riuscita. Per favore controlla i tuoi dati.",
+      "loginError": "Accesso non riuscito. Per favore controlla le tue credenziali.",
+      "fetchUserError": "Impossibile recuperare i dati utente. Per favore riprova più tardi.",
+      "verificationEmail": "Una email di verifica è stata inviata a {{email}}, per favore controlla la posta in arrivo e la cartella SPAM per verificare il tuo account."
+    }
+  },
+  "passwordReset": {
+    "title": "Reimposta la tua password",
+    "forgotForm": {
+      "subtitle": "Per favore inserisci il tuo nome utente o un indirizzo email verificato e ti invieremo un link per reimpostare la password alla tua email principale.",
+      "labels": {
+        "emailOrUsername": "Email o nome utente"
+      },
+      "buttons": {
+        "submit": "Invia email per reimpostare la password"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "Una email per reimpostare la password è stata inviata alla tua email principale, per favore controlla la posta in arrivo e SPAM.",
+        "sendPasswordResetEmailError": "Invio della email per reimpostare la password fallito. Per favore riprova più tardi."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Per favore assegna una nuova password per il tuo account.",
+      "labels": {
+        "password": "Password",
+        "confirmPassword": "Ripeti password"
+      },
+      "buttons": {
+        "submit": "Reimposta password"
+      },
+      "messages": {
+        "resetPasswordSuccess": "La tua password è stata reimpostata con successo. Ora puoi accedere con la tua nuova password.",
+        "resetPasswordError": "Reimpostazione della password fallita. Per favore riprova più tardi."
+      }
+    },
+    "errors": {
+      "passwordEqual": "Le password devono essere uguali"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Panoramica",
+      "posts": "Post"
+    },
+    "buttons": {
+      "editProfile": "Modifica profilo",
+      "moreText": "...altro"
+    },
+    "moreInfo": {
+      "description": "Descrizione",
+      "moreInfo": "Maggiori informazioni",
+      "joinedAt": "Iscritto il {{date}}",
+      "email": "Email",
+      "website": "Sito web",
+      "location": "Posizione"
+    }
+  }
+}

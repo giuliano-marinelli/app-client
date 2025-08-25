@@ -15,7 +15,9 @@
     "test": "ng test --no-watch",
     "test:watch": "ng test --watch",
     "test:cov": "ng test --no-watch --code-coverage",
-    "test:e2e": "ng e2e"
+    "test:e2e": "ng e2e",
+    "i18n:extract": "transloco-keys-manager extract",
+    "i18n:find": "transloco-keys-manager find"
   },
   "dependencies": {
     "@angular/animations": "^20.x",
@@ -69,6 +71,7 @@
     "@angular/cli": "^20.x",
     "@angular/compiler-cli": "^20.x",
     "@angular/localize": "^20.x",
+    "@jsverse/transloco-keys-manager": "^7.0.2",
     "@trivago/prettier-plugin-sort-imports": "^5.x",
     "@types/extract-files": "^13.x",
     "@types/inputmask": "^5.x",

@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { firstValueFrom } from 'rxjs';
@@ -35,6 +36,7 @@ import { VarDirective } from '../shared/directives/var.directive';
     MatInputModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    TranslocoModule,
     VarDirective
   ]
 })
@@ -107,14 +109,11 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Send password reset email failed. Please try again later.');
+              this._messages.error(errors, translate('passwordReset.forgotForm.messages.sendPasswordResetEmailError'));
             } else if (data?.updateUserPasswordCode) {
-              this._messages.info(
-                'A password reset email has been sent to your primary email, please check your inbox and SPAM folder.',
-                {
-                  duration: 10000
-                }
-              );
+              this._messages.info(translate('passwordReset.forgotForm.messages.sendPasswordResetEmailSuccess'), {
+                duration: 10000
+              });
               this._router.navigate(['/login']);
             }
           }
@@ -134,12 +133,11 @@ export class PasswordResetComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Password reset failed. Please try again later.');
+              this._messages.error(errors, translate('passwordReset.resetForm.messages.resetPasswordError'));
             } else if (data?.resetUserPassword) {
-              this._messages.info(
-                'Your password has been reset successfully. You can now log in with your new password.',
-                { duration: 10000 }
-              );
+              this._messages.info(translate('passwordReset.resetForm.messages.resetPasswordSuccess'), {
+                duration: 10000
+              });
               this._router.navigate(['/login']);
             }
           }

@@ -6,5 +6,127 @@
     "fr": "Français",
     "it": "Italiano",
     "pt": "Português"
+  },
+  "section": {
+    "home": "Home",
+    "admin": "Admin",
+    "settings": "Settings",
+    "signIn": "Sign in"
+  },
+  "menu": {
+    "profile": { "title": "Profile" },
+    "signOut": { "title": "Sign Out" },
+    "appearance": {
+      "title": "Appearance",
+      "useDeviceTheme": "Use device theme",
+      "deviceTheme": "Device theme",
+      "lightTheme": "Light theme",
+      "darkTheme": "Dark theme",
+      "browserNote": "Setting applies to this browser only"
+    },
+    "language": { "title": "Language", "select": "Select your language" },
+    "settings": { "title": "Settings" },
+    "feedback": { "title": "Send feedback" }
+  },
+  "messages": {
+    "invalidValues": "Some values are invalid, please check.",
+    "logoutSuccess": "Goodbye! Hope to see you soon!",
+    "logoutError": "Logout failed. Please try again later."
+  },
+  "not-found": "Page not found",
+  "login": {
+    "title": "Sign in to {{appTitle}}",
+    "subtitle": "Please enter your credentials to continue.",
+    "labels": {
+      "emailOrUsername": "Email or username",
+      "password": "Password"
+    },
+    "buttons": {
+      "forgotPassword": "Forgot password?",
+      "signUp": "Sign up",
+      "submit": "Sign in"
+    },
+    "messages": {
+      "loginSuccess": "Welcome, {{userName}}!",
+      "loginError": "Login failed. Please check your credentials."
+    }
+  },
+  "register": {
+    "title": "Create an account",
+    "subtitle": "Please provide your information to continue.",
+    "labels": {
+      "email": "Email",
+      "name": "Name",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Repeat Password"
+    },
+    "buttons": {
+      "alreadyHaveAccount": "Did you already have an account?",
+      "submit": "Sign up"
+    },
+    "errors": {
+      "namePattern": "Name can only have characters and numbers",
+      "usernamePattern": "Username can only have characters, numbers and _ or - symbols",
+      "passwordEqual": "Passwords must be equals"
+    },
+    "messages": {
+      "registerSuccess": "You successfully registered. A verification email has been sent to your email address.",
+      "registerError": "Registration failed. Please check your inputs.",
+      "loginError": "Login failed. Please try again later.",
+      "fetchUserError": "Could not fetch user data. Please try again later.",
+      "verificationEmail": "A verification email has been sent to {{email}}, please check your inbox and SPAM in order to verify your account."
+    }
+  },
+  "passwordReset": {
+    "title": "Reset your password",
+    "forgotForm": {
+      "subtitle": "Please enter your username or a verified email address and we will send you a password reset link to your primary email.",
+      "labels": {
+        "emailOrUsername": "Email or username"
+      },
+      "buttons": {
+        "submit": "Send password reset email"
+      },
+      "messages": {
+        "sendPasswordResetEmailSuccess": "A password reset email has been sent to your primary email, please check your inbox and SPAM folder.",
+        "sendPasswordResetEmailError": "Send password reset email failed. Please try again later."
+      }
+    },
+    "resetForm": {
+      "subtitle": "Please assign a new password for your account.",
+      "labels": {
+        "password": "Password",
+        "confirmPassword": "Repeat Password"
+      },
+      "buttons": {
+        "submit": "Reset password"
+      },
+      "messages": {
+        "resetPasswordSuccess": "Your password has been reset successfully. You can now log in with your new password.",
+        "resetPasswordError": "Password reset failed. Please try again later."
+      }
+    },
+    "errors": {
+      "passwordEqual": "Passwords must be equals"
+    }
+  },
+  "profile": {
+    "sections": {
+      "overview": "Overview",
+      "posts": "Posts"
+    },
+    "buttons": {
+      "editProfile": "Edit Profile",
+      "moreText": "...more"
+    },
+    "moreInfo": {
+      "description": "Description",
+      "moreInfo": "More info",
+      "joinedAt": "Joined at {{date}}",
+      "email": "Email",
+      "website": "Website",
+      "location": "Location"
+    }
   }
 }
