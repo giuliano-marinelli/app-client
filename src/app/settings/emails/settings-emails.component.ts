@@ -10,6 +10,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { Global } from '../../shared/global/global';
@@ -46,7 +47,8 @@ import { MessagesService } from '../../services/messages.service';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslocoModule
   ]
 })
 export class SettingsEmailsComponent implements OnInit {
@@ -124,7 +126,7 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -153,13 +155,15 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not add email. Please try again later.');
+              this._messages.error(errors, translate('settings.emails.messages.addEmailError'));
             }
             if (data?.createEmail) {
               this.addEmailForm.reset();
               this.getUser();
               this._auth.setUser();
-              this._messages.info(`Email ${data.createEmail.address} successfully added.`);
+              this._messages.info(
+                translate('settings.emails.messages.addEmailSuccess', { email: data.createEmail.address })
+              );
             }
           }
         })
@@ -177,12 +181,15 @@ export class SettingsEmailsComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {
-            this._messages.error(errors, 'Could not remove email. Please try again later.');
+            this._messages.error(
+              errors,
+              translate('settings.emails.messages.removeEmailError', { email: email.address })
+            );
           }
           if (data?.deleteEmail) {
             this.getUser();
             this._auth.setUser();
-            this._messages.info(`Email ${email.address} successfully removed.`);
+            this._messages.info(translate('settings.emails.messages.removeEmailSuccess', { email: email.address }));
           }
         }
       })
@@ -205,12 +212,12 @@ export class SettingsEmailsComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not change primary email. Please try again later.');
+              this._messages.error(errors, translate('settings.emails.messages.changePrimaryEmailError'));
             }
             if (data?.updateUserPrimaryEmail) {
               this.getUser();
               this._auth.setUser();
-              this._messages.info('Primary email successfully changed.');
+              this._messages.info(translate('settings.emails.messages.changePrimaryEmailSuccess'));
             }
           }
         })
@@ -225,9 +232,7 @@ export class SettingsEmailsComponent implements OnInit {
       next: ({ data, errors }) => {
         if (errors) this._messages.error(errors);
         else if (data?.updateEmailVerificationCode)
-          this._messages.info(
-            `A verification email has been sent to ${email.address}, please check your inbox and SPAM in order to verify your account.`
-          );
+          this._messages.info(translate('settings.emails.messages.verificationEmail', { email: email.address }));
       }
     });
   }

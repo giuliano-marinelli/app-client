@@ -33,11 +33,11 @@
           </mat-error>
         </mat-form-field>
 
-        <a matButton class="self-end" routerLink="/password-reset">{{ 'login.buttons.forgotPassword' | transloco }}</a>
+        <a matButton class="self-end" routerLink="/password-reset">{{ 'login.nav.passwordReset' | transloco }}</a>
       </div>
     </mat-card-content>
     <mat-card-actions class="operation-actions">
-      <a matButton class="whitespace-nowrap" routerLink="/register">{{ 'login.buttons.signUp' | transloco }}</a>
+      <a matButton class="whitespace-nowrap" routerLink="/register">{{ 'login.nav.register' | transloco }}</a>
       <button matButton="tonal" class="whitespace-nowrap" [disabled]="!loginForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>

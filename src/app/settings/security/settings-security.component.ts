@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
 import { CustomValidators } from '@narik/custom-validators';
 
 import { Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { VarDirective } from '../../shared/directives/var.directive';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    TranslocoModule,
     VarDirective
   ]
 })
@@ -96,7 +98,7 @@ export class SettingsSecurityComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -123,11 +125,11 @@ export class SettingsSecurityComponent implements OnInit {
           .subscribe({
             next: ({ data, errors }) => {
               if (errors) {
-                this._messages.error(errors, 'Could not update password. Please try again later.');
+                this._messages.error(errors, translate('settings.security.messages.updatePasswordError'));
               }
               if (data?.updateUserPassword) {
                 this.passwordForm.reset();
-                this._messages.info('Password successfully changed.');
+                this._messages.info(translate('settings.security.messages.updatePasswordSuccess'));
               }
             }
           })
@@ -135,7 +137,7 @@ export class SettingsSecurityComponent implements OnInit {
             this.updateSubmitLoading = false;
           });
       } else {
-        this._messages.error('Some values are invalid, please check.');
+        this._messages.error(translate('messages.invalidValues'));
       }
     } else {
       this._router.navigate(['/']);

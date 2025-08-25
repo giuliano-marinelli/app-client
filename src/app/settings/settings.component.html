@@ -13,10 +13,10 @@
         <h1 class="text-4xl max-sm:text-2xl">
           {{ _auth.user.profile?.name ? _auth.user.profile?.name : _auth.user.username }}
         </h1>
-        <h3 class="text-muted text-sm max-sm:text-xs">Your personal account</h3>
+        <h3 class="text-muted text-sm max-sm:text-xs">{{ 'settings.labels.yourAccount' | transloco }}</h3>
       </div>
       <a matButton="tonal" class="max-sm ml-auto max-sm:min-w-50 max-sm:grow" routerLink="/{{ _auth.user.username }}">
-        Go to your personal profile
+        {{ 'settings.nav.backToProfile' | transloco }}
       </a>
     </div>
   </div>

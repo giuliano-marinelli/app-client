@@ -1,9 +1,17 @@
 {
-  "section": {
+  "lang": {
+    "de": "Deutsch",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "pt": "Português"
+  },
+  "nav": {
     "home": "Home",
     "admin": "Amministrazione",
     "settings": "Impostazioni",
-    "signIn": "Accedi"
+    "login": "Accedi"
   },
   "menu": {
     "profile": { "title": "Profilo" },
@@ -23,11 +31,24 @@
   "messages": {
     "invalidValues": "Alcuni valori non sono validi, controlla per favore.",
     "logoutSuccess": "Arrivederci! Spero di rivederti presto!",
-    "logoutError": "Logout non riuscito. Per favore riprova più tardi."
+    "logoutError": "Logout non riuscito. Per favore riprova più tardi.",
+    "fetchUserError": "Impossibile recuperare i dati utente. Per favore riprova più tardi.",
+    "fetchUsersError": "Impossibile recuperare i dati degli utenti. Per favore riprova più tardi.",
+    "fetchSessionsError": "Impossibile recuperare le sessioni. Per favore riprova più tardi."
   },
-
-  "not-found": "Pagina non trovata",
+  "searchMessages": {
+    "noAccount": "Nessun account trovato",
+    "noUsers": "Nessun utente trovato",
+    "noDevices": "Nessun dispositivo trovato"
+  },
+  "notFound": {
+    "title": "Pagina non trovata"
+  },
   "login": {
+    "nav": {
+      "register": "Registrati",
+      "passwordReset": "Password dimenticata?"
+    },
     "title": "Accedi a {{appTitle}}",
     "subtitle": "Per favore inserisci le tue credenziali per continuare.",
     "labels": {
@@ -35,8 +56,6 @@
       "password": "Password"
     },
     "buttons": {
-      "forgotPassword": "Password dimenticata?",
-      "signUp": "Registrati",
       "submit": "Accedi"
     },
     "messages": {
@@ -45,6 +64,9 @@
     }
   },
   "register": {
+    "nav": {
+      "login": "Hai già un account?"
+    },
     "title": "Crea un account",
     "subtitle": "Per favore fornisci le tue informazioni per continuare.",
     "labels": {
@@ -54,20 +76,18 @@
       "password": "Password",
       "confirmPassword": "Ripeti password"
     },
+    "buttons": {
+      "submit": "Registrati"
+    },
     "errors": {
       "namePattern": "Il nome può contenere solo lettere e numeri",
       "usernamePattern": "Il nome utente può contenere solo lettere, numeri e i simboli _ o -",
       "passwordEqual": "Le password devono essere uguali"
     },
-    "buttons": {
-      "alreadyHaveAccount": "Hai già un account?",
-      "submit": "Registrati"
-    },
     "messages": {
       "registerSuccess": "Ti sei registrato con successo. Una email di verifica è stata inviata al tuo indirizzo email.",
       "registerError": "Registrazione non riuscita. Per favore controlla i tuoi dati.",
       "loginError": "Accesso non riuscito. Per favore controlla le tue credenziali.",
-      "fetchUserError": "Impossibile recuperare i dati utente. Per favore riprova più tardi.",
       "verificationEmail": "Una email di verifica è stata inviata a {{email}}, per favore controlla la posta in arrivo e la cartella SPAM per verificare il tuo account."
     }
   },
@@ -105,7 +125,7 @@
     }
   },
   "profile": {
-    "sections": {
+    "nav": {
       "overview": "Panoramica",
       "posts": "Post"
     },
@@ -121,5 +141,172 @@
       "website": "Sito web",
       "location": "Posizione"
     }
+  },
+  "settings": {
+    "nav": {
+      "backToProfile": "Vai al tuo profilo personale",
+      "profile": "Profilo",
+      "account": "Account",
+      "notifications": "Notifiche",
+      "access": "Accesso",
+      "emails": "Email",
+      "security": "Password",
+      "devices": "Dispositivi"
+    },
+    "labels": {
+      "yourAccount": "Il tuo account personale"
+    },
+    "profile": {
+      "title": "Profilo",
+      "labels": {
+        "name": "Nome",
+        "publicEmail": "Email pubblica",
+        "description": "Descrizione",
+        "url": "URL",
+        "location": "Posizione",
+        "picture": "Foto del profilo"
+      },
+      "picture": {
+        "upload": "Carica foto...",
+        "remove": "Rimuovi foto",
+        "crop": "Ritaglia la foto del profilo",
+        "save": "Salva nuova foto del profilo"
+      },
+      "buttons": {
+        "submit": "Aggiorna profilo"
+      },
+      "hints": {
+        "nameAppearance": "Il tuo nome potrebbe apparire qui quando contribuisci o vieni menzionato.",
+        "manageEmailsPrefix": "Puoi gestire gli indirizzi email verificati nel tuo",
+        "consent": "Ci dai il consenso a condividere questi dati ovunque appaia il tuo profilo utente."
+      },
+      "messages": {
+        "updateError": "Impossibile aggiornare i dati utente. Per favore riprova più tardi.",
+        "updateSuccess": "Impostazioni del profilo salvate con successo."
+      },
+      "links": {
+        "emailSettings": "impostazioni email"
+      },
+      "errors": {
+        "namePattern": "Il nome può contenere solo caratteri e numeri",
+        "locationPattern": "La posizione può contenere solo caratteri, numeri e virgole"
+      }
+    },
+    "account": {
+      "usernameForm": {
+        "title": "Cambia nome utente",
+        "labels": {
+          "username": "Nome utente"
+        },
+        "buttons": {
+          "submit": "Aggiorna profilo"
+        }
+      },
+      "deleteAccountForm": {
+        "title": "Elimina account",
+        "hints": {
+          "warning": "Una volta eliminato l'account, non è possibile tornare indietro. Assicurati di volerlo fare."
+        },
+        "buttons": {
+          "submit": "Elimina il tuo account"
+        }
+      },
+      "errors": {
+        "usernamePattern": "Il nome utente può contenere solo caratteri, numeri e i simboli _ o -"
+      },
+      "messages": {
+        "updateUsernameSuccess": "Nome utente modificato con successo.",
+        "deleteUserSuccess": "Il tuo account è stato eliminato con successo. Ci mancherai!",
+        "updateError": "Impossibile aggiornare i dati utente. Per favore riprova più tardi.",
+        "deleteError": "Impossibile eliminare i dati utente. Per favore riprova più tardi."
+      }
+    },
+    "emails": {
+      "title": "Email",
+      "addEmailForm": {
+        "title": "Aggiungi indirizzo email",
+        "buttons": {
+          "submit": "Aggiungi email"
+        }
+      },
+      "primaryEmailForm": {
+        "title": "Indirizzo email principale",
+        "buttons": {
+          "submit": "Cambia email principale"
+        },
+        "hints": {
+          "info": "verrà utilizzato per le notifiche relative all'account e per il ripristino della password"
+        }
+      },
+      "hints": {
+        "primary": "Principale",
+        "primaryDescription": "Questa email verrà utilizzata per le notifiche relative all'account e può essere utilizzata anche per reimpostare la password.",
+        "verifiedDescription": "Questa email può essere utilizzata come metodo di accesso e per ricevere notifiche. Se è configurata come email principale, può essere utilizzata per reimpostare la password.",
+        "unverifiedDescription": "Gli indirizzi email non verificati non possono essere utilizzati per reimpostare la password, come metodo di accesso, per ricevere notifiche o impostare come email principale",
+        "visibleEmail": "Visibile nelle email",
+        "visibleEmailDescription": "Questa email può essere visibile nelle email del profilo.",
+        "notVisibleEmail": "Non visibile nelle email",
+        "notVisibleEmailDescription": "Questa email non può essere visibile nelle email del profilo."
+      },
+      "confirm": {
+        "passwordMessage": "Per favore inserisci la tua password per continuare."
+      },
+      "errors": {
+        "emailAlreadyAdded": "L'email è già stata aggiunta al tuo account, prova con un'altra"
+      },
+      "messages": {
+        "addEmailError": "Impossibile aggiungere l'email. Per favore riprova più tardi.",
+        "addEmailSuccess": "Email {{email}} aggiunta con successo.",
+        "removeEmailError": "Impossibile rimuovere l'email. Per favore riprova più tardi.",
+        "removeEmailSuccess": "Email {{email}} rimossa con successo.",
+        "changePrimaryEmailError": "Impossibile cambiare l'email principale. Per favore riprova più tardi.",
+        "changePrimaryEmailSuccess": "Email principale cambiata con successo.",
+        "verificationEmail": "Una email di verifica è stata inviata a {{email}}, per favore controlla la posta in arrivo e la cartella SPAM per verificare il tuo account."
+      }
+    },
+    "security": {
+      "changePasswordForm": {
+        "title": "Cambia password",
+        "labels": {
+          "oldPassword": "Vecchia password",
+          "newPassword": "Nuova password",
+          "confirmNewPassword": "Conferma nuova password"
+        },
+        "buttons": {
+          "submit": "Aggiorna password"
+        }
+      },
+      "twoFactorAuthForm": {
+        "title": "Autenticazione a due fattori",
+        "hints": {
+          "info": "L'autenticazione a due fattori aggiunge un ulteriore livello di sicurezza al tuo account richiedendo più della sola password per accedere."
+        }
+      },
+      "errors": {
+        "passwordEqual": "Le password devono essere uguali"
+      },
+      "messages": {
+        "updatePasswordSuccess": "Password aggiornata con successo.",
+        "updatePasswordError": "Impossibile aggiornare la password. Per favore riprova più tardi."
+      }
+    },
+    "devices": {
+      "title": "Dispositivi",
+      "closedSessionsForm": {
+        "title": "Sessioni chiuse"
+      }
+    }
+  },
+  "admin": {
+    "nav": {
+      "users": "Utenti",
+      "news": "Notizie",
+      "changelog": "Registro delle modifiche"
+    },
+    "users": {
+      "title": "Utenti"
+    },
+    "news": {},
+    "changelog": {}
   }
 }

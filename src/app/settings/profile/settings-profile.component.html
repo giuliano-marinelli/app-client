@@ -1,10 +1,12 @@
 @if (userLoading && !user) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!user) {
-  <div class="flex flex-col items-center justify-self-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
+  <div class="flex flex-col items-center justify-self-center">
+    <mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> {{ 'searchMessages.noAccount' | transloco }}
+  </div>
 } @else {
   <h1>
-    Profile
+    {{ 'settings.profile.title' | transloco }}
     <mat-spinner class="ml-2 inline-block!" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h1>
   <mat-divider class="mt-2!"></mat-divider>
@@ -12,16 +14,20 @@
     <div class="flex flex-row gap-8 max-md:flex-col-reverse">
       <div class="md:basis-7/12" formGroupName="profile">
         <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
-          <mat-label>Name</mat-label>
+          <mat-label>{{ 'settings.profile.labels.name' | transloco }}</mat-label>
           <input matInput formControlName="name" autocomplete="off" />
           <mat-icon matPrefix>person</mat-icon>
           <mat-error>
-            <invalid-feedback name="Name" [control]="name" [messages]="{ pattern: 'Name can only have characters and numbers' }"></invalid-feedback>
+            <invalid-feedback
+              name="Name"
+              [control]="name"
+              [messages]="{ pattern: ('settings.profile.errors.namePattern' | transloco) }"
+            ></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <p class="text-muted text-sm">Your name may appear around here in where you contribute or are mentioned.</p>
+        <p class="text-muted text-sm">{{ 'settings.profile.hints.nameAppearance' | transloco }}</p>
         <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
-          <mat-label>Public email</mat-label>
+          <mat-label>{{ 'settings.profile.labels.publicEmail' | transloco }}</mat-label>
           <mat-icon matPrefix>email</mat-icon>
           <mat-select formControlName="publicEmail" [compareWith]="compareById">
             @for (email of user.emails | filter: { $or: { verified: true, id: user.primaryEmail?.id } }; track email.id) {
@@ -29,9 +35,12 @@
             }
           </mat-select>
         </mat-form-field>
-        <p class="text-muted text-sm">You can manage verified email addresses in your <a routerLink="/settings/emails">email settings</a></p>
+        <p class="text-muted text-sm">
+          {{ 'settings.profile.hints.manageEmailsPrefix' | transloco }}
+          <a routerLink="/settings/emails">{{ 'settings.profile.links.emailSettings' | transloco }}</a>
+        </p>
         <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
-          <mat-label>Description</mat-label>
+          <mat-label>{{ 'settings.profile.labels.description' | transloco }}</mat-label>
           <textarea matInput formControlName="bio" rows="3"></textarea>
           <mat-icon matPrefix>article</mat-icon>
           <mat-error>
@@ -39,8 +48,9 @@
           </mat-error>
           <mat-hint align="end">{{ (bio.value?.length || 0) + '/200' }}</mat-hint>
         </mat-form-field>
+
         <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
-          <mat-label>URL</mat-label>
+          <mat-label>{{ 'settings.profile.labels.url' | transloco }}</mat-label>
           <input matInput formControlName="url" autocomplete="off" [inputMask]="urlMask" />
           <mat-icon matPrefix>language</mat-icon>
           <mat-error>
@@ -48,34 +58,34 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="mt-3 w-full" appearance="outline" [floatLabel]="'always'" [subscriptSizing]="'dynamic'">
-          <mat-label>Location</mat-label>
+          <mat-label>{{ 'settings.profile.labels.location' | transloco }}</mat-label>
           <input matInput formControlName="location" autocomplete="off" />
           <mat-icon matPrefix>location_on</mat-icon>
           <mat-error>
             <invalid-feedback
               name="Location"
               [control]="location"
-              [messages]="{ pattern: 'Location can only have characters, numbers and commas' }"
+              [messages]="{ pattern: ('settings.profile.errors.locationPattern' | transloco) }"
             ></invalid-feedback>
           </mat-error>
         </mat-form-field>
-        <p class="text-muted text-sm">You're giving us consent to share this data wherever your user profile appears.</p>
+        <p class="text-muted text-sm">{{ 'settings.profile.hints.consent' | transloco }}</p>
 
         <button matButton="tonal" class="mt-3 whitespace-nowrap" [disabled]="!profileForm.valid || submitLoading">
           @if (submitLoading) {
             <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
           }
-          Update profile
+          {{ 'settings.profile.buttons.submit' | transloco }}
         </button>
       </div>
       <div class="md:basis-5/12">
-        <span class="my-2 inline-block">Profile picture</span>
+        <span class="my-2 inline-block">{{ 'settings.profile.labels.picture' | transloco }}</span>
         <picture-input
-          uploadLabel="Upload photo..."
-          removeLabel="Remove photo"
-          cropLabel="Crop your profile picture"
-          saveLabel="Save new profile picture"
           defaultImage="assets/images/default-user.png"
+          [uploadLabel]="'settings.profile.picture.upload' | transloco"
+          [removeLabel]="'settings.profile.picture.remove' | transloco"
+          [cropLabel]="'settings.profile.picture.crop' | transloco"
+          [saveLabel]="'settings.profile.picture.save' | transloco"
           [control]="avatar"
           [fileControl]="avatarFile"
         ></picture-input>

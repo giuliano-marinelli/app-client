@@ -1,9 +1,17 @@
 {
-  "section": {
+  "lang": {
+    "de": "Deutsch",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "pt": "Português"
+  },
+  "nav": {
     "home": "Início",
     "admin": "Admin",
     "settings": "Configurações",
-    "signIn": "Entrar"
+    "login": "Entrar"
   },
   "menu": {
     "profile": { "title": "Perfil" },
@@ -23,11 +31,24 @@
   "messages": {
     "invalidValues": "Alguns valores são inválidos, por favor verifique.",
     "logoutSuccess": "Adeus! Espero vê-lo em breve!",
-    "logoutError": "Falha ao sair. Por favor, tente novamente mais tarde."
+    "logoutError": "Falha ao sair. Por favor, tente novamente mais tarde.",
+    "fetchUserError": "Não foi possível buscar os dados do usuário. Por favor, tente novamente mais tarde.",
+    "fetchUsersError": "Não foi possível buscar os dados dos usuários. Por favor, tente novamente mais tarde.",
+    "fetchSessionsError": "Não foi possível buscar as sessões. Por favor, tente novamente mais tarde."
   },
-
-  "not-found": "Página não encontrada",
+  "searchMessages": {
+    "noAccount": "Nenhuma conta encontrada",
+    "noUsers": "Nenhum usuário encontrado",
+    "noDevices": "Nenhum dispositivo encontrado"
+  },
+  "notFound": {
+    "title": "Página não encontrada"
+  },
   "login": {
+    "nav": {
+      "register": "Registrar-se",
+      "passwordReset": "Esqueceu a senha?"
+    },
     "title": "Faça login em {{appTitle}}",
     "subtitle": "Por favor, insira suas credenciais para continuar.",
     "labels": {
@@ -35,8 +56,6 @@
       "password": "Senha"
     },
     "buttons": {
-      "forgotPassword": "Esqueceu a senha?",
-      "signUp": "Registrar-se",
       "submit": "Entrar"
     },
     "messages": {
@@ -45,6 +64,9 @@
     }
   },
   "register": {
+    "nav": {
+      "login": "Você já tem uma conta?"
+    },
     "title": "Criar uma conta",
     "subtitle": "Por favor, forneça suas informações para continuar.",
     "labels": {
@@ -54,20 +76,18 @@
       "password": "Senha",
       "confirmPassword": "Repetir senha"
     },
+    "buttons": {
+      "submit": "Registrar-se"
+    },
     "errors": {
       "namePattern": "O nome pode conter apenas letras e números",
       "usernamePattern": "O nome de usuário pode conter apenas letras, números e os símbolos _ ou -",
       "passwordEqual": "As senhas devem ser iguais"
     },
-    "buttons": {
-      "alreadyHaveAccount": "Você já tem uma conta?",
-      "submit": "Registrar-se"
-    },
     "messages": {
       "registerSuccess": "Você se registrou com sucesso. Um e-mail de verificação foi enviado para o seu endereço de e-mail.",
       "registerError": "Registro falhou. Por favor, verifique seus dados.",
       "loginError": "Falha no login. Por favor, verifique suas credenciais.",
-      "fetchUserError": "Não foi possível buscar os dados do usuário. Por favor, tente novamente mais tarde.",
       "verificationEmail": "Um e-mail de verificação foi enviado para {{email}}, por favor verifique sua caixa de entrada e SPAM para verificar sua conta."
     }
   },
@@ -105,7 +125,7 @@
     }
   },
   "profile": {
-    "sections": {
+    "nav": {
       "overview": "Visão geral",
       "posts": "Publicações"
     },
@@ -121,5 +141,172 @@
       "website": "Site",
       "location": "Localização"
     }
+  },
+  "settings": {
+    "nav": {
+      "backToProfile": "Ir para o seu perfil pessoal",
+      "profile": "Perfil",
+      "account": "Conta",
+      "notifications": "Notificações",
+      "access": "Acesso",
+      "emails": "Emails",
+      "security": "Senhas",
+      "devices": "Dispositivos"
+    },
+    "labels": {
+      "yourAccount": "Sua conta pessoal"
+    },
+    "profile": {
+      "title": "Perfil",
+      "labels": {
+        "name": "Nome",
+        "publicEmail": "Email público",
+        "description": "Descrição",
+        "url": "URL",
+        "location": "Localização",
+        "picture": "Foto de perfil"
+      },
+      "picture": {
+        "upload": "Enviar foto...",
+        "remove": "Remover foto",
+        "crop": "Cortar sua foto de perfil",
+        "save": "Salvar nova foto de perfil"
+      },
+      "buttons": {
+        "submit": "Atualizar perfil"
+      },
+      "hints": {
+        "nameAppearance": "Seu nome pode aparecer aqui onde você contribui ou é mencionado.",
+        "manageEmailsPrefix": "Você pode gerenciar endereços de e-mail verificados em seu",
+        "consent": "Você nos dá consentimento para compartilhar esses dados onde quer que seu perfil de usuário apareça."
+      },
+      "messages": {
+        "updateError": "Não foi possível atualizar os dados do usuário. Por favor, tente novamente mais tarde.",
+        "updateSuccess": "Configurações de perfil salvas com sucesso."
+      },
+      "links": {
+        "emailSettings": "configurações de email"
+      },
+      "errors": {
+        "namePattern": "O nome só pode ter caracteres e números",
+        "locationPattern": "A localização só pode ter caracteres, números e vírgulas"
+      }
+    },
+    "account": {
+      "usernameForm": {
+        "title": "Alterar nome de usuário",
+        "labels": {
+          "username": "Nome de usuário"
+        },
+        "buttons": {
+          "submit": "Atualizar perfil"
+        }
+      },
+      "deleteAccountForm": {
+        "title": "Excluir conta",
+        "hints": {
+          "warning": "Depois de excluir sua conta, não há como voltar atrás. Por favor, tenha certeza."
+        },
+        "buttons": {
+          "submit": "Excluir sua conta"
+        }
+      },
+      "errors": {
+        "usernamePattern": "O nome de usuário só pode ter caracteres, números e os símbolos _ ou -"
+      },
+      "messages": {
+        "updateUsernameSuccess": "Nome de usuário alterado com sucesso.",
+        "deleteUserSuccess": "Sua conta foi excluída com sucesso. Sentiremos sua falta!",
+        "updateError": "Não foi possível atualizar os dados do usuário. Por favor, tente novamente mais tarde.",
+        "deleteError": "Não foi possível excluir os dados do usuário. Por favor, tente novamente mais tarde."
+      }
+    },
+    "emails": {
+      "title": "Emails",
+      "addEmailForm": {
+        "title": "Adicionar endereço de email",
+        "buttons": {
+          "submit": "Adicionar email"
+        }
+      },
+      "primaryEmailForm": {
+        "title": "Endereço de email principal",
+        "buttons": {
+          "submit": "Alterar email principal"
+        },
+        "hints": {
+          "info": "será usado para notificações relacionadas à conta e para redefinições de senha"
+        }
+      },
+      "hints": {
+        "primary": "Principal",
+        "primaryDescription": "Este email será usado para notificações relacionadas à conta e também pode ser usado para redefinir a senha.",
+        "verifiedDescription": "Este email pode ser usado como método de login e para receber notificações. Se estiver configurado como email principal, pode ser usado para redefinir sua senha.",
+        "unverifiedDescription": "Endereços de email não verificados não podem ser usados para redefinir sua senha, como método de login, para receber notificações ou ser definidos como email principal",
+        "visibleEmail": "Visível em emails",
+        "visibleEmailDescription": "Este email pode ser visível em emails de perfil.",
+        "notVisibleEmail": "Não visível em emails",
+        "notVisibleEmailDescription": "Este email não pode ser visível em emails de perfil."
+      },
+      "confirm": {
+        "passwordMessage": "Por favor, insira sua senha para continuar."
+      },
+      "errors": {
+        "emailAlreadyAdded": "O email já foi adicionado à sua conta, por favor tente outro"
+      },
+      "messages": {
+        "addEmailError": "Não foi possível adicionar o email. Por favor, tente novamente mais tarde.",
+        "addEmailSuccess": "Email {{email}} adicionado com sucesso.",
+        "removeEmailError": "Não foi possível remover o email. Por favor, tente novamente mais tarde.",
+        "removeEmailSuccess": "Email {{email}} removido com sucesso.",
+        "changePrimaryEmailError": "Não foi possível alterar o email principal. Por favor, tente novamente mais tarde.",
+        "changePrimaryEmailSuccess": "Email principal alterado com sucesso.",
+        "verificationEmail": "Um e-mail de verificação foi enviado para {{email}}, por favor verifique sua caixa de entrada e SPAM para verificar sua conta."
+      }
+    },
+    "security": {
+      "changePasswordForm": {
+        "title": "Alterar senha",
+        "labels": {
+          "oldPassword": "Senha antiga",
+          "newPassword": "Nova senha",
+          "confirmNewPassword": "Confirmar nova senha"
+        },
+        "buttons": {
+          "submit": "Atualizar senha"
+        }
+      },
+      "twoFactorAuthForm": {
+        "title": "Autenticação de dois fatores",
+        "hints": {
+          "info": "A autenticação de dois fatores adiciona uma camada adicional de segurança à sua conta exigindo mais do que apenas uma senha para entrar."
+        }
+      },
+      "errors": {
+        "passwordEqual": "As senhas devem ser iguais"
+      },
+      "messages": {
+        "updatePasswordSuccess": "Senha atualizada com sucesso.",
+        "updatePasswordError": "Não foi possível atualizar a senha. Por favor, tente novamente mais tarde."
+      }
+    },
+    "devices": {
+      "title": "Dispositivos",
+      "closedSessionsForm": {
+        "title": "Sessões encerradas"
+      }
+    }
+  },
+  "admin": {
+    "nav": {
+      "users": "Usuários",
+      "news": "Notícias",
+      "changelog": "Registro de alterações"
+    },
+    "users": {
+      "title": "Usuários"
+    },
+    "news": {},
+    "changelog": {}
   }
 }

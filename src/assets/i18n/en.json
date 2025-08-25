@@ -7,11 +7,11 @@
     "it": "Italiano",
     "pt": "Português"
   },
-  "section": {
+  "nav": {
     "home": "Home",
     "admin": "Admin",
     "settings": "Settings",
-    "signIn": "Sign in"
+    "login": "Sign in"
   },
   "menu": {
     "profile": { "title": "Profile" },
@@ -24,17 +24,34 @@
       "darkTheme": "Dark theme",
       "browserNote": "Setting applies to this browser only"
     },
-    "language": { "title": "Language", "select": "Select your language" },
+    "language": {
+      "title": "Language",
+      "select": "Select your language"
+    },
     "settings": { "title": "Settings" },
     "feedback": { "title": "Send feedback" }
   },
   "messages": {
     "invalidValues": "Some values are invalid, please check.",
     "logoutSuccess": "Goodbye! Hope to see you soon!",
-    "logoutError": "Logout failed. Please try again later."
+    "logoutError": "Logout failed. Please try again later.",
+    "fetchUserError": "Could not fetch user data. Please try again later.",
+    "fetchUsersError": "Could not fetch users data. Please try again later.",
+    "fetchSessionsError": "Could not fetch sessions. Please try again later."
   },
-  "not-found": "Page not found",
+  "searchMessages": {
+    "noAccount": "No account found",
+    "noUsers": "No users found",
+    "noDevices": "No devices found"
+  },
+  "notFound": {
+    "title": "Page not found"
+  },
   "login": {
+    "nav": {
+      "register": "Sign up",
+      "passwordReset": "Forgot password?"
+    },
     "title": "Sign in to {{appTitle}}",
     "subtitle": "Please enter your credentials to continue.",
     "labels": {
@@ -42,8 +59,6 @@
       "password": "Password"
     },
     "buttons": {
-      "forgotPassword": "Forgot password?",
-      "signUp": "Sign up",
       "submit": "Sign in"
     },
     "messages": {
@@ -52,6 +67,9 @@
     }
   },
   "register": {
+    "nav": {
+      "login": "Did you already have an account?"
+    },
     "title": "Create an account",
     "subtitle": "Please provide your information to continue.",
     "labels": {
@@ -62,7 +80,6 @@
       "confirmPassword": "Repeat Password"
     },
     "buttons": {
-      "alreadyHaveAccount": "Did you already have an account?",
       "submit": "Sign up"
     },
     "errors": {
@@ -74,7 +91,6 @@
       "registerSuccess": "You successfully registered. A verification email has been sent to your email address.",
       "registerError": "Registration failed. Please check your inputs.",
       "loginError": "Login failed. Please try again later.",
-      "fetchUserError": "Could not fetch user data. Please try again later.",
       "verificationEmail": "A verification email has been sent to {{email}}, please check your inbox and SPAM in order to verify your account."
     }
   },
@@ -112,7 +128,7 @@
     }
   },
   "profile": {
-    "sections": {
+    "nav": {
       "overview": "Overview",
       "posts": "Posts"
     },
@@ -128,5 +144,172 @@
       "website": "Website",
       "location": "Location"
     }
+  },
+  "settings": {
+    "nav": {
+      "backToProfile": "Go to your personal profile",
+      "profile": "Profile",
+      "account": "Account",
+      "notifications": "Notifications",
+      "access": "Access",
+      "emails": "Emails",
+      "security": "Passwords",
+      "devices": "Devices"
+    },
+    "labels": {
+      "yourAccount": "Your personal account"
+    },
+    "profile": {
+      "title": "Profile",
+      "labels": {
+        "name": "Name",
+        "publicEmail": "Public email",
+        "description": "Description",
+        "url": "URL",
+        "location": "Location",
+        "picture": "Profile picture"
+      },
+      "picture": {
+        "upload": "Upload photo...",
+        "remove": "Remove photo",
+        "crop": "Crop your profile picture",
+        "save": "Save new profile picture"
+      },
+      "buttons": {
+        "submit": "Update profile"
+      },
+      "hints": {
+        "nameAppearance": "Your name may appear around here in where you contribute or are mentioned.",
+        "manageEmailsPrefix": "You can manage verified email addresses in your",
+        "consent": "You're giving us consent to share this data wherever your user profile appears."
+      },
+      "messages": {
+        "updateError": "Could not update user data. Please try again later.",
+        "updateSuccess": "Profile settings successfully saved."
+      },
+      "links": {
+        "emailSettings": "email settings"
+      },
+      "errors": {
+        "namePattern": "Name can only have characters and numbers",
+        "locationPattern": "Location can only have characters, numbers and commas"
+      }
+    },
+    "account": {
+      "usernameForm": {
+        "title": "Change username",
+        "labels": {
+          "username": "Username"
+        },
+        "buttons": {
+          "submit": "Update profile"
+        }
+      },
+      "deleteAccountForm": {
+        "title": "Delete account",
+        "hints": {
+          "warning": "Once you delete your account, there is no going back. Please be certain."
+        },
+        "buttons": {
+          "submit": "Delete your account"
+        }
+      },
+      "errors": {
+        "usernamePattern": "Username can only have characters, numbers and _ or - symbols"
+      },
+      "messages": {
+        "updateUsernameSuccess": "Username successfully changed.",
+        "deleteUserSuccess": "Your account was successfully deleted. We will miss you!",
+        "updateError": "Could not update user data. Please try again later.",
+        "deleteError": "Could not delete user data. Please try again later."
+      }
+    },
+    "emails": {
+      "title": "Emails",
+      "addEmailForm": {
+        "title": "Add email address",
+        "buttons": {
+          "submit": "Add email"
+        }
+      },
+      "primaryEmailForm": {
+        "title": "Primary email address",
+        "buttons": {
+          "submit": "Change primary email"
+        },
+        "hints": {
+          "info": "will be used for account-related notifications and for password resets"
+        }
+      },
+      "hints": {
+        "primary": "Primary",
+        "primaryDescription": "This email will be used for account-related notifications and can also be used for password resets.",
+        "verifiedDescription": "This email may be used as login method and for receive notifications. If it's configured as primary email, it can be used for reset your password.",
+        "unverifiedDescription": "Unverified email addresses cannot be used to reset your password, as a login method, for receive notifications or set as primary email",
+        "visibleEmail": "Visible in emails",
+        "visibleEmailDescription": "This email can be visible in profile emails.",
+        "notVisibleEmail": "Not visible in emails",
+        "notVisibleEmailDescription": "This email cannot be visible in profile emails."
+      },
+      "confirm": {
+        "passwordMessage": "Please enter your password to continue."
+      },
+      "errors": {
+        "emailAlreadyAdded": "Email is already added to your account, please try another one"
+      },
+      "messages": {
+        "addEmailError": "Could not add email. Please try again later.",
+        "addEmailSuccess": "Email {{email}} successfully added.",
+        "removeEmailError": "Could not remove email. Please try again later.",
+        "removeEmailSuccess": "Email {{email}} successfully removed.",
+        "changePrimaryEmailError": "Could not change primary email. Please try again later.",
+        "changePrimaryEmailSuccess": "Primary email successfully changed.",
+        "verificationEmail": "A verification email has been sent to {{email}}, please check your inbox and SPAM in order to verify your account."
+      }
+    },
+    "security": {
+      "changePasswordForm": {
+        "title": "Change password",
+        "labels": {
+          "oldPassword": "Old password",
+          "newPassword": "New password",
+          "confirmNewPassword": "Confirm new password"
+        },
+        "buttons": {
+          "submit": "Update password"
+        }
+      },
+      "twoFactorAuthForm": {
+        "title": "Two-factor authentication",
+        "hints": {
+          "info": "Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to sign in."
+        }
+      },
+      "errors": {
+        "passwordEqual": "Passwords must be equals"
+      },
+      "messages": {
+        "updatePasswordSuccess": "Password successfully changed.",
+        "updatePasswordError": "Could not update password. Please try again later."
+      }
+    },
+    "devices": {
+      "title": "Devices",
+      "closedSessionsForm": {
+        "title": "Closed sessions"
+      }
+    }
+  },
+  "admin": {
+    "nav": {
+      "users": "Users",
+      "news": "News",
+      "changelog": "Changelog"
+    },
+    "users": {
+      "title": "Users"
+    },
+    "news": {},
+    "changelog": {}
   }
 }

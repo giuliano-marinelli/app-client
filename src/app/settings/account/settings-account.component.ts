@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
+
 import { ExtraValidators } from '../../shared/validators/validators';
 import { Observable } from 'rxjs';
 
@@ -32,7 +34,8 @@ import { MessagesService } from '../../services/messages.service';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslocoModule
   ]
 })
 export class SettingsAccountComponent implements OnInit {
@@ -89,7 +92,7 @@ export class SettingsAccountComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -115,13 +118,13 @@ export class SettingsAccountComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not update user data. Please try again later.');
+              this._messages.error(errors, translate('settings.account.messages.updateError'));
             }
             if (data?.updateUser) {
               this.getUser();
               this._auth.setUser();
               this.usernameForm.markAsPristine();
-              this._messages.info('Username successfully changed.');
+              this._messages.info(translate('settings.account.messages.updateUsernameSuccess'));
             }
           }
         })
@@ -129,7 +132,7 @@ export class SettingsAccountComponent implements OnInit {
           this.updateSubmitLoading = false;
         });
     } else {
-      this._messages.error('Some values are invalid, please check.');
+      this._messages.error(translate('messages.invalidValues'));
     }
   }
 
@@ -141,12 +144,12 @@ export class SettingsAccountComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not delete user data. Please try again later.');
+              this._messages.error(errors, translate('settings.account.messages.deleteError'));
             }
             if (data?.deleteUser) {
               this._auth.eraseToken();
               this._auth.setUser();
-              this._messages.info('Your account was successfully deleted. We will miss you!');
+              this._messages.info(translate('settings.account.messages.deleteUserSuccess'));
             }
           }
         })

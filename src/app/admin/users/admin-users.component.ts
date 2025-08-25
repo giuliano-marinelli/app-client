@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ApolloQueryResult } from '@apollo/client';
+import { TranslocoModule, translate } from '@jsverse/transloco';
 
 import { Attribute, Search, SearchParams } from '../../shared/global/search';
 import { NgxMasonryModule } from 'ngx-masonry';
@@ -33,6 +34,7 @@ import { MessagesService } from '../../services/messages.service';
     MatProgressSpinnerModule,
     NgxMasonryModule,
     SearchComponent,
+    TranslocoModule,
     UserCardComponent
   ]
 })
@@ -128,7 +130,7 @@ export class AdminUsersComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: ApolloQueryResult<{ users: { set: User[]; count: number } }>) => {
           if (errors) {
-            this._messages.error(errors, 'Could not fetch users. Please try again later.');
+            this._messages.error(errors, translate('messages.fetchUsersError'));
           }
           if (data?.users) {
             const users = data?.users;

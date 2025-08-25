@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
+
 import { Global } from '../../shared/global/global';
 
 import { FindSessions, Session } from '../../shared/entities/session.entity';
@@ -25,7 +27,8 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
     MatIconModule,
     MatProgressSpinnerModule,
     FilterPipe,
-    SessionCardComponent
+    SessionCardComponent,
+    TranslocoModule
   ]
 })
 export class SettingsDevicesComponent implements OnInit {
@@ -59,7 +62,7 @@ export class SettingsDevicesComponent implements OnInit {
       .subscribe({
         next: ({ data, errors }: any) => {
           if (errors) {
-            this._messages.error(errors, 'Could not fetch sessions. Please try again later.');
+            this._messages.error(errors, translate('messages.fetchSessionsError'));
           }
           if (data?.sessions) {
             const sessions = data?.sessions;

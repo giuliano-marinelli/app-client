@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
+
+import { TranslocoModule, TranslocoService, translate } from '@jsverse/transloco';
 
 import { NavigationPanelComponent, Section } from '../shared/components/navigation-panel/navigation-panel.component';
 
@@ -14,19 +16,61 @@ import { AuthService } from '../services/auth.service';
     MatButtonModule,
     MatProgressSpinnerModule,
     NavigationPanelComponent,
-    RouterLink
+    RouterLink,
+    TranslocoModule
   ]
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
   _auth: AuthService = inject(AuthService);
+  _transloco: TranslocoService = inject(TranslocoService);
 
-  sections: Section[] = [
-    { type: 'item', label: 'Profile', icon: 'person', route: './profile' },
-    { type: 'item', label: 'Account', icon: 'settings', route: './account' },
-    { type: 'item', label: 'Notifications', icon: 'notifications', route: './notifications', disabled: true },
-    { type: 'divider', label: 'Access' },
-    { type: 'item', label: 'Emails', icon: 'email', route: './emails' },
-    { type: 'item', label: 'Passwords', icon: 'key', route: './security' },
-    { type: 'item', label: 'Devices', icon: 'devices', route: './devices' }
-  ];
+  sections: Section[] = [];
+
+  ngOnInit() {
+    this._transloco.selectTranslation().subscribe(() => {
+      this.sections = [
+        {
+          type: 'item',
+          label: translate('settings.nav.profile'),
+          icon: 'person',
+          route: './profile'
+        },
+        {
+          type: 'item',
+          label: translate('settings.nav.account'),
+          icon: 'settings',
+          route: './account'
+        },
+        {
+          type: 'item',
+          label: translate('settings.nav.notifications'),
+          icon: 'notifications',
+          route: './notifications',
+          disabled: true
+        },
+        {
+          type: 'divider',
+          label: translate('settings.nav.access')
+        },
+        {
+          type: 'item',
+          label: translate('settings.nav.emails'),
+          icon: 'email',
+          route: './emails'
+        },
+        {
+          type: 'item',
+          label: translate('settings.nav.security'),
+          icon: 'key',
+          route: './security'
+        },
+        {
+          type: 'item',
+          label: translate('settings.nav.devices'),
+          icon: 'devices',
+          route: './devices'
+        }
+      ];
+    });
+  }
 }

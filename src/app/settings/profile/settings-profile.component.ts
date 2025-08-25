@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDivider, MatDividerModule } from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 
+import { TranslocoModule, translate } from '@jsverse/transloco';
 import { CustomValidators } from '@narik/custom-validators';
 import { InputMaskModule, createMask } from '@ngneat/input-mask';
 
@@ -43,7 +44,7 @@ import { FilterPipe } from '../../shared/pipes/filter.pipe';
     PictureInputComponent,
     ReactiveFormsModule,
     RouterLink,
-    MatDivider
+    TranslocoModule
   ]
 })
 export class SettingsProfileComponent implements OnInit {
@@ -119,7 +120,7 @@ export class SettingsProfileComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }: any) => {
             if (errors) {
-              this._messages.error(errors, 'Could not fetch user data. Please try again later.');
+              this._messages.error(errors, translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -147,13 +148,13 @@ export class SettingsProfileComponent implements OnInit {
         .subscribe({
           next: ({ data, errors }) => {
             if (errors) {
-              this._messages.error(errors, 'Could not update user data. Please try again later.');
+              this._messages.error(errors, translate('settings.profile.messages.updateError'));
             }
             if (data?.updateUser) {
               this.profileForm.markAsPristine();
               this.getUser();
               this._auth.setUser();
-              this._messages.info('Profile settings successfully saved.');
+              this._messages.info(translate('settings.profile.messages.updateSuccess'));
             }
           }
         })
@@ -161,7 +162,7 @@ export class SettingsProfileComponent implements OnInit {
           this.submitLoading = false;
         });
     } else {
-      this._messages.error('Some values are invalid, please check.');
+      this._messages.error(translate('messages.invalidValues'));
     }
   }
 }

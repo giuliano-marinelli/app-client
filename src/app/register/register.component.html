@@ -102,7 +102,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions class="operation-actions">
-      <a matButton class="justify-self-start" routerLink="/login">{{ 'register.buttons.alreadyHaveAccount' | transloco }}</a>
+      <a matButton class="justify-self-start" routerLink="/login">{{ 'register.nav.login' | transloco }}</a>
       <button matButton="tonal" class="ml-auto whitespace-nowrap" [disabled]="!registerForm.valid || submitLoading">
         @if (submitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>

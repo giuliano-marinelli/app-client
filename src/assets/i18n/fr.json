@@ -1,9 +1,17 @@
 {
-  "section": {
+  "lang": {
+    "de": "Deutsch",
+    "en": "English",
+    "es": "Español",
+    "fr": "Français",
+    "it": "Italiano",
+    "pt": "Português"
+  },
+  "nav": {
     "home": "Accueil",
     "admin": "Administration",
     "settings": "Paramètres",
-    "signIn": "Se connecter"
+    "login": "Se connecter"
   },
   "menu": {
     "profile": { "title": "Profil" },
@@ -23,11 +31,24 @@
   "messages": {
     "invalidValues": "Certaines valeurs sont invalides, veuillez vérifier.",
     "logoutSuccess": "Au revoir ! J'espère vous revoir bientôt !",
-    "logoutError": "La déconnexion a échoué. Veuillez réessayer plus tard."
+    "logoutError": "La déconnexion a échoué. Veuillez réessayer plus tard.",
+    "fetchUserError": "Impossible de récupérer les données utilisateur. Veuillez réessayer plus tard.",
+    "fetchUsersError": "Impossible de récupérer les données des utilisateurs. Veuillez réessayer plus tard.",
+    "fetchSessionsError": "Impossible de récupérer les sessions. Veuillez réessayer plus tard."
   },
-
-  "not-found": "Page non trouvée",
+  "searchMessages": {
+    "noAccount": "Aucun compte trouvé",
+    "noUsers": "Aucun utilisateur trouvé",
+    "noDevices": "Aucun appareil trouvé"
+  },
+  "notFound": {
+    "title": "Page non trouvée"
+  },
   "login": {
+    "nav": {
+      "register": "S'inscrire",
+      "passwordReset": "Mot de passe oublié ?"
+    },
     "title": "Connectez-vous à {{appTitle}}",
     "subtitle": "Veuillez saisir vos identifiants pour continuer.",
     "labels": {
@@ -35,8 +56,6 @@
       "password": "Mot de passe"
     },
     "buttons": {
-      "forgotPassword": "Mot de passe oublié ?",
-      "signUp": "S'inscrire",
       "submit": "Se connecter"
     },
     "messages": {
@@ -45,6 +64,9 @@
     }
   },
   "register": {
+    "nav": {
+      "login": "Avez-vous déjà un compte ?"
+    },
     "title": "Créer un compte",
     "subtitle": "Veuillez fournir vos informations pour continuer.",
     "labels": {
@@ -54,20 +76,18 @@
       "password": "Mot de passe",
       "confirmPassword": "Répéter le mot de passe"
     },
+    "buttons": {
+      "submit": "S'inscrire"
+    },
     "errors": {
       "namePattern": "Le nom ne peut contenir que des lettres et des chiffres",
       "usernamePattern": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et les symboles _ ou -",
       "passwordEqual": "Les mots de passe doivent être identiques"
     },
-    "buttons": {
-      "alreadyHaveAccount": "Avez-vous déjà un compte ?",
-      "submit": "S'inscrire"
-    },
     "messages": {
       "registerSuccess": "Vous vous êtes inscrit avec succès. Un e-mail de vérification a été envoyé à votre adresse e-mail.",
       "registerError": "Échec de l'inscription. Veuillez vérifier vos informations.",
       "loginError": "Échec de la connexion. Veuillez vérifier vos identifiants.",
-      "fetchUserError": "Impossible de récupérer les données utilisateur. Veuillez réessayer plus tard.",
       "verificationEmail": "Un e-mail de vérification a été envoyé à {{email}}, veuillez vérifier votre boîte de réception et les SPAM pour vérifier votre compte."
     }
   },
@@ -105,7 +125,7 @@
     }
   },
   "profile": {
-    "sections": {
+    "nav": {
       "overview": "Aperçu",
       "posts": "Publications"
     },
@@ -121,5 +141,172 @@
       "website": "Site web",
       "location": "Emplacement"
     }
+  },
+  "settings": {
+    "nav": {
+      "backToProfile": "Aller à votre profil personnel",
+      "profile": "Profil",
+      "account": "Compte",
+      "notifications": "Notifications",
+      "access": "Accès",
+      "emails": "E-mails",
+      "security": "Mots de passe",
+      "devices": "Appareils"
+    },
+    "labels": {
+      "yourAccount": "Votre compte personnel"
+    },
+    "profile": {
+      "title": "Profil",
+      "labels": {
+        "name": "Nom",
+        "publicEmail": "E-mail public",
+        "description": "Description",
+        "url": "URL",
+        "location": "Emplacement",
+        "picture": "Photo de profil"
+      },
+      "picture": {
+        "upload": "Télécharger la photo...",
+        "remove": "Supprimer la photo",
+        "crop": "Rogner votre photo de profil",
+        "save": "Enregistrer la nouvelle photo de profil"
+      },
+      "buttons": {
+        "submit": "Mettre à jour le profil"
+      },
+      "hints": {
+        "nameAppearance": "Votre nom peut apparaître ici lorsque vous contribuez ou êtes mentionné.",
+        "manageEmailsPrefix": "Vous pouvez gérer les adresses e-mail vérifiées dans votre",
+        "consent": "Vous nous donnez votre consentement pour partager ces données partout où votre profil utilisateur apparaît."
+      },
+      "messages": {
+        "updateError": "Impossible de mettre à jour les données de l'utilisateur. Veuillez réessayer plus tard.",
+        "updateSuccess": "Les paramètres du profil ont été enregistrés avec succès."
+      },
+      "links": {
+        "emailSettings": "paramètres de messagerie"
+      },
+      "errors": {
+        "namePattern": "Le nom ne peut contenir que des lettres et des chiffres",
+        "locationPattern": "L'emplacement ne peut contenir que des caractères, des chiffres et des virgules"
+      }
+    },
+    "account": {
+      "usernameForm": {
+        "title": "Changer le nom d'utilisateur",
+        "labels": {
+          "username": "Nom d'utilisateur"
+        },
+        "buttons": {
+          "submit": "Mettre à jour le profil"
+        }
+      },
+      "deleteAccountForm": {
+        "title": "Supprimer le compte",
+        "hints": {
+          "warning": "Une fois que vous supprimez votre compte, il n'y a pas de retour en arrière. Veuillez être certain."
+        },
+        "buttons": {
+          "submit": "Supprimer votre compte"
+        }
+      },
+      "errors": {
+        "usernamePattern": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et les symboles _ ou -"
+      },
+      "messages": {
+        "updateUsernameSuccess": "Nom d'utilisateur modifié avec succès.",
+        "deleteUserSuccess": "Votre compte a été supprimé avec succès. Vous allez nous manquer !",
+        "updateError": "Impossible de mettre à jour les données de l'utilisateur. Veuillez réessayer plus tard.",
+        "deleteError": "Impossible de supprimer les données de l'utilisateur. Veuillez réessayer plus tard."
+      }
+    },
+    "emails": {
+      "title": "E-mails",
+      "addEmailForm": {
+        "title": "Ajouter une adresse e-mail",
+        "buttons": {
+          "submit": "Ajouter e-mail"
+        }
+      },
+      "primaryEmailForm": {
+        "title": "Adresse e-mail principale",
+        "buttons": {
+          "submit": "Changer l'e-mail principal"
+        },
+        "hints": {
+          "info": "sera utilisé pour les notifications liées au compte et pour la réinitialisation du mot de passe"
+        }
+      },
+      "hints": {
+        "primary": "Principal",
+        "primaryDescription": "Cet e-mail sera utilisé pour les notifications liées au compte et peut également être utilisé pour réinitialiser le mot de passe.",
+        "verifiedDescription": "Cet e-mail peut être utilisé comme méthode de connexion et pour recevoir des notifications. S'il est configuré comme e-mail principal, il peut être utilisé pour réinitialiser votre mot de passe.",
+        "unverifiedDescription": "Les adresses e-mail non vérifiées ne peuvent pas être utilisées pour réinitialiser votre mot de passe, comme méthode de connexion, pour recevoir des notifications ou être définies comme e-mail principal",
+        "visibleEmail": "Visible dans les e-mails",
+        "visibleEmailDescription": "Cet e-mail peut être visible dans les e-mails du profil.",
+        "notVisibleEmail": "Non visible dans les e-mails",
+        "notVisibleEmailDescription": "Cet e-mail ne peut pas être visible dans les e-mails du profil."
+      },
+      "confirm": {
+        "passwordMessage": "Veuillez entrer votre mot de passe pour continuer."
+      },
+      "errors": {
+        "emailAlreadyAdded": "L'e-mail est déjà ajouté à votre compte, veuillez essayer un autre"
+      },
+      "messages": {
+        "addEmailError": "Impossible d'ajouter l'e-mail. Veuillez réessayer plus tard.",
+        "addEmailSuccess": "E-mail {{email}} ajouté avec succès.",
+        "removeEmailError": "Impossible de supprimer l'e-mail. Veuillez réessayer plus tard.",
+        "removeEmailSuccess": "E-mail {{email}} supprimé avec succès.",
+        "changePrimaryEmailError": "Impossible de modifier l'e-mail principal. Veuillez réessayer plus tard.",
+        "changePrimaryEmailSuccess": "E-mail principal modifié avec succès.",
+        "verificationEmail": "Un e-mail de vérification a été envoyé à {{email}}, veuillez vérifier votre boîte de réception et les SPAM pour vérifier votre compte."
+      }
+    },
+    "security": {
+      "changePasswordForm": {
+        "title": "Changer le mot de passe",
+        "labels": {
+          "oldPassword": "Ancien mot de passe",
+          "newPassword": "Nouveau mot de passe",
+          "confirmNewPassword": "Confirmer le nouveau mot de passe"
+        },
+        "buttons": {
+          "submit": "Mettre à jour le mot de passe"
+        }
+      },
+      "twoFactorAuthForm": {
+        "title": "Authentification à deux facteurs",
+        "hints": {
+          "info": "L'authentification à deux facteurs ajoute une couche de sécurité supplémentaire à votre compte en exigeant plus qu'un simple mot de passe pour se connecter."
+        }
+      },
+      "errors": {
+        "passwordEqual": "Les mots de passe doivent être identiques"
+      },
+      "messages": {
+        "updatePasswordSuccess": "Mot de passe modifié avec succès.",
+        "updatePasswordError": "Impossible de mettre à jour le mot de passe. Veuillez réessayer plus tard."
+      }
+    },
+    "devices": {
+      "title": "Appareils",
+      "closedSessionsForm": {
+        "title": "Sessions fermées"
+      }
+    }
+  },
+  "admin": {
+    "nav": {
+      "users": "Utilisateurs",
+      "news": "Actualités",
+      "changelog": "Historique des modifications"
+    },
+    "users": {
+      "title": "Utilisateurs"
+    },
+    "news": {},
+    "changelog": {}
   }
 }

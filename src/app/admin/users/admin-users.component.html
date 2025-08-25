@@ -1,10 +1,12 @@
 @if (usersLoading && !users) {
   <mat-spinner class="justify-self-center" diameter="60"></mat-spinner>
 } @else if (!users) {
-  <div class="flex flex-col items-center justify-self-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
+  <div class="flex flex-col items-center justify-self-center">
+    <mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> {{ 'searchMessages.noAccount' | transloco }}
+  </div>
 } @else {
   <h1 class="flex flex-row flex-wrap items-center gap-2">
-    <span class="shrink-0">Users</span>
+    <span class="shrink-0">{{ 'admin.users.title' | transloco }}</span>
     <search
       class="grow"
       [attributes]="usersAttributes"
@@ -21,7 +23,7 @@
   <div [class.loading]="usersLoading">
     @if (!users.length) {
       <div class="mt-3 flex flex-col items-center justify-self-center">
-        <mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No users found
+        <mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> {{ 'searchMessages.noUsers' | transloco }}
       </div>
     }
     @if (users.length) {

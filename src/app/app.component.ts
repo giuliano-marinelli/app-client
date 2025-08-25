@@ -121,14 +121,14 @@ export class AppComponent implements OnInit {
       this.navLinks = [
         {
           type: 'item',
-          label: translate('section.home'),
+          label: translate('nav.home'),
           icon: 'home',
           route: '/',
           exact: true
         },
         {
           type: 'item',
-          label: translate('section.admin'),
+          label: translate('nav.admin'),
           icon: 'manage_accounts',
           route: '/admin',
           admin: true
@@ -136,14 +136,14 @@ export class AppComponent implements OnInit {
         { type: 'toBottom' },
         {
           type: 'item',
-          label: translate('section.settings'),
+          label: translate('nav.settings'),
           icon: 'settings',
           route: '/settings',
           auth: true
         },
         {
           type: 'item',
-          label: translate('section.signIn'),
+          label: translate('nav.login'),
           icon: 'account_circle',
           route: '/login',
           auth: false

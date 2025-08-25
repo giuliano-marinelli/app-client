@@ -4,7 +4,7 @@
   <div class="flex flex-col items-center justify-self-center"><mat-icon class="icon-size-20 text-muted!">search_off</mat-icon> No account found</div>
 } @else {
   <h2>
-    Change password
+    {{ 'settings.security.changePasswordForm.title' | transloco }}
     <mat-spinner class="ml-2 inline-block!" diameter="24" [hidden]="!userLoading"></mat-spinner>
   </h2>
   <mat-divider class="mt-2!"></mat-divider>
@@ -18,7 +18,7 @@
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
       >
-        <mat-label>Old password</mat-label>
+        <mat-label>{{ 'settings.security.changePasswordForm.labels.oldPassword' | transloco }}</mat-label>
         <input matInput formControlName="oldPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
         <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -36,7 +36,7 @@
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
       >
-        <mat-label>New password</mat-label>
+        <mat-label>{{ 'settings.security.changePasswordForm.labels.newPassword' | transloco }}</mat-label>
         <input matInput formControlName="newPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
         <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -54,13 +54,17 @@
         [subscriptSizing]="'dynamic'"
         [hideRequiredMarker]="true"
       >
-        <mat-label>Confirm new password</mat-label>
+        <mat-label>{{ 'settings.security.changePasswordForm.labels.confirmNewPassword' | transloco }}</mat-label>
         <input matInput formControlName="confirmNewPassword" autocomplete="off" [type]="hidden.active ? 'password' : 'text'" />
         <button matIconButton matSuffix (click)="hidden.active = !hidden.active; $event.preventDefault()">
           <mat-icon>{{ hidden.active ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <mat-error>
-          <invalid-feedback name="Password" [control]="confirmNewPassword" [messages]="{ equalTo: 'Passwords must be equals' }"></invalid-feedback>
+          <invalid-feedback
+            name="Password"
+            [control]="confirmNewPassword"
+            [messages]="{ equalTo: ('settings.security.errors.passwordEqual' | transloco) }"
+          ></invalid-feedback>
         </mat-error>
       </mat-form-field>
 
@@ -68,13 +72,13 @@
         @if (updateSubmitLoading) {
           <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
         }
-        Update password
+        {{ 'settings.security.changePasswordForm.buttons.submit' | transloco }}
       </button>
     </div>
-    <h2 class="mt-6">Two-factor authentication</h2>
+    <h2 class="mt-6">{{ 'settings.security.twoFactorAuthForm.title' | transloco }}</h2>
     <mat-divider class="mt-2!"></mat-divider>
     <p class="mt-3">
-      Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to sign in.
+      {{ 'settings.security.twoFactorAuthForm.hints.info' | transloco }}
     </p>
   </form>
 }
