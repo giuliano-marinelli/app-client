@@ -13,6 +13,26 @@
     "settings": "Settings",
     "login": "Sign in"
   },
+  "routes": {
+    "title": "Welcome",
+    "login": { "title": "Sign in" },
+    "register": { "title": "Sign up" },
+    "passwordReset": { "title": "Forgot your password?" },
+    "passwordResetCode": { "title": "Reset your password" },
+    "settings": {
+      "title": "Settings",
+      "profile": { "title": "Profile" },
+      "account": { "title": "Account" },
+      "emails": { "title": "Emails" },
+      "security": { "title": "Passwords" },
+      "devices": { "title": "Devices" }
+    },
+    "admin": {
+      "title": "Admin",
+      "users": { "title": "Users" }
+    },
+    "notFound": { "title": "Page not found" }
+  },
   "menu": {
     "profile": { "title": "Profile" },
     "signOut": { "title": "Sign Out" },

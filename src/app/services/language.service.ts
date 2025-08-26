@@ -4,6 +4,7 @@ import { TranslocoService, getBrowserLang } from '@jsverse/transloco';
 
 import moment from 'moment';
 import 'moment/min/locales';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ import 'moment/min/locales';
 export class LanguageService {
   _langKey = 'app-language';
   _transloco: TranslocoService = inject(TranslocoService);
+
+  initialized: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
   availableLangs = this._transloco.getAvailableLangs() as string[];
 
@@ -25,6 +28,9 @@ export class LanguageService {
   init() {
     this._transloco.setActiveLang(this.lang);
     moment.locale(this.lang);
+    firstValueFrom(this._transloco.load(this.lang)).then(() => {
+      this.initialized.next(true);
+    });
   }
 
   set(lang: string) {

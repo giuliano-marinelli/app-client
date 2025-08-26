@@ -13,6 +13,26 @@
     "settings": "Configurações",
     "login": "Entrar"
   },
+  "routes": {
+    "title": "Bem-vindo",
+    "login": { "title": "Entrar" },
+    "register": { "title": "Registrar-se" },
+    "passwordReset": { "title": "Esqueceu sua senha?" },
+    "passwordResetCode": { "title": "Redefinir sua senha" },
+    "settings": {
+      "title": "Configurações",
+      "profile": { "title": "Perfil" },
+      "account": { "title": "Conta" },
+      "emails": { "title": "Emails" },
+      "security": { "title": "Senhas" },
+      "devices": { "title": "Dispositivos" }
+    },
+    "admin": {
+      "title": "Admin",
+      "users": { "title": "Usuários" }
+    },
+    "notFound": { "title": "Página não encontrada" }
+  },
   "menu": {
     "profile": { "title": "Perfil" },
     "signOut": { "title": "Sair" },

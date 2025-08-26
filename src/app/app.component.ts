@@ -107,9 +107,6 @@ export class AppComponent implements OnInit {
         this.$isSmallScreen = result.matches;
       });
 
-    // Initialize language
-    this._lang.init();
-
     // Initialize theme
     this._theme.init();
 

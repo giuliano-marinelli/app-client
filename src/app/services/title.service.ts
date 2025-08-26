@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
+import { TranslocoService } from '@jsverse/transloco';
+
 import { Observable, ReplaySubject, filter, map } from 'rxjs';
 
 export interface Breadcrumb {
@@ -15,6 +17,7 @@ export interface Breadcrumb {
 export class TitleService {
   _router: Router = inject(Router);
   _title: Title = inject(Title);
+  _transloco: TranslocoService = inject(TranslocoService);
 
   appTitle = 'App';
   appSeparator = ' · ';
@@ -61,8 +64,10 @@ export class TitleService {
       .subscribe(({ titles, breadcrumb }) => {
         this.titles = titles;
         this.breadcrumb = breadcrumb;
-        this.updateTitle();
-        this.updateBreadcrumb();
+        this._transloco.selectTranslation().subscribe(() => {
+          this.updateTitle();
+          this.updateBreadcrumb();
+        });
       });
   }
 

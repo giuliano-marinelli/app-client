@@ -177,8 +177,11 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader
     }),
-    //i18n: app initilizer for avoid missing translations on first page load
-    provideAppInitializer(() => firstValueFrom(inject(TranslocoService).load('en'))),
+    //i18n: app initializer for avoid missing translations on first page load
+    provideAppInitializer(() => {
+      inject(LanguageService).init();
+      return firstValueFrom(inject(LanguageService).initialized);
+    }),
     //service worker for pwa
     provideServiceWorker('ngsw-worker.js', {
       enabled: true,

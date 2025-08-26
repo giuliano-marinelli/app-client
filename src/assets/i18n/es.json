@@ -23,6 +23,26 @@
     "settings": { "title": "Configuración" },
     "feedback": { "title": "Enviar comentarios" }
   },
+  "routes": {
+    "title": "Bienvenido",
+    "login": { "title": "Acceder" },
+    "register": { "title": "Registrarse" },
+    "passwordReset": { "title": "¿Olvidaste tu contraseña?" },
+    "passwordResetCode": { "title": "Restablecer tu contraseña" },
+    "settings": {
+      "title": "Configuración",
+      "profile": { "title": "Perfil" },
+      "account": { "title": "Cuenta" },
+      "emails": { "title": "Correos electrónicos" },
+      "security": { "title": "Contraseñas" },
+      "devices": { "title": "Dispositivos" }
+    },
+    "admin": {
+      "title": "Administración",
+      "users": { "title": "Usuarios" }
+    },
+    "notFound": { "title": "Página no encontrada" }
+  },
   "messages": {
     "invalidValues": "Algunos valores no son válidos, por favor comprueba.",
     "logoutSuccess": "¡Adiós! ¡Espero verte pronto!",
@@ -41,7 +61,7 @@
   },
   "login": {
     "nav": {
-      "register": "Regístrate",
+      "register": "Registrarse",
       "passwordReset": "¿Olvidaste tu contraseña?"
     },
     "title": "Acceder a {{appTitle}}",
@@ -72,7 +92,7 @@
       "confirmPassword": "Repetir contraseña"
     },
     "buttons": {
-      "submit": "Regístrate"
+      "submit": "Registrarse"
     },
     "errors": {
       "namePattern": "El nombre solo puede contener letras y números",
@@ -400,7 +420,7 @@
       "confirm": {
         "deleteRequiredPasswordMessage": "Por favor, introduce tu contraseña para continuar.",
         "deleteConfirmActionButton": "Proceder",
-        "deleteConfirmMessage": "¿Estás seguro de que quieres eliminar al usuario"
+        "deleteConfirmMessage": "¿Estás seguro de que quieres eliminar al usuario?"
       },
       "messages": {
         "deleteUserError": "No se pudo eliminar el usuario. Por favor, inténtalo más tarde.",

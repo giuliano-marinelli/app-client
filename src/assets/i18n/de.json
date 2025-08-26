@@ -13,6 +13,26 @@
     "settings": "Einstellungen",
     "login": "Anmelden"
   },
+  "routes": {
+    "title": "Willkommen",
+    "login": { "title": "Anmelden" },
+    "register": { "title": "Registrieren" },
+    "passwordReset": { "title": "Passwort vergessen?" },
+    "passwordResetCode": { "title": "Passwort zurücksetzen" },
+    "settings": {
+      "title": "Einstellungen",
+      "profile": { "title": "Profil" },
+      "account": { "title": "Konto" },
+      "emails": { "title": "E-Mails" },
+      "security": { "title": "Passwörter" },
+      "devices": { "title": "Geräte" }
+    },
+    "admin": {
+      "title": "Administration",
+      "users": { "title": "Benutzer" }
+    },
+    "notFound": { "title": "Seite nicht gefunden" }
+  },
   "menu": {
     "profile": { "title": "Profil" },
     "signOut": { "title": "Abmelden" },
@@ -52,7 +72,7 @@
     "title": "Anmelden bei {{appTitle}}",
     "subtitle": "Bitte geben Sie Ihre Zugangsdaten ein, um fortzufahren.",
     "labels": {
-      "emailOrUsername": "Email oder Benutzername",
+      "emailOrUsername": "E-Mail oder Benutzername",
       "password": "Passwort"
     },
     "buttons": {
@@ -96,7 +116,7 @@
     "forgotForm": {
       "subtitle": "Bitte geben Sie Ihren Benutzernamen oder eine verifizierte E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen des Passworts an Ihre primäre E-Mail.",
       "labels": {
-        "emailOrUsername": "Email oder Benutzername"
+        "emailOrUsername": "E-Mail oder Benutzername"
       },
       "buttons": {
         "submit": "Passwort-Zurücksetzungs-E-Mail senden"
@@ -137,7 +157,7 @@
       "description": "Beschreibung",
       "moreInfo": "Mehr Informationen",
       "joinedAt": "Beigetreten am {{date}}",
-      "email": "Email",
+      "email": "E-Mail",
       "website": "Webseite",
       "location": "Standort"
     }

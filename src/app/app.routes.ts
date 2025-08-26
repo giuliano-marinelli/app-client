@@ -2,6 +2,9 @@
 //angular
 import { Routes } from '@angular/router';
 
+//i18n
+import { translate } from '@jsverse/transloco';
+
 //guards
 import { AuthLoginGuard } from './shared/guards/auth-login.guard';
 import { AuthAdminGuard } from './shared/guards/auth-admin.guard';
@@ -27,62 +30,79 @@ import { AdminUsersComponent } from './admin/users/admin-users.component';
 const loading = '⟳';
 
 export const routes: Routes = [
-  { path: '', component: AboutComponent, data: { title: 'Welcome' } },
-  { path: 'login', component: LoginComponent, data: { title: 'Sign in' } },
-  { path: 'register', component: RegisterComponent, data: { title: 'Sign up' }, canDeactivate: [LeaveGuard] },
+  {
+    path: '',
+    component: AboutComponent,
+    data: { title: () => translate('routes.title') }
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { title: () => translate('routes.login.title') }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    data: { title: () => translate('routes.register.title') },
+    canDeactivate: [LeaveGuard]
+  },
   {
     path: 'password-reset',
     component: PasswordResetComponent,
-    data: { title: 'Forgot your password?' }
+    data: { title: () => translate('routes.passwordReset.title') }
   },
   {
     path: 'password-reset/:code',
     component: PasswordResetComponent,
-    data: { title: 'Reset your password' }
+    data: { title: () => translate('routes.passwordResetCode.title') }
   },
   {
     path: 'settings',
     component: SettingsComponent,
-    data: { title: 'Settings' },
+    data: { title: () => translate('routes.settings.title') },
     canActivate: [AuthLoginGuard],
     children: [
       {
         path: 'profile',
         component: SettingsProfileComponent,
-        data: { title: 'Profile' },
+        data: { title: () => translate('routes.settings.profile.title') },
         canDeactivate: [LeaveGuard]
       },
       {
         path: 'account',
         component: SettingsAccountComponent,
-        data: { title: 'Account' }
+        data: { title: () => translate('routes.settings.account.title') }
       },
       {
         path: 'emails',
         component: SettingsEmailsComponent,
-        data: { title: 'Emails' },
+        data: { title: () => translate('routes.settings.emails.title') },
         canDeactivate: [LeaveGuard]
       },
       {
         path: 'security',
         component: SettingsSecurityComponent,
-        data: { title: 'Passwords' },
+        data: { title: () => translate('routes.settings.security.title') },
         canDeactivate: [LeaveGuard]
       },
-      { path: 'devices', component: SettingsDevicesComponent, data: { title: 'Devices' } },
+      {
+        path: 'devices',
+        component: SettingsDevicesComponent,
+        data: { title: () => translate('routes.settings.devices.title') }
+      },
       { path: '**', redirectTo: 'profile' }
     ]
   },
   {
     path: 'admin',
     component: AdminComponent,
-    data: { title: 'Admin' },
+    data: { title: () => translate('routes.admin.title') },
     canActivate: [AuthAdminGuard],
     children: [
       {
         path: 'users',
         component: AdminUsersComponent,
-        data: { title: ' Users' },
+        data: { title: () => translate('routes.admin.users.title') },
         canDeactivate: [LeaveGuard]
       },
       { path: '**', redirectTo: 'users' }
@@ -99,6 +119,10 @@ export const routes: Routes = [
       }
     }
   },
-  { path: 'notfound', component: NotFoundComponent, data: { title: 'Page not found' } },
+  {
+    path: 'notfound',
+    component: NotFoundComponent,
+    data: { title: () => translate('routes.notfound.title') }
+  },
   { path: '**', redirectTo: '/notfound' }
 ];
