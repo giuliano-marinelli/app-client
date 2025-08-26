@@ -49,6 +49,7 @@
     "feedback": { "title": "Feedback senden" }
   },
   "messages": {
+    "networkError": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
     "invalidValues": "Einige Werte sind ungültig, bitte überprüfen Sie diese.",
     "logoutSuccess": "Auf Wiedersehen! Hoffentlich bis bald!",
     "logoutError": "Abmeldung fehlgeschlagen. Bitte versuche es später noch einmal.",

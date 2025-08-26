@@ -52,6 +52,7 @@
     "feedback": { "title": "Send feedback" }
   },
   "messages": {
+    "networkError": "Network error. Please check your internet connection.",
     "invalidValues": "Some values are invalid, please check.",
     "logoutSuccess": "Goodbye! Hope to see you soon!",
     "logoutError": "Logout failed. Please try again later.",

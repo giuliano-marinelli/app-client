@@ -49,6 +49,7 @@
     "feedback": { "title": "Envoyer des commentaires" }
   },
   "messages": {
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion Internet.",
     "invalidValues": "Certaines valeurs sont invalides, veuillez vérifier.",
     "logoutSuccess": "Au revoir ! J'espère vous revoir bientôt !",
     "logoutError": "La déconnexion a échoué. Veuillez réessayer plus tard.",

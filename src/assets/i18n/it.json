@@ -49,6 +49,7 @@
     "feedback": { "title": "Invia feedback" }
   },
   "messages": {
+    "networkError": "Errore di rete. Controlla la tua connessione a Internet.",
     "invalidValues": "Alcuni valori non sono validi, controlla per favore.",
     "logoutSuccess": "Arrivederci! Spero di rivederti presto!",
     "logoutError": "Logout non riuscito. Per favore riprova più tardi.",

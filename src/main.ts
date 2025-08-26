@@ -26,7 +26,7 @@ import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 // i18n
-import { provideTransloco, TranslocoService } from '@jsverse/transloco';
+import { provideTransloco, translate } from '@jsverse/transloco';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 // modules
@@ -123,7 +123,7 @@ bootstrapApplication(AppComponent, {
         }
         if (networkError) {
           console.error('[Network error]', networkError);
-          messages.error('Network error. Please check your internet connection.', '', {});
+          messages.error(translate('messages.networkError'), '', {});
         }
       });
       const success = new ApolloLink((operation, forward) => {
