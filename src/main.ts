@@ -1,13 +1,14 @@
 // sort-imports-ignore
 //angular
 import { HttpHeaders, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { enableProdMode, importProvidersFrom, inject, isDevMode } from '@angular/core';
+import { enableProdMode, importProvidersFrom, inject, isDevMode, provideAppInitializer } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HammerModule, bootstrapApplication } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { provideServiceWorker } from '@angular/service-worker';
+import { firstValueFrom } from 'rxjs';
 
 //graphql
 import { provideApollo } from 'apollo-angular';
@@ -25,7 +26,7 @@ import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 // i18n
-import { provideTransloco } from '@jsverse/transloco';
+import { provideTransloco, TranslocoService } from '@jsverse/transloco';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 // modules
@@ -155,7 +156,7 @@ bootstrapApplication(AppComponent, {
         }
       };
     }),
-    // i18n
+    //i18n
     provideTransloco({
       config: {
         availableLangs: [
@@ -176,6 +177,8 @@ bootstrapApplication(AppComponent, {
       },
       loader: TranslocoHttpLoader
     }),
+    //i18n: app initilizer for avoid missing translations on first page load
+    provideAppInitializer(() => firstValueFrom(inject(TranslocoService).load('en'))),
     //service worker for pwa
     provideServiceWorker('ngsw-worker.js', {
       enabled: true,
