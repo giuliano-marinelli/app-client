@@ -1,6 +1,6 @@
 # App _2025_
 
-_On this project we had the **frontend** code._
+_This repository contains the **frontend**._
 
 It's an [Angular](https://angular.dev/) project that is served by the [app-server](https://github.com/giuliano-marinelli/app-server) via [Express](https://expressjs.com). It uses [Angular Material](https://material.angular.dev/) for UI components and [Tailwind](https://tailwindcss.com/) for utility-first styling, and [GraphQL](https://graphql.org/) + [Apollo](https://www.apollographql.com/) for query the application endpoints.
 
