@@ -1,0 +1,70 @@
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { TranslocoModule, translate } from '@jsverse/transloco';
+
+import { NgxMasonryComponent } from 'ngx-masonry';
+import { NgxResizeObserverModule } from 'ngx-resize-observer';
+
+import { Delete{{properCase entity.name}}, {{properCase entity.name}} } from '../../../entities/{{dashCase entity.name}}.entity';
+
+import { ConfirmComponent } from '../../confirm/confirm.component';
+import { {{properCase entity.name}}MiniComponent } from '../mini/{{dashCase entity.name}}-mini.component';
+
+import { MessagesService } from '../../../../services/messages.service';
+
+@Component({
+  selector: '{{dashCase entity.name}}-card',
+  templateUrl: './{{dashCase entity.name}}-card.component.html',
+  imports: [
+    ConfirmComponent,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    NgxResizeObserverModule,
+    TranslocoModule,
+    {{properCase entity.name}}MiniComponent,
+  ]
+})
+export class {{properCase entity.name}}CardComponent {
+  _messages: MessagesService = inject(MessagesService);
+  _delete{{properCase entity.name}}: Delete{{properCase entity.name}} = inject(Delete{{properCase entity.name}});
+
+  @Input() {{camelCase entity.name}}!: {{properCase entity.name}};
+  @Input() masonry?: NgxMasonryComponent;
+  @Input() loading = false;
+
+  @Output() loadingChange = new EventEmitter<boolean>();
+  @Output() deleted: EventEmitter<string> = new EventEmitter<string>();
+
+  delete{{properCase entity.name}}(): void {
+    this.loading = true;
+    this.loadingChange.emit(this.loading);
+
+    this._delete{{properCase entity.name}}
+      .mutate({ id: this.{{camelCase entity.name}}.id })
+      .subscribe({
+        next: ({ data, errors }) => {
+          if (errors) {
+            this._messages.error(errors, translate('shared.{{camelCase entity.name}}.messages.delete{{properCase entity.name}}Error'));
+          }
+          if (data?.delete{{properCase entity.name}}) {
+            this._messages.info(translate('shared.{{camelCase entity.name}}.messages.delete{{properCase entity.name}}Success'));
+            this.deleted.emit(data?.delete{{properCase entity.name}});
+          }
+        }
+      })
+      .add(() => {
+        this.loading = false;
+        this.loadingChange.emit(this.loading);
+      });
+  }
+}

@@ -1,0 +1,11 @@
+import { SelectionField, SelectionType } from 'apollo-dynamic';
+
+@SelectionType('{{properCase embedEntity.name}}')
+export class {{properCase embedEntity.name}} {
+  {{#each embedEntity.fields}}
+  {{#unless this.isKey}}
+  @SelectionField()
+  {{this.name}}?: {{this.type}};
+  {{/unless}}
+  {{/each}}
+}

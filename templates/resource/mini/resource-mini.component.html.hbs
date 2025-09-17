@@ -1,0 +1,18 @@
+<mat-card class="m-auto! mb-1!" [appearance]="'raised'">
+  <mat-card-content>
+    <div class="flex flex-row gap-3">
+      <div class="shrink-0">
+        <!-- PUT HERE AN AVATAR -->
+        <!--<img
+          class="img-thumbnail h-15 w-15 rounded-full"
+          alt="\{{ 'shared.{{camelCase entity.name}}.labels.avatar' | transloco }}"
+          onerror="this.src='assets/images/default-resource.png'"
+          [src]="{{camelCase entity.name}}.avatar"
+        />-->
+      </div>
+      <div class="flex grow flex-col">
+        <!-- PUT HERE IDENTITY INFO (e.g.: <span>\{{ {{camelCase entity.name}}.name }}</span>) -->
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

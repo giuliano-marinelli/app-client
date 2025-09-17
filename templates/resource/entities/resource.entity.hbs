@@ -1,0 +1,88 @@
+import { Injectable } from '@angular/core';
+
+import { Mutation, gql } from 'apollo-angular';
+import { SelectionField, SelectionType } from 'apollo-dynamic';
+import { DynamicMutation, DynamicQuery } from 'apollo-dynamic-angular';
+
+{{#each embedEntities}}
+import { {{properCase this.name}} } from './{{dashCase this.name}}.entity';
+{{/each}}
+
+@SelectionType('{{properCase entity.name}}', {
+  default: {
+    relations: {},
+    conditions: { isAdmin: false }
+  }
+})
+export class {{properCase entity.name}} {
+  {{#each entity.fields}}
+  @SelectionField()
+  {{this.name}}?: {{this.type}};
+  {{/each}}
+  {{#each embedEntities}}
+  @SelectionField(() => {{properCase this.name}})
+  {{camelCase this.name}}: {{properCase this.name}};
+  {{/each}}
+  @SelectionField()
+  createdAt?: Date;
+  @SelectionField()
+  updatedAt?: Date;
+  @SelectionField()
+  deletedAt?: Date;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Create{{properCase entity.name}} extends DynamicMutation<{ create{{properCase entity.name}}: {{properCase entity.name}} }> {
+  override document = gql`
+    mutation Create{{properCase entity.name}}(${{camelCase entity.name}}CreateInput: {{properCase entity.name}}CreateInput!) {
+      create{{properCase entity.name}}({{camelCase entity.name}}CreateInput: ${{camelCase entity.name}}CreateInput) {
+        {{properCase entity.name}}
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Update{{properCase entity.name}} extends DynamicMutation<{ update{{properCase entity.name}}: {{properCase entity.name}} }> {
+  override document = gql`
+    mutation Update{{properCase entity.name}}(${{camelCase entity.name}}UpdateInput: {{properCase entity.name}}UpdateInput!, $avatarFile: Upload) {
+      update{{properCase entity.name}}({{camelCase entity.name}}UpdateInput: ${{camelCase entity.name}}UpdateInput, avatarFile: $avatarFile) {
+        {{properCase entity.name}}
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Delete{{properCase entity.name}} extends Mutation<{ delete{{properCase entity.name}}: string }> {
+  override document = gql`
+    mutation Delete{{properCase entity.name}}($id: UUID!) {
+      delete{{properCase entity.name}}(id: $id)
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Find{{properCase entity.name}} extends DynamicQuery<{ {{camelCase entity.name}}: {{properCase entity.name}} }> {
+  override document = gql`
+    query {{properCase entity.name}}($id: UUID!) {
+      {{camelCase entity.name}}(id: $id) {
+        {{properCase entity.name}}
+      }
+    }
+  `;
+}
+
+@Injectable({ providedIn: 'root' })
+export class Find{{properCase entity.name}}s extends DynamicQuery<{ {{camelCase entity.name}}s: { set: {{properCase entity.name}}[]; count: number } }> {
+  override document = gql`
+    query {{properCase entity.name}}s($where: [{{properCase entity.name}}WhereInput!], $order: [{{properCase entity.name}}OrderInput!], $pagination: PaginationInput) {
+      {{camelCase entity.name}}s(where: $where, order: $order, pagination: $pagination) {
+        set {
+          {{properCase entity.name}}
+        }
+        count
+      }
+    }
+  `;
+}

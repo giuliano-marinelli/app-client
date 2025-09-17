@@ -65,14 +65,12 @@ export class UserCardComponent {
   @Output() deleted: EventEmitter<string> = new EventEmitter<string>();
   @Output() sessionClosed: EventEmitter<Session> = new EventEmitter<Session>();
 
-  deleteUser({ password }: any, user: User): void {
-    if (!user) return;
-
+  deleteUser({ password }: any): void {
     this.loading = true;
     this.loadingChange.emit(this.loading);
 
     this._deleteUser
-      .mutate({ id: user.id, password: password })
+      .mutate({ id: this.user.id, password: password })
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) {

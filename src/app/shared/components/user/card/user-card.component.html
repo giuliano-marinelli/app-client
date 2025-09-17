@@ -34,7 +34,7 @@
           confirmActionButton="{{ 'shared.user.confirm.deleteConfirmActionButton' | transloco }}"
           [requiredPassword]="true"
           [confirmTemplate]="delete_message"
-          (confirm)="deleteUser($event, user)"
+          (confirm)="deleteUser($event)"
         ></confirm>
         <ng-template #delete_message>
           <p class="mb-3">{{ 'shared.user.confirm.deleteConfirmMessage' | transloco }}:</p>

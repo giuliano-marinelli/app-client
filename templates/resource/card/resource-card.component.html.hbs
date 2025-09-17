@@ -1,0 +1,45 @@
+<mat-card [appearance]="'raised'" [class]="loading ? ['loading', 'brightness-50'] : []" (onResize)="masonry?.layout()">
+  @if (loading) {
+    <div class="overlay">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+  <!-- Add padding-top when loading to fix content shift -->
+  <mat-card-content [class.pt-4!]="loading">
+    <div class="flex flex-row gap-3">
+      <div class="shrink-0">
+        <!-- PUT HERE AN AVATAR -->
+        <!--<img
+          class="img-thumbnail h-12 w-12 rounded-full"
+          alt="\{{ 'shared.{{camelCase entity.name}}.labels.avatar' | transloco }}"
+          onerror="this.src='assets/images/default-resource.png'"
+          [src]="{{camelCase entity.name}}.avatar"
+        />-->
+      </div>
+      <div class="flex grow flex-col">
+        <!-- PUT HERE IDENTITY INFO (e.g.: <span>\{{ {{camelCase entity.name}}.name }}</span>) -->
+      </div>
+
+      <button matIconButton class="cursor-pointer" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item (click)="confirmDelete.open()">
+          <mat-icon>delete_forever</mat-icon> \{{ 'shared.{{camelCase entity.name}}.buttons.delete{{properCase entity.name}}' | transloco }}
+        </a>
+        <confirm
+          #confirmDelete
+          [requiredPassword]="true"
+          [confirmTemplate]="delete_message"
+          (confirm)="delete{{properCase entity.name}}()"
+        ></confirm>
+        <ng-template #delete_message>
+          <p class="mb-3">\{{ 'shared.{{camelCase entity.name}}.confirm.deleteConfirmMessage' | transloco }}:</p>
+          <{{dashCase entity.name}}-mini [{{camelCase entity.name}}]="{{camelCase entity.name}}"></{{dashCase entity.name}}-mini>
+        </ng-template>
+      </mat-menu>
+    </div>
+
+    <!-- PUT HERE REST OF THE CONTENT -->
+  </mat-card-content>
+</mat-card>

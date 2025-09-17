@@ -26,7 +26,7 @@
         <mat-menu #menu="matMenu">
           <a mat-menu-item (click)="confirmClose.open()"><mat-icon>logout</mat-icon> {{ 'shared.session.buttons.closeSession' | transloco }}</a>
         </mat-menu>
-        <confirm #confirmClose (confirm)="closeSession(session)"></confirm>
+        <confirm #confirmClose (confirm)="closeSession()"></confirm>
       }
     </div>
     @if (session.blockedAt) {

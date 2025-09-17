@@ -54,6 +54,13 @@ module.exports = {
         ],
         multilineArraysWrapThreshold: 1
       }
+    },
+    // configuration for hbs files for scaffolding templates
+    {
+      files: '*.hbs',
+      options: {
+        parser: 'glimmer'
+      }
     }
   ]
 };

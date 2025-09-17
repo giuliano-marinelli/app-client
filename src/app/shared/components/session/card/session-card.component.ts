@@ -47,16 +47,12 @@ export class SessionCardComponent {
 
   @Output() closed: EventEmitter<Session> = new EventEmitter<Session>();
 
-  closeSession(session: Session): void {
-    console.log('closeSession', session);
-
-    if (!session) return;
-
+  closeSession(): void {
     this.loading = true;
     this.loadingChange.emit(this.loading);
 
     this._closeSession
-      .mutate({ id: session.id })
+      .mutate({ id: this.session.id })
       .subscribe({
         next: ({ data, errors }) => {
           if (errors) this._messages.error(errors, translate('shared.session.messages.closeSessionError'));
