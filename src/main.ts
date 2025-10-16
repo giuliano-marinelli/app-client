@@ -13,20 +13,28 @@ import { firstValueFrom } from 'rxjs';
 //graphql
 import { provideApollo } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { ExtractedFiles } from 'apollo-angular/http/types';
 import { ApolloDynamic } from 'apollo-dynamic';
-import { ApolloLink, InMemoryCache, split } from '@apollo/client/core';
-import { setContext } from '@apollo/client/link/context';
-import { onError } from '@apollo/client/link/error';
+import {
+  ApolloLink,
+  CombinedGraphQLErrors,
+  CombinedProtocolErrors,
+  InMemoryCache,
+  LocalStateError,
+  ServerError,
+  ServerParseError,
+  UnconventionalError
+} from '@apollo/client/core';
+import { SetContextLink } from '@apollo/client/link/context';
+import { ErrorLink } from '@apollo/client/link/error';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { RemoveTypenameFromVariablesLink } from '@apollo/client/link/remove-typename';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
-import { GraphQLFormattedError } from 'graphql';
 import extractFiles from 'extract-files/extractFiles.mjs';
 import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 // i18n
-import { provideTransloco, translate } from '@jsverse/transloco';
+import { provideTransloco } from '@jsverse/transloco';
 import { TranslocoHttpLoader } from './transloco-loader';
 
 // modules
@@ -101,11 +109,10 @@ bootstrapApplication(AppComponent, {
     //graphql
     provideApollo(() => {
       const httpLink = inject(HttpLink);
-      const messages = inject(MessagesService);
 
       const http = httpLink.create({
         uri: `${environment.protocol}${environment.host}:${environment.appPort}/${environment.graphql}`,
-        extractFiles: (body) => extractFiles(body, isExtractableFile) as ExtractedFiles,
+        extractFiles: (body) => extractFiles(body, isExtractableFile),
         headers: new HttpHeaders().set('apollo-require-preflight', 'true')
       });
       const ws = new GraphQLWsLink(
@@ -113,30 +120,47 @@ bootstrapApplication(AppComponent, {
           url: `ws://${environment.host}:${environment.appPort}/${environment.graphql}`
         })
       );
-      const auth = setContext(() => {
+      const auth = new SetContextLink(() => {
         const token = localStorage.getItem('token');
-        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+        return token ? { headers: new HttpHeaders().set('Authorization', `Bearer ${token}`) } : {};
       });
-      const error = onError(({ graphQLErrors, networkError }) => {
-        if (graphQLErrors) {
-          graphQLErrors.map((error: GraphQLFormattedError) => console.error('[GraphQL error]', error));
-        }
-        if (networkError) {
-          console.error('[Network error]', networkError);
-          messages.error(translate('messages.networkError'), '', {});
+      const error = new ErrorLink(({ error }) => {
+        if (CombinedGraphQLErrors.is(error)) {
+          // handle GraphQL errors
+          error.errors.forEach(({ message, locations, path }) =>
+            console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+          );
+        } else if (CombinedProtocolErrors.is(error)) {
+          // handle multipart subscription protocol errors
+          error.errors.forEach(({ message, extensions }) =>
+            console.error(`[Protocol error]: Message: ${message}, Extensions: ${JSON.stringify(extensions)}`)
+          );
+        } else if (LocalStateError.is(error)) {
+          console.error(`[LocalState error]: Path: ${error.path}`, error);
+          // handle errors thrown by the `LocalState` class
+        } else if (ServerError.is(error)) {
+          // handle server HTTP errors
+          console.error(`[Server error]: Status code: ${error.statusCode}, Body Text: ${error.bodyText}`, error);
+        } else if (ServerParseError.is(error)) {
+          // handle JSON parse errors
+          console.error(`[Server parse error]: Status code: ${error.statusCode}, Body Text: ${error.bodyText}`, error);
+        } else if (UnconventionalError.is(error)) {
+          // handle errors thrown by irregular types
+          console.error('[Unconventional error]', error);
+        } else {
+          console.error('[Network error]', error);
         }
       });
       const success = new ApolloLink((operation, forward) => {
-        return forward(operation).map((data) => {
-          // messages.clear();
-          return data;
-        });
+        return forward(operation);
       });
+      const removeTypename = new RemoveTypenameFromVariablesLink();
       const link = ApolloLink.from([
+        removeTypename,
         auth,
         error,
         success,
-        split(
+        ApolloLink.split(
           ({ query }) => {
             const definition = getMainDefinition(query);
             return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
@@ -148,7 +172,7 @@ bootstrapApplication(AppComponent, {
 
       return {
         link: link,
-        cache: new InMemoryCache({ addTypename: false }),
+        cache: new InMemoryCache(),
         defaultOptions: {
           watchQuery: { fetchPolicy: 'cache-and-network', errorPolicy: 'all' },
           query: { fetchPolicy: 'network-only', errorPolicy: 'all' },

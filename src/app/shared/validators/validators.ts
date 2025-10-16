@@ -15,7 +15,7 @@ export class ExtraValidators {
    */
   static usernameExists(checkUsernameExists: CheckUserUsernameExists): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return checkUsernameExists.fetch({ username: control.value }).pipe(
+      return checkUsernameExists.fetch({ username: control.value } as any).pipe(
         map(({ data }) => {
           return data?.checkUserUsernameExists ? { usernameExists: true } : null;
         })
@@ -31,7 +31,7 @@ export class ExtraValidators {
    */
   static emailExists(checkAddressExists: CheckEmailAddressExists): AsyncValidatorFn {
     return (control: AbstractControl) => {
-      return checkAddressExists.fetch({ address: control.value }).pipe(
+      return checkAddressExists.fetch({ address: control.value } as any).pipe(
         map(({ data }) => {
           return data?.checkEmailAddressExists ? { emailExists: true } : null;
         })

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Route, UrlSegment } from '@angular/router';
 
-import { map } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 import { FindUsers } from '../entities/user.entity';
 
@@ -10,8 +10,8 @@ export const UserExistsGuard: CanMatchFn = (route: Route, segments: UrlSegment[]
   const username = segments[0].path; // assuming the username is the first segment of the path
 
   return _findUsers.fetch({ where: { username: { eq: username } } }).pipe(
-    map(({ data, errors }) => {
-      if (errors) return false;
+    map(({ data, error }) => {
+      if (error) return false;
       if (data?.users?.set) {
         return data.users.set.length > 0; // check if any user exists with the given username
       }

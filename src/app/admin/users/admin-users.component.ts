@@ -8,7 +8,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ApolloQueryResult } from '@apollo/client';
 import { TranslocoModule, translate } from '@jsverse/transloco';
 
 import { Attribute, Search, SearchParams } from '../../shared/global/search';
@@ -128,9 +127,9 @@ export class AdminUsersComponent implements OnInit {
         }
       })
       .subscribe({
-        next: ({ data, errors }: ApolloQueryResult<{ users: { set: User[]; count: number } }>) => {
-          if (errors) {
-            this._messages.error(errors, translate('messages.fetchUsersError'));
+        next: ({ data, error }: any) => {
+          if (error) {
+            this._messages.error(translate('messages.fetchUsersError'));
           }
           if (data?.users) {
             const users = data?.users;

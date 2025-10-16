@@ -107,9 +107,9 @@ export class PasswordResetComponent implements OnInit {
       this._updateUserPasswordCode
         .mutate({ usernameOrEmail: this.usernameOrEmail.value })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('passwordReset.forgotForm.messages.sendPasswordResetEmailError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('passwordReset.forgotForm.messages.sendPasswordResetEmailError'));
             } else if (data?.updateUserPasswordCode) {
               this._messages.info(translate('passwordReset.forgotForm.messages.sendPasswordResetEmailSuccess'), {
                 duration: 10000
@@ -131,9 +131,9 @@ export class PasswordResetComponent implements OnInit {
       this._resetUserPassword
         .mutate({ code: this.code, newPassword: this.password.value })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('passwordReset.resetForm.messages.resetPasswordError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('passwordReset.resetForm.messages.resetPasswordError'));
             } else if (data?.resetUserPassword) {
               this._messages.info(translate('passwordReset.resetForm.messages.resetPasswordSuccess'), {
                 duration: 10000

@@ -73,7 +73,7 @@ export class DeleteEmail extends Mutation<{ deleteEmail: string }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CheckEmailAddressExists extends Query<{ checkEmailAddressExists: boolean }> {
+export class CheckEmailAddressExists extends DynamicQuery<{ checkEmailAddressExists: boolean }> {
   override document = gql`
     query CheckEmailAddressExists($address: String!) {
       checkEmailAddressExists(address: $address)

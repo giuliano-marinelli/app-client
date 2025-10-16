@@ -36,8 +36,8 @@ export class ProfileService {
         }) as FindUsers
       ).fetch({ where: { username: { eq: username } } })
     );
-    if (result.errors) throw result.errors;
-    if (result.data?.users?.set?.[0]) this.user.set(result.data.users.set[0]);
+    if (result.error) throw result.error;
+    if (result.data?.users?.set?.[0]) this.user.set(result.data.users.set[0] as User);
     this.loading.set(false);
   }
 
@@ -59,8 +59,8 @@ export class ProfileService {
         }) as FindUser
       ).fetch({ id: id })
     );
-    if (result.errors) throw result.errors;
-    if (result.data?.user) this.user.set(result.data?.user);
+    if (result.error) throw result.error;
+    if (result.data?.user) this.user.set(result.data?.user as User);
     this.loading.set(false);
   }
 

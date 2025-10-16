@@ -182,8 +182,8 @@ export class AppComponent implements OnInit {
 
   logout() {
     this._logout.fetch().subscribe({
-      next: ({ data, errors }) => {
-        if (errors) this._messages.error(errors, translate('messages.logoutError'));
+      next: ({ data, error }) => {
+        if (error) this._messages.error(translate('messages.logoutError'));
         else if (data?.logout) {
           this._auth.eraseToken();
           this._auth.setUser();

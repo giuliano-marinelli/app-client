@@ -146,9 +146,9 @@ export class RegisterComponent implements OnInit {
           }
         })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('register.messages.registerError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('register.messages.registerError'));
               this.submitLoading = false;
             }
             if (data?.createUser) {
@@ -157,11 +157,11 @@ export class RegisterComponent implements OnInit {
                 .fetch({
                   usernameOrEmail: this.registerForm.value.username,
                   password: this.registerForm.value.password
-                })
+                } as any)
                 .subscribe({
-                  next: ({ data, errors }) => {
-                    if (errors) {
-                      this._messages.error(errors, translate('register.messages.loginError'));
+                  next: ({ data, error }) => {
+                    if (error) {
+                      this._messages.error(translate('register.messages.loginError'));
                       this.submitLoading = false;
                     }
                     if (data?.login) {
@@ -169,9 +169,9 @@ export class RegisterComponent implements OnInit {
                       this._auth
                         .setUser()
                         ?.subscribe({
-                          next: ({ data, errors }: any) => {
-                            if (errors) {
-                              this._messages.error(errors, translate('messages.fetchUserError'));
+                          next: ({ data, error }: any) => {
+                            if (error) {
+                              this._messages.error(translate('messages.fetchUserError'));
                             }
                             if (data?.user) {
                               this.sendVerificationEmail(data?.user?.primaryEmail);
@@ -202,8 +202,8 @@ export class RegisterComponent implements OnInit {
 
   sendVerificationEmail(email: Email): void {
     this._updateEmailVerificationCode.mutate({ id: email.id }).subscribe({
-      next: ({ data, errors }) => {
-        if (errors) this._messages.error(errors);
+      next: ({ data, error }) => {
+        if (error) this._messages.error(error.message);
         else if (data?.updateEmailVerificationCode)
           this._messages.info(translate('register.messages.verificationEmail', { email: email.address }), {
             duration: 10000

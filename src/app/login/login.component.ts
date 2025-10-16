@@ -87,9 +87,9 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.submitLoading = true;
       this._login.fetch(this.loginForm.value).subscribe({
-        next: ({ data, errors }) => {
-          if (errors) {
-            this._messages.error(errors, translate('login.messages.loginError'));
+        next: ({ data, error }) => {
+          if (error) {
+            this._messages.error(translate('login.messages.loginError'));
             this.submitLoading = false;
           }
           if (data?.login) {
@@ -97,9 +97,9 @@ export class LoginComponent implements OnInit {
             this._auth
               .setUser()
               ?.subscribe({
-                next: ({ data, errors }: any) => {
-                  if (errors) {
-                    this._messages.error(errors, translate('login.messages.loginError'));
+                next: ({ data, error }: any) => {
+                  if (error) {
+                    this._messages.error(translate('login.messages.loginError'));
                   }
                   if (data?.user) {
                     this._messages.info(

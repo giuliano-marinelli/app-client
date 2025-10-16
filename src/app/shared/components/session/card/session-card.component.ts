@@ -54,8 +54,8 @@ export class SessionCardComponent {
     this._closeSession
       .mutate({ id: this.session.id })
       .subscribe({
-        next: ({ data, errors }) => {
-          if (errors) this._messages.error(errors, translate('shared.session.messages.closeSessionError'));
+        next: ({ data, error }) => {
+          if (error) this._messages.error(translate('shared.session.messages.closeSessionError'));
           if (data?.closeSession) {
             this._messages.info(translate('shared.session.messages.closeSessionSuccess'));
             this.closed.emit(data?.closeSession);

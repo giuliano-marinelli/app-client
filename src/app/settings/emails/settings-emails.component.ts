@@ -124,9 +124,9 @@ export class SettingsEmailsComponent implements OnInit {
       this._findUser({ relations: { emails: true } })
         .fetch({ id: this._auth.user.id })
         .subscribe({
-          next: ({ data, errors }: any) => {
-            if (errors) {
-              this._messages.error(errors, translate('messages.fetchUserError'));
+          next: ({ data, error }: any) => {
+            if (error) {
+              this._messages.error(translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -153,9 +153,9 @@ export class SettingsEmailsComponent implements OnInit {
       this._createEmail
         .mutate({ emailCreateInput: { address: this.addEmailAddress?.value, user: { id: this.user?.id } } })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('settings.emails.messages.addEmailError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('settings.emails.messages.addEmailError'));
             }
             if (data?.createEmail) {
               this.addEmailForm.reset();
@@ -177,14 +177,11 @@ export class SettingsEmailsComponent implements OnInit {
     console.log('removeEmail', password, verificationCode, email);
     this.removeEmailSubmitLoading = email.id;
     this._deleteEmail
-      .mutate({ id: email.id, password, code: verificationCode })
+      .mutate({ id: email.id, password, code: verificationCode } as any)
       .subscribe({
-        next: ({ data, errors }) => {
-          if (errors) {
-            this._messages.error(
-              errors,
-              translate('settings.emails.messages.removeEmailError', { email: email.address })
-            );
+        next: ({ data, error }) => {
+          if (error) {
+            this._messages.error(translate('settings.emails.messages.removeEmailError', { email: email.address }));
           }
           if (data?.deleteEmail) {
             this.getUser();
@@ -210,9 +207,9 @@ export class SettingsEmailsComponent implements OnInit {
           email: { id: this.primaryEmailAddress?.value?.id }
         })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('settings.emails.messages.changePrimaryEmailError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('settings.emails.messages.changePrimaryEmailError'));
             }
             if (data?.updateUserPrimaryEmail) {
               this.getUser();
@@ -229,8 +226,8 @@ export class SettingsEmailsComponent implements OnInit {
 
   sendVerificationEmail(email: Email): void {
     this._updateEmailVerificationCode.mutate({ id: email.id }).subscribe({
-      next: ({ data, errors }) => {
-        if (errors) this._messages.error(errors);
+      next: ({ data, error }) => {
+        if (error) this._messages.error(error.message);
         else if (data?.updateEmailVerificationCode)
           this._messages.info(translate('settings.emails.messages.verificationEmail', { email: email.address }));
       }

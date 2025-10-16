@@ -70,11 +70,11 @@ export class UserCardComponent {
     this.loadingChange.emit(this.loading);
 
     this._deleteUser
-      .mutate({ id: this.user.id, password: password })
+      .mutate({ id: this.user.id, password: password } as any)
       .subscribe({
-        next: ({ data, errors }) => {
-          if (errors) {
-            this._messages.error(errors, translate('shared.user.messages.deleteUserError'));
+        next: ({ data, error }) => {
+          if (error) {
+            this._messages.error(translate('shared.user.messages.deleteUserError'));
           }
           if (data?.deleteUser) {
             this._messages.info(translate('shared.user.messages.deleteUserSuccess'));

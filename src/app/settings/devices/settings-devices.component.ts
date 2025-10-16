@@ -60,9 +60,9 @@ export class SettingsDevicesComponent implements OnInit {
           { updatedAt: 'DESC' }]
       })
       .subscribe({
-        next: ({ data, errors }: any) => {
-          if (errors) {
-            this._messages.error(errors, translate('messages.fetchSessionsError'));
+        next: ({ data, error }: any) => {
+          if (error) {
+            this._messages.error(translate('messages.fetchSessionsError'));
           }
           if (data?.sessions) {
             const sessions = data?.sessions;

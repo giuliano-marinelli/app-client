@@ -52,9 +52,9 @@ export class {{properCase entity.name}}CardComponent {
     this._delete{{properCase entity.name}}
       .mutate({ id: this.{{camelCase entity.name}}.id })
       .subscribe({
-        next: ({ data, errors }) => {
-          if (errors) {
-            this._messages.error(errors, translate('shared.{{camelCase entity.name}}.messages.delete{{properCase entity.name}}Error'));
+        next: ({ data, error }) => {
+          if (error) {
+            this._messages.error(translate('shared.{{camelCase entity.name}}.messages.delete{{properCase entity.name}}Error'));
           }
           if (data?.delete{{properCase entity.name}}) {
             this._messages.info(translate('shared.{{camelCase entity.name}}.messages.delete{{properCase entity.name}}Success'));

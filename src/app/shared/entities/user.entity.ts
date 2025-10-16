@@ -47,7 +47,7 @@ export class User {
 }
 
 @Injectable({ providedIn: 'root' })
-export class Login extends Query<{ login: string }> {
+export class Login extends DynamicQuery<{ login: string }> {
   override document = gql`
     query Login($usernameOrEmail: String!, $password: String!) {
       login(usernameOrEmail: $usernameOrEmail, password: $password)
@@ -56,7 +56,7 @@ export class Login extends Query<{ login: string }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class Logout extends Query<{ logout: boolean }> {
+export class Logout extends DynamicQuery<{ logout: boolean }> {
   override document = gql`
     query Logout {
       logout
@@ -151,7 +151,7 @@ export class DeleteUser extends Mutation<{ deleteUser: string }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CheckUserVerificationCode extends Query<{ checkUserVerificationCode: boolean }> {
+export class CheckUserVerificationCode extends DynamicQuery<{ checkUserVerificationCode: boolean }> {
   override document = gql`
     query CheckUserVerificationCode($id: UUID!, $code: String!) {
       checkUserVerificationCode(id: $id, code: $code)
@@ -160,7 +160,7 @@ export class CheckUserVerificationCode extends Query<{ checkUserVerificationCode
 }
 
 @Injectable({ providedIn: 'root' })
-export class CheckUserPassword extends Query<{ checkUserPassword: boolean }> {
+export class CheckUserPassword extends DynamicQuery<{ checkUserPassword: boolean }> {
   override document = gql`
     query CheckUserPassword($id: UUID!, $password: String!) {
       checkUserPassword(id: $id, password: $password)
@@ -169,7 +169,7 @@ export class CheckUserPassword extends Query<{ checkUserPassword: boolean }> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class CheckUserUsernameExists extends Query<{ checkUserUsernameExists: boolean }> {
+export class CheckUserUsernameExists extends DynamicQuery<{ checkUserUsernameExists: boolean }> {
   override document = gql`
     query CheckUserUsernameExists($username: String!) {
       checkUserUsernameExists(username: $username)

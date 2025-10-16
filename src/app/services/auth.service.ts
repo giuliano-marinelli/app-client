@@ -53,9 +53,9 @@ export class AuthService {
 
       obs
         .subscribe({
-          next: ({ data, errors }: any) => {
-            if (errors) {
-              this._messages.error(errors);
+          next: ({ data, error }: any) => {
+            if (error) {
+              this._messages.error(error.message);
               this.eraseToken();
             }
             if (data) {

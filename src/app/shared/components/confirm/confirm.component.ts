@@ -237,12 +237,14 @@ export class ConfirmComponent implements OnInit {
       this.checkPasswordLoading = true;
       if (this._auth.user) {
         this._checkUserPassword
-          .fetch({ id: this._auth.user.id, password: this.password?.value })
+          .fetch({ id: this._auth.user.id, password: this.password?.value } as any)
           .subscribe({
-            next: ({ data, errors }) => {
-              if (errors) this._messages.error(errors, translate('shared.confirm.messages.checkPasswordError'));
-              else if (data?.checkUserPassword) resolve(true);
-              else {
+            next: ({ data, error }) => {
+              if (error) {
+                this._messages.error(translate('shared.confirm.messages.checkPasswordError'));
+              } else if (data?.checkUserPassword) {
+                resolve(true);
+              } else {
                 this._messages.error(translate('shared.confirm.messages.checkPasswordNotMatch'));
                 resolve(false);
               }
@@ -262,17 +264,18 @@ export class ConfirmComponent implements OnInit {
       this.checkVerificationCodeLoading = true;
       if (this._auth.user) {
         this._checkUserVerificationCode
-          .fetch({ id: this._auth.user.id, code: this.verificationCode?.value })
+          .fetch({ id: this._auth.user.id, code: this.verificationCode?.value } as any)
           .subscribe({
-            next: ({ data, errors }) => {
-              if (errors) {
-                this._messages.error(errors, translate('shared.confirm.messages.checkVerificationCodeError'));
-                resolve(false);
-              } else if (data?.checkUserVerificationCode) resolve(true);
+            next: ({ data }) => {
+              if (data?.checkUserVerificationCode) resolve(true);
               else {
                 this._messages.error(translate('shared.confirm.messages.checkVerificationCodeNotMatch'));
                 resolve(false);
               }
+            },
+            error: (error) => {
+              this._messages.error(error, translate('shared.confirm.messages.checkVerificationCodeError'));
+              resolve(false);
             }
           })
           .add(() => {

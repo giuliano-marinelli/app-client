@@ -96,12 +96,12 @@ export class SettingsSecurityComponent implements OnInit {
       this._findUser
         .fetch({ id: this._auth.user.id })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('messages.fetchUserError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('messages.fetchUserError'));
             }
             if (data?.user) {
-              this.user = data?.user;
+              this.user = data?.user as User;
               this.passwordForm.patchValue(data?.user);
               this.passwordForm.reset();
             }
@@ -123,9 +123,9 @@ export class SettingsSecurityComponent implements OnInit {
         this._updateUserPassword
           .mutate({ id: this._auth.user.id, password: this.oldPassword.value, newPassword: this.newPassword.value })
           .subscribe({
-            next: ({ data, errors }) => {
-              if (errors) {
-                this._messages.error(errors, translate('settings.security.messages.updatePasswordError'));
+            next: ({ data, error }) => {
+              if (error) {
+                this._messages.error(translate('settings.security.messages.updatePasswordError'));
               }
               if (data?.updateUserPassword) {
                 this.passwordForm.reset();

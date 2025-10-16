@@ -90,9 +90,9 @@ export class SettingsAccountComponent implements OnInit {
       this._findUser({ relations: { emails: true } })
         .fetch({ id: this._auth.user?.id })
         .subscribe({
-          next: ({ data, errors }: any) => {
-            if (errors) {
-              this._messages.error(errors, translate('messages.fetchUserError'));
+          next: ({ data, error }: any) => {
+            if (error) {
+              this._messages.error(translate('messages.fetchUserError'));
             }
             if (data?.user) {
               this.user = data?.user;
@@ -116,9 +116,9 @@ export class SettingsAccountComponent implements OnInit {
       this._updateUser
         .mutate({ userUpdateInput: this.usernameForm.value })
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('settings.account.messages.updateError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('settings.account.messages.updateError'));
             }
             if (data?.updateUser) {
               this.getUser();
@@ -140,11 +140,11 @@ export class SettingsAccountComponent implements OnInit {
     this.deleteSubmitLoading = true;
     if (this._auth.user) {
       this._deleteUser
-        .mutate({ id: this._auth.user.id, password: password, code: verificationCode })
+        .mutate({ id: this._auth.user.id, password: password, code: verificationCode } as any)
         .subscribe({
-          next: ({ data, errors }) => {
-            if (errors) {
-              this._messages.error(errors, translate('settings.account.messages.deleteError'));
+          next: ({ data, error }) => {
+            if (error) {
+              this._messages.error(translate('settings.account.messages.deleteError'));
             }
             if (data?.deleteUser) {
               this._auth.eraseToken();
